@@ -1,6 +1,8 @@
 import * as React from 'react';
 const { useContext, useReducer, createContext } = React;
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import "./timeline.css";
+
 
 const TimelineComponent = () => {
     // ここでhooksを使える
