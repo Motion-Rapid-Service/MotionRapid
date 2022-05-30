@@ -7,11 +7,10 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const isProduction = process.env.NODE_ENV == "production";
 
 const stylesHandler = MiniCssExtractPlugin.loader;
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-
 
 const config = {
-  entry: "./src/index.ts",
+  entry: "./src/index.tsx",
+  target: ["web", "es5"],
   output: {
     path: path.resolve(__dirname, "dist"),
   },
