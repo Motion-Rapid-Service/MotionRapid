@@ -1,0 +1,22 @@
+.media_object-area-scroll > .keyframe-area{
+    width: 30px;
+    height: 30px;
+    position:absolute;
+    left : 100px
+}
+
+.media_object-area-scroll > .keyframe-area > .keyframe-entity{
+    background-color: rgb(0, 0, 0);
+    
+    width: 15px;
+    height: 15px;
+    left:10px;
+    transform:rotate(45deg);
+
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+}

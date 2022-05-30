@@ -1,5 +1,29 @@
 .timeline-area{
-    background-color: rgb(200, 200, 200);
-    width: 90vw;
-    height: 150px;
+    background-color: rgb(50, 50, 50);
+    width: auto;
+    max-height: 90vh;
+    margin: 2px 2px 2px 2px;
+    overflow: scroll;
+}
+
+.timeline-area-scroll{
+    /* background-color: rgb(200, 200, 200); */
+    margin: 0px;
+    width: 1500px;
+}
+
+.timeline-area-scroll > .media_object-area{
+    /* background-color: rgb(200, 200, 200); */
+    width: 100%;
+    margin: 3px 0px 3px 0px;
+}
+
+.timeline-area-scroll > .media_object-area > .media_object-area-scroll{
+    background-color: rgb(50, 150, 50);
+    position:relative;
+    height: 30px;
+    border-radius:3px;
+/* 
+    width: 1000px;
+    left:100px; */
 }

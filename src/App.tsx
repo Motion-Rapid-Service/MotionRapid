@@ -2,10 +2,12 @@ import * as React from 'react';
 const { useContext, useReducer, createContext } = React;
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
+import TimelineComponent from "./timeline/timeline";
+
 const App = () => {
     // ここでhooksを使える
     return (<div>
-        <p>快速急行大阪上本町行きです</p>
+        <TimelineComponent/>
     </div>)
   }
 export default App;
