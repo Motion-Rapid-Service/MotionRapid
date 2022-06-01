@@ -9,3 +9,10 @@ type MediaObjectContextValue = {
 export const MediaObjectContext = createContext<MediaObjectContextValue>(
   {} as MediaObjectContextValue
 );
+
+// type TimelineAreaDivContextValue = {
+//   TimelineAreaDiv:any;
+// };
+
+// export const TimelineAreaDivContext =
+//   createContext<TimelineAreaDivContextValue>({} as TimelineAreaDivContextValue);

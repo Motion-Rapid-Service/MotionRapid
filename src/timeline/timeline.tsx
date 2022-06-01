@@ -4,10 +4,9 @@ const { useState, useRef, useEffect, useContext, useReducer, createContext } =
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./CSS/timeline.css";
 import "./CSS/keyframe.css";
-import { MediaObjectContext } from "./timelineContext";
+// import { TimelineAreaDivContext } from "./timelineContext";
 
-import MediaObjectAreaComponent from "./MediaObjectAreaComponent"
-
+import MediaObjectAreaComponent from "./MediaObjectAreaComponent";
 
 const TimelineComponent = () => {
   // ここでhooksを使える
@@ -23,28 +22,29 @@ const TimelineComponent = () => {
 
         // onScroll={TimeLineAreaMove}
       >
-        <MediaObjectAreaComponent />
-        <MediaObjectAreaComponent />
-        <MediaObjectAreaComponent />
-        <MediaObjectAreaComponent />
-        <MediaObjectAreaComponent />
-        <MediaObjectAreaComponent />
-        <MediaObjectAreaComponent />
-        <MediaObjectAreaComponent />
-        <MediaObjectAreaComponent />
-        <MediaObjectAreaComponent />
-        <MediaObjectAreaComponent />
-        <MediaObjectAreaComponent />
-        <MediaObjectAreaComponent />
-        <MediaObjectAreaComponent />
-        <MediaObjectAreaComponent />
-        <MediaObjectAreaComponent />
-        <MediaObjectAreaComponent />
-        <MediaObjectAreaComponent />
-        <MediaObjectAreaComponent />
-        <MediaObjectAreaComponent />
-        <MediaObjectAreaComponent />
-        <MediaObjectAreaComponent />
+
+          <MediaObjectAreaComponent />
+          <MediaObjectAreaComponent />
+          <MediaObjectAreaComponent />
+          <MediaObjectAreaComponent />
+          <MediaObjectAreaComponent />
+          <MediaObjectAreaComponent />
+          <MediaObjectAreaComponent />
+          <MediaObjectAreaComponent />
+          <MediaObjectAreaComponent />
+          <MediaObjectAreaComponent />
+          <MediaObjectAreaComponent />
+          <MediaObjectAreaComponent />
+          <MediaObjectAreaComponent />
+          <MediaObjectAreaComponent />
+          <MediaObjectAreaComponent />
+          <MediaObjectAreaComponent />
+          <MediaObjectAreaComponent />
+          <MediaObjectAreaComponent />
+          <MediaObjectAreaComponent />
+          <MediaObjectAreaComponent />
+          <MediaObjectAreaComponent />
+          <MediaObjectAreaComponent />
       </div>
     </div>
   );
