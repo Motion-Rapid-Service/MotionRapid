@@ -1,0 +1,9 @@
+.parameter_area {
+  width: 100%;
+  min-height: 0px;
+}
+
+.parameter_area > .parameter_area-entity {
+  height: var(--parameter-height);
+  width: 100%;
+}

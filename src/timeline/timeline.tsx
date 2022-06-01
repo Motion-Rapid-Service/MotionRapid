@@ -3,7 +3,9 @@ const { useState, useRef, useEffect, useContext, useReducer, createContext } =
   React;
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./CSS/timeline.css";
+import "./CSS/parameter.css";
 import "./CSS/keyframe.css";
+
 // import { TimelineAreaDivContext } from "./timelineContext";
 
 import MediaObjectAreaComponent from "./MediaObjectAreaComponent";

@@ -4,6 +4,7 @@ const { createContext } = React;
 type MediaObjectContextValue = {
   sta: Number;
   end: Number;
+  mediaObjectAreaElement:any
 };
 
 export const MediaObjectContext = createContext<MediaObjectContextValue>(
