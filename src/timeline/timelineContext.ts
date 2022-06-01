@@ -2,8 +2,8 @@ import * as React from "react";
 const { createContext } = React;
 
 type MediaObjectContextValue = {
-  sta: Number;
-  end: Number;
+//   sta: Number;
+//   end: Number;
   mediaObjectAreaElement:any
 };
 
