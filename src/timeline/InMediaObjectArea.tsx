@@ -39,6 +39,9 @@ export const MediaObjectScrollComponent = () => {
   const mediaObjectAreaElement =
     MediaObjectContextValue.mediaObjectAreaElement as any;
 
+  const parameterOpenSetState=   MediaObjectContextValue.parameterOpenSetState as Function;
+  const parameterOpen = MediaObjectContextValue.parameterOpen as boolean;
+
   const timeLineMouseMoveAction = (event: any) => {
     if (!(mediaObjectUUID in UserHandMediaObjectList)) {
       return;
@@ -64,6 +67,10 @@ export const MediaObjectScrollComponent = () => {
         break;
     }
   };
+
+  const MouseDoubleClick = (event:any) => {
+    parameterOpenSetState(!(parameterOpen))
+  }
 
   const MouseDown = (event: any) => {
     const mousePushPos = timeLineMousePosition(
@@ -116,8 +123,10 @@ export const MediaObjectScrollComponent = () => {
   return (
     <div
       className="media_object-area-scroll"
+      draggable="false"
       style={{ left: staStylePos, width: endStylePos - staStylePos }}
       onMouseDown={MouseDown}
+      onDoubleClick={MouseDoubleClick}
     ></div>
   );
 };

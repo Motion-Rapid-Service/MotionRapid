@@ -17,10 +17,11 @@ const TimelineComponent = () => {
   useEffect(() => {}, []);
 
   return (
-    <div className="timeline-area" ref={timelineAreaElement}>
+    <div className="timeline-area" draggable="false" ref={timelineAreaElement}>
       <div
         className="timeline-area-scroll"
         ref={timelineScrollElement}
+        draggable="false"
 
         // onScroll={TimeLineAreaMove}
       >

@@ -27,6 +27,7 @@ export const KeyFrameComponent = () => {
   const MediaObjectContextValue = useContext(MediaObjectContext);
   const mediaObjectAreaElement =
     MediaObjectContextValue.mediaObjectAreaElement as any;
+  const parameterOpen = MediaObjectContextValue.parameterOpen as boolean;
 
   const keyframeMouseMoveAction = (event: any) => {
     if (!(keyframeUUID in UserHandKeyframeList)) {
@@ -67,16 +68,41 @@ export const KeyFrameComponent = () => {
     console.log("keyframeMouseMoveAction");
   }, []);
 
-  return (
-    <div className="keyframe-area" onMouseDown={MouseDown}>
-      <div className="keyframe-entity" style={{ left: keyframeStylePos }}></div>
-    </div>
-  );
+  if (parameterOpen) {
+    return (
+      <div className="keyframe-area" onMouseDown={MouseDown}>
+        <div
+          className="keyframe-entity"
+          draggable="false"
+          style={{ left: keyframeStylePos }}
+        ></div>
+      </div>
+    );
+  } else {
+    return <></>;
+  }
 };
 
 const ParameterAreaEntity = () => {
+  const parameterAreaEntityElement = useRef(null);
+  const MediaObjectContextValue = useContext(MediaObjectContext);
+  const parameterOpen = MediaObjectContextValue.parameterOpen as boolean;
+  const keyfrmaeSize = parameterOpen ? 20 : 0;
+
+
+  useEffect(() => {
+    // const TimelineAreaDivContextValue = useContext(TimelineAreaDivContext);
+    // const timelineAreaElement = TimelineAreaDivContextValue.TimelineAreaDiv as any;
+
+    parameterAreaEntityElement.current.style.setProperty(
+        "--parameter-height",
+        keyfrmaeSize + "px"
+      );
+  }, [parameterOpen]);
+  
+
   return (
-    <div className="parameter_area-entity">
+    <div className="parameter_area-entity" ref={parameterAreaEntityElement}>
       <KeyFrameComponent />
     </div>
   );

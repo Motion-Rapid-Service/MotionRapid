@@ -9,7 +9,7 @@ import * as InMediaObjectArea from "./InMediaObjectArea";
 const MediaObjectAreaComponent = () => {
   const mediaObjectAreaElement = useRef(null);
 
-  const [parameterOpen] = useState<boolean>();
+  const [parameterOpen,parameterOpenSetState] = useState<boolean>(true);
 
   return (
     <>
@@ -21,7 +21,7 @@ const MediaObjectAreaComponent = () => {
         //   onMouseUp={MouseRelease}
       >
         <MediaObjectContext.Provider
-          value={{ mediaObjectAreaElement:mediaObjectAreaElement }}
+          value={{ mediaObjectAreaElement:mediaObjectAreaElement,parameterOpen:parameterOpen,parameterOpenSetState:parameterOpenSetState }}
         >
           <InMediaObjectArea.MediaObjectScrollComponent />
           <ParameterAreaComponent/>

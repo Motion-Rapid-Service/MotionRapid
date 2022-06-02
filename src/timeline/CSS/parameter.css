@@ -4,6 +4,9 @@
 }
 
 .parameter_area > .parameter_area-entity {
+  --parameter-height: 0px;
+  /* react側から後から定義  可変数*/
+
   height: var(--parameter-height);
   width: 100%;
 }

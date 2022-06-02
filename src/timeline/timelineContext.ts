@@ -5,6 +5,8 @@ type MediaObjectContextValue = {
 //   sta: Number;
 //   end: Number;
   mediaObjectAreaElement:any
+  parameterOpen:boolean
+  parameterOpenSetState:Function;
 };
 
 export const MediaObjectContext = createContext<MediaObjectContextValue>(
