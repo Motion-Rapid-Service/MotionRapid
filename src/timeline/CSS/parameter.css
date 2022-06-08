@@ -8,5 +8,9 @@
   /* react側から後から定義  可変数*/
 
   height: var(--parameter-height);
+
   width: 100%;
+  position: relative;
+  /* 
+  display: flex; */
 }

@@ -89,20 +89,20 @@ const ParameterAreaEntity = () => {
   const parameterOpen = MediaObjectContextValue.parameterOpen as boolean;
   const keyfrmaeSize = parameterOpen ? 20 : 0;
 
-
   useEffect(() => {
     // const TimelineAreaDivContextValue = useContext(TimelineAreaDivContext);
     // const timelineAreaElement = TimelineAreaDivContextValue.TimelineAreaDiv as any;
 
     parameterAreaEntityElement.current.style.setProperty(
-        "--parameter-height",
-        keyfrmaeSize + "px"
-      );
+      "--parameter-height",
+      keyfrmaeSize + "px"
+    );
   }, [parameterOpen]);
-  
 
   return (
     <div className="parameter_area-entity" ref={parameterAreaEntityElement}>
+      <KeyFrameComponent />
+      <KeyFrameComponent />
       <KeyFrameComponent />
     </div>
   );

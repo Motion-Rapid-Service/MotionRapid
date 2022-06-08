@@ -13,9 +13,10 @@ export const MediaObjectContext = createContext<MediaObjectContextValue>(
   {} as MediaObjectContextValue
 );
 
-// type TimelineAreaDivContextValue = {
-//   TimelineAreaDiv:any;
-// };
+type TimelineAreaDivContextValue = {
+    MouseSelectedSetState:Function;
+    MouseUnselectedSetState:Function;
+};
 
-// export const TimelineAreaDivContext =
-//   createContext<TimelineAreaDivContextValue>({} as TimelineAreaDivContextValue);
+export const TimelineAreaDivContext =
+  createContext<TimelineAreaDivContextValue>({} as TimelineAreaDivContextValue);

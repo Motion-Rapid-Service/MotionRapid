@@ -16,9 +16,6 @@ const MediaObjectAreaComponent = () => {
       <div
         className="media_object-area"
         ref={mediaObjectAreaElement}
-        //   onMouseMove={timeLineMouseMoveAction}
-        
-        //   onMouseUp={MouseRelease}
       >
         <MediaObjectContext.Provider
           value={{ mediaObjectAreaElement:mediaObjectAreaElement,parameterOpen:parameterOpen,parameterOpenSetState:parameterOpenSetState }}
