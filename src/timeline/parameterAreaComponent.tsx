@@ -104,6 +104,10 @@ const ParameterAreaEntity = () => {
       <KeyFrameComponent />
       <KeyFrameComponent />
       <KeyFrameComponent />
+      <KeyFrameComponent />
+      <KeyFrameComponent />
+      <KeyFrameComponent /> 
+      <KeyFrameComponent />
     </div>
   );
 };

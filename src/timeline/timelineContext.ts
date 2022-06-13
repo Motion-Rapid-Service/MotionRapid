@@ -5,8 +5,9 @@ type MediaObjectContextValue = {
 //   sta: Number;
 //   end: Number;
   mediaObjectAreaElement:any
-  parameterOpen:boolean
+  parameterOpen:boolean;
   parameterOpenSetState:Function;
+  // areaFocus:boolean;
 };
 
 export const MediaObjectContext = createContext<MediaObjectContextValue>(
@@ -14,8 +15,8 @@ export const MediaObjectContext = createContext<MediaObjectContextValue>(
 );
 
 type TimelineAreaDivContextValue = {
-    MouseSelectedSetState:Function;
-    MouseUnselectedSetState:Function;
+    // MouseSelectedSetValue:Function;
+    // MouseUnselectedSetValue:Function;
 };
 
 export const TimelineAreaDivContext =

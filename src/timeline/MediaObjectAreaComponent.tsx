@@ -16,6 +16,7 @@ const MediaObjectAreaComponent = () => {
       <div
         className="media_object-area"
         ref={mediaObjectAreaElement}
+
       >
         <MediaObjectContext.Provider
           value={{ mediaObjectAreaElement:mediaObjectAreaElement,parameterOpen:parameterOpen,parameterOpenSetState:parameterOpenSetState }}

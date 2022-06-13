@@ -36,7 +36,13 @@ export const MediaObjectScrollComponent = () => {
   const TimelineAreaDivContextValue = useContext(TimelineAreaDivContext);
   const [staStylePos, StaSetState] = useState<number>(500);
   const [endStylePos, EndSetState] = useState<number>(1000);
-  const [cssCursor, cssCursorState] = useState<string>("auto");
+
+  const [MouseSelected, MouseSelectedSetState] = useState<string>("auto");
+  const [MouseUnselected, MouseUnselectedSetState] = useState<string>("auto");
+  const [Mouselogic, MouselogicSetState] = useState<string>("auto");
+
+  // const [Mouselogic, MouselogicSetState] = useState<string>("auto");
+
   const [mediaObjectUUID] = useState<string>(UUID.generate() as string);
   const mediaObjectAreaElement =
     MediaObjectContextValue.mediaObjectAreaElement as any;
@@ -45,10 +51,11 @@ export const MediaObjectScrollComponent = () => {
     MediaObjectContextValue.parameterOpenSetState as Function;
   const parameterOpen = MediaObjectContextValue.parameterOpen as boolean;
 
-  const MouseSelectedSetState =
-    TimelineAreaDivContextValue.MouseSelectedSetState as Function;
-  const MouseUnselectedSetState =
-    TimelineAreaDivContextValue.MouseUnselectedSetState as Function;
+  // const MouseSelectedSetValue =
+  //   TimelineAreaDivContextValue.MouseSelectedSetValue as Function;
+  // const MouseUnselectedSetValue =
+  //   TimelineAreaDivContextValue.MouseUnselectedSetValue as Function;
+  const [areaFocus, areaFocusSetState] = useState<boolean>(false);
 
   const countStaRef = useRef(null); //  ref オブジェクト作成する
   countStaRef.current = staStylePos; // countを.currentプロパティへ保持する
@@ -70,22 +77,23 @@ export const MediaObjectScrollComponent = () => {
 
   const timeLineMouseMoveAction = (event: any) => {
     const mouseX = timeLineMousePosition(event, mediaObjectAreaElement)[0];
+    const selectHand = mediaObjectUUID in UserHandMediaObjectList;
 
     // console.log("countStaRef.current",countStaRef.current)
 
     if (mediObjectEdgeJudge(mouseX, countStaRef.current)) {
-      MouseSelectedSetState("col-resize");
+      MouseUnselectedSetState("ew-resize	");
     } else if (mediObjectEdgeJudge(mouseX, countEndRef.current)) {
-      MouseSelectedSetState("col-resize");
+      MouseUnselectedSetState("ew-resize");
     } else if (
       mediObjectAreaJudge(mouseX, countStaRef.current, countEndRef.current)
     ) {
-      MouseSelectedSetState("grab");
+      MouseUnselectedSetState("grab");
     } else {
-      MouseSelectedSetState("auto");
+      MouseUnselectedSetState("auto");
     }
 
-    if (!(mediaObjectUUID in UserHandMediaObjectList)) {
+    if (!selectHand) {
       return;
     }
     const userHandMediaObject = UserHandMediaObjectList[mediaObjectUUID];
@@ -100,7 +108,6 @@ export const MediaObjectScrollComponent = () => {
         break;
       case 2:
         EndSetState(mouseMoveX + userHandMediaObject.mouseDownEndStyle);
-
         break;
       case 3:
         StaSetState(mouseMoveX + userHandMediaObject.mouseDownStaStyle);
@@ -122,15 +129,15 @@ export const MediaObjectScrollComponent = () => {
     let tempNumber = 0;
     if (mediObjectEdgeJudge(mousePushPos, staStylePos)) {
       tempNumber = 1;
-      MouseUnselectedSetState("col-resize");
+      MouseSelectedSetState("col-resize");
     } else if (mediObjectEdgeJudge(mousePushPos, endStylePos)) {
       tempNumber = 2;
-      MouseUnselectedSetState("col-resize");
+      MouseSelectedSetState("col-resize");
     } else if (mediObjectAreaJudge(mousePushPos, staStylePos, endStylePos)) {
       tempNumber = 3;
-      MouseUnselectedSetState("grabbing");
+      MouseSelectedSetState("grabbing");
     } else {
-      MouseUnselectedSetState("auto");
+      MouseSelectedSetState("auto");
     }
 
     UserHandMediaObjectList[mediaObjectUUID] = new UserHandMediaObjectOperation(
@@ -143,9 +150,9 @@ export const MediaObjectScrollComponent = () => {
     // console.log("mouseDownFlag", mouseDownFlag,tempNumber);
   };
   const MouseRelease = (event: any) => {
-    const mouseEndPos = timeLineMousePosition(event, mediaObjectAreaElement)[0];
+    // const mouseEndPos = timeLineMousePosition(event, mediaObjectAreaElement)[0];
     delete UserHandMediaObjectList[mediaObjectUUID];
-    MouseUnselectedSetState("auto");
+    MouseSelectedSetState("auto");
   };
 
   //   useEffect(() => {
@@ -161,17 +168,47 @@ export const MediaObjectScrollComponent = () => {
     console.log("timeLineMouseMoveAction");
   }, []);
 
+  useEffect(() => {
+
+    if (!areaFocus){
+      MouselogicSetState("auto");
+      return
+    }
+
+    if (MouseSelected !== "auto") {
+      MouselogicSetState(MouseSelected);
+    } else if (MouseUnselected !== "auto") {
+      MouselogicSetState(MouseUnselected);
+    } else {
+      MouselogicSetState("auto");
+    }
+  }, [MouseSelected, MouseUnselected]);
+
+  const mouseOver = () => {
+    areaFocusSetState(true);
+  };
+  const mouseOut = () => {
+    areaFocusSetState(false);
+  };
+
   return (
     <div
-      className="media_object-area-scroll"
-      draggable="false"
-      style={{
-        left: staStylePos,
-        width: endStylePos - staStylePos,
-      }}
-      onMouseDown={MouseDown}
-      onDoubleClick={MouseDoubleClick}
-    ></div>
+      className="media_object-area-move"
+      style={{ cursor: Mouselogic }}
+      onMouseOver={mouseOver}
+      onMouseOut={mouseOut}
+    >
+      <div
+        className="media_object-area-scroll"
+        draggable="false"
+        style={{
+          left: staStylePos,
+          width: endStylePos - staStylePos,
+        }}
+        onMouseDown={MouseDown}
+        onDoubleClick={MouseDoubleClick}
+      ></div>
+    </div>
   );
 };
 // let mouseDownFlag = 0;

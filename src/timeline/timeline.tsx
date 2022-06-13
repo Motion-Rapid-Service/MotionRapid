@@ -15,19 +15,41 @@ const TimelineComponent = () => {
   const timelineAreaElement = useRef(null);
   const timelineScrollElement = useRef(null);
 
-  const [MouseSelected, MouseSelectedSetState] = useState<string>("auto");
-  const [MouseUnselected, MouseUnselectedSetState] = useState<string>("auto");
-  const [Mouselogic, MouselogicSetState] = useState<string>("auto");
+  // const [MouseSelected, MouseSelectedSetState] = useState<string>("auto");
+  // const [MouseUnselected, MouseUnselectedSetState] = useState<string>("auto");
+  // const [Mouselogic, MouselogicSetState] = useState<string>("auto");
 
   useEffect(() => {
-    if (MouseSelected !== "auto") {
-      MouselogicSetState(MouseSelected);
-    } else if (MouseUnselected !== "auto") {
-      MouselogicSetState(MouseUnselected);
-    } else {
-      MouselogicSetState("auto");
-    }
-  }, [MouseSelected, MouseUnselected]);
+    // if (MouseSelected !== "auto") {
+    //   MouselogicSetState(MouseSelected);
+    // } else if (MouseUnselected !== "auto") {
+    //   MouselogicSetState(MouseUnselected);
+    // } else {
+    //   MouselogicSetState("auto");
+    // }
+  }, []);
+
+  // const MouseSelectedSetValue = (
+    
+  //   force: Boolean,
+  //   mouseName: string
+  // ) => {
+  //   const judge = force || mouseName == "auto";
+  //   if (judge) {
+  //     MouseSelectedSetState(mouseName);
+  //   }
+  // };
+
+  // const MouseUnselectedSetValue = (
+  //   force: Boolean,
+  //   mouseName: string
+    
+  // ) => {
+  //   const judge = force || mouseName == "auto" || MouseUnselected == "auto"
+  //   if (judge) {
+  //     MouseUnselectedSetState(mouseName);
+  //   }
+  // };
 
   return (
     <div className="timeline-area" draggable="false" ref={timelineAreaElement}>
@@ -35,14 +57,14 @@ const TimelineComponent = () => {
         className="timeline-area-scroll"
         ref={timelineScrollElement}
         draggable="false"
-        style={{ cursor: Mouselogic }}
+
 
         // onScroll={TimeLineAreaMove}
       >
         <TimelineAreaDivContext.Provider
           value={{
-            MouseSelectedSetState: MouseSelectedSetState,
-            MouseUnselectedSetState: MouseUnselectedSetState,
+            // MouseSelectedSetValue: MouseSelectedSetValue,
+            // MouseUnselectedSetValue: MouseUnselectedSetValue,
           }}
         >
           <MediaObjectAreaComponent />
