@@ -3,30 +3,29 @@ const { useState, useRef, useEffect, useContext, useReducer, createContext } =
   React;
 import { MediaObjectContext } from "./timelineContext";
 
-import ParameterAreaComponent from "./parameterAreaComponent";
 import * as InMediaObjectArea from "./InMediaObjectArea";
 
 const MediaObjectAreaComponent = () => {
   const mediaObjectAreaElement = useRef(null);
 
-  const [parameterOpen,parameterOpenSetState] = useState<boolean>(true);
+  const [parameterOpen, parameterOpenSetState] = useState<boolean>(true);
 
   return (
     <>
-      <div
-        className="media_object-area"
-        ref={mediaObjectAreaElement}
-
-      >
+      <div className="media_object-area" ref={mediaObjectAreaElement}>
         <MediaObjectContext.Provider
-          value={{ mediaObjectAreaElement:mediaObjectAreaElement,parameterOpen:parameterOpen,parameterOpenSetState:parameterOpenSetState }}
+          value={{
+            mediaObjectAreaElement: mediaObjectAreaElement,
+            parameterOpen: parameterOpen,
+            parameterOpenSetState: parameterOpenSetState,
+          }}
         >
-          <InMediaObjectArea.MediaObjectScrollComponent />
-          <ParameterAreaComponent/>
+          {/* <div className="media_object-area-left"></div> */}
+          {/* <div className="media_object-area-right"></div>*/}
+          <InMediaObjectArea.timelineAreaLeft />
+          <InMediaObjectArea.timelineAreaRight />
         </MediaObjectContext.Provider>
-        
       </div>
-      
     </>
   );
 };

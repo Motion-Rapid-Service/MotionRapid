@@ -9,6 +9,8 @@ import UUID from "uuidjs";
 
 import timeLineMousePosition from "./timeLineMousePosition";
 
+import ParameterAreaComponent from "./parameterAreaComponent";
+
 class UserHandMediaObjectOperation {
   mouseDownFlag: number; //0:押していない , 1:左側 , 2:右側 , 3:動作
   mousePushPos: number; //マウスが押された時のマウス座標
@@ -82,7 +84,7 @@ export const MediaObjectScrollComponent = () => {
     // console.log("countStaRef.current",countStaRef.current)
 
     if (mediObjectEdgeJudge(mouseX, countStaRef.current)) {
-      MouseUnselectedSetState("ew-resize	");
+      MouseUnselectedSetState("ew-resize");
     } else if (mediObjectEdgeJudge(mouseX, countEndRef.current)) {
       MouseUnselectedSetState("ew-resize");
     } else if (
@@ -169,11 +171,10 @@ export const MediaObjectScrollComponent = () => {
   }, []);
 
   useEffect(() => {
-
-    if (!areaFocus){
-      MouselogicSetState("auto");
-      return
-    }
+    // if (!areaFocus){
+    //   MouselogicSetState("auto");
+    //   return
+    // }
 
     if (MouseSelected !== "auto") {
       MouselogicSetState(MouseSelected);
@@ -213,3 +214,15 @@ export const MediaObjectScrollComponent = () => {
 };
 // let mouseDownFlag = 0;
 // let mouseStaPos = 0;
+
+export const timelineAreaLeft = () => {
+  return <div className="media_object-area-left"></div>;
+};
+export const timelineAreaRight = () => {
+  return (
+    <div className="media_object-area-right">
+      <MediaObjectScrollComponent />
+      <ParameterAreaComponent />
+    </div>
+  );
+};

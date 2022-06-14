@@ -47,3 +47,42 @@
 
 .media_object-area .media_object-area-right {
 }
+
+.parameter_area {
+  width: 100%;
+  min-height: 0px;
+}
+
+.parameter_area > .parameter_area-entity {
+  --parameter-height: 0px;
+  /* react側から後から定義  可変数*/
+
+  height: var(--parameter-height);
+
+  width: 100%;
+  position: relative;
+  /* 
+  display: flex; */
+}
+
+.parameter_area-entity > .keyframe-area {
+  width: calc(var(--keyfrmae-size) * 1px);
+  height: calc(var(--keyfrmae-size) * 1px);
+  position: absolute;
+}
+
+.parameter_area-entity > .keyframe-area > .keyframe-entity {
+  background-color: rgb(100, 100, 250);
+
+  width: calc(var(--keyfrmae-size) / 2 * 1px);
+  height: calc(var(--keyfrmae-size) / 2 * 1px);
+  transform: rotate(45deg);
+
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+}
+
