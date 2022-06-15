@@ -4,13 +4,11 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import TimelineComponent from "./timeline/timeline";
 
-import { jsonFormatContext } from "./json_operation/jsonFormatContext";
+import { jsonFormatContext } from "./MiddleData/middleFormatContext";
 
 import UUID from "uuidjs";
 
-import * as jsonOperation from "./json_operation/jsonDataOperation"
-
-jsonOperation.TestSetup()
+import * as jsonOperation from "./MiddleData/middleDataOperation"
 
 const App = () => {
   // ここでhooksを使える
