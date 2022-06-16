@@ -4,7 +4,6 @@ const { createContext } = React;
 type jsonFormatContextValue = {
   //   sta: Number;
   //   end: Number;
-
   // areaFocus:boolean;
 };
 

@@ -1,16 +1,11 @@
 export class DataCentral {
-  // OwnedClass_Composite:Array<Composite>;
-  // OwnedClass_MediaObject:Array<MediaObject>;
-  // OwnedClass_Property:Array<Property>;
-  // OwnedClass_Keyframe:Array<Keyframe>;
-
   OwnedClass_Composite: { [name: string]: Composite };
   OwnedClass_MediaObject: { [name: string]: MediaObject };
   OwnedClass_Property: { [name: string]: Property };
   OwnedClass_Keyframe: { [name: string]: Keyframe };
   projectName: string;
 
-  constructor(send_projectName:string) {
+  constructor(send_projectName: string) {
     // this.Composite = null;
     // this.MediaObject = null;
     this.projectName = send_projectName;

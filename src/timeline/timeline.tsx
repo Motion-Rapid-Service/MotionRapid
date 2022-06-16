@@ -7,49 +7,57 @@ import "./CSS/parameter.css";
 import "./CSS/keyframe.css";
 
 import { TimelineAreaDivContext } from "./timelineContext";
-
 import MediaObjectAreaComponent from "./MediaObjectAreaComponent";
+
+import MiddleDataOperationClass from "./../MiddleData/middleDataOperation";
+
+const middleDataOperation = new MiddleDataOperationClass(); //
+
+middleDataOperation.createDataCentral();
+
+//ここからテスト用 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+middleDataOperation.createComposite();
+const CompositeID_0 = Object.keys(
+  middleDataOperation.DataCentral.OwnedClass_Composite
+)[0];
+
+for (let i = 0; i < 20 ; i++){ //mediaobjectのテスト用
+  middleDataOperation.createMediaObject();
+  const MediaObjectID_0 = Object.keys(
+    middleDataOperation.DataCentral.OwnedClass_MediaObject
+  )[i];
+  middleDataOperation.linkMediaObject(CompositeID_0,MediaObjectID_0)
+}
+console.log("CompositeID_0",CompositeID_0)
+
+//ここまでテスト用 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+
+
 
 const TimelineComponent = () => {
   // ここでhooksを使える
   const timelineAreaElement = useRef(null);
   const timelineScrollElement = useRef(null);
 
-  // const [MouseSelected, MouseSelectedSetState] = useState<string>("auto");
-  // const [MouseUnselected, MouseUnselectedSetState] = useState<string>("auto");
-  // const [Mouselogic, MouselogicSetState] = useState<string>("auto");
-
   useEffect(() => {
-    // if (MouseSelected !== "auto") {
-    //   MouselogicSetState(MouseSelected);
-    // } else if (MouseUnselected !== "auto") {
-    //   MouselogicSetState(MouseUnselected);
-    // } else {
-    //   MouselogicSetState("auto");
-    // }
+
   }, []);
 
-  // const MouseSelectedSetValue = (
-    
-  //   force: Boolean,
-  //   mouseName: string
-  // ) => {
-  //   const judge = force || mouseName == "auto";
-  //   if (judge) {
-  //     MouseSelectedSetState(mouseName);
-  //   }
-  // };
+  const componentConvertMediaObjectArea = () => {
+    const mediaObjIDArray =  middleDataOperation.getOwnedID_MediaObject(CompositeID_0)
+    console.log("componentConvertMediaObjectArea",mediaObjIDArray)
 
-  // const MouseUnselectedSetValue = (
-  //   force: Boolean,
-  //   mouseName: string
-    
-  // ) => {
-  //   const judge = force || mouseName == "auto" || MouseUnselected == "auto"
-  //   if (judge) {
-  //     MouseUnselectedSetState(mouseName);
-  //   }
-  // };
+    const middleDataMediaObjectTemp = []
+
+    for (let i = 0; i < mediaObjIDArray.length ; i++){
+      middleDataMediaObjectTemp.push(
+        {"MediaObject_ID":mediaObjIDArray[i],
+        "operationMediaObjectTime":middleDataOperation.operationMediaObjectTime}
+      )
+    }
+
+    return middleDataMediaObjectTemp;
+  };
 
   return (
     <div className="timeline-area" draggable="false" ref={timelineAreaElement}>
@@ -58,37 +66,21 @@ const TimelineComponent = () => {
         ref={timelineScrollElement}
         draggable="false"
 
-
         // onScroll={TimeLineAreaMove}
       >
         <TimelineAreaDivContext.Provider
           value={{
+            middleDataOperation: middleDataOperation,
             // MouseSelectedSetValue: MouseSelectedSetValue,
             // MouseUnselectedSetValue: MouseUnselectedSetValue,
           }}
         >
-          <MediaObjectAreaComponent />
-          <MediaObjectAreaComponent />
-          <MediaObjectAreaComponent />
-          <MediaObjectAreaComponent />
-          <MediaObjectAreaComponent />
-          <MediaObjectAreaComponent />
-          <MediaObjectAreaComponent />
-          <MediaObjectAreaComponent />
-          <MediaObjectAreaComponent />
-          <MediaObjectAreaComponent />
-          <MediaObjectAreaComponent />
-          <MediaObjectAreaComponent />
-          <MediaObjectAreaComponent />
-          <MediaObjectAreaComponent />
-          <MediaObjectAreaComponent />
-          <MediaObjectAreaComponent />
-          <MediaObjectAreaComponent />
-          <MediaObjectAreaComponent />
-          <MediaObjectAreaComponent />
-          <MediaObjectAreaComponent />
-          <MediaObjectAreaComponent />
-          <MediaObjectAreaComponent />
+          <>
+            {componentConvertMediaObjectArea().map((fruit:any, i:number) => (
+              // <>{fruit}</> //SurfaceControlIndividualを追加するmap (list_surface_controlに入っている)
+              <MediaObjectAreaComponent middleDataMediaObject={fruit} key={i}/>
+            ))}
+          </>
         </TimelineAreaDivContext.Provider>
       </div>
     </div>

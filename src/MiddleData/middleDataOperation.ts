@@ -1,12 +1,17 @@
 // const middleDataClass = require("./middleDataClass") as any;
-import * as middleDataClass from "./middleDataClass"
+import * as middleDataClass from "./middleDataClass";
 import UUID from "uuidjs";
 
 const getUUID = () => {
   return String(UUID.generate());
 };
 
-export class MiddleDataOperation {
+const judgeKeyFound = (key: string, dict: any) => {
+  //keyが存在していたらtrue それ以外ならfalse
+  return dict[key] !== undefined;
+};
+
+export default class MiddleDataOperation {
   DataCentral: any;
   constructor() {
     this.DataCentral = null;
@@ -45,14 +50,64 @@ export class MiddleDataOperation {
     this.DataCentral.OwnedClass_Property[newID] = newObj;
   };
 
-  linkMediaObject = (compositeID:string,mediaObjectID:string) => {
-    this.DataCentral.OwnedClass_Composite[compositeID].OwnedID_MediaObject.push(mediaObjectID)
+  linkMediaObject = (compositeID: string, mediaObjectID: string) => {
+    this.DataCentral.OwnedClass_Composite[compositeID].OwnedID_MediaObject.push(
+      mediaObjectID
+    );
   };
-  linkProperty = (mediaObjectID:string,propertyID:string) => {
-    this.DataCentral.OwnedClass_MediaObject[mediaObjectID].OwnedID_Property.push(propertyID)
+  linkProperty = (mediaObjectID: string, propertyID: string) => {
+    this.DataCentral.OwnedClass_MediaObject[
+      mediaObjectID
+    ].OwnedID_Property.push(propertyID);
   };
-  linkKeyframe = (propertyID:string,keyframeID:string) => {
-    this.DataCentral.OwnedClass_Property[propertyID].OwnedID_Keyframe.push(keyframeID)
+  linkKeyframe = (propertyID: string, keyframeID: string) => {
+    this.DataCentral.OwnedClass_Property[propertyID].OwnedID_Keyframe.push(
+      keyframeID
+    );
+  };
+
+  operationMediaObjectTime = (sendData: any) => {
+    const mediaObjectID = sendData["mediaObjectID"];
+    console.log(sendData);
+
+    if (!judgeKeyFound("mediaObjectID", sendData)){
+      console.log("notFound mediaObjectID")
+      return
+    }
+
+    if (judgeKeyFound("sta", sendData)) {
+      this.DataCentral.OwnedClass_MediaObject[
+        mediaObjectID
+      ].MediaObject_StartTime = sendData["sta"];
+      console.log("sta");
+    }
+    if (judgeKeyFound("end", sendData)) {
+      this.DataCentral.OwnedClass_MediaObject[
+        mediaObjectID
+      ].MediaObject_EndTime = sendData["end"];
+      console.log("end");
+    }
+
+    console.log(this.DataCentral);
+  };
+
+  getOwnedID_MediaObject = (compositeID: string) => {
+    // console.log("md",this.DataCentral.OwnedClass_Composite[compositeID].OwnedID_MediaObject)
+    return Object.assign(
+      this.DataCentral.OwnedClass_Composite[compositeID].OwnedID_MediaObject
+    );
+  };
+
+  getOwnedID_Property = (mediaObjectID: string) => {
+    return Object.assign(
+      this.DataCentral.OwnedClass_MediaObject[mediaObjectID].OwnedID_Property
+    );
+  };
+
+  getOwnedID_Keyframe = (propertyID: string) => {
+    return Object.assign(
+      this.DataCentral.OwnedClass_Property[propertyID].OwnedID_Keyframe
+    );
   };
 
   copyMediaObject = () => {};
@@ -63,8 +118,10 @@ export class MiddleDataOperation {
   deleteKeyframe = () => {};
   deleteProperty = () => {};
 
-  layerMaximum = (compositeID:string) => {
-    const targetMediaObjectLengh = this.DataCentral.OwnedClass_Composite[compositeID].OwnedID_MediaObject.lengh
+  layerMaximum = (compositeID: string) => {
+    const targetMediaObjectLengh =
+      this.DataCentral.OwnedClass_Composite[compositeID].OwnedID_MediaObject
+        .lengh;
 
     // const nowMax = 0;
 
@@ -72,8 +129,11 @@ export class MiddleDataOperation {
     // {
     //   MediaObjectValue[i]
     // }
-  }
-  layerNormalization = (compositeID:string) => { //たぶん計算量がn^2ぐらいになりそう
-    
-  }
+  };
+  layerNormalization = (compositeID: string) => {
+    //たぶん計算量がn^2ぐらいになりそう
+  };
 }
+
+//ユーザー操作をEdit
+//コンピューター操作をoperation

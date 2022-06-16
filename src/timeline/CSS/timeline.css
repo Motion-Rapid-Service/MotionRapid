@@ -6,6 +6,10 @@
   overflow: scroll;
 }
 
+.timeline-area * {
+  user-select: none;
+}
+
 .timeline-area-scroll {
   /* background-color: rgb(200, 200, 200); */
   margin: 0px;

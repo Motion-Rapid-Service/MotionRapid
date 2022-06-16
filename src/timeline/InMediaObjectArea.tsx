@@ -1,14 +1,13 @@
 import * as React from "react";
 const { useState, useRef, useEffect, useContext, useReducer, createContext } =
   React;
-import { MediaObjectContext, TimelineAreaDivContext } from "./timelineContext";
+import { MediaObjectContext, TimelineAreaDivContext, TimelineAreaRightContext } from "./timelineContext";
 
 const UserHandTolerance = 5;
 
 import UUID from "uuidjs";
 
 import timeLineMousePosition from "./timeLineMousePosition";
-
 import ParameterAreaComponent from "./parameterAreaComponent";
 
 class UserHandMediaObjectOperation {
@@ -36,8 +35,6 @@ const UserHandMediaObjectList: {
 export const MediaObjectScrollComponent = () => {
   const MediaObjectContextValue = useContext(MediaObjectContext);
   const TimelineAreaDivContextValue = useContext(TimelineAreaDivContext);
-  const [staStylePos, StaSetState] = useState<number>(500);
-  const [endStylePos, EndSetState] = useState<number>(1000);
 
   const [MouseSelected, MouseSelectedSetState] = useState<string>("auto");
   const [MouseUnselected, MouseUnselectedSetState] = useState<string>("auto");
@@ -45,19 +42,19 @@ export const MediaObjectScrollComponent = () => {
 
   // const [Mouselogic, MouselogicSetState] = useState<string>("auto");
 
-  const [mediaObjectUUID] = useState<string>(UUID.generate() as string);
   const mediaObjectAreaElement =
-    MediaObjectContextValue.mediaObjectAreaElement as any;
+    MediaObjectContextValue.mediaObjectAreaElement;
 
   const parameterOpenSetState =
-    MediaObjectContextValue.parameterOpenSetState as Function;
-  const parameterOpen = MediaObjectContextValue.parameterOpen as boolean;
+    MediaObjectContextValue.parameterOpenSetState;
+  const parameterOpen = MediaObjectContextValue.parameterOpen;
 
-  // const MouseSelectedSetValue =
-  //   TimelineAreaDivContextValue.MouseSelectedSetValue as Function;
-  // const MouseUnselectedSetValue =
-  //   TimelineAreaDivContextValue.MouseUnselectedSetValue as Function;
   const [areaFocus, areaFocusSetState] = useState<boolean>(false);
+  const staStylePos = MediaObjectContextValue.staStylePos;
+  const StaSetState = MediaObjectContextValue.StaSetState;
+  const endStylePos = MediaObjectContextValue.endStylePos;
+  const EndSetState = MediaObjectContextValue.EndSetState;
+  const mediaObjectUUID = MediaObjectContextValue.mediaObjectUUID;
 
   const countStaRef = useRef(null); //  ref オブジェクト作成する
   countStaRef.current = staStylePos; // countを.currentプロパティへ保持する
@@ -140,6 +137,7 @@ export const MediaObjectScrollComponent = () => {
       MouseSelectedSetState("grabbing");
     } else {
       MouseSelectedSetState("auto");
+      return
     }
 
     UserHandMediaObjectList[mediaObjectUUID] = new UserHandMediaObjectOperation(
@@ -198,6 +196,7 @@ export const MediaObjectScrollComponent = () => {
       style={{ cursor: Mouselogic }}
       onMouseOver={mouseOver}
       onMouseOut={mouseOut}
+      onMouseDown={MouseDown}
     >
       <div
         className="media_object-area-scroll"
@@ -206,7 +205,7 @@ export const MediaObjectScrollComponent = () => {
           left: staStylePos,
           width: endStylePos - staStylePos,
         }}
-        onMouseDown={MouseDown}
+        
         onDoubleClick={MouseDoubleClick}
       ></div>
     </div>
@@ -218,9 +217,12 @@ export const MediaObjectScrollComponent = () => {
 export const timelineAreaLeft = () => {
   return <div className="media_object-area-left"></div>;
 };
+
 export const timelineAreaRight = () => {
+  const timelineAreaRightElement = useRef(null);
+
   return (
-    <div className="media_object-area-right">
+    <div className="media_object-area-right" ref={timelineAreaRightElement}>
       <MediaObjectScrollComponent />
       <ParameterAreaComponent />
     </div>

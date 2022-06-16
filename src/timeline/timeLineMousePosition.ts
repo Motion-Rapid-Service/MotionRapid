@@ -2,17 +2,17 @@
 const timeLineMousePosition = (
     event: any,
     //   timelineAreaElement: any,
-    mediaObjectAreaElement: any
+    AreaElement: any
     //   timelineScrollElement: any
   ) => {
     const clientX = event.clientX;
     const clientY = event.clientY;
   
-    const mediaObjectAreaElementBoundingClientRect =
-      mediaObjectAreaElement.current.getBoundingClientRect();
+    const ElementBoundingClientRect =
+      AreaElement.current.getBoundingClientRect();
   
-    const mediaObjectElementLeft = mediaObjectAreaElementBoundingClientRect.left;
-    const mediaObjectElementTop = mediaObjectAreaElementBoundingClientRect.top;
+    const ElementLeft = ElementBoundingClientRect.left;
+    const ElementTop = ElementBoundingClientRect.top;
   
     //   const timelineAreaElementBoundingClientRect =
     //     timelineAreaElement.current.getBoundingClientRect();
@@ -26,8 +26,8 @@ const timeLineMousePosition = (
     //   const scrollElementLeft = timelineScrollElementBoundingClientRect.left;
     //   const scrollElementTop = timelineScrollElementBoundingClientRect.top;
   
-    const mouseAreaX = clientX - mediaObjectElementLeft;
-    const mouseAreaY = clientY - mediaObjectElementTop;
+    const mouseAreaX = clientX - ElementLeft - 300;
+    const mouseAreaY = clientY - ElementTop;
     //   console.log(mouseAreaX, mouseAreaY);
   
     return [mouseAreaX, mouseAreaY];

@@ -35,7 +35,7 @@ export const KeyFrameComponent = () => {
     }
 
     const UserHandKeyframe = UserHandKeyframeList[keyframeUUID];
-    console.log(UserHandKeyframe);
+    // console.log(UserHandKeyframe);
 
     const mouseX = timeLineMousePosition(event, mediaObjectAreaElement)[0];
     const mouseMoveX = mouseX - UserHandKeyframe.mousePushPos;
