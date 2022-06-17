@@ -2,13 +2,12 @@ import * as React from "react";
 const { useContext, useReducer, createContext } = React;
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import TimelineComponent from "./timeline/timeline";
+import "./timeline/CSS/timeline.css";
+import "./timeline/CSS/parameter.css";
+import "./timeline/CSS/keyframe.css";
 
-import { jsonFormatContext } from "./MiddleData/middleFormatContext";
-
-import UUID from "uuidjs";
-
-import * as jsonOperation from "./MiddleData/middleDataOperation"
+import "./toolBar/CSS/ToolBar.css";
+import Editor from "./Editor";
 
 const App = () => {
   // ここでhooksを使える
@@ -22,7 +21,7 @@ const App = () => {
           jsonFormat_Property: jsonFormat_Property,
         }}
       > */}
-        <TimelineComponent />
+        <Editor />
       {/* </jsonFormatContext.Provider> */}
     </div>
   );

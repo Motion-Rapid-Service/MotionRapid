@@ -74,21 +74,16 @@ export default class MiddleDataOperation {
       console.log("notFound mediaObjectID")
       return
     }
-
     if (judgeKeyFound("sta", sendData)) {
       this.DataCentral.OwnedClass_MediaObject[
         mediaObjectID
       ].MediaObject_StartTime = sendData["sta"];
-      console.log("sta");
     }
     if (judgeKeyFound("end", sendData)) {
       this.DataCentral.OwnedClass_MediaObject[
         mediaObjectID
       ].MediaObject_EndTime = sendData["end"];
-      console.log("end");
     }
-
-    console.log(this.DataCentral);
   };
 
   getOwnedID_MediaObject = (compositeID: string) => {

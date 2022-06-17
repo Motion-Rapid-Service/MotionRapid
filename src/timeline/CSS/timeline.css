@@ -2,12 +2,13 @@
   background-color: rgb(50, 50, 50);
   width: auto;
   max-height: 90vh;
-  margin: 2px 2px 2px 2px;
+  margin: 0px 2px 2px 2px;
   overflow: scroll;
 }
 
 .timeline-area * {
   user-select: none;
+  z-index: 500;
 }
 
 .timeline-area-scroll {
