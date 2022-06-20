@@ -1,5 +1,5 @@
 import * as React from "react";
-const { useState, useContext, useReducer, createContext } = React;
+const { useState, useContext, useReducer, createContext, useEffect } = React;
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import "./timeline/CSS/timeline.css";
@@ -36,11 +36,6 @@ for (let i = 0; i < 20; i++) {
 }
 console.log("CompositeID_0", CompositeID_0);
 //ここまでテスト用 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-
-const componentConvertToolBar = () => {
-  const componentConvertToolBarTemp = [];
-  return;
-};
 
 const componentConvertMediaObjectArea = () => {
   const mediaObjIDArray =
@@ -100,11 +95,11 @@ class ToolBarEditorData {
 }
 
 //ここまでツールバー処理用のクラス
-
+//{ [name: string]: ToolBarClassificationData }
 const App = () => {
   // ここでhooksを使える
   const [toolBarClassificationArray, toolBarClassificationArraySetState] =
-    useState<{ [name: string]: ToolBarClassificationData }>(); //これで仕分け
+    useState<{ [name: string]: ToolBarClassificationData }>({}); //これで仕分け
   // const [toolBarEditorDict,toolBarEditorDictSetState] = useState<{[name:string]:toolBarEditorData}>(); //これで所持しているツールバーのデータを管理する
   const testFunction = () => {
     console.log("てすとだよ！！！");
@@ -120,6 +115,10 @@ const App = () => {
     );
     copyToolBarClassification[send_toolBarClassificationName] = newObj;
     toolBarClassificationArraySetState(copyToolBarClassification);
+    console.log(
+      "toolBarClassificationArray insertToolBarClassificationArraySetStateValue",
+      toolBarClassificationArray
+    );
   };
 
   const insertToolBarEditorDictSetStateValue = (
@@ -137,6 +136,10 @@ const App = () => {
       send_EditorFunction
     );
     toolBarClassificationArraySetState(copyToolBarClassification);
+    console.log(
+      "toolBarClassificationArray insertToolBarEditorDictSetStateValue",
+      toolBarClassificationArray
+    );
   };
 
   const operationEditorStatus = (
@@ -151,7 +154,15 @@ const App = () => {
       send_toolBarEditorName
     ].editorStatus = status;
     toolBarClassificationArraySetState(copyToolBarClassification);
+    console.log(
+      "toolBarClassificationArray operationEditorStatus",
+      toolBarClassificationArray
+    );
   };
+
+  useEffect(() => {
+    console.log("toolBarClassificationArray useEffect",toolBarClassificationArray)
+  }, [toolBarClassificationArray]);
 
   return (
     <div>
@@ -160,9 +171,15 @@ const App = () => {
           componentConvertMediaObjectArea: componentConvertMediaObjectArea,
           operationMediaObjectTime:
             middleDataOperation.operationMediaObjectTime,
-            insertToolBarClassificationArraySetStateValue:insertToolBarClassificationArraySetStateValue,
-            insertToolBarEditorDictSetStateValue:insertToolBarEditorDictSetStateValue,
-            operationEditorStatus:operationEditorStatus
+          insertToolBarClassificationArraySetStateValue:
+            insertToolBarClassificationArraySetStateValue,
+          insertToolBarEditorDictSetStateValue:
+            insertToolBarEditorDictSetStateValue,
+          operationEditorStatus: operationEditorStatus,
+          toolBarClassificationArray:toolBarClassificationArray
+          // componentConvertToolBarClassification:
+          //   componentConvertToolBarClassification,
+          // componentConvertToolBarEditor: componentConvertToolBarEditor,
         }}
       >
         <Editor />
