@@ -36,10 +36,3 @@
   font-size: 10px;
   margin: auto;
 }
-
-.toolBar_single-popupMenu {
-  width: 100px;
-  min-height: 100px;
-  background-color: rgb(240, 240, 240);
-  position: absolute;
-}

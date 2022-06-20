@@ -13,9 +13,12 @@ const judgeKeyFound = (key: string, dict: any) => {
 
 export default class MiddleDataOperation {
   DataCentral: any;
+  toolBars:Array<Array<Function>>
   constructor() {
     this.DataCentral = null;
+
   }
+
 
   existenceInquiryDataCentral = () => {
     //DataCentralが生成されているか参照する
@@ -84,6 +87,10 @@ export default class MiddleDataOperation {
         mediaObjectID
       ].MediaObject_EndTime = sendData["end"];
     }
+
+    console.log("operationMediaObjectTime-f",this.DataCentral.OwnedClass_MediaObject[
+      mediaObjectID
+    ])
   };
 
   getOwnedID_MediaObject = (compositeID: string) => {

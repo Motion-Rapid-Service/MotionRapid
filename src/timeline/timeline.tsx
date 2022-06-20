@@ -5,56 +5,18 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import { TimelineAreaDivContext } from "./timelineContext";
 import MediaObjectAreaComponent from "./MediaObjectAreaComponent";
-
-import MiddleDataOperationClass from "./../MiddleData/middleDataOperation";
-
-const middleDataOperation = new MiddleDataOperationClass(); //
-
-middleDataOperation.createDataCentral();
-
-//ここからテスト用 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
-middleDataOperation.createComposite();
-const CompositeID_0 = Object.keys(
-  middleDataOperation.DataCentral.OwnedClass_Composite
-)[0];
-
-for (let i = 0; i < 20 ; i++){ //mediaobjectのテスト用
-  middleDataOperation.createMediaObject();
-  const MediaObjectID_0 = Object.keys(
-    middleDataOperation.DataCentral.OwnedClass_MediaObject
-  )[i];
-  middleDataOperation.linkMediaObject(CompositeID_0,MediaObjectID_0)
-}
-console.log("CompositeID_0",CompositeID_0)
-
-//ここまでテスト用 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
-
-
+import { AppContext } from "./../AppContext";
 
 const TimelineComponent = () => {
   // ここでhooksを使える
   const timelineAreaElement = useRef(null);
   const timelineScrollElement = useRef(null);
 
+  const AppContextValue = useContext(AppContext);
+
   useEffect(() => {
 
   }, []);
-
-  const componentConvertMediaObjectArea = () => {
-    const mediaObjIDArray =  middleDataOperation.getOwnedID_MediaObject(CompositeID_0)
-    console.log("componentConvertMediaObjectArea",mediaObjIDArray)
-
-    const middleDataMediaObjectTemp = []
-
-    for (let i = 0; i < mediaObjIDArray.length ; i++){
-      middleDataMediaObjectTemp.push(
-        {"MediaObject_ID":mediaObjIDArray[i],
-        "operationMediaObjectTime":middleDataOperation.operationMediaObjectTime}
-      )
-    }
-
-    return middleDataMediaObjectTemp;
-  };
 
   return (
     <div className="timeline-area" draggable="false" ref={timelineAreaElement}>
@@ -67,15 +29,15 @@ const TimelineComponent = () => {
       >
         <TimelineAreaDivContext.Provider
           value={{
-            middleDataOperation: middleDataOperation,
+            // middleDataOperation: middleDataOperation,
             // MouseSelectedSetValue: MouseSelectedSetValue,
             // MouseUnselectedSetValue: MouseUnselectedSetValue,
           }}
         >
           <>
-            {componentConvertMediaObjectArea().map((fruit:any, i:number) => (
+            {AppContextValue.componentConvertMediaObjectArea().map((fruit:any, i:number) => (
               // <>{fruit}</> //SurfaceControlIndividualを追加するmap (list_surface_controlに入っている)
-              <MediaObjectAreaComponent middleDataMediaObject={fruit} key={i}/>
+              <MediaObjectAreaComponent DownstreamMiddleDataMediaObject={fruit} key={i}/>
             ))}
           </>
         </TimelineAreaDivContext.Provider>

@@ -7,25 +7,19 @@ import * as InMediaObjectArea from "./InMediaObjectArea";
 
 import UUID from "uuidjs";
 import {MutableRefObject, LegacyRef } from "react";
+import { AppContext } from "./../AppContext";
 
 const MediaObjectAreaComponent = (props:any) => {
   const mediaObjectAreaElement = useRef<HTMLDivElement>(null);
-  const middleDataMediaObject = props.middleDataMediaObject
-  console.log("middleDataMediaObject",middleDataMediaObject)
+  const DownstreamMiddleDataMediaObject = props.DownstreamMiddleDataMediaObject
+  console.log("middleDataMediaObject",DownstreamMiddleDataMediaObject)
 
+  const AppContextValue = useContext(AppContext);
   const [parameterOpen, parameterOpenSetState] = useState<boolean>(true);
   const [staStylePos, StaSetState] = useState<number>(500);
   const [endStylePos, EndSetState] = useState<number>(1000);
-  const [mediaObjectUUID] = useState<string>(middleDataMediaObject["MediaObject_ID"] as string);
-
-  const operationMediaObjectTime = middleDataMediaObject["operationMediaObjectTime"] as Function;
-
-  // const StaSetStateValue = (sta:any) => {
-  //   operationMediaObjectTime(sta=sta)
-  // }
-  // const EndSetStateValue = (end:any) => {
-  //   operationMediaObjectTime(end=end)
-  // }
+  const [mediaObjectUUID] = useState<string>(DownstreamMiddleDataMediaObject["MediaObject_ID"] as string);
+  const operationMediaObjectTime = AppContextValue.operationMediaObjectTime as Function;
 
 
   useEffect(() => {

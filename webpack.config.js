@@ -17,6 +17,7 @@ const config = {
   devServer: {
     open: true,
     host: "localhost",
+    historyApiFallback: true, //これで複数ページ
   },
   plugins: [
     new HtmlWebpackPlugin({
