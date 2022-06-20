@@ -2,8 +2,13 @@
   background-color: rgb(50, 50, 50);
   width: auto;
   max-height: 90vh;
-  margin: 2px 2px 2px 2px;
+  margin: 0px 2px 2px 2px;
   overflow: scroll;
+}
+
+.timeline-area * {
+  user-select: none;
+  z-index: 500;
 }
 
 .timeline-area-scroll {
@@ -83,6 +88,45 @@
   right: 0;
   bottom: 0;
   left: 0;
+  margin: auto;
+}
+
+.toolBar-area {
+  background-color: rgb(255, 255, 255);
+  width: auto;
+  height: 50px;
+  margin: 2px 2px 0px 2px;
+  /* overflow: scroll; */
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+}
+
+.toolBar-area * {
+  z-index: 1000;
+}
+
+.toolBar-area .toolBar_single-area {
+  background-color: rgb(255, 255, 255);
+  /* width: 100px; */
+  height: 40px;
+  margin-left: 2px;
+  margin-right: 2px;
+}
+
+.toolBar-area .toolBar_single-area:hover {
+  background-color: rgb(240, 240, 240);
+}
+
+.toolBar-area .toolBar_single-area .toolBar_single-area-title {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.toolBar_single-area-title p {
+  font-size: 10px;
   margin: auto;
 }
 
