@@ -1,0 +1,88 @@
+.timeline-area {
+  background-color: rgb(50, 50, 50);
+  width: auto;
+  max-height: 90vh;
+  margin: 2px 2px 2px 2px;
+  overflow: scroll;
+}
+
+.timeline-area-scroll {
+  /* background-color: rgb(200, 200, 200); */
+  margin: 0px;
+  width: 1500px;
+}
+
+.timeline-area-scroll > .media_object-area {
+  /* background-color: rgb(200, 200, 200); */
+  width: 100%;
+  margin: 3px 0px 3px 0px;
+  --media_object-height: 20px;
+  /* メディアオブジェクトの高さ */
+
+  --keyfrmae-size: 20;
+  /* キーフレームレイヤーの高さ */
+
+  display: flex;
+}
+
+.timeline-area-scroll
+  /* > .media_object-area
+  > .media_object-area-right
+  > .media_object-area-move */
+  .media_object-area-scroll {
+  background-color: rgb(50, 150, 50);
+  position: relative;
+  height: var(--media_object-height);
+  border-radius: 3px;
+  /* 
+    width: 1000px;
+    left:100px; */
+}
+
+.media_object-area .media_object-area-left {
+  width: 300px;
+  background-color: rgb(100, 100, 100);
+  /* height: var(--media_object-height); */
+}
+
+.media_object-area .media_object-area-right {
+}
+
+.parameter_area {
+  width: 100%;
+  min-height: 0px;
+}
+
+.parameter_area > .parameter_area-entity {
+  --parameter-height: 0px;
+  /* react側から後から定義  可変数*/
+
+  height: var(--parameter-height);
+
+  width: 100%;
+  position: relative;
+  /* 
+  display: flex; */
+}
+
+.parameter_area-entity > .keyframe-area {
+  width: calc(var(--keyfrmae-size) * 1px);
+  height: calc(var(--keyfrmae-size) * 1px);
+  position: absolute;
+}
+
+.parameter_area-entity > .keyframe-area > .keyframe-entity {
+  background-color: rgb(100, 100, 250);
+
+  width: calc(var(--keyfrmae-size) / 2 * 1px);
+  height: calc(var(--keyfrmae-size) / 2 * 1px);
+  transform: rotate(45deg);
+
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+}
+
