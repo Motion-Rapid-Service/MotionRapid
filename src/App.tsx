@@ -6,6 +6,7 @@ import "./timeline/CSS/timeline.css";
 import "./timeline/CSS/parameter.css";
 import "./timeline/CSS/keyframe.css";
 import "./ToolBar/CSS/ToolBar.css";
+import "./ToolBar/CSS/ToolBarDetail.css";
 import Editor from "./Editor";
 
 import { AppContext } from "./AppContext";
@@ -34,13 +35,13 @@ for (let i = 0; i < 20; i++) {
   )[i];
   middleDataOperation.linkMediaObject(CompositeID_0, MediaObjectID_0);
 }
-console.log("CompositeID_0", CompositeID_0);
+// console.log("CompositeID_0", CompositeID_0);
 //ここまでテスト用 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 const componentConvertMediaObjectArea = () => {
   const mediaObjIDArray =
     middleDataOperation.getOwnedID_MediaObject(CompositeID_0);
-  console.log("componentConvertMediaObjectArea", mediaObjIDArray);
+  // console.log("componentConvertMediaObjectArea", mediaObjIDArray);
 
   const middleDataMediaObjectTemp = [];
 
@@ -100,10 +101,12 @@ const App = () => {
   // ここでhooksを使える
   const [toolBarClassificationArray, toolBarClassificationArraySetState] =
     useState<{ [name: string]: ToolBarClassificationData }>({}); //これで仕分け
-  // const [toolBarEditorDict,toolBarEditorDictSetState] = useState<{[name:string]:toolBarEditorData}>(); //これで所持しているツールバーのデータを管理する
-  const testFunction = () => {
-    console.log("てすとだよ！！！");
-  };
+
+  const [update, setUpdata] = useState<boolean>(false);
+
+  const updateDOM = () => { //強制再レンダリング関数
+    setUpdata(update?false:true)
+  }
 
   const insertToolBarClassificationArraySetStateValue = (
     send_toolBarClassificationName: string
@@ -154,21 +157,78 @@ const App = () => {
       send_toolBarEditorName
     ].editorStatus = status;
     toolBarClassificationArraySetState(copyToolBarClassification);
-    console.log(
-      "toolBarClassificationArray operationEditorStatus",
+    // console.log(
+    //   "toolBarClassificationArray operationEditorStatus",
+    //   toolBarClassificationArray
+    // );
+  };
+
+  const componentConvertToolBarClassification = () => {
+    const componentConvertToolBarTemp = [];
+    const ToolBarClassificationValue = Object.values(
       toolBarClassificationArray
     );
+
+    console.log(
+      "componentConvertToolBarClassification - s",
+      ToolBarClassificationValue
+    );
+
+    for (let i = 0; i < ToolBarClassificationValue.length; i++) {
+      componentConvertToolBarTemp.push(ToolBarClassificationValue[i]);
+    }
+
+    console.log(
+      "componentConvertToolBarClassification - e",
+      componentConvertToolBarTemp
+    );
+
+    return componentConvertToolBarTemp;
+  };
+
+  const componentConvertToolBarEditor = (
+    send_toolBarClassificationName: string
+  ) => {
+    const componentConvertToolBarTemp = [];
+
+    if (
+      toolBarClassificationArray[send_toolBarClassificationName] === undefined
+    ) {
+      console.log("componentConvertToolBarEditor-undefined");
+      return [];
+    }
+
+    const toolBarEditorDictValue = Object.values(
+      toolBarClassificationArray[send_toolBarClassificationName]
+        .toolBarEditorDict
+    );
+
+    for (let i = 0; i < toolBarEditorDictValue.length; i++) {
+      componentConvertToolBarTemp.push(toolBarEditorDictValue[i]);
+    }
+
+    console.log("componentConvertToolBarEditor", componentConvertToolBarTemp);
+
+    return componentConvertToolBarTemp;
   };
 
   useEffect(() => {
-    console.log("toolBarClassificationArray useEffect",toolBarClassificationArray)
+    console.log(
+      "toolBarClassificationArray useEffect",
+      toolBarClassificationArray
+    );
   }, [toolBarClassificationArray]);
+
+  const Test = () => {
+    console.log("（╹◡╹）");
+  };
 
   return (
     <div>
       <AppContext.Provider
         value={{
           componentConvertMediaObjectArea: componentConvertMediaObjectArea,
+          updateDOM:updateDOM,
           operationMediaObjectTime:
             middleDataOperation.operationMediaObjectTime,
           insertToolBarClassificationArraySetStateValue:
@@ -176,10 +236,10 @@ const App = () => {
           insertToolBarEditorDictSetStateValue:
             insertToolBarEditorDictSetStateValue,
           operationEditorStatus: operationEditorStatus,
-          toolBarClassificationArray:toolBarClassificationArray
-          // componentConvertToolBarClassification:
-          //   componentConvertToolBarClassification,
-          // componentConvertToolBarEditor: componentConvertToolBarEditor,
+          toolBarClassificationArray: toolBarClassificationArray,
+          componentConvertToolBarClassification:
+            componentConvertToolBarClassification,
+          componentConvertToolBarEditor: componentConvertToolBarEditor,
         }}
       >
         <Editor />

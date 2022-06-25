@@ -71,7 +71,12 @@ export default class MiddleDataOperation {
 
   operationMediaObjectTime = (sendData: any) => {
     const mediaObjectID = sendData["mediaObjectID"];
-    console.log(sendData);
+    // console.log(sendData);
+
+
+    // console.log("operationMediaObjectTime-1",this.DataCentral.OwnedClass_MediaObject[
+    //   mediaObjectID
+    // ])
 
     if (!judgeKeyFound("mediaObjectID", sendData)){
       console.log("notFound mediaObjectID")
@@ -88,9 +93,9 @@ export default class MiddleDataOperation {
       ].MediaObject_EndTime = sendData["end"];
     }
 
-    console.log("operationMediaObjectTime-f",this.DataCentral.OwnedClass_MediaObject[
-      mediaObjectID
-    ])
+    // console.log("operationMediaObjectTime-2",this.DataCentral.OwnedClass_MediaObject[
+    //   mediaObjectID
+    // ])
   };
 
   getOwnedID_MediaObject = (compositeID: string) => {

@@ -1,16 +1,19 @@
 import * as React from "react";
-const { useContext, useReducer, createContext } = React;
+const { useContext, useReducer, createContext,useEffect } = React;
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import TimelineComponent from "./timeline/timeline";
 
 import InspectorComponent from "./ToolBar/ToolBar";
 
+import { AppContext } from "./AppContext";
+
 const Editor = () => {
   // ここでhooksを使える
+
   return (
     <div>
-        <InspectorComponent/>
+        <InspectorComponent />
         <TimelineComponent />
     </div>
   );

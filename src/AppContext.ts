@@ -3,13 +3,14 @@ const { createContext } = React;
 
 type AppContextValue = {
   componentConvertMediaObjectArea: Function;
+  updateDOM:Function;
   operationMediaObjectTime:Function
   insertToolBarClassificationArraySetStateValue:Function
   insertToolBarEditorDictSetStateValue:Function
   operationEditorStatus:Function
   toolBarClassificationArray:any
-//   componentConvertToolBarClassification:Function
-//   componentConvertToolBarEditor:Function
+  componentConvertToolBarClassification:Function
+  componentConvertToolBarEditor:Function
 };
 
 export const AppContext = createContext<AppContextValue>({} as AppContextValue);

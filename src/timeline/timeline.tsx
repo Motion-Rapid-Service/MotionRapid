@@ -35,9 +35,9 @@ const TimelineComponent = () => {
           }}
         >
           <>
-            {AppContextValue.componentConvertMediaObjectArea().map((fruit:any, i:number) => (
+            {AppContextValue.componentConvertMediaObjectArea().map((output:any, index:number) => (
               // <>{fruit}</> //SurfaceControlIndividualを追加するmap (list_surface_controlに入っている)
-              <MediaObjectAreaComponent DownstreamMiddleDataMediaObject={fruit} key={i}/>
+              <MediaObjectAreaComponent DownstreamMiddleDataMediaObject={output} key={index}/>
             ))}
           </>
         </TimelineAreaDivContext.Provider>

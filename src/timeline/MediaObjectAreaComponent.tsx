@@ -12,7 +12,7 @@ import { AppContext } from "./../AppContext";
 const MediaObjectAreaComponent = (props:any) => {
   const mediaObjectAreaElement = useRef<HTMLDivElement>(null);
   const DownstreamMiddleDataMediaObject = props.DownstreamMiddleDataMediaObject
-  console.log("middleDataMediaObject",DownstreamMiddleDataMediaObject)
+  // console.log("middleDataMediaObject",DownstreamMiddleDataMediaObject)
 
   const AppContextValue = useContext(AppContext);
   const [parameterOpen, parameterOpenSetState] = useState<boolean>(true);

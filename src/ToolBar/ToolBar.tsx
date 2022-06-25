@@ -4,99 +4,39 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import { AppContext } from "./../AppContext";
 
-// insertToolBarClassificationArraySetStateValue:insertToolBarClassificationArraySetStateValue,
-// insertToolBarEditorDictSetStateValue:insertToolBarEditorDictSetStateValue,
-// operationEditorStatus:operationEditorStatus
-
-// const AppContextValue = useContext(AppContext);
-// const insertToolBarClassificationArraySetStateValue =
-//   AppContextValue.insertToolBarClassificationArraySetStateValue;
-// const insertToolBarEditorDictSetStateValue =
-//   AppContextValue.insertToolBarEditorDictSetStateValue;
-// const operationEditorStatus = AppContextValue.operationEditorStatus;
-// const componentConvertToolBarClassification =
-//   AppContextValue.componentConvertToolBarClassification;
-// const componentConvertToolBarEditor =
-//   AppContextValue.componentConvertToolBarEditor;
-
-const componentConvertToolBarClassification = (
-  toolBarClassificationArray: any
-) => {
-  const componentConvertToolBarTemp = [];
-  const ToolBarClassificationValue = Object.values(toolBarClassificationArray);
-
-  console.log("ToolBarClassificationValue", ToolBarClassificationValue);
-
-  for (let i = 0; i < ToolBarClassificationValue.length; i++) {
-    componentConvertToolBarTemp.push(ToolBarClassificationValue[i]);
-  }
-
-  console.log(
-    "componentConvertToolBarClassification",
-    componentConvertToolBarTemp
-  );
-
-  return componentConvertToolBarTemp;
-};
-
-const componentConvertToolBarEditor = (
-  toolBarClassificationArray: any,
-  send_toolBarClassificationName: string
-) => {
-  const componentConvertToolBarTemp = [];
-
-  if (
-    toolBarClassificationArray[send_toolBarClassificationName] === undefined
-  ) {
-    console.log("componentConvertToolBarEditor-undefined");
-    return [];
-  }
-
-  const toolBarEditorDictValue = Object.values(
-    toolBarClassificationArray[send_toolBarClassificationName].toolBarEditorDict
-  );
-
-  for (let i = 0; i < toolBarEditorDictValue.length; i++) {
-    componentConvertToolBarTemp.push(toolBarEditorDictValue[i]);
-  }
-
-  console.log("componentConvertToolBarEditor", componentConvertToolBarTemp);
-
-  return componentConvertToolBarTemp;
-};
-
 const ToolBarDetailSingleComponent = (props: any) => {
-  // const AppContextValue = useContext(AppContext);
-  return <div className="toolBar-detail-single"></div>;
-};
-
-const ToolBarDetailComponent = () => {
   const AppContextValue = useContext(AppContext);
   // const componentConvertToolBarEditor =
   //   AppContextValue.componentConvertToolBarEditor;
 
+  // const toolBarClassificationArray = AppContextValue.toolBarClassificationArray;
 
-  const toolBarClassificationArray = AppContextValue.toolBarClassificationArray
+  console.log("DownstreamToolBarEditorData", props.DownstreamToolBarEditorData);
 
   return (
-    <div className="toolBar-detail">
-      {/* <ToolBarDetailSingleComponent /> */}
-{/* 
-      {componentConvertToolBarEditor(toolBarClassificationArray).map((fruit: any, i: number) => (
-        // <>{fruit}</> //SurfaceControlIndividualを追加するmap (list_surface_controlに入っている)
-        <ToolBarDetailSingleComponent
-          DownstreamToolBarEditorData={fruit}
-          key={i}
-        />
-      ))} */}
+    <div className="toolBarDetail_single-area">
+      <div className="toolBarDetail_single-area-title">
+        <p>ああ</p>
+      </div>
     </div>
   );
 };
 
 const ToolBarSingleComponent = (props: any) => {
   // ここでhooksを使える
+  console.log(
+    "props.DownstreamToolBarClassificationData",
+    props.DownstreamToolBarClassificationData
+  );
+  const MouseDown = () => {
+    const toolBarClassificationName =
+      props.DownstreamToolBarClassificationData.toolBarClassificationName;
+    console.log("ToolBarSingleComponent-MouseDown", toolBarClassificationName);
+    props.switchToolBarDetailSetState(toolBarClassificationName);
+  };
+
   return (
-    <div className="toolBar_single-area">
+    <div className="toolBar_single-area" onMouseDown={MouseDown}>
       <div className="toolBar_single-area-title">
         <p>もじもじ</p>
       </div>
@@ -105,7 +45,8 @@ const ToolBarSingleComponent = (props: any) => {
     </div>
   );
 };
-const toolBarComponent = () => {
+
+const toolBarComponent = (props: any) => {
   // ここでhooksを使える
   const AppContextValue = useContext(AppContext);
   const insertToolBarClassificationArraySetStateValue =
@@ -116,7 +57,10 @@ const toolBarComponent = () => {
   // const componentConvertToolBarClassification =
   //   AppContextValue.componentConvertToolBarClassification;
 
-  const toolBarClassificationArray = AppContextValue.toolBarClassificationArray
+  // const toolBarClassificationArray = AppContextValue.toolBarClassificationArray;
+
+  const [switchToolBarDetail, switchToolBarDetailSetState] =
+    useState<string>("");
 
   const Test = () => {
     console.log("（╹◡╹）");
@@ -130,23 +74,54 @@ const toolBarComponent = () => {
     insertToolBarEditorDictSetStateValue("Kagawa", "Takamatsu", "ABC", Test);
     insertToolBarEditorDictSetStateValue("Kagawa", "Kotohira", "ABC", Test);
     insertToolBarEditorDictSetStateValue("Kagawa", "Marugame", "ABC", Test);
+    switchToolBarDetailSetState("Okayama");
+    AppContextValue.updateDOM();
   }, []);
+
+  useEffect(() => {
+    console.log(
+      "AppContextValue.toolBarClassificationArray useEffect",
+      AppContextValue.toolBarClassificationArray
+    );
+  }, [AppContextValue.toolBarClassificationArray]);
 
   return (
     <div className="toolBar">
       <div className="toolBar-area">
-        {componentConvertToolBarClassification(toolBarClassificationArray).map(
-          (fruit: any, i: number) => (
-            <ToolBarSingleComponent
-              DownstreamToolBarClassificationData={fruit}
-              key={i}
-            />
-          )
-        )}
+        <>
+          {AppContextValue.componentConvertToolBarClassification().map(
+            (output: any, index: number) => (
+              <ToolBarSingleComponent
+                DownstreamToolBarClassificationData={output}
+                switchToolBarDetailSetState={switchToolBarDetailSetState}
+                key={index}
+              />
+            )
+          )}
+        </>
+
         {/* <TimelineComponent /> */}
       </div>
-      <div className="toolBar-detail">
-        <ToolBarDetailComponent />
+      <div className="toolBarDetail-area">
+        <>
+        {AppContextValue.componentConvertToolBarEditor(switchToolBarDetail).map(
+            (output: any, index: number) => (
+              <ToolBarDetailSingleComponent
+              DownstreamToolBarEditorData={output}
+              key={index}
+            />
+            )
+          )}
+
+          {/* {AppContextValue.componentConvertToolBarEditor(
+            switchToolBarDetail
+          ).map((output: any, index: number) => {
+            <ToolBarDetailSingleComponent
+              DownstreamToolBarEditorData={output}
+              key={index}
+            />;
+          })} */}
+        </>
       </div>
     </div>
   );

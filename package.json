@@ -36,6 +36,6 @@
     "build:prod": "webpack --mode=production --node-env=production",
     "watch": "webpack --watch",
     "serve": "webpack serve",
-    "deploy": "gh-pages -d dist"
+    "deploy": "webpack --mode=production --node-env=production && gh-pages -d dist"
   }
 }
