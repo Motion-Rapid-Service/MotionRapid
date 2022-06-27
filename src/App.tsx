@@ -57,16 +57,21 @@ const componentConvertMediaObjectArea = () => {
 
 class ToolBarClassificationData {
   toolBarClassificationName: string;
+  toolBarClassificationLogo: string; //ディレクトリで良い
   toolBarEditorDict: { [name: string]: ToolBarEditorData };
 
-  constructor(send_toolBarClassificationName: string) {
+  constructor(
+    send_toolBarClassificationName: string,
+    send_toolBarClassificationLogo: string
+  ) {
     this.toolBarClassificationName = send_toolBarClassificationName;
+    this.toolBarClassificationLogo = send_toolBarClassificationLogo;
     this.toolBarEditorDict = {};
   }
 
   insertToolBarEditorDict = (
     newName: string,
-    send_EditorLogo: any,
+    send_EditorLogo: string,
     send_EditorFunction: Function
   ) => {
     const newObj = new ToolBarEditorData(
@@ -104,17 +109,27 @@ const App = () => {
 
   const [update, setUpdata] = useState<boolean>(false);
 
-  const updateDOM = () => { //強制再レンダリング関数
-    setUpdata(update?false:true)
-  }
+  const updateDOM = () => {
+    //強制再レンダリング関数
+    setUpdata(update ? false : true);
+  };
+
+  useEffect(() => {
+    console.log(
+      "update 再レンダリング"
+    );
+  }, [update]);
+
 
   const insertToolBarClassificationArraySetStateValue = (
-    send_toolBarClassificationName: string
+    send_toolBarClassificationName: string,
+    send_toolBarClassificationLogo:string,
   ) => {
     const copyToolBarClassification = Object.assign(toolBarClassificationArray);
     // const newID = getUUID()
     const newObj = new ToolBarClassificationData(
-      send_toolBarClassificationName
+      send_toolBarClassificationName,
+      send_toolBarClassificationLogo
     );
     copyToolBarClassification[send_toolBarClassificationName] = newObj;
     toolBarClassificationArraySetState(copyToolBarClassification);
@@ -122,6 +137,7 @@ const App = () => {
       "toolBarClassificationArray insertToolBarClassificationArraySetStateValue",
       toolBarClassificationArray
     );
+   
   };
 
   const insertToolBarEditorDictSetStateValue = (
@@ -143,6 +159,7 @@ const App = () => {
       "toolBarClassificationArray insertToolBarEditorDictSetStateValue",
       toolBarClassificationArray
     );
+
   };
 
   const operationEditorStatus = (
@@ -227,8 +244,9 @@ const App = () => {
     <div>
       <AppContext.Provider
         value={{
+          getUUID:getUUID,
           componentConvertMediaObjectArea: componentConvertMediaObjectArea,
-          updateDOM:updateDOM,
+          updateDOM: updateDOM,
           operationMediaObjectTime:
             middleDataOperation.operationMediaObjectTime,
           insertToolBarClassificationArraySetStateValue:

@@ -12,11 +12,14 @@ const ToolBarDetailSingleComponent = (props: any) => {
   // const toolBarClassificationArray = AppContextValue.toolBarClassificationArray;
 
   console.log("DownstreamToolBarEditorData", props.DownstreamToolBarEditorData);
-
+  const MouseDown = () => {
+    props.DownstreamToolBarEditorData.editorFunction()
+    AppContextValue.updateDOM();
+  };
   return (
-    <div className="toolBarDetail_single-area">
+    <div className="toolBarDetail_single-area" onMouseDown={MouseDown}>
       <div className="toolBarDetail_single-area-title">
-        <p>ああ</p>
+        <p>{props.DownstreamToolBarEditorData.editorLogo}</p>
       </div>
     </div>
   );
@@ -38,7 +41,7 @@ const ToolBarSingleComponent = (props: any) => {
   return (
     <div className="toolBar_single-area" onMouseDown={MouseDown}>
       <div className="toolBar_single-area-title">
-        <p>もじもじ</p>
+        <p>{props.DownstreamToolBarClassificationData.toolBarClassificationLogo}</p>
       </div>
 
       {/* <TimelineComponent /> */}
@@ -66,14 +69,20 @@ const toolBarComponent = (props: any) => {
     console.log("（╹◡╹）");
   };
 
+  const TestUdon = () => {
+    console.log("TestUdon")
+    insertToolBarEditorDictSetStateValue("Kagawa", AppContextValue.getUUID(), "うどん", TestUdon);
+    
+  }
+
   useEffect(() => {
-    insertToolBarClassificationArraySetStateValue("Okayama");
-    insertToolBarEditorDictSetStateValue("Okayama", "Tsuyama", "ABC", Test);
-    insertToolBarEditorDictSetStateValue("Okayama", "Niimi", "ABC", Test);
-    insertToolBarClassificationArraySetStateValue("Kagawa");
-    insertToolBarEditorDictSetStateValue("Kagawa", "Takamatsu", "ABC", Test);
-    insertToolBarEditorDictSetStateValue("Kagawa", "Kotohira", "ABC", Test);
-    insertToolBarEditorDictSetStateValue("Kagawa", "Marugame", "ABC", Test);
+    insertToolBarClassificationArraySetStateValue("Okayama","岡山");
+    insertToolBarEditorDictSetStateValue("Okayama", "Tsuyama", "津山", Test);
+    insertToolBarEditorDictSetStateValue("Okayama", "Niimi", "新見", Test);
+    insertToolBarClassificationArraySetStateValue("Kagawa","香川");
+    insertToolBarEditorDictSetStateValue("Kagawa", "Takamatsu", "高松", TestUdon);
+    insertToolBarEditorDictSetStateValue("Kagawa", "Kotohira", "琴平", Test);
+    insertToolBarEditorDictSetStateValue("Kagawa", "Marugame", "丸亀", Test);
     switchToolBarDetailSetState("Okayama");
     AppContextValue.updateDOM();
   }, []);

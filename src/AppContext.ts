@@ -2,6 +2,7 @@ import * as React from "react";
 const { createContext } = React;
 
 type AppContextValue = {
+  getUUID:Function,
   componentConvertMediaObjectArea: Function;
   updateDOM:Function;
   operationMediaObjectTime:Function
