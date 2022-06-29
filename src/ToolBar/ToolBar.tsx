@@ -3,9 +3,12 @@ const { useState, useContext, useReducer, createContext, useEffect } = React;
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import { AppContext } from "./../AppContext";
+import { EditorContext } from "./../EditorContext";
+
 
 const ToolBarDetailSingleComponent = (props: any) => {
   const AppContextValue = useContext(AppContext);
+  const EditorContextValue = useContext(EditorContext);
   // const componentConvertToolBarEditor =
   //   AppContextValue.componentConvertToolBarEditor;
 
@@ -52,11 +55,12 @@ const ToolBarSingleComponent = (props: any) => {
 const toolBarComponent = (props: any) => {
   // ここでhooksを使える
   const AppContextValue = useContext(AppContext);
+  const EditorContextValue = useContext(EditorContext);
   const insertToolBarClassificationArraySetStateValue =
-    AppContextValue.insertToolBarClassificationArraySetStateValue;
+  EditorContextValue.insertToolBarClassificationArraySetStateValue;
   const insertToolBarEditorDictSetStateValue =
-    AppContextValue.insertToolBarEditorDictSetStateValue;
-  const operationEditorStatus = AppContextValue.operationEditorStatus;
+  EditorContextValue.insertToolBarEditorDictSetStateValue;
+  const operationEditorStatus = EditorContextValue.operationEditorStatus;
   // const componentConvertToolBarClassification =
   //   AppContextValue.componentConvertToolBarClassification;
 
@@ -90,15 +94,15 @@ const toolBarComponent = (props: any) => {
   useEffect(() => {
     console.log(
       "AppContextValue.toolBarClassificationArray useEffect",
-      AppContextValue.toolBarClassificationArray
+      EditorContextValue.toolBarClassificationArray
     );
-  }, [AppContextValue.toolBarClassificationArray]);
+  }, [EditorContextValue.toolBarClassificationArray]);
 
   return (
     <div className="toolBar">
       <div className="toolBar-area">
         <>
-          {AppContextValue.componentConvertToolBarClassification().map(
+          {EditorContextValue.componentConvertToolBarClassification().map(
             (output: any, index: number) => (
               <ToolBarSingleComponent
                 DownstreamToolBarClassificationData={output}
@@ -113,7 +117,7 @@ const toolBarComponent = (props: any) => {
       </div>
       <div className="toolBarDetail-area">
         <>
-        {AppContextValue.componentConvertToolBarEditor(switchToolBarDetail).map(
+        {EditorContextValue.componentConvertToolBarEditor(switchToolBarDetail).map(
             (output: any, index: number) => (
               <ToolBarDetailSingleComponent
               DownstreamToolBarEditorData={output}

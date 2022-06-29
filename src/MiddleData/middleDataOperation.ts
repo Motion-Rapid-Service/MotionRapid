@@ -27,12 +27,14 @@ export default class MiddleDataOperation {
 
   createDataCentral = (projectName: string = getUUID()) => {
     this.DataCentral = new middleDataClass.DataCentral(projectName);
+
   };
 
   createComposite = () => {
     const newID = getUUID();
     const newObj = new middleDataClass.Composite(newID, "test_composite");
     this.DataCentral.OwnedClass_Composite[newID] = newObj;
+    // this.linkComposite(newID)
   };
 
   createMediaObject = () => {
@@ -53,6 +55,12 @@ export default class MiddleDataOperation {
     this.DataCentral.OwnedClass_Property[newID] = newObj;
   };
 
+
+  // linkComposite = (compositeID: string) => {
+  //   this.DataCentral.OwnedClass_Composite.push(
+  //     compositeID
+  //   );
+  // };
   linkMediaObject = (compositeID: string, mediaObjectID: string) => {
     this.DataCentral.OwnedClass_Composite[compositeID].OwnedID_MediaObject.push(
       mediaObjectID
@@ -93,6 +101,13 @@ export default class MiddleDataOperation {
     // console.log("operationMediaObjectTime-2",this.DataCentral.OwnedClass_MediaObject[
     //   mediaObjectID
     // ])
+  };
+
+  getOwnedID_Composite = () => {
+    // console.log("md",this.DataCentral.OwnedClass_Composite[compositeID].OwnedID_MediaObject)
+    return Object.assign(
+      Object.keys(this.DataCentral.OwnedClass_Composite)
+    );
   };
 
   getOwnedID_MediaObject = (compositeID: string) => {

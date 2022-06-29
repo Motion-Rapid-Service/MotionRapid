@@ -194,6 +194,9 @@ export const MediaObjectScrollComponent = () => {
     <div
       className="media_object-area-move"
       style={{ cursor: Mouselogic }}
+      //今後マウスカーソルの表示方法の変更を検討
+      //連想配列でそれぞれメディアオブジェクトのマウスカーソルを管理
+      //onMouseOverとonMouseOut、onMouseOutをもとに状態管理と連想配列指定
       onMouseOver={mouseOver}
       onMouseOut={mouseOut}
       onMouseDown={MouseDown}

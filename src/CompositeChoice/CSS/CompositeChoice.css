@@ -1,0 +1,15 @@
+.composite_choice-area {
+  width: 70%;
+  height: 1000px;
+  overflow-y: scroll;
+  background-color: rgb(50, 50, 50);
+  margin-bottom: 10px;
+}
+
+.composite_choice-area .composite_choice-listindex-area p {
+  user-select: none;
+}
+
+.composite_choice-area .composite_choice-listindex-area {
+  background-color: rgb(200, 60, 60);
+}
