@@ -13,7 +13,7 @@ const TimelineComponent = () => {
   const timelineScrollElement = useRef(null);
 
   const AppContextValue = useContext(AppContext);
-  const [choiceComposite, choiceCompositeSetState] = useState<string>("");
+
   useEffect(() => {
 
   }, []);

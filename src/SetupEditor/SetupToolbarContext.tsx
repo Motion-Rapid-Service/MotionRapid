@@ -1,7 +1,7 @@
 import * as React from "react";
 const { createContext } = React;
 
-type EditorContextValue = {
+type SetupToolbarContextValue = {
   insertToolBarClassificationArraySetStateValue:Function
   insertToolBarEditorDictSetStateValue:Function
   operationEditorStatus:Function
@@ -10,4 +10,4 @@ type EditorContextValue = {
   componentConvertToolBarEditor:Function
 };
 
-export const EditorContext = createContext<EditorContextValue>({} as EditorContextValue);
+export const SetupToolbarContext = createContext<SetupToolbarContextValue>({} as SetupToolbarContextValue);

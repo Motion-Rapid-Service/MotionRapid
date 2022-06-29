@@ -8,7 +8,7 @@ import "./timeline/CSS/keyframe.css";
 import "./ToolBar/CSS/ToolBar.css";
 import "./ToolBar/CSS/ToolBarDetail.css";
 import "./CompositeChoice/CSS/CompositeChoice.css";
-import Editor from "./Editor";
+import SetupToolbar from "./SetupEditor/SetupToolbar";
 
 import { AppContext } from "./AppContext";
 
@@ -102,7 +102,7 @@ const App = () => {
 
         }}
       >
-        <Editor />
+        <SetupToolbar />
       </AppContext.Provider>
     </div>
   );

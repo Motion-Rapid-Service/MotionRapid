@@ -1,18 +1,9 @@
 import * as React from "react";
-const { useContext, useReducer, createContext,useEffect,useState } = React;
+const { useContext, useReducer, createContext, useEffect, useState } = React;
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-
-import TimelineComponent from "./timeline/timeline";
-import ToolBarComponent from "./ToolBar/ToolBar";
-import CompositeEditorComponent from "./CompositeChoice/CompositeChoice"
-
-import { AppContext } from "./AppContext";
-import { EditorContext } from "./EditorContext";
-
-//ここを画面結合専用層にする予定
-
-
-//ここから ツールバー処理用のクラス
+import SetupEditor from "./SetupEditor";
+import { AppContext } from "../AppContext";
+import { SetupToolbarContext } from "./SetupToolbarContext";
 
 class ToolBarClassificationData {
   toolBarClassificationName: string;
@@ -61,13 +52,13 @@ class ToolBarEditorData {
 
 //ここまでツールバー処理用のクラス
 
-const Editor = () => {
+const SetupToolbar = () => {
   // ここでhooksを使える
-
 
   // ここでhooksを使える
   const [toolBarClassificationArray, toolBarClassificationArraySetState] =
     useState<{ [name: string]: ToolBarClassificationData }>({}); //これで仕分け
+  const [choiceComposite, choiceCompositeSetState] = useState<string>("");
 
   const insertToolBarClassificationArraySetStateValue = (
     send_toolBarClassificationName: string,
@@ -188,7 +179,8 @@ const Editor = () => {
 
   return (
     <div>
-      <EditorContext.Provider value={{
+      <SetupToolbarContext.Provider
+        value={{
           insertToolBarClassificationArraySetStateValue:
             insertToolBarClassificationArraySetStateValue,
           insertToolBarEditorDictSetStateValue:
@@ -197,13 +189,12 @@ const Editor = () => {
           toolBarClassificationArray: toolBarClassificationArray,
           componentConvertToolBarClassification:
             componentConvertToolBarClassification,
-          componentConvertToolBarEditor: componentConvertToolBarEditor,}}>
-      <ToolBarComponent />
-        <CompositeEditorComponent/>
-        <TimelineComponent />
-      </EditorContext.Provider>
-
+          componentConvertToolBarEditor: componentConvertToolBarEditor,
+        }}
+      >
+        <SetupEditor />
+      </SetupToolbarContext.Provider>
     </div>
   );
 };
-export default Editor;
+export default SetupToolbar;
