@@ -3,8 +3,8 @@ const { useContext, useReducer, createContext,useEffect } = React;
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import TimelineComponent from "./timeline/timeline";
-
-import InspectorComponent from "./ToolBar/ToolBar";
+import ToolBarComponent from "./ToolBar/ToolBar";
+import CompositeEditorComponent from "./CompositeEditor/CompositeEditor"
 
 import { AppContext } from "./AppContext";
 
@@ -13,7 +13,8 @@ const Editor = () => {
 
   return (
     <div>
-        <InspectorComponent />
+        <ToolBarComponent />
+        <CompositeEditorComponent/>
         <TimelineComponent />
     </div>
   );

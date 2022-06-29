@@ -72,8 +72,6 @@ export default class MiddleDataOperation {
   operationMediaObjectTime = (sendData: any) => {
     const mediaObjectID = sendData["mediaObjectID"];
     // console.log(sendData);
-
-
     // console.log("operationMediaObjectTime-1",this.DataCentral.OwnedClass_MediaObject[
     //   mediaObjectID
     // ])
@@ -92,7 +90,6 @@ export default class MiddleDataOperation {
         mediaObjectID
       ].MediaObject_EndTime = sendData["end"];
     }
-
     // console.log("operationMediaObjectTime-2",this.DataCentral.OwnedClass_MediaObject[
     //   mediaObjectID
     // ])

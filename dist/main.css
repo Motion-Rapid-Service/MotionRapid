@@ -102,10 +102,6 @@
   justify-content: flex-start;
 }
 
-.toolBar-area * {
-  z-index: 1000;
-}
-
 .toolBar-area .toolBar_single-area {
   background-color: rgb(255, 255, 255);
   /* width: 100px; */
@@ -126,6 +122,43 @@
 }
 
 .toolBar_single-area-title p {
+  font-size: 10px;
+  margin: auto;
+}
+
+.toolBarDetail-area {
+  background-color: rgb(255, 255, 255);
+  width: auto;
+  height: 50px;
+  margin: 2px 2px 0px 2px;
+  /* overflow: scroll; */
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+}
+
+.toolBarDetail-area .toolBarDetail_single-area {
+  background-color: rgb(10, 255, 255);
+  /* width: 100px; */
+  height: 40px;
+  margin-left: 2px;
+  margin-right: 2px;
+}
+
+.toolBarDetail-area .toolBarDetail_single-area:hover {
+  background-color: rgb(240, 240, 240);
+}
+
+.toolBarDetail-area
+  .toolBarDetail_single-area
+  .toolBarDetail_single-area-title {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.toolBarDetail_single-area-title p {
   font-size: 10px;
   margin: auto;
 }
