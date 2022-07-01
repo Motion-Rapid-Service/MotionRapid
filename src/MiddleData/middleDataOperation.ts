@@ -112,9 +112,15 @@ export default class MiddleDataOperation {
 
   getOwnedID_MediaObject = (compositeID: string) => {
     // console.log("md",this.DataCentral.OwnedClass_Composite[compositeID].OwnedID_MediaObject)
-    return Object.assign(
-      this.DataCentral.OwnedClass_Composite[compositeID].OwnedID_MediaObject
-    );
+
+    let returnData = []
+
+    if (judgeKeyFound(compositeID,this.DataCentral.OwnedClass_Composite)){
+      returnData =  Object.assign(
+        this.DataCentral.OwnedClass_Composite[compositeID].OwnedID_MediaObject
+      );
+    }
+    return returnData
   };
 
   getOwnedID_Property = (mediaObjectID: string) => {

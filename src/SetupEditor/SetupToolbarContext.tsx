@@ -8,6 +8,8 @@ type SetupToolbarContextValue = {
   toolBarClassificationArray:any
   componentConvertToolBarClassification:Function
   componentConvertToolBarEditor:Function
+  choiceComposite:string
+  choiceCompositeSetState:Function
 };
 
 export const SetupToolbarContext = createContext<SetupToolbarContextValue>({} as SetupToolbarContextValue);

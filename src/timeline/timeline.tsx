@@ -6,6 +6,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { TimelineAreaDivContext } from "./timelineContext";
 import MediaObjectAreaComponent from "./MediaObjectAreaComponent";
 import { AppContext } from "./../AppContext";
+import { SetupEditorContext } from "./../SetupEditor/SetupEditorContext";
+import { SetupToolbarContext } from "./../SetupEditor/SetupToolbarContext";
+
 
 const TimelineComponent = () => {
   // ここでhooksを使える
@@ -13,6 +16,8 @@ const TimelineComponent = () => {
   const timelineScrollElement = useRef(null);
 
   const AppContextValue = useContext(AppContext);
+  const SetupEditorContextValue = useContext(SetupEditorContext);
+  const SetupToolbarContextValue = useContext(SetupToolbarContext);
 
   useEffect(() => {
 
@@ -35,7 +40,7 @@ const TimelineComponent = () => {
           }}
         >
           <>
-            {AppContextValue.componentConvertMediaObjectArea().map((output:any, index:number) => (
+            {AppContextValue.componentConvertMediaObjectArea(SetupToolbarContextValue.choiceComposite).map((output:any, index:number) => (
               // <>{fruit}</> //SurfaceControlIndividualを追加するmap (list_surface_controlに入っている)
               <MediaObjectAreaComponent DownstreamMiddleDataMediaObject={output} key={index}/>
             ))}

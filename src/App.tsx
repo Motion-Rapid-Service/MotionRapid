@@ -57,8 +57,8 @@ const componentConvertCompositeChoiceArea = () => {
   return middleDataCompositeTemp;
 };
 
-const componentConvertMediaObjectArea = () => {
-  const send_CompositeID =  CompositeID_0
+const componentConvertMediaObjectArea = (send_CompositeID:string) => {
+  // const send_CompositeID =  CompositeID_0
   const mediaObjIDArray =
     middleDataOperation.getOwnedID_MediaObject(send_CompositeID);
   // console.log("componentConvertMediaObjectArea", mediaObjIDArray);

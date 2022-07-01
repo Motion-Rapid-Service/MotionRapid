@@ -168,6 +168,13 @@ const SetupToolbar = () => {
 
   useEffect(() => {
     console.log(
+      "choiceComposite useEffect",
+      choiceComposite
+    );
+  }, [choiceComposite]);
+
+  useEffect(() => {
+    console.log(
       "toolBarClassificationArray useEffect",
       toolBarClassificationArray
     );
@@ -190,6 +197,8 @@ const SetupToolbar = () => {
           componentConvertToolBarClassification:
             componentConvertToolBarClassification,
           componentConvertToolBarEditor: componentConvertToolBarEditor,
+          choiceComposite:choiceComposite,
+          choiceCompositeSetState: choiceCompositeSetState
         }}
       >
         <SetupEditor />
