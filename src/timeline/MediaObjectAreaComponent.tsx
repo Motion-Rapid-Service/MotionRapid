@@ -15,7 +15,7 @@ const MediaObjectAreaComponent = (props:any) => {
   // console.log("middleDataMediaObject",DownstreamMiddleDataMediaObject)
 
   const AppContextValue = useContext(AppContext);
-  const [parameterOpen, parameterOpenSetState] = useState<boolean>(true);
+  const [animatorOpen, animatorOpenSetState] = useState<boolean>(true);
   const [staStylePos, StaSetState] = useState<number>(500);
   const [endStylePos, EndSetState] = useState<number>(1000);
   const [mediaObjectUUID] = useState<string>(DownstreamMiddleDataMediaObject["MediaObject_ID"] as string);
@@ -33,8 +33,8 @@ const MediaObjectAreaComponent = (props:any) => {
         <MediaObjectContext.Provider 
           value={{
             mediaObjectAreaElement: mediaObjectAreaElement,
-            parameterOpen: parameterOpen,
-            parameterOpenSetState: parameterOpenSetState,
+            animatorOpen: animatorOpen,
+            animatorOpenSetState: animatorOpenSetState,
             staStylePos:staStylePos,
             StaSetState:StaSetState,
             endStylePos:endStylePos,

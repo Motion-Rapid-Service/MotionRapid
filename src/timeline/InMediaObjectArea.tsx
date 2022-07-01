@@ -8,7 +8,7 @@ const UserHandTolerance = 5;
 import UUID from "uuidjs";
 
 import timeLineMousePosition from "./timeLineMousePosition";
-import ParameterAreaComponent from "./parameterAreaComponent";
+import AnimatorAreaComponent from "./animatorAreaComponent";
 
 class UserHandMediaObjectOperation {
   mouseDownFlag: number; //0:押していない , 1:左側 , 2:右側 , 3:動作
@@ -45,9 +45,9 @@ export const MediaObjectScrollComponent = () => {
   const mediaObjectAreaElement =
     MediaObjectContextValue.mediaObjectAreaElement;
 
-  const parameterOpenSetState =
-    MediaObjectContextValue.parameterOpenSetState;
-  const parameterOpen = MediaObjectContextValue.parameterOpen;
+  const animatorOpenSetState =
+    MediaObjectContextValue.animatorOpenSetState;
+  const animatorOpen = MediaObjectContextValue.animatorOpen;
 
   const [areaFocus, areaFocusSetState] = useState<boolean>(false);
   const staStylePos = MediaObjectContextValue.staStylePos;
@@ -116,7 +116,7 @@ export const MediaObjectScrollComponent = () => {
   };
 
   const MouseDoubleClick = (event: any) => {
-    parameterOpenSetState(!parameterOpen);
+    animatorOpenSetState(!animatorOpen);
   };
 
   const MouseDown = (event: any) => {
@@ -236,7 +236,7 @@ export const timelineAreaRight = () => {
   return (
     <div className="media_object-area-right" ref={timelineAreaRightElement}>
       <MediaObjectScrollComponent />
-      <ParameterAreaComponent />
+      <AnimatorAreaComponent />
     </div>
   );
 };

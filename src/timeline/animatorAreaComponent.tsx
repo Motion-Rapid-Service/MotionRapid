@@ -4,6 +4,7 @@ const { useState, useRef, useEffect, useContext, useReducer, createContext } =
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import timeLineMousePosition from "./timeLineMousePosition";
+import { AppContext } from "./../AppContext";
 import { MediaObjectContext } from "./timelineContext";
 
 import UUID from "uuidjs";
@@ -27,7 +28,7 @@ export const KeyFrameComponent = () => {
   const MediaObjectContextValue = useContext(MediaObjectContext);
   const mediaObjectAreaElement =
     MediaObjectContextValue.mediaObjectAreaElement as any;
-  const parameterOpen = MediaObjectContextValue.parameterOpen as boolean;
+  const animatorOpen = MediaObjectContextValue.animatorOpen as boolean;
 
   const keyframeMouseMoveAction = (event: any) => {
     if (!(keyframeUUID in UserHandKeyframeList)) {
@@ -67,14 +68,14 @@ export const KeyFrameComponent = () => {
     window.addEventListener("mouseup", MouseRelease);
     // console.log("keyframeMouseMoveAction");
 
-    return  () => {
+    return () => {
       //removeEventListener
       window.removeEventListener("mousemove", keyframeMouseMoveAction);
       window.removeEventListener("mouseup", MouseRelease);
-    }
+    };
   }, []);
 
-  if (parameterOpen) {
+  if (animatorOpen) {
     return (
       <div className="keyframe-area" onMouseDown={MouseDown}>
         <div
@@ -89,43 +90,51 @@ export const KeyFrameComponent = () => {
   }
 };
 
-const ParameterAreaEntity = () => {
-  const parameterAreaEntityElement = useRef(null);
+const AnimatorAreaEntity = (props:any) => {
+  const animatorAreaEntityElement = useRef(null);
   const MediaObjectContextValue = useContext(MediaObjectContext);
-  const parameterOpen = MediaObjectContextValue.parameterOpen as boolean;
-  const keyfrmaeSize = parameterOpen ? 20 : 0;
+  const animatorOpen = MediaObjectContextValue.animatorOpen as boolean;
+  const keyfrmaeSize = animatorOpen ? 20 : 0;
 
   useEffect(() => {
     // const TimelineAreaDivContextValue = useContext(TimelineAreaDivContext);
     // const timelineAreaElement = TimelineAreaDivContextValue.TimelineAreaDiv as any;
 
-    parameterAreaEntityElement.current.style.setProperty(
-      "--parameter-height",
+    animatorAreaEntityElement.current.style.setProperty(
+      "--animator-height",
       keyfrmaeSize + "px"
     );
-  }, [parameterOpen]);
+  }, [animatorOpen]);
 
   return (
-    <div className="parameter_area-entity" ref={parameterAreaEntityElement}>
+    <div className="Animator_area-entity" ref={animatorAreaEntityElement}>
       <KeyFrameComponent />
       <KeyFrameComponent />
       <KeyFrameComponent />
       <KeyFrameComponent />
       <KeyFrameComponent />
-      <KeyFrameComponent /> 
+      <KeyFrameComponent />
       <KeyFrameComponent />
     </div>
   );
 };
 
-const ParameterAreaComponent = () => {
+const AnimatorAreaComponent = () => {
+  const AppContextValue = useContext(AppContext);
+  const MediaObjectContextValue = useContext(MediaObjectContext);
   return (
-    <div className="parameter_area">
-      <ParameterAreaEntity />
-      <ParameterAreaEntity />
-      <ParameterAreaEntity />
+    <div className="animator_area">
+      {AppContextValue.componentConvertAnimatorArea(
+        MediaObjectContextValue.mediaObjectUUID
+      ).map((output: any, index: number) => (
+        // <>{fruit}</> //SurfaceControlIndividualを追加するmap (list_surface_controlに入っている)
+        <AnimatorAreaEntity
+          DownstreamMiddleDataAnimator={output}
+          key={index}
+        />
+      ))}
     </div>
   );
 };
 
-export default ParameterAreaComponent;
+export default AnimatorAreaComponent;

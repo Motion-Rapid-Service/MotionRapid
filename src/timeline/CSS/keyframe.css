@@ -1,10 +1,10 @@
-.parameter_area-entity > .keyframe-area {
+.animator_area-entity > .keyframe-area {
   width: calc(var(--keyfrmae-size) * 1px);
   height: calc(var(--keyfrmae-size) * 1px);
   position: absolute;
 }
 
-.parameter_area-entity > .keyframe-area > .keyframe-entity {
+.animator_area-entity > .keyframe-area > .keyframe-entity {
   background-color: rgb(100, 100, 250);
 
   width: calc(var(--keyfrmae-size) / 2 * 1px);

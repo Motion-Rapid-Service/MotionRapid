@@ -23,7 +23,7 @@ const middleDataOperation = new MiddleDataOperationClass(); //
 middleDataOperation.createDataCentral();
 
 //ここからテスト用 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-for (let i = 0;i < 100;i++){
+for (let i = 0; i < 100; i++) {
   middleDataOperation.createComposite();
 }
 const CompositeID_0 = Object.keys(
@@ -57,7 +57,7 @@ const componentConvertCompositeChoiceArea = () => {
   return middleDataCompositeTemp;
 };
 
-const componentConvertMediaObjectArea = (send_CompositeID:string) => {
+const componentConvertMediaObjectArea = (send_CompositeID: string) => {
   // const send_CompositeID =  CompositeID_0
   const mediaObjIDArray =
     middleDataOperation.getOwnedID_MediaObject(send_CompositeID);
@@ -73,9 +73,23 @@ const componentConvertMediaObjectArea = (send_CompositeID:string) => {
   return middleDataMediaObjectTemp;
 };
 
+const componentConvertAnimatorArea = (send_AnimatorID:string) => {
+  const AnimatorIDArray =
+  middleDataOperation.getOwnedID_Animator(send_AnimatorID);
+// console.log("componentConvertMediaObjectArea", mediaObjIDArray);
+
+const middleDataAnimatorTemp = [];
+
+for (let i = 0; i < AnimatorIDArray.length; i++) {
+  middleDataAnimatorTemp.push({
+    Animator_ID: AnimatorIDArray[i],
+  });
+}
+return middleDataAnimatorTemp;
+}
+
 //{ [name: string]: ToolBarClassificationData }
 const App = () => {
-
   const [update, setUpdata] = useState<boolean>(false);
 
   const updateDOM = () => {
@@ -93,13 +107,13 @@ const App = () => {
         value={{
           getUUID: getUUID,
           componentConvertCompositeChoiceArea:
-          componentConvertCompositeChoiceArea,
+            componentConvertCompositeChoiceArea,
           componentConvertMediaObjectArea: componentConvertMediaObjectArea,
+          componentConvertAnimatorArea:componentConvertAnimatorArea,
 
           updateDOM: updateDOM,
           operationMediaObjectTime:
             middleDataOperation.operationMediaObjectTime,
-
         }}
       >
         <SetupToolbar />

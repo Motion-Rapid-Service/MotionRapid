@@ -1,7 +1,7 @@
 export class DataCentral {
   OwnedClass_Composite: { [name: string]: Composite };
   OwnedClass_MediaObject: { [name: string]: MediaObject };
-  OwnedClass_Property: { [name: string]: Property };
+  OwnedClass_Animator: { [name: string]: Animator };
   OwnedClass_Keyframe: { [name: string]: Keyframe };
   projectName: string;
 
@@ -11,7 +11,7 @@ export class DataCentral {
     this.projectName = send_projectName;
     this.OwnedClass_Composite = {};
     this.OwnedClass_MediaObject = {};
-    this.OwnedClass_Property = {};
+    this.OwnedClass_Animator = {};
     this.OwnedClass_Keyframe = {};
   }
 }
@@ -32,21 +32,21 @@ export class MediaObject {
   MediaObject_StartTime: number;
   MediaObject_EndTime: number;
   MediaObject_LayerNumber: number;
-  OwnedID_Property: Array<string>;
+  OwnedID_Animator: Array<string>;
   constructor(send_MediaObject_ID: string) {
     this.MediaObject_ID = send_MediaObject_ID;
     this.MediaObject_StartTime = 0;
     this.MediaObject_EndTime = 0;
     this.MediaObject_LayerNumber = 0;
-    this.OwnedID_Property = [];
+    this.OwnedID_Animator = [];
   }
 }
 
-export class Property {
-  Property_ID: string;
+export class Animator {
+  Animator_ID: string;
   OwnedID_Keyframe: Array<string>;
-  constructor(send_Property_ID: string) {
-    this.Property_ID = send_Property_ID;
+  constructor(send_Animator_ID: string) {
+    this.Animator_ID = send_Animator_ID;
     this.OwnedID_Keyframe = [];
   }
 }

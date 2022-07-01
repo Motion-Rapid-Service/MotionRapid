@@ -5,8 +5,8 @@ type MediaObjectContextValue = {
   //   sta: Number;
   //   end: Number;
   mediaObjectAreaElement: any;
-  parameterOpen: boolean;
-  parameterOpenSetState: Function;
+  animatorOpen: boolean;
+  animatorOpenSetState: Function;
   staStylePos: number;
   StaSetState: Function;
   endStylePos: number;

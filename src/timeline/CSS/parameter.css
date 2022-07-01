@@ -1,13 +1,13 @@
-.parameter_area {
+.animator_area {
   width: 100%;
   min-height: 0px;
 }
 
-.parameter_area > .parameter_area-entity {
-  --parameter-height: 0px;
+.animator_area > .animator_area-entity {
+  --animator-height: 0px;
   /* react側から後から定義  可変数*/
 
-  height: var(--parameter-height);
+  height: var(--animator-height);
 
   width: 100%;
   position: relative;

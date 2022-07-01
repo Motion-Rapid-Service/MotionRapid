@@ -5,6 +5,7 @@ type AppContextValue = {
   getUUID:Function,
   componentConvertCompositeChoiceArea:Function,
   componentConvertMediaObjectArea: Function;
+  componentConvertAnimatorArea:Function;
   
   updateDOM:Function;
   operationMediaObjectTime:Function
