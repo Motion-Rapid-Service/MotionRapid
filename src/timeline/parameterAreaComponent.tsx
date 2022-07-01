@@ -66,6 +66,12 @@ export const KeyFrameComponent = () => {
     window.addEventListener("mousemove", keyframeMouseMoveAction);
     window.addEventListener("mouseup", MouseRelease);
     // console.log("keyframeMouseMoveAction");
+
+    return  () => {
+      //removeEventListener
+      window.removeEventListener("mousemove", keyframeMouseMoveAction);
+      window.removeEventListener("mouseup", MouseRelease);
+    }
   }, []);
 
   if (parameterOpen) {

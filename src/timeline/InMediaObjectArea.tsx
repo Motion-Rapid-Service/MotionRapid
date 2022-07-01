@@ -165,7 +165,16 @@ export const MediaObjectScrollComponent = () => {
 
     window.addEventListener("mousemove", timeLineMouseMoveAction);
     window.addEventListener("mouseup", MouseRelease);
-    console.log("timeLineMouseMoveAction");
+    console.log("timeLineMouseMoveAction - add");
+
+    return () => {
+      // イベントの設定解除
+      // document.removeEventListener('click', countUp);
+      window.removeEventListener("mousemove", timeLineMouseMoveAction);
+      window.removeEventListener("mouseup", MouseRelease);
+
+      console.log("timeLineMouseMoveAction - remove");
+    };
   }, []);
 
   useEffect(() => {
