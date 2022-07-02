@@ -21,7 +21,7 @@ const UserHandKeyframeList: {
   [name: string]: UserHandKeyframeOperation;
 } = {};
 
-export const KeyFrameComponent = () => {
+export const KeyFrameComponent = (props:any) => {
   const [keyframeUUID] = useState<string>(UUID.generate() as string);
   const [keyframeStylePos, PosSetState] = useState<number>(500);
 
@@ -92,7 +92,10 @@ export const KeyFrameComponent = () => {
 
 const AnimatorAreaEntity = (props:any) => {
   const animatorAreaEntityElement = useRef(null);
+
+  const AppContextValue = useContext(AppContext);
   const MediaObjectContextValue = useContext(MediaObjectContext);
+
   const animatorOpen = MediaObjectContextValue.animatorOpen as boolean;
   const keyfrmaeSize = animatorOpen ? 20 : 0;
 
@@ -107,14 +110,16 @@ const AnimatorAreaEntity = (props:any) => {
   }, [animatorOpen]);
 
   return (
-    <div className="Animator_area-entity" ref={animatorAreaEntityElement}>
-      <KeyFrameComponent />
-      <KeyFrameComponent />
-      <KeyFrameComponent />
-      <KeyFrameComponent />
-      <KeyFrameComponent />
-      <KeyFrameComponent />
-      <KeyFrameComponent />
+    <div className="animator_area-entity" ref={animatorAreaEntityElement}>
+      {AppContextValue.componentConvertKeyframeArea(
+        props.DownstreamMiddleDataAnimator["Animator_ID"]
+      ).map((output: any, index: number) => (
+        // <>{fruit}</> //SurfaceControlIndividualを追加するmap (list_surface_controlに入っている)
+        <KeyFrameComponent
+          DownstreamMiddleDataKeyframe={output}
+          key={index}
+        />
+      ))}
     </div>
   );
 };

@@ -30,14 +30,50 @@ const CompositeID_0 = Object.keys(
   middleDataOperation.DataCentral.OwnedClass_Composite
 )[0];
 
+let MediaObjectID_0;
+let AnimatorID_0;
+let KeyframeID_0;
+let MediaObjectID_i;
+let AnimatorID_i;
+let KeyframeID_i;
+
 for (let i = 0; i < 20; i++) {
   //mediaobjectのテスト用
   middleDataOperation.createMediaObject();
-  const MediaObjectID_0 = Object.keys(
+  MediaObjectID_i = Object.keys(
     middleDataOperation.DataCentral.OwnedClass_MediaObject
   )[i];
-  middleDataOperation.linkMediaObject(CompositeID_0, MediaObjectID_0);
+  middleDataOperation.linkMediaObject(CompositeID_0, MediaObjectID_i);
 }
+
+  MediaObjectID_0 = Object.keys(
+    middleDataOperation.DataCentral.OwnedClass_MediaObject
+  )[0];
+
+for (let i = 0; i < 20; i++) {
+  //mediaobjectのテスト用
+  middleDataOperation.createAnimator();
+
+  AnimatorID_i = Object.keys(
+    middleDataOperation.DataCentral.OwnedClass_Animator
+  )[i];
+  middleDataOperation.linkAnimator(MediaObjectID_0, AnimatorID_i);
+}
+
+AnimatorID_0 = Object.keys(
+  middleDataOperation.DataCentral.OwnedClass_Animator
+)[0];
+
+for (let i = 0; i < 20; i++) {
+  //mediaobjectのテスト用
+  middleDataOperation.createKeyframe();
+
+  KeyframeID_i = Object.keys(
+    middleDataOperation.DataCentral.OwnedClass_Keyframe
+  )[i];
+  middleDataOperation.linkKeyframe(AnimatorID_0, KeyframeID_i);
+}
+
 // console.log("CompositeID_0", CompositeID_0);
 //ここまでテスト用 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
@@ -73,20 +109,36 @@ const componentConvertMediaObjectArea = (send_CompositeID: string) => {
   return middleDataMediaObjectTemp;
 };
 
-const componentConvertAnimatorArea = (send_AnimatorID:string) => {
+const componentConvertAnimatorArea = (send_MediaObjectID: string) => {
   const AnimatorIDArray =
-  middleDataOperation.getOwnedID_Animator(send_AnimatorID);
-// console.log("componentConvertMediaObjectArea", mediaObjIDArray);
+    middleDataOperation.getOwnedID_Animator(send_MediaObjectID);
+  // console.log("componentConvertMediaObjectArea", mediaObjIDArray);
 
-const middleDataAnimatorTemp = [];
+  const middleDataAnimatorTemp = [];
 
-for (let i = 0; i < AnimatorIDArray.length; i++) {
-  middleDataAnimatorTemp.push({
-    Animator_ID: AnimatorIDArray[i],
-  });
-}
-return middleDataAnimatorTemp;
-}
+  for (let i = 0; i < AnimatorIDArray.length; i++) {
+    middleDataAnimatorTemp.push({
+      Animator_ID: AnimatorIDArray[i],
+    });
+  }
+  console.log("middleDataAnimatorTemp",middleDataAnimatorTemp)
+  return middleDataAnimatorTemp;
+};
+
+const componentConvertKeyframeArea = (send_AnimatorID: string) => {
+  const KeyframeIDArray =
+    middleDataOperation.getOwnedID_Keyframe(send_AnimatorID);
+  // console.log("componentConvertMediaObjectArea", mediaObjIDArray);
+
+  const middleDataKeyframeTemp = [];
+
+  for (let i = 0; i < KeyframeIDArray.length; i++) {
+    middleDataKeyframeTemp.push({
+      Keyframe_ID: KeyframeIDArray[i],
+    });
+  }
+  return middleDataKeyframeTemp;
+};
 
 //{ [name: string]: ToolBarClassificationData }
 const App = () => {
@@ -109,7 +161,8 @@ const App = () => {
           componentConvertCompositeChoiceArea:
             componentConvertCompositeChoiceArea,
           componentConvertMediaObjectArea: componentConvertMediaObjectArea,
-          componentConvertAnimatorArea:componentConvertAnimatorArea,
+          componentConvertAnimatorArea: componentConvertAnimatorArea,
+          componentConvertKeyframeArea: componentConvertKeyframeArea,
 
           updateDOM: updateDOM,
           operationMediaObjectTime:

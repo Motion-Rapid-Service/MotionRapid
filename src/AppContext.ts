@@ -6,11 +6,10 @@ type AppContextValue = {
   componentConvertCompositeChoiceArea:Function,
   componentConvertMediaObjectArea: Function;
   componentConvertAnimatorArea:Function;
+  componentConvertKeyframeArea:Function
   
   updateDOM:Function;
-  operationMediaObjectTime:Function
-
-  
+  operationMediaObjectTime:Function  
 };
 
 export const AppContext = createContext<AppContextValue>({} as AppContextValue);
