@@ -58,6 +58,13 @@ for (let i = 0; i < 20; i++) {
     middleDataOperation.DataCentral.OwnedClass_Animator
   )[i];
   middleDataOperation.linkAnimator(MediaObjectID_0, AnimatorID_i);
+
+  middleDataOperation.createKeyframe();
+
+  KeyframeID_i = Object.keys(
+    middleDataOperation.DataCentral.OwnedClass_Keyframe
+  )[i];
+  middleDataOperation.linkKeyframe(AnimatorID_i, KeyframeID_i);
 }
 
 AnimatorID_0 = Object.keys(
@@ -66,12 +73,12 @@ AnimatorID_0 = Object.keys(
 
 for (let i = 0; i < 20; i++) {
   //mediaobjectのテスト用
-  middleDataOperation.createKeyframe();
+  // middleDataOperation.createKeyframe();
 
-  KeyframeID_i = Object.keys(
-    middleDataOperation.DataCentral.OwnedClass_Keyframe
-  )[i];
-  middleDataOperation.linkKeyframe(AnimatorID_0, KeyframeID_i);
+  // KeyframeID_i = Object.keys(
+  //   middleDataOperation.DataCentral.OwnedClass_Keyframe
+  // )[i];
+  // middleDataOperation.linkKeyframe(AnimatorID_i, KeyframeID_i);
 }
 
 // console.log("CompositeID_0", CompositeID_0);

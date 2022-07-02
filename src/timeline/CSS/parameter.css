@@ -4,7 +4,7 @@
 }
 
 .animator_area > .animator_area-entity {
-  --animator-height: 0px;
+  --animator-height: 20px;
   /* react側から後から定義  可変数*/
 
   height: var(--animator-height);

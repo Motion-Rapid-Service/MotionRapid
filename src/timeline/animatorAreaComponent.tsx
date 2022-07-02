@@ -21,7 +21,7 @@ const UserHandKeyframeList: {
   [name: string]: UserHandKeyframeOperation;
 } = {};
 
-export const KeyFrameComponent = (props:any) => {
+export const KeyFrameComponent = (props: any) => {
   const [keyframeUUID] = useState<string>(UUID.generate() as string);
   const [keyframeStylePos, PosSetState] = useState<number>(500);
 
@@ -75,7 +75,7 @@ export const KeyFrameComponent = (props:any) => {
     };
   }, []);
 
-  if (animatorOpen) {
+  // if (animatorOpen) {
     return (
       <div className="keyframe-area" onMouseDown={MouseDown}>
         <div
@@ -85,29 +85,27 @@ export const KeyFrameComponent = (props:any) => {
         ></div>
       </div>
     );
-  } else {
-    return <></>;
-  }
+  // } else {
+  //   return <></>;
+  // }
 };
 
-const AnimatorAreaEntity = (props:any) => {
+const AnimatorAreaEntity = (props: any) => {
   const animatorAreaEntityElement = useRef(null);
 
   const AppContextValue = useContext(AppContext);
-  const MediaObjectContextValue = useContext(MediaObjectContext);
 
-  const animatorOpen = MediaObjectContextValue.animatorOpen as boolean;
-  const keyfrmaeSize = animatorOpen ? 20 : 0;
+  // const keyfrmaeSize = animatorOpen ? 20 : 0;
 
-  useEffect(() => {
-    // const TimelineAreaDivContextValue = useContext(TimelineAreaDivContext);
-    // const timelineAreaElement = TimelineAreaDivContextValue.TimelineAreaDiv as any;
+  // useEffect(() => {
+  //   // const TimelineAreaDivContextValue = useContext(TimelineAreaDivContext);
+  //   // const timelineAreaElement = TimelineAreaDivContextValue.TimelineAreaDiv as any;
 
-    animatorAreaEntityElement.current.style.setProperty(
-      "--animator-height",
-      keyfrmaeSize + "px"
-    );
-  }, [animatorOpen]);
+  //   animatorAreaEntityElement.current.style.setProperty(
+  //     "--animator-height",
+  //     keyfrmaeSize + "px"
+  //   );
+  // }, [animatorOpen]);
 
   return (
     <div className="animator_area-entity" ref={animatorAreaEntityElement}>
@@ -115,10 +113,7 @@ const AnimatorAreaEntity = (props:any) => {
         props.DownstreamMiddleDataAnimator["Animator_ID"]
       ).map((output: any, index: number) => (
         // <>{fruit}</> //SurfaceControlIndividualを追加するmap (list_surface_controlに入っている)
-        <KeyFrameComponent
-          DownstreamMiddleDataKeyframe={output}
-          key={index}
-        />
+        <KeyFrameComponent DownstreamMiddleDataKeyframe={output} key={index} />
       ))}
     </div>
   );
@@ -133,10 +128,7 @@ const AnimatorAreaComponent = () => {
         MediaObjectContextValue.mediaObjectUUID
       ).map((output: any, index: number) => (
         // <>{fruit}</> //SurfaceControlIndividualを追加するmap (list_surface_controlに入っている)
-        <AnimatorAreaEntity
-          DownstreamMiddleDataAnimator={output}
-          key={index}
-        />
+        <AnimatorAreaEntity DownstreamMiddleDataAnimator={output} key={index} />
       ))}
     </div>
   );

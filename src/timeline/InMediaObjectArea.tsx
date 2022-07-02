@@ -1,7 +1,19 @@
 import * as React from "react";
-const { useState, useRef, useEffect, useContext, useReducer, createContext,useImperativeHandle, forwardRef } =
-  React;
-import { MediaObjectContext, TimelineAreaDivContext, TimelineAreaRightContext } from "./timelineContext";
+const {
+  useState,
+  useRef,
+  useEffect,
+  useContext,
+  useReducer,
+  createContext,
+  useImperativeHandle,
+  forwardRef,
+} = React;
+import {
+  MediaObjectContext,
+  TimelineAreaDivContext,
+  TimelineAreaRightContext,
+} from "./timelineContext";
 
 const UserHandTolerance = 5;
 
@@ -42,11 +54,9 @@ export const MediaObjectScrollComponent = () => {
 
   // const [Mouselogic, MouselogicSetState] = useState<string>("auto");
 
-  const mediaObjectAreaElement =
-    MediaObjectContextValue.mediaObjectAreaElement;
+  const mediaObjectAreaElement = MediaObjectContextValue.mediaObjectAreaElement;
 
-  const animatorOpenSetState =
-    MediaObjectContextValue.animatorOpenSetState;
+  const animatorOpenSetState = MediaObjectContextValue.animatorOpenSetState;
   const animatorOpen = MediaObjectContextValue.animatorOpen;
 
   const [areaFocus, areaFocusSetState] = useState<boolean>(false);
@@ -137,7 +147,7 @@ export const MediaObjectScrollComponent = () => {
       MouseSelectedSetState("grabbing");
     } else {
       MouseSelectedSetState("auto");
-      return
+      return;
     }
 
     UserHandMediaObjectList[mediaObjectUUID] = new UserHandMediaObjectOperation(
@@ -217,7 +227,6 @@ export const MediaObjectScrollComponent = () => {
           left: staStylePos,
           width: endStylePos - staStylePos,
         }}
-        
         onDoubleClick={MouseDoubleClick}
       ></div>
     </div>
@@ -226,17 +235,31 @@ export const MediaObjectScrollComponent = () => {
 // let mouseDownFlag = 0;
 // let mouseStaPos = 0;
 
-export const timelineAreaLeft = () => {
+export const TimelineAreaLeft = () => {
   return <div className="media_object-area-left"></div>;
 };
 
-export const timelineAreaRight = () => {
-  const timelineAreaRightElement = useRef(null);
+const SwitchTimelineAreaRight = () => {
+  const MediaObjectContextValue = useContext(MediaObjectContext);
+  const animatorOpen = MediaObjectContextValue.animatorOpen as boolean;
 
+  if (animatorOpen) {
+    return (
+      <>
+        <MediaObjectScrollComponent />
+        <AnimatorAreaComponent />
+      </>
+    );
+  } else {
+    return (<MediaObjectScrollComponent />);
+  }
+};
+
+export const TimelineAreaRight = () => {
+  const timelineAreaRightElement = useRef(null);
   return (
     <div className="media_object-area-right" ref={timelineAreaRightElement}>
-      <MediaObjectScrollComponent />
-      <AnimatorAreaComponent />
+      <SwitchTimelineAreaRight />
     </div>
   );
 };

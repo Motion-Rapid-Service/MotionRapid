@@ -45,8 +45,8 @@ const MediaObjectAreaComponent = (props:any) => {
 
           {/* <div className="media_object-area-left"></div> */}
           {/* <div className="media_object-area-right"></div>*/}
-          <InMediaObjectArea.timelineAreaLeft />
-          <InMediaObjectArea.timelineAreaRight />
+          <InMediaObjectArea.TimelineAreaLeft />
+          <InMediaObjectArea.TimelineAreaRight />
         </MediaObjectContext.Provider>
       </div>
     </>
