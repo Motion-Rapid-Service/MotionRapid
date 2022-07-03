@@ -1,0 +1,15 @@
+.media_object-area .media_object-area-layer_duration {
+}
+.media_object-area-layer_duration .media_object-area-layer_panel {
+}
+.media_object-area-layer_panel .layer_panel-media_object {
+  height: var(--media_object-height);
+}
+.media_object-area-layer_panel .layer_panel-animator {
+}
+.layer_panel-animator .layer_panel-animator-entity {
+  height: var(--animator-height);
+}
+/* media_object-area media_object-area-layer_panel */
+/*   layer_panel-media_object */
+/*   layer_panel-animator layer_panel-animator-entity*/

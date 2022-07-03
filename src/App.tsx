@@ -3,8 +3,9 @@ const { useState, useContext, useReducer, createContext, useEffect } = React;
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import "./timeline/CSS/timeline.css";
-import "./timeline/CSS/parameter.css";
+import "./timeline/CSS/animator.css";
 import "./timeline/CSS/keyframe.css";
+import "./timeline/CSS/layerPanel.css";
 import "./ToolBar/CSS/ToolBar.css";
 import "./ToolBar/CSS/ToolBarDetail.css";
 import "./CompositeChoice/CSS/CompositeChoice.css";

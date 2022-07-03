@@ -4,7 +4,7 @@ const { useState, useRef, useEffect, useContext, useReducer, createContext } =
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import { TimelineAreaDivContext } from "./timelineContext";
-import MediaObjectAreaComponent from "./MediaObjectAreaComponent";
+import MediaObjectAreaComponent from "./mediaObjectAreaComponent";
 import { AppContext } from "./../AppContext";
 import { SetupEditorContext } from "./../SetupEditor/SetupEditorContext";
 import { SetupToolbarContext } from "./../SetupEditor/SetupToolbarContext";

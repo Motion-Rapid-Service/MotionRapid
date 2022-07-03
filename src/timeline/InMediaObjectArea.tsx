@@ -22,6 +22,8 @@ import UUID from "uuidjs";
 import timeLineMousePosition from "./timeLineMousePosition";
 import AnimatorAreaComponent from "./animatorAreaComponent";
 
+import { AppContext } from "../AppContext";
+
 class UserHandMediaObjectOperation {
   mouseDownFlag: number; //0:押していない , 1:左側 , 2:右側 , 3:動作
   mousePushPos: number; //マウスが押された時のマウス座標
@@ -235,11 +237,7 @@ export const MediaObjectScrollComponent = () => {
 // let mouseDownFlag = 0;
 // let mouseStaPos = 0;
 
-export const TimelineAreaLeft = () => {
-  return <div className="media_object-area-left"></div>;
-};
-
-const SwitchTimelineAreaRight = () => {
+const SwitchTimelineAreaLayerDurationComponent = () => {
   const MediaObjectContextValue = useContext(MediaObjectContext);
   const animatorOpen = MediaObjectContextValue.animatorOpen as boolean;
 
@@ -255,11 +253,11 @@ const SwitchTimelineAreaRight = () => {
   }
 };
 
-export const TimelineAreaRight = () => {
+export const TimelineAreaLayerDurationComponent = () => {
   const timelineAreaRightElement = useRef(null);
   return (
-    <div className="media_object-area-right" ref={timelineAreaRightElement}>
-      <SwitchTimelineAreaRight />
+    <div className="media_object-area-layer_duration" ref={timelineAreaRightElement}>
+      <SwitchTimelineAreaLayerDurationComponent />
     </div>
   );
 };

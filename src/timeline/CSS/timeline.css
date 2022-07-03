@@ -24,17 +24,16 @@
   --media_object-height: 20px;
   /* メディアオブジェクトの高さ */
 
+  --animator-height: 20px;
+  /* アニメーター部分の高さ */
+
   --keyfrmae-size: 20;
   /* キーフレームレイヤーの高さ */
 
   display: flex;
 }
 
-.timeline-area-scroll
-  /* > .media_object-area
-  > .media_object-area-right
-  > .media_object-area-move */
-  .media_object-area-scroll {
+.timeline-area-scroll .media_object-area-scroll {
   background-color: rgb(50, 150, 50);
   position: relative;
   height: var(--media_object-height);
@@ -44,11 +43,8 @@
     left:100px; */
 }
 
-.media_object-area .media_object-area-left {
+.media_object-area .media_object-area-layer_panel {
   width: 300px;
   background-color: rgb(100, 100, 100);
   /* height: var(--media_object-height); */
-}
-
-.media_object-area .media_object-area-right {
 }

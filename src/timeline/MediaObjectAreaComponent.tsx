@@ -1,13 +1,15 @@
 import * as React from "react";
 const { useState, useRef, useEffect, useContext, useReducer, createContext } =
   React;
-import { MediaObjectContext } from "./timelineContext";
 
 import * as InMediaObjectArea from "./InMediaObjectArea";
 
 import UUID from "uuidjs";
-import {MutableRefObject, LegacyRef } from "react";
-import { AppContext } from "./../AppContext";
+
+import { AppContext } from "../AppContext";
+import { MediaObjectContext } from "./timelineContext";
+import * as InMediaObjectLayerPanel from "./InMediaObjectLayerPanel";
+
 
 const MediaObjectAreaComponent = (props:any) => {
   const mediaObjectAreaElement = useRef<HTMLDivElement>(null);
@@ -45,8 +47,8 @@ const MediaObjectAreaComponent = (props:any) => {
 
           {/* <div className="media_object-area-left"></div> */}
           {/* <div className="media_object-area-right"></div>*/}
-          <InMediaObjectArea.TimelineAreaLeft />
-          <InMediaObjectArea.TimelineAreaRight />
+          <InMediaObjectLayerPanel.TimelineAreaLayerPanelComponent />
+          <InMediaObjectArea.TimelineAreaLayerDurationComponent />
         </MediaObjectContext.Provider>
       </div>
     </>
