@@ -80,14 +80,14 @@ const toolBarComponent = (props: any) => {
   }
 
   useEffect(() => {
-    insertToolBarClassificationArraySetStateValue("Okayama","岡山");
-    insertToolBarEditorDictSetStateValue("Okayama", "Tsuyama", "津山", Test);
-    insertToolBarEditorDictSetStateValue("Okayama", "Niimi", "新見", Test);
-    insertToolBarClassificationArraySetStateValue("Kagawa","香川");
-    insertToolBarEditorDictSetStateValue("Kagawa", "Takamatsu", "高松", TestUdon);
-    insertToolBarEditorDictSetStateValue("Kagawa", "Kotohira", "琴平", Test);
-    insertToolBarEditorDictSetStateValue("Kagawa", "Marugame", "丸亀", Test);
-    switchToolBarDetailSetState("Okayama");
+    insertToolBarClassificationArraySetStateValue("tool1","い");
+    insertToolBarEditorDictSetStateValue("tool1", "1A", "は", Test);
+    insertToolBarEditorDictSetStateValue("tool1", "1B", "に", Test);
+    insertToolBarClassificationArraySetStateValue("tool2","ろ");
+    insertToolBarEditorDictSetStateValue("tool2", "2A", "ほ", TestUdon);
+    insertToolBarEditorDictSetStateValue("tool2", "2B", "へ", Test);
+    insertToolBarEditorDictSetStateValue("tool2", "2C", "と", Test);
+    switchToolBarDetailSetState("tool1");
     AppContextValue.updateDOM();
   }, []);
 

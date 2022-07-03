@@ -7,8 +7,14 @@
 }
 .media_object-area-layer_panel .layer_panel-animator {
 }
+
+.media_object-area-layer_panel p {
+  margin: 0px;
+}
+
 .layer_panel-animator .layer_panel-animator-entity {
   height: var(--animator-height);
+  margin-left: 20%;
 }
 /* media_object-area media_object-area-layer_panel */
 /*   layer_panel-media_object */

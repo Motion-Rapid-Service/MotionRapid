@@ -8,6 +8,7 @@
 
 .composite_choice-area .composite_choice-listindex-area p {
   user-select: none;
+  margin: 2px 0px 2px 0px;
 }
 
 .composite_choice-area .composite_choice-listindex-area {
