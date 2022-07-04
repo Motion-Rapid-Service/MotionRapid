@@ -24,17 +24,16 @@
   --media_object-height: 20px;
   /* メディアオブジェクトの高さ */
 
+  --animator-height: 20px;
+  /* アニメーター部分の高さ */
+
   --keyfrmae-size: 20;
   /* キーフレームレイヤーの高さ */
 
   display: flex;
 }
 
-.timeline-area-scroll
-  /* > .media_object-area
-  > .media_object-area-right
-  > .media_object-area-move */
-  .media_object-area-scroll {
+.timeline-area-scroll .media_object-area-scroll {
   background-color: rgb(50, 150, 50);
   position: relative;
   height: var(--media_object-height);
@@ -44,25 +43,19 @@
     left:100px; */
 }
 
-.media_object-area .media_object-area-left {
+.media_object-area .media_object-area-layer_panel {
   width: 300px;
   background-color: rgb(100, 100, 100);
   /* height: var(--media_object-height); */
 }
 
-.media_object-area .media_object-area-right {
-}
-
-.parameter_area {
+.animator_area {
   width: 100%;
   min-height: 0px;
 }
 
-.parameter_area > .parameter_area-entity {
-  --parameter-height: 0px;
-  /* react側から後から定義  可変数*/
-
-  height: var(--parameter-height);
+.animator_area > .animator_area-entity {
+  height: var(--animator-height);
 
   width: 100%;
   position: relative;
@@ -70,13 +63,13 @@
   display: flex; */
 }
 
-.parameter_area-entity > .keyframe-area {
+.animator_area-entity > .keyframe-area {
   width: calc(var(--keyfrmae-size) * 1px);
   height: calc(var(--keyfrmae-size) * 1px);
   position: absolute;
 }
 
-.parameter_area-entity > .keyframe-area > .keyframe-entity {
+.animator_area-entity > .keyframe-area > .keyframe-entity {
   background-color: rgb(100, 100, 250);
 
   width: calc(var(--keyfrmae-size) / 2 * 1px);
@@ -89,6 +82,32 @@
   bottom: 0;
   left: 0;
   margin: auto;
+}
+
+.media_object-area .media_object-area-layer_duration {
+}
+.media_object-area-layer_duration .media_object-area-layer_panel {
+}
+.media_object-area-layer_panel .layer_panel-media_object {
+  height: var(--media_object-height);
+}
+.media_object-area-layer_panel .layer_panel-animator {
+}
+
+.media_object-area-layer_panel p {
+  margin: 0px;
+}
+
+.layer_panel-animator .layer_panel-animator-entity {
+  height: var(--animator-height);
+  margin-left: 20%;
+}
+/* media_object-area media_object-area-layer_panel */
+/*   layer_panel-media_object */
+/*   layer_panel-animator layer_panel-animator-entity*/
+
+.toolBar {
+  margin-bottom: 5px;
 }
 
 .toolBar-area {
@@ -105,7 +124,6 @@
 .toolBar-area .toolBar_single-area {
   background-color: rgb(255, 255, 255);
   /* width: 100px; */
-  height: 40px;
   margin-left: 2px;
   margin-right: 2px;
 }
@@ -115,7 +133,8 @@
 }
 
 .toolBar-area .toolBar_single-area .toolBar_single-area-title {
-  height: 100%;
+  width: 50px;
+  height: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -123,12 +142,12 @@
 
 .toolBar_single-area-title p {
   font-size: 10px;
-  margin: auto;
+  margin: 0px;
 }
 
 .toolBarDetail-area {
   background-color: rgb(255, 255, 255);
-  width: auto;
+  width: 50px;
   height: 50px;
   margin: 2px 2px 0px 2px;
   /* overflow: scroll; */
@@ -140,7 +159,7 @@
 .toolBarDetail-area .toolBarDetail_single-area {
   background-color: rgb(10, 255, 255);
   /* width: 100px; */
-  height: 40px;
+
   margin-left: 2px;
   margin-right: 2px;
 }
@@ -152,7 +171,8 @@
 .toolBarDetail-area
   .toolBarDetail_single-area
   .toolBarDetail_single-area-title {
-  height: 100%;
+  width: 50px;
+  height: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -160,6 +180,23 @@
 
 .toolBarDetail_single-area-title p {
   font-size: 10px;
-  margin: auto;
+  margin: 0px;
+}
+
+.composite_choice-area {
+  width: 70%;
+  height: 1000px;
+  overflow-y: scroll;
+  background-color: rgb(50, 50, 50);
+  margin-bottom: 10px;
+}
+
+.composite_choice-area .composite_choice-listindex-area p {
+  user-select: none;
+  margin: 2px 0px 2px 0px;
+}
+
+.composite_choice-area .composite_choice-listindex-area {
+  background-color: rgb(200, 60, 60);
 }
 

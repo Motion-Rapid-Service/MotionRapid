@@ -32,24 +32,28 @@ export default class MiddleDataOperation {
     const newObj = new middleDataClass.Composite(newID, "test_composite");
     this.DataCentral.OwnedClass_Composite[newID] = newObj;
     // this.linkComposite(newID)
+    return newID;
   };
 
   createMediaObject = () => {
     const newID = "MediaObject_" + getUUID();
     const newObj = new middleDataClass.MediaObject(newID);
     this.DataCentral.OwnedClass_MediaObject[newID] = newObj;
+    return newID;
   };
 
   createAnimator = () => {
     const newID = "Animator_" + getUUID();
     const newObj = new middleDataClass.Animator(newID);
     this.DataCentral.OwnedClass_Animator[newID] = newObj;
+    return newID;
   };
 
   createKeyframe = () => {
     const newID = "Keyframe_" + getUUID();
     const newObj = new middleDataClass.Keyframe(newID);
     this.DataCentral.OwnedClass_Keyframe[newID] = newObj;
+    return newID;
   };
 
   // linkComposite = (compositeID: string) => {

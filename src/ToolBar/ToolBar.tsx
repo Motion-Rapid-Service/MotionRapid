@@ -75,7 +75,7 @@ const toolBarComponent = (props: any) => {
 
   const TestUdon = () => {
     console.log("TestUdon")
-    insertToolBarEditorDictSetStateValue("Kagawa", AppContextValue.getUUID(), "うどん", TestUdon);
+    insertToolBarEditorDictSetStateValue("tool2", AppContextValue.getUUID(), "うどん", TestUdon);
     
   }
 

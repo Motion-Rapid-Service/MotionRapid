@@ -1,16 +1,24 @@
 .composite_choice-area {
   width: 70%;
-  height: 1000px;
+  height: 100px;
   overflow-y: scroll;
-  background-color: rgb(50, 50, 50);
+  background-color: var(--background-A);
   margin-bottom: 10px;
 }
 
 .composite_choice-area .composite_choice-listindex-area p {
   user-select: none;
-  margin: 2px 0px 2px 0px;
+  margin: 1px 0px 1px 2px;
+  color: rgb(220, 220, 220);
 }
 
 .composite_choice-area .composite_choice-listindex-area {
-  background-color: rgb(200, 60, 60);
+  background-color: var(--background-A);
+}
+
+.composite_choice-area .composite_choice-listindex-area:hover p {
+}
+
+.composite_choice-area .composite_choice-listindex-area:hover {
+  background-color: var(--background-B);
 }

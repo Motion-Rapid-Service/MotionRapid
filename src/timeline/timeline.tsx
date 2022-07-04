@@ -9,7 +9,6 @@ import { AppContext } from "./../AppContext";
 import { SetupEditorContext } from "./../SetupEditor/SetupEditorContext";
 import { SetupToolbarContext } from "./../SetupEditor/SetupToolbarContext";
 
-
 const TimelineComponent = () => {
   // ここでhooksを使える
   const timelineAreaElement = useRef(null);
@@ -19,35 +18,48 @@ const TimelineComponent = () => {
   const SetupEditorContextValue = useContext(SetupEditorContext);
   const SetupToolbarContextValue = useContext(SetupToolbarContext);
 
-  useEffect(() => {
-
-  }, []);
+  useEffect(() => {}, []);
 
   return (
-    <div className="timeline-area" draggable="false" ref={timelineAreaElement}>
-      <div
-        className="timeline-area-scroll"
-        ref={timelineScrollElement}
-        draggable="false"
+    <>
+      <p>選択中のコンポジット：{SetupToolbarContextValue.choiceComposite}</p>
 
-        // onScroll={TimeLineAreaMove}
+      <div
+        className="timeline-area"
+        draggable="false"
+        ref={timelineAreaElement}
       >
-        <TimelineAreaDivContext.Provider
-          value={{
-            // middleDataOperation: middleDataOperation,
-            // MouseSelectedSetValue: MouseSelectedSetValue,
-            // MouseUnselectedSetValue: MouseUnselectedSetValue,
-          }}
+        <div
+          className="timeline-area-scroll"
+          ref={timelineScrollElement}
+          draggable="false"
+
+          // onScroll={TimeLineAreaMove}
         >
-          <>
-            {AppContextValue.componentConvertMediaObjectArea(SetupToolbarContextValue.choiceComposite).map((output:any, index:number) => (
-              // <>{fruit}</> //SurfaceControlIndividualを追加するmap (list_surface_controlに入っている)
-              <MediaObjectAreaComponent DownstreamMiddleDataMediaObject={output} key={index}/>
-            ))}
-          </>
-        </TimelineAreaDivContext.Provider>
+          <TimelineAreaDivContext.Provider
+            value={
+              {
+                // middleDataOperation: middleDataOperation,
+                // MouseSelectedSetValue: MouseSelectedSetValue,
+                // MouseUnselectedSetValue: MouseUnselectedSetValue,
+              }
+            }
+          >
+            <>
+              {AppContextValue.componentConvertMediaObjectArea(
+                SetupToolbarContextValue.choiceComposite
+              ).map((output: any, index: number) => (
+                // <>{fruit}</> //SurfaceControlIndividualを追加するmap (list_surface_controlに入っている)
+                <MediaObjectAreaComponent
+                  DownstreamMiddleDataMediaObject={output}
+                  key={index}
+                />
+              ))}
+            </>
+          </TimelineAreaDivContext.Provider>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 export default TimelineComponent;
