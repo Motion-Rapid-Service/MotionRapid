@@ -70,6 +70,10 @@ export const KeyFrameComponent = (props: any) => {
     // const TimelineAreaDivContextValue = useContext(TimelineAreaDivContext);
     // const timelineAreaElement = TimelineAreaDivContextValue.TimelineAreaDiv as any;
 
+    
+    // const Keyframe_time = AppContextValue.getKeyframe_time(keyframeUUID) as number
+    // PosSetState(Keyframe_time);
+
     window.addEventListener("mousemove", keyframeMouseMoveAction);
     window.addEventListener("mouseup", MouseRelease);
     // console.log("keyframeMouseMoveAction");

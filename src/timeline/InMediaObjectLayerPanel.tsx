@@ -49,10 +49,12 @@ export const TimelineAreaLayerPanelComponent = (props: any) => {
 
 export const LayerPanelMediaObjectComponent = (props: any) => {
   const AppContextValue = useContext(AppContext);
+  const MediaObjectContextValue = useContext(MediaObjectContext);
+
   // const MediaObjectContextValue = useContext(MediaObjectContext);
   return (
     <div className="layer_panel-media_object">
-      <p>test-mediaObject</p>
+      <p>{MediaObjectContextValue.mediaObjectUUID}</p>
     </div>
   );
 };

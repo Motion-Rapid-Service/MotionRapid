@@ -21,11 +21,9 @@ const MediaObjectAreaComponent = (props:any) => {
   const [staStylePos, StaSetState] = useState<number>(500);
   const [endStylePos, EndSetState] = useState<number>(1000);
   const [mediaObjectUUID] = useState<string>(DownstreamMiddleDataMediaObject["MediaObject_ID"] as string);
-  const operationMediaObjectTime = AppContextValue.operationMediaObjectTime as Function;
-
 
   useEffect(() => {
-    operationMediaObjectTime({"mediaObjectID":mediaObjectUUID,"sta":staStylePos,"end":endStylePos})
+    AppContextValue.operationMediaObjectTime({"mediaObjectID":mediaObjectUUID,"sta":staStylePos,"end":endStylePos})
   }, [staStylePos, endStylePos]);
 
   return (

@@ -142,6 +142,18 @@ export default class MiddleDataOperation {
     );
   };
 
+  getMediaObject_time = (mediaObjectID: string) =>{
+
+    return [
+      this.DataCentral.OwnedClass_MediaObject[mediaObjectID].MediaObject_StartTime,
+      this.DataCentral.OwnedClass_MediaObject[mediaObjectID].MediaObject_EndTime
+    ]
+  }
+
+  getKeyframe_time = (keyframeID: string) =>{
+    return this.DataCentral.OwnedClass_Keyframe[keyframeID].Keyframe_AbsoluteTime
+  }
+
   copyMediaObject = () => {};
   copyAnimator = () => {};
   copyKeyframe = () => {};

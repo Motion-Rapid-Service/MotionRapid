@@ -35,8 +35,8 @@ export class MediaObject {
   OwnedID_Animator: Array<string>;
   constructor(send_MediaObject_ID: string) {
     this.MediaObject_ID = send_MediaObject_ID;
-    this.MediaObject_StartTime = 0;
-    this.MediaObject_EndTime = 0;
+    this.MediaObject_StartTime = 500;
+    this.MediaObject_EndTime = 750;
     this.MediaObject_LayerNumber = 0;
     this.OwnedID_Animator = [];
   }
@@ -56,6 +56,6 @@ export class Keyframe {
   Keyframe_AbsoluteTime: number;
   constructor(send_Keyframe_ID: string) {
     this.Keyframe_ID = send_Keyframe_ID;
-    this.Keyframe_AbsoluteTime = 0;
+    this.Keyframe_AbsoluteTime = 500;
   }
 }

@@ -47,6 +47,8 @@ const UserHandMediaObjectList: {
 } = {};
 
 export const MediaObjectScrollComponent = () => {
+
+  const AppContextValue = useContext(AppContext);
   const MediaObjectContextValue = useContext(MediaObjectContext);
   const TimelineAreaDivContextValue = useContext(TimelineAreaDivContext);
 
@@ -174,6 +176,10 @@ export const MediaObjectScrollComponent = () => {
   useEffect(() => {
     // const TimelineAreaDivContextValue = useContext(TimelineAreaDivContext);
     // const timelineAreaElement = TimelineAreaDivContextValue.TimelineAreaDiv as any;
+
+    // const MediaObject_time = AppContextValue.getMediaObject_time(mediaObjectUUID) as Array<number>
+    // StaSetState(MediaObject_time[0])
+    // EndSetState(MediaObject_time[1])
 
     window.addEventListener("mousemove", timeLineMouseMoveAction);
     window.addEventListener("mouseup", MouseRelease);

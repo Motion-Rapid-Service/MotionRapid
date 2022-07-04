@@ -41,6 +41,7 @@ for (let i = 1; i <= 5; i++) {
     }
   }
 }
+console.log (middleDataOperation.DataCentral)
 // const CompositeID_0 = Object.keys(
 //   middleDataOperation.DataCentral.OwnedClass_Composite
 // )[0];
@@ -188,6 +189,8 @@ const App = () => {
           operationMediaObjectTime:
             middleDataOperation.operationMediaObjectTime,
           operationKeyframeTime: middleDataOperation.operationKeyframeTime,
+          getMediaObject_time:middleDataOperation.getMediaObject_time,
+          getKeyframe_time:middleDataOperation.getKeyframe_time
         }}
       >
         <SetupToolbar />
