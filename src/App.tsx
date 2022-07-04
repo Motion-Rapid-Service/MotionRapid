@@ -175,6 +175,7 @@ const App = () => {
           updateDOM: updateDOM,
           operationMediaObjectTime:
             middleDataOperation.operationMediaObjectTime,
+            operationKeyframeTime:middleDataOperation.operationKeyframeTime
         }}
       >
         <SetupToolbar />

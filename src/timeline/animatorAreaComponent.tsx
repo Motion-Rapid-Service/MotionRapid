@@ -22,9 +22,10 @@ const UserHandKeyframeList: {
 } = {};
 
 export const KeyFrameComponent = (props: any) => {
-  const [keyframeUUID] = useState<string>(UUID.generate() as string);
+  const [keyframeUUID] = useState<string>(props.DownstreamMiddleDataKeyframe["Keyframe_ID"]);
   const [keyframeStylePos, PosSetState] = useState<number>(500);
 
+  const AppContextValue = useContext(AppContext);
   const MediaObjectContextValue = useContext(MediaObjectContext);
   const mediaObjectAreaElement =
     MediaObjectContextValue.mediaObjectAreaElement as any;
@@ -61,6 +62,11 @@ export const KeyFrameComponent = (props: any) => {
   };
 
   useEffect(() => {
+    AppContextValue.operationKeyframeTime({"KeyframeID":keyframeUUID,"time":keyframeStylePos})
+  }, [keyframeStylePos]);
+
+
+  useEffect(() => {
     // const TimelineAreaDivContextValue = useContext(TimelineAreaDivContext);
     // const timelineAreaElement = TimelineAreaDivContextValue.TimelineAreaDiv as any;
 
@@ -76,15 +82,15 @@ export const KeyFrameComponent = (props: any) => {
   }, []);
 
   // if (animatorOpen) {
-    return (
-      <div className="keyframe-area" onMouseDown={MouseDown}>
-        <div
-          className="keyframe-entity"
-          draggable="false"
-          style={{ left: keyframeStylePos }}
-        ></div>
-      </div>
-    );
+  return (
+    <div className="keyframe-area" onMouseDown={MouseDown}>
+      <div
+        className="keyframe-entity"
+        draggable="false"
+        style={{ left: keyframeStylePos }}
+      ></div>
+    </div>
+  );
   // } else {
   //   return <></>;
   // }

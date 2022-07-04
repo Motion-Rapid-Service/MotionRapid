@@ -10,6 +10,7 @@ type AppContextValue = {
   
   updateDOM:Function;
   operationMediaObjectTime:Function  
+  operationKeyframeTime:Function
 };
 
 export const AppContext = createContext<AppContextValue>({} as AppContextValue);

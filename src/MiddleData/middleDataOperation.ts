@@ -13,11 +13,10 @@ const judgeKeyFound = (key: string, dict: any) => {
 
 export default class MiddleDataOperation {
   DataCentral: middleDataClass.DataCentral;
-  toolBars:Array<Array<Function>>
+  toolBars: Array<Array<Function>>;
   constructor() {
     this.DataCentral = null;
   }
-
 
   existenceInquiryDataCentral = () => {
     //DataCentralが生成されているか参照する
@@ -26,34 +25,32 @@ export default class MiddleDataOperation {
 
   createDataCentral = (projectName: string = getUUID()) => {
     this.DataCentral = new middleDataClass.DataCentral(projectName);
-
   };
 
   createComposite = () => {
-    const newID = getUUID();
+    const newID = "Composite_" + getUUID();
     const newObj = new middleDataClass.Composite(newID, "test_composite");
     this.DataCentral.OwnedClass_Composite[newID] = newObj;
     // this.linkComposite(newID)
   };
 
   createMediaObject = () => {
-    const newID = getUUID();
+    const newID = "MediaObject_" + getUUID();
     const newObj = new middleDataClass.MediaObject(newID);
     this.DataCentral.OwnedClass_MediaObject[newID] = newObj;
   };
 
   createAnimator = () => {
-    const newID = getUUID();
+    const newID = "Animator_" + getUUID();
     const newObj = new middleDataClass.Animator(newID);
     this.DataCentral.OwnedClass_Animator[newID] = newObj;
   };
 
   createKeyframe = () => {
-    const newID = getUUID();
+    const newID = "Keyframe_" + getUUID();
     const newObj = new middleDataClass.Keyframe(newID);
     this.DataCentral.OwnedClass_Keyframe[newID] = newObj;
   };
-
 
   // linkComposite = (compositeID: string) => {
   //   this.DataCentral.OwnedClass_Composite.push(
@@ -78,14 +75,10 @@ export default class MiddleDataOperation {
 
   operationMediaObjectTime = (sendData: any) => {
     const mediaObjectID = sendData["mediaObjectID"];
-    // console.log(sendData);
-    // console.log("operationMediaObjectTime-1",this.DataCentral.OwnedClass_MediaObject[
-    //   mediaObjectID
-    // ])
 
-    if (!judgeKeyFound("mediaObjectID", sendData)){
-      console.log("notFound mediaObjectID")
-      return
+    if (!judgeKeyFound("mediaObjectID", sendData)) {
+      console.log("notFound mediaObjectID");
+      return;
     }
     if (judgeKeyFound("sta", sendData)) {
       this.DataCentral.OwnedClass_MediaObject[
@@ -97,28 +90,40 @@ export default class MiddleDataOperation {
         mediaObjectID
       ].MediaObject_EndTime = sendData["end"];
     }
-    // console.log("operationMediaObjectTime-2",this.DataCentral.OwnedClass_MediaObject[
-    //   mediaObjectID
-    // ])
+  };
+  operationKeyframeTime = (sendData: any) => {
+
+    const KeyframeID = sendData["KeyframeID"];
+
+    console.log("operationKeyframeTime - 1",  this.DataCentral.OwnedClass_Keyframe,this.DataCentral.OwnedClass_Keyframe[KeyframeID],KeyframeID);
+
+    if (!judgeKeyFound("KeyframeID", sendData)) {
+      console.log("notFound KeyframeID");
+      return;
+    }
+    if (judgeKeyFound("time", sendData)) {
+      this.DataCentral.OwnedClass_Keyframe[KeyframeID].Keyframe_AbsoluteTime =
+        sendData["time"];
+    }
+
+    console.log("operationKeyframeTime - 2", this.DataCentral.OwnedClass_Keyframe[KeyframeID]);
   };
 
   getOwnedID_Composite = () => {
     // console.log("md",this.DataCentral.OwnedClass_Composite[compositeID].OwnedID_MediaObject)
-    return Object.assign(
-      Object.keys(this.DataCentral.OwnedClass_Composite)
-    );
+    return Object.assign(Object.keys(this.DataCentral.OwnedClass_Composite));
   };
 
   getOwnedID_MediaObject = (compositeID: string) => {
     // console.log("md",this.DataCentral.OwnedClass_Composite[compositeID].OwnedID_MediaObject)
 
-    let returnData = []
-    if (judgeKeyFound(compositeID,this.DataCentral.OwnedClass_Composite)){
-      returnData =  Object.assign(
+    let returnData = [];
+    if (judgeKeyFound(compositeID, this.DataCentral.OwnedClass_Composite)) {
+      returnData = Object.assign(
         this.DataCentral.OwnedClass_Composite[compositeID].OwnedID_MediaObject
       );
     }
-    return returnData
+    return returnData;
   };
 
   getOwnedID_Animator = (mediaObjectID: string) => {
@@ -137,15 +142,14 @@ export default class MiddleDataOperation {
   copyAnimator = () => {};
   copyKeyframe = () => {};
 
-
   deleteMediaObject = () => {};
   deleteAnimator = () => {};
   deleteKeyframe = () => {};
 
-
   layerMaximum = (compositeID: string) => {
     const targetMediaObjectLengh =
-      this.DataCentral.OwnedClass_Composite[compositeID].OwnedID_MediaObject.length;
+      this.DataCentral.OwnedClass_Composite[compositeID].OwnedID_MediaObject
+        .length;
 
     // const nowMax = 0;
 
