@@ -142,7 +142,7 @@ export default class MiddleDataOperation {
     );
   };
 
-  getMediaObject_time = (mediaObjectID: string) =>{
+  getMediaObjectTime = (mediaObjectID: string) =>{
 
     return [
       this.DataCentral.OwnedClass_MediaObject[mediaObjectID].MediaObject_StartTime,
@@ -150,7 +150,7 @@ export default class MiddleDataOperation {
     ]
   }
 
-  getKeyframe_time = (keyframeID: string) =>{
+  getKeyframeTime = (keyframeID: string) =>{
     return this.DataCentral.OwnedClass_Keyframe[keyframeID].Keyframe_AbsoluteTime
   }
 

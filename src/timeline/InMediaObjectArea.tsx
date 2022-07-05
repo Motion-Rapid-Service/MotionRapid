@@ -146,37 +146,27 @@ export const MediaObjectScrollComponent = () => {
     MouseSelectedSetState("auto");
   };
 
-  const windowEventMove = (event:any) => {
-    timeLineMouseMoveAction(event)
-  }
-  const windowEventUp = (event:any) => {
-    MouseRelease(event)
-  }
-  //   useEffect(() => {
-  //     console.log("cssCursor",cssCursor)
-  //   },[cssCursor]);
 
   useEffect(() => {
-    // const timelineAreaElement = TimelineAreaDivContextValue.TimelineAreaDiv as any;
 
-    // const MediaObject_time = AppContextValue.getMediaObject_time(mediaObjectUUID) as Array<number>
-    // StaSetState(MediaObject_time[0])
-    // EndSetState(MediaObject_time[1])
+    const mediaObjectTime= AppContextValue.getMediaObjectTime(mediaObjectUUID)
 
-    window.addEventListener("mousemove", windowEventMove);
-    window.addEventListener("mouseup", windowEventUp);
+    window.addEventListener("mousemove", timeLineMouseMoveAction);
+    window.addEventListener("mouseup", MouseRelease);
+    StaSetState(mediaObjectTime[0])
+    EndSetState(mediaObjectTime[1])
     console.log("InMediaObjectArea - add ")
-    // console.log("timeLineMouseMoveAction - add");
+
 
     return () => {
       // イベントの設定解除
       // document.removeEventListener('click', countUp);
-      window.removeEventListener("mousemove", windowEventMove);
-      window.removeEventListener("mouseup", windowEventUp);
+      window.removeEventListener("mousemove", timeLineMouseMoveAction);
+      window.removeEventListener("mouseup", MouseRelease);
       console.log("InMediaObjectArea - del ")
       // console.log("timeLineMouseMoveAction - remove");
     };
-  }, []);
+  }, [mediaObjectUUID]);
 
   useEffect(() => {
     // if (!areaFocus){

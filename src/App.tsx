@@ -189,8 +189,8 @@ const App = () => {
           operationMediaObjectTime:
             middleDataOperation.operationMediaObjectTime,
           operationKeyframeTime: middleDataOperation.operationKeyframeTime,
-          getMediaObject_time:middleDataOperation.getMediaObject_time,
-          getKeyframe_time:middleDataOperation.getKeyframe_time
+          getMediaObjectTime:middleDataOperation.getMediaObjectTime,
+          getKeyframeTime:middleDataOperation.getKeyframeTime
         }}
       >
         <SetupToolbar />
