@@ -24,30 +24,7 @@ import AnimatorAreaComponent from "./animatorAreaComponent";
 
 import { AppContext } from "../AppContext";
 
-class UserHandMediaObjectOperation {
-  mouseDownFlag: number; //0:押していない , 1:左側 , 2:右側 , 3:動作
-  mousePushPos: number; //マウスが押された時のマウス座標
-  mouseDownStaStyle: number; //マウスが押された時のメディアオブジェクト開始地点
-  mouseDownEndStyle: number; //マウスが押された時のメディアオブジェクト終了地点
-  constructor(
-    send_mouseDownFlag: number,
-    send_mousePushPos: number,
-    send_mouseDownStaStyle: number,
-    send_mouseDownEndStyle: number
-  ) {
-    this.mouseDownFlag = send_mouseDownFlag;
-    this.mousePushPos = send_mousePushPos;
-    this.mouseDownStaStyle = send_mouseDownStaStyle;
-    this.mouseDownEndStyle = send_mouseDownEndStyle;
-  }
-}
-
-const UserHandMediaObjectList: {
-  [name: string]: UserHandMediaObjectOperation;
-} = {};
-
 export const MediaObjectScrollComponent = () => {
-
   const AppContextValue = useContext(AppContext);
   const MediaObjectContextValue = useContext(MediaObjectContext);
   const TimelineAreaDivContextValue = useContext(TimelineAreaDivContext);
@@ -90,9 +67,6 @@ export const MediaObjectScrollComponent = () => {
 
   const timeLineMouseMoveAction = (event: any) => {
     const mouseX = timeLineMousePosition(event, mediaObjectAreaElement)[0];
-    const selectHand = mediaObjectUUID in UserHandMediaObjectList;
-
-    // console.log("countStaRef.current",countStaRef.current)
 
     if (mediObjectEdgeJudge(mouseX, countStaRef.current)) {
       MouseUnselectedSetState("ew-resize");
@@ -106,12 +80,14 @@ export const MediaObjectScrollComponent = () => {
       MouseUnselectedSetState("auto");
     }
 
-    if (!selectHand) {
+    if (
+      !TimelineAreaDivContextValue.hasUserHandMediaObjectList(mediaObjectUUID)
+    ) {
       return;
     }
-    const userHandMediaObject = UserHandMediaObjectList[mediaObjectUUID];
-    console.log(userHandMediaObject);
-
+    //console.log(userHandMediaObject, "B");
+    const userHandMediaObject =
+      TimelineAreaDivContextValue.getUserHandMediaObjectList(mediaObjectUUID);
     const mouseMoveX = mouseX - userHandMediaObject.mousePushPos;
     // console.log(mouseX, mousePushPos, mouseMoveX, staStylePos, endStylePos);
 
@@ -139,23 +115,24 @@ export const MediaObjectScrollComponent = () => {
       mediaObjectAreaElement
     )[0];
 
-    let tempNumber = 0;
+    let stateUserHand = 0;
     if (mediObjectEdgeJudge(mousePushPos, staStylePos)) {
-      tempNumber = 1;
+      stateUserHand = 1;
       MouseSelectedSetState("col-resize");
     } else if (mediObjectEdgeJudge(mousePushPos, endStylePos)) {
-      tempNumber = 2;
+      stateUserHand = 2;
       MouseSelectedSetState("col-resize");
     } else if (mediObjectAreaJudge(mousePushPos, staStylePos, endStylePos)) {
-      tempNumber = 3;
+      stateUserHand = 3;
       MouseSelectedSetState("grabbing");
     } else {
       MouseSelectedSetState("auto");
       return;
     }
 
-    UserHandMediaObjectList[mediaObjectUUID] = new UserHandMediaObjectOperation(
-      tempNumber,
+    TimelineAreaDivContextValue.insertUserHandMediaObjectList(
+      mediaObjectUUID,
+      stateUserHand,
       mousePushPos,
       staStylePos,
       endStylePos
@@ -165,32 +142,38 @@ export const MediaObjectScrollComponent = () => {
   };
   const MouseRelease = (event: any) => {
     // const mouseEndPos = timeLineMousePosition(event, mediaObjectAreaElement)[0];
-    delete UserHandMediaObjectList[mediaObjectUUID];
+    TimelineAreaDivContextValue.deleteUserHandMediaObjectList(mediaObjectUUID);
     MouseSelectedSetState("auto");
   };
 
+  const windowEventMove = (event:any) => {
+    timeLineMouseMoveAction(event)
+  }
+  const windowEventUp = (event:any) => {
+    MouseRelease(event)
+  }
   //   useEffect(() => {
   //     console.log("cssCursor",cssCursor)
   //   },[cssCursor]);
 
   useEffect(() => {
-    // const TimelineAreaDivContextValue = useContext(TimelineAreaDivContext);
     // const timelineAreaElement = TimelineAreaDivContextValue.TimelineAreaDiv as any;
 
     // const MediaObject_time = AppContextValue.getMediaObject_time(mediaObjectUUID) as Array<number>
     // StaSetState(MediaObject_time[0])
     // EndSetState(MediaObject_time[1])
 
-    window.addEventListener("mousemove", timeLineMouseMoveAction);
-    window.addEventListener("mouseup", MouseRelease);
+    window.addEventListener("mousemove", windowEventMove);
+    window.addEventListener("mouseup", windowEventUp);
+    console.log("InMediaObjectArea - add ")
     // console.log("timeLineMouseMoveAction - add");
 
     return () => {
       // イベントの設定解除
       // document.removeEventListener('click', countUp);
-      window.removeEventListener("mousemove", timeLineMouseMoveAction);
-      window.removeEventListener("mouseup", MouseRelease);
-
+      window.removeEventListener("mousemove", windowEventMove);
+      window.removeEventListener("mouseup", windowEventUp);
+      console.log("InMediaObjectArea - del ")
       // console.log("timeLineMouseMoveAction - remove");
     };
   }, []);
@@ -255,14 +238,17 @@ const SwitchTimelineAreaLayerDurationComponent = () => {
       </>
     );
   } else {
-    return (<MediaObjectScrollComponent />);
+    return <MediaObjectScrollComponent />;
   }
 };
 
 export const TimelineAreaLayerDurationComponent = () => {
   const timelineAreaRightElement = useRef(null);
   return (
-    <div className="media_object-area-layer_duration" ref={timelineAreaRightElement}>
+    <div
+      className="media_object-area-layer_duration"
+      ref={timelineAreaRightElement}
+    >
       <SwitchTimelineAreaLayerDurationComponent />
     </div>
   );

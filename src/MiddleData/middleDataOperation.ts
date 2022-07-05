@@ -6,7 +6,7 @@ const getUUID = () => {
   return String(UUID.generate());
 };
 
-const judgeKeyFound = (key: string, dict: any) => {
+const hasKeyFound = (key: string, dict: any) => {
   //keyが存在していたらtrue それ以外ならfalse
   return dict[key] !== undefined;
 };
@@ -80,16 +80,16 @@ export default class MiddleDataOperation {
   operationMediaObjectTime = (sendData: any) => {
     const mediaObjectID = sendData["mediaObjectID"];
 
-    if (!judgeKeyFound("mediaObjectID", sendData)) {
+    if (!hasKeyFound("mediaObjectID", sendData)) {
       // console.log("notFound mediaObjectID");
       return;
     }
-    if (judgeKeyFound("sta", sendData)) {
+    if (hasKeyFound("sta", sendData)) {
       this.DataCentral.OwnedClass_MediaObject[
         mediaObjectID
       ].MediaObject_StartTime = sendData["sta"];
     }
-    if (judgeKeyFound("end", sendData)) {
+    if (hasKeyFound("end", sendData)) {
       this.DataCentral.OwnedClass_MediaObject[
         mediaObjectID
       ].MediaObject_EndTime = sendData["end"];
@@ -101,11 +101,11 @@ export default class MiddleDataOperation {
 
     // console.log("operationKeyframeTime - 1",  this.DataCentral.OwnedClass_Keyframe,this.DataCentral.OwnedClass_Keyframe[KeyframeID],KeyframeID);
 
-    if (!judgeKeyFound("KeyframeID", sendData)) {
+    if (!hasKeyFound("KeyframeID", sendData)) {
       // console.log("notFound KeyframeID");
       return;
     }
-    if (judgeKeyFound("time", sendData)) {
+    if (hasKeyFound("time", sendData)) {
       this.DataCentral.OwnedClass_Keyframe[KeyframeID].Keyframe_AbsoluteTime =
         sendData["time"];
     }
@@ -122,7 +122,7 @@ export default class MiddleDataOperation {
     // console.log("md",this.DataCentral.OwnedClass_Composite[compositeID].OwnedID_MediaObject)
 
     let returnData = [];
-    if (judgeKeyFound(compositeID, this.DataCentral.OwnedClass_Composite)) {
+    if (hasKeyFound(compositeID, this.DataCentral.OwnedClass_Composite)) {
       returnData = Object.assign(
         this.DataCentral.OwnedClass_Composite[compositeID].OwnedID_MediaObject
       );

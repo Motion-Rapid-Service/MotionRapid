@@ -24,6 +24,7 @@ const MediaObjectAreaComponent = (props: any) => {
   // const mediaObjectUUID: string =
 
   const MediaObject_ID = props.DownstreamMiddleDataMediaObject["MediaObject_ID"]
+  console.log("props.DownstreamMiddleDataMediaObjectMediaObject_ID",props.DownstreamMiddleDataMediaObject["MediaObject_ID"])
     
   useEffect(() => {
     AppContextValue.operationMediaObjectTime({

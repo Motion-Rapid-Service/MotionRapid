@@ -20,9 +20,10 @@ export const MediaObjectContext = createContext<MediaObjectContextValue>(
 );
 
 type TimelineAreaDivContextValue = {
-  // middleDataOperation: any;
-  // MouseSelectedSetValue:Function;
-  // MouseUnselectedSetValue:Function;
+  insertUserHandMediaObjectList:Function
+  deleteUserHandMediaObjectList:Function
+  hasUserHandMediaObjectList:Function
+  getUserHandMediaObjectList:Function
 };
 
 export const TimelineAreaDivContext =
