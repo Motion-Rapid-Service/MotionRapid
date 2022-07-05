@@ -31,10 +31,10 @@ const MediaObjectAreaComponent = (props: any) => {
   // const mediaObjectUUID: string =
   const SetupToolbarContextValue = useContext(SetupToolbarContext);
 
-  const [updateMediaObject, setMediaObjectUpdata] = useState<boolean>(false);
+  const [updateMediaObject, setMediaObjectUpdata] = useState<number>(0);
   const updateMediaObjectDOM = () => {
     //強制再レンダリング関数
-    setMediaObjectUpdata(updateMediaObject ? false : true);
+    setMediaObjectUpdata(updateMediaObject + 1);
   };
   useEffect(() => {
     console.log("updateMediaObject 再レンダリング");
