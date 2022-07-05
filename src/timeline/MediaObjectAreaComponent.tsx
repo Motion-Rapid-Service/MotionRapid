@@ -22,12 +22,12 @@ const MediaObjectAreaComponent = (props: any) => {
   // const [mediaObjectUUID] = useState<string>(DownstreamMiddleDataMediaObject["MediaObject_ID"] as string);
 
   // const mediaObjectUUID: string =
+
+  const MediaObject_ID = props.DownstreamMiddleDataMediaObject["MediaObject_ID"]
     
-
-
   useEffect(() => {
     AppContextValue.operationMediaObjectTime({
-      mediaObjectID: props.DownstreamMiddleDataMediaObject["MediaObject_ID"],
+      mediaObjectID: MediaObject_ID,
       sta: staStylePos,
       end: endStylePos,
     });
@@ -45,7 +45,7 @@ const MediaObjectAreaComponent = (props: any) => {
             StaSetState: StaSetState,
             endStylePos: endStylePos,
             EndSetState: EndSetState,
-            mediaObjectUUID: props.DownstreamMiddleDataMediaObject["MediaObject_ID"] 
+            mediaObjectUUID: MediaObject_ID 
           }}
         >
           {/* <div className="media_object-area-left"></div> */}
