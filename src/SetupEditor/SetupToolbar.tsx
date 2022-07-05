@@ -93,10 +93,10 @@ const SetupToolbar = () => {
       send_EditorFunction
     );
     toolBarClassificationArraySetState(copyToolBarClassification);
-    console.log(
-      "toolBarClassificationArray insertToolBarEditorDictSetStateValue",
-      toolBarClassificationArray
-    );
+    // console.log(
+    //   "toolBarClassificationArray insertToolBarEditorDictSetStateValue",
+    //   toolBarClassificationArray
+    // );
   };
 
   const operationEditorStatus = (
@@ -123,19 +123,19 @@ const SetupToolbar = () => {
       toolBarClassificationArray
     );
 
-    console.log(
-      "componentConvertToolBarClassification - s",
-      ToolBarClassificationValue
-    );
+    // console.log(
+    //   "componentConvertToolBarClassification - s",
+    //   ToolBarClassificationValue
+    // );
 
     for (let i = 0; i < ToolBarClassificationValue.length; i++) {
       componentConvertToolBarTemp.push(ToolBarClassificationValue[i]);
     }
 
-    console.log(
-      "componentConvertToolBarClassification - e",
-      componentConvertToolBarTemp
-    );
+    // console.log(
+    //   "componentConvertToolBarClassification - e",
+    //   componentConvertToolBarTemp
+    // );
 
     return componentConvertToolBarTemp;
   };
@@ -148,7 +148,7 @@ const SetupToolbar = () => {
     if (
       toolBarClassificationArray[send_toolBarClassificationName] === undefined
     ) {
-      console.log("componentConvertToolBarEditor-undefined");
+      // console.log("componentConvertToolBarEditor-undefined");
       return [];
     }
 
@@ -161,24 +161,24 @@ const SetupToolbar = () => {
       componentConvertToolBarTemp.push(toolBarEditorDictValue[i]);
     }
 
-    console.log("componentConvertToolBarEditor", componentConvertToolBarTemp);
+    // console.log("componentConvertToolBarEditor", componentConvertToolBarTemp);
 
     return componentConvertToolBarTemp;
   };
 
-  useEffect(() => {
-    console.log(
-      "choiceComposite useEffect",
-      choiceComposite
-    );
-  }, [choiceComposite]);
+  // useEffect(() => {
+  //   console.log(
+  //     "choiceComposite useEffect",
+  //     choiceComposite
+  //   );
+  // }, [choiceComposite]);
 
-  useEffect(() => {
-    console.log(
-      "toolBarClassificationArray useEffect",
-      toolBarClassificationArray
-    );
-  }, [toolBarClassificationArray]);
+  // useEffect(() => {
+  //   console.log(
+  //     "toolBarClassificationArray useEffect",
+  //     toolBarClassificationArray
+  //   );
+  // }, [toolBarClassificationArray]);
 
   const Test = () => {
     console.log("（╹◡╹）");

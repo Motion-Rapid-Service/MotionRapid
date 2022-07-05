@@ -14,7 +14,7 @@ const ToolBarDetailSingleComponent = (props: any) => {
 
   // const toolBarClassificationArray = AppContextValue.toolBarClassificationArray;
 
-  console.log("DownstreamToolBarEditorData", props.DownstreamToolBarEditorData);
+  // console.log("DownstreamToolBarEditorData", props.DownstreamToolBarEditorData);
   const MouseDown = () => {
     props.DownstreamToolBarEditorData.editorFunction()
     AppContextValue.updateDOM();
@@ -30,14 +30,14 @@ const ToolBarDetailSingleComponent = (props: any) => {
 
 const ToolBarSingleComponent = (props: any) => {
   // ここでhooksを使える
-  console.log(
-    "props.DownstreamToolBarClassificationData",
-    props.DownstreamToolBarClassificationData
-  );
+  // console.log(
+  //   "props.DownstreamToolBarClassificationData",
+  //   props.DownstreamToolBarClassificationData
+  // );
   const MouseDown = () => {
     const toolBarClassificationName =
       props.DownstreamToolBarClassificationData.toolBarClassificationName;
-    console.log("ToolBarSingleComponent-MouseDown", toolBarClassificationName);
+    // console.log("ToolBarSingleComponent-MouseDown", toolBarClassificationName);
     props.switchToolBarDetailSetState(toolBarClassificationName);
   };
 
@@ -91,12 +91,12 @@ const toolBarComponent = (props: any) => {
     AppContextValue.updateDOM();
   }, []);
 
-  useEffect(() => {
-    console.log(
-      "AppContextValue.toolBarClassificationArray useEffect",
-      SetupToolbarContextValue.toolBarClassificationArray
-    );
-  }, [SetupToolbarContextValue.toolBarClassificationArray]);
+  // useEffect(() => {
+  //   console.log(
+  //     "AppContextValue.toolBarClassificationArray useEffect",
+  //     SetupToolbarContextValue.toolBarClassificationArray
+  //   );
+  // }, [SetupToolbarContextValue.toolBarClassificationArray]);
 
   return (
     <div className="toolBar">

@@ -142,7 +142,7 @@ const componentConvertAnimatorArea = (send_MediaObjectID: string) => {
       Animator_ID: AnimatorIDArray[i],
     });
   }
-  console.log("middleDataAnimatorTemp", middleDataAnimatorTemp);
+  // console.log("middleDataAnimatorTemp", middleDataAnimatorTemp);
   return middleDataAnimatorTemp;
 };
 

@@ -18,6 +18,8 @@ const TimelineComponent = () => {
   const SetupEditorContextValue = useContext(SetupEditorContext);
   const SetupToolbarContextValue = useContext(SetupToolbarContext);
 
+  console.log()
+
   useEffect(() => {
     AppContextValue.updateDOM();
   }, []);

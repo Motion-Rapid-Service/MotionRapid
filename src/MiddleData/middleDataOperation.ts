@@ -81,7 +81,7 @@ export default class MiddleDataOperation {
     const mediaObjectID = sendData["mediaObjectID"];
 
     if (!judgeKeyFound("mediaObjectID", sendData)) {
-      console.log("notFound mediaObjectID");
+      // console.log("notFound mediaObjectID");
       return;
     }
     if (judgeKeyFound("sta", sendData)) {
@@ -99,10 +99,10 @@ export default class MiddleDataOperation {
 
     const KeyframeID = sendData["KeyframeID"];
 
-    console.log("operationKeyframeTime - 1",  this.DataCentral.OwnedClass_Keyframe,this.DataCentral.OwnedClass_Keyframe[KeyframeID],KeyframeID);
+    // console.log("operationKeyframeTime - 1",  this.DataCentral.OwnedClass_Keyframe,this.DataCentral.OwnedClass_Keyframe[KeyframeID],KeyframeID);
 
     if (!judgeKeyFound("KeyframeID", sendData)) {
-      console.log("notFound KeyframeID");
+      // console.log("notFound KeyframeID");
       return;
     }
     if (judgeKeyFound("time", sendData)) {
@@ -110,7 +110,7 @@ export default class MiddleDataOperation {
         sendData["time"];
     }
 
-    console.log("operationKeyframeTime - 2", this.DataCentral.OwnedClass_Keyframe[KeyframeID]);
+    // console.log("operationKeyframeTime - 2", this.DataCentral.OwnedClass_Keyframe[KeyframeID]);
   };
 
   getOwnedID_Composite = () => {
