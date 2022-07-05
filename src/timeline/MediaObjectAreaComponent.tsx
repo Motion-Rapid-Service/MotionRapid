@@ -17,8 +17,8 @@ const MediaObjectAreaComponent = (props: any) => {
 
   const AppContextValue = useContext(AppContext);
   const [animatorOpen, animatorOpenSetState] = useState<boolean>(true);
-  const [staStylePos, StaSetState] = useState<number>(500);
-  const [endStylePos, EndSetState] = useState<number>(1000);
+  const [staStylePos, StaSetState] = useState<number>(null);
+  const [endStylePos, EndSetState] = useState<number>(null);
   // const [mediaObjectUUID] = useState<string>(DownstreamMiddleDataMediaObject["MediaObject_ID"] as string);
 
   // const mediaObjectUUID: string =
@@ -27,6 +27,11 @@ const MediaObjectAreaComponent = (props: any) => {
   console.log("props.DownstreamMiddleDataMediaObjectMediaObject_ID",props.DownstreamMiddleDataMediaObject["MediaObject_ID"])
     
   useEffect(() => {
+
+    if (!staStylePos || !endStylePos){
+      return
+    }
+
     AppContextValue.operationMediaObjectTime({
       mediaObjectID: MediaObject_ID,
       sta: staStylePos,

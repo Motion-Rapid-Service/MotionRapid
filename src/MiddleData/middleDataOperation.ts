@@ -96,6 +96,7 @@ export default class MiddleDataOperation {
     }
   };
   operationKeyframeTime = (sendData: any) => {
+    console.log("operationKeyframeTime", sendData);
 
     const KeyframeID = sendData["KeyframeID"];
 
@@ -106,6 +107,8 @@ export default class MiddleDataOperation {
       return;
     }
     if (hasKeyFound("time", sendData)) {
+      console.log("operationKeyframeTime - time",sendData["time"]);
+
       this.DataCentral.OwnedClass_Keyframe[KeyframeID].Keyframe_AbsoluteTime =
         sendData["time"];
     }
@@ -142,17 +145,24 @@ export default class MiddleDataOperation {
     );
   };
 
-  getMediaObjectTime = (mediaObjectID: string) =>{
-
+  getMediaObjectTime = (mediaObjectID: string) => {
     return [
-      this.DataCentral.OwnedClass_MediaObject[mediaObjectID].MediaObject_StartTime,
-      this.DataCentral.OwnedClass_MediaObject[mediaObjectID].MediaObject_EndTime
-    ]
-  }
+      this.DataCentral.OwnedClass_MediaObject[mediaObjectID]
+        .MediaObject_StartTime,
+      this.DataCentral.OwnedClass_MediaObject[mediaObjectID]
+        .MediaObject_EndTime,
+    ];
+  };
 
-  getKeyframeTime = (keyframeID: string) =>{
-    return this.DataCentral.OwnedClass_Keyframe[keyframeID].Keyframe_AbsoluteTime
-  }
+  getKeyframeTime = (keyframeID: string) => {
+
+    const Keyframe_AbsoluteTime = this.DataCentral.OwnedClass_Keyframe[keyframeID]
+    .Keyframe_AbsoluteTime;
+
+    console.log("Keyframe_AbsoluteTime",Keyframe_AbsoluteTime,keyframeID)
+
+    return Keyframe_AbsoluteTime
+  };
 
   copyMediaObject = () => {};
   copyAnimator = () => {};

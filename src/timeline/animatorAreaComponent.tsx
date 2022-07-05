@@ -7,8 +7,6 @@ import timeLineMousePosition from "./timeLineMousePosition";
 import { AppContext } from "./../AppContext";
 import { MediaObjectContext } from "./timelineContext";
 
-import UUID from "uuidjs";
-
 class UserHandKeyframeOperation {
   mousePushPos: number; //マウスが押された時のマウス座標
   mouseDownKeyframeStyle: number; //マウスが押された時のメディアオブジェクト開始地点
@@ -22,8 +20,8 @@ const UserHandKeyframeList: {
 } = {};
 
 export const KeyFrameComponent = (props: any) => {
-  const [keyframeUUID] = useState<string>(props.DownstreamMiddleDataKeyframe["Keyframe_ID"]);
-  const [keyframeStylePos, PosSetState] = useState<number>(500);
+  const keyframeUUID = props.DownstreamMiddleDataKeyframe["Keyframe_ID"];
+  const [keyframeStylePos, KeyframePosSetState] = useState<number>(null);
 
   const AppContextValue = useContext(AppContext);
   const MediaObjectContextValue = useContext(MediaObjectContext);
@@ -41,7 +39,7 @@ export const KeyFrameComponent = (props: any) => {
 
     const mouseX = timeLineMousePosition(event, mediaObjectAreaElement)[0];
     const mouseMoveX = mouseX - UserHandKeyframe.mousePushPos;
-    PosSetState(mouseMoveX + UserHandKeyframe.mouseDownKeyframeStyle);
+    KeyframePosSetState(mouseMoveX + UserHandKeyframe.mouseDownKeyframeStyle);
   };
 
   const MouseRelease = (event: any) => {
@@ -62,17 +60,21 @@ export const KeyFrameComponent = (props: any) => {
   };
 
   useEffect(() => {
-    AppContextValue.operationKeyframeTime({"KeyframeID":keyframeUUID,"time":keyframeStylePos})
+    if (!keyframeStylePos){
+      return
+    }
+
+    AppContextValue.operationKeyframeTime({
+      KeyframeID: keyframeUUID,
+      time: keyframeStylePos,
+    });
+    console.log("keyframeStylePos",keyframeStylePos,keyframeUUID)
   }, [keyframeStylePos]);
 
-
   useEffect(() => {
-    // const TimelineAreaDivContextValue = useContext(TimelineAreaDivContext);
-    // const timelineAreaElement = TimelineAreaDivContextValue.TimelineAreaDiv as any;
-
-    
-    // const Keyframe_time = AppContextValue.getKeyframe_time(keyframeUUID) as number
-    // PosSetState(Keyframe_time);
+    const KeyframeTime = AppContextValue.getKeyframeTime(keyframeUUID);
+    console.log("useEffect - add - keyframeUUID",keyframeUUID,KeyframeTime);
+    KeyframePosSetState(KeyframeTime);
 
     window.addEventListener("mousemove", keyframeMouseMoveAction);
     window.addEventListener("mouseup", MouseRelease);
@@ -80,10 +82,11 @@ export const KeyFrameComponent = (props: any) => {
 
     return () => {
       //removeEventListener
+      console.log("useEffect - del - keyframeUUID");
       window.removeEventListener("mousemove", keyframeMouseMoveAction);
       window.removeEventListener("mouseup", MouseRelease);
     };
-  }, []);
+  }, [keyframeUUID]);
 
   // if (animatorOpen) {
   return (

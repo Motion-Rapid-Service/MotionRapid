@@ -41,7 +41,6 @@ const TimelineComponent = () => {
   }>({});
 
   const insertUserHandMediaObjectList = (mediaObjectUUID:string,stateUserHand:number,mousePushPos:number,staStylePos:number,endStylePos:number) => {
-
     const CopyUserHandMediaObjectList = Object.assign(UserHandMediaObjectList)
     CopyUserHandMediaObjectList[mediaObjectUUID] = new UserHandMediaObjectOperation(
       stateUserHand,
@@ -49,17 +48,9 @@ const TimelineComponent = () => {
       staStylePos,
       endStylePos
     );
-
     UserHandMediaObjectListSetState(CopyUserHandMediaObjectList)
-    console.log("insertUserHandMediaObjectList",mediaObjectUUID)
-
   }
   const deleteUserHandMediaObjectList = (mediaObjectUUID:string) => {
-
-    if (hasUserHandMediaObjectList(mediaObjectUUID)){
-      console.log("deleteUserHandMediaObjectList",mediaObjectUUID)
-    }
-
     const CopyUserHandMediaObjectList = Object.assign(UserHandMediaObjectList)
     delete UserHandMediaObjectList[mediaObjectUUID];
     UserHandMediaObjectListSetState(CopyUserHandMediaObjectList)
@@ -67,7 +58,6 @@ const TimelineComponent = () => {
   }
   const hasUserHandMediaObjectList = (mediaObjectUUID:string) => {
     const hasHand = mediaObjectUUID in UserHandMediaObjectList;
-
     return hasHand
   }
   const getUserHandMediaObjectList = (mediaObjectUUID:string) => {
