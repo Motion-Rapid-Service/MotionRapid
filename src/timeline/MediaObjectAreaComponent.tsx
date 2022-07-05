@@ -25,13 +25,13 @@ const MediaObjectAreaComponent = (props: any) => {
     
 
 
-  // useEffect(() => {
-  //   AppContextValue.operationMediaObjectTime({
-  //     mediaObjectID: mediaObjectUUID,
-  //     sta: staStylePos,
-  //     end: endStylePos,
-  //   });
-  // }, [staStylePos, endStylePos]);
+  useEffect(() => {
+    AppContextValue.operationMediaObjectTime({
+      mediaObjectID: props.DownstreamMiddleDataMediaObject["MediaObject_ID"],
+      sta: staStylePos,
+      end: endStylePos,
+    });
+  }, [staStylePos, endStylePos]);
 
   return (
     <>
