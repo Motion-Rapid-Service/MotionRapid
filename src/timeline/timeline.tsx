@@ -20,9 +20,9 @@ const TimelineComponent = () => {
 
   console.log()
 
-  useEffect(() => {
-    AppContextValue.updateDOM();
-  }, []);
+  // useEffect(() => {
+  //   AppContextValue.updateDOM();
+  // }, []);
 
   return (
     <>

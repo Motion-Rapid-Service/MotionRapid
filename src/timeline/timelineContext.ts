@@ -7,10 +7,8 @@ type MediaObjectContextValue = {
   mediaObjectAreaElement: any;
   animatorOpen: boolean;
   animatorOpenSetState: Function;
-  staStylePos: number;
-  StaSetState: Function;
-  endStylePos: number;
-  EndSetState: Function;
+  operationStaStylePos: Function;
+  operationEndStylePos: Function;
   mediaObjectUUID: string;
   // areaFocus:boolean;
 };

@@ -9,6 +9,8 @@ import UUID from "uuidjs";
 import { AppContext } from "../AppContext";
 import { MediaObjectContext } from "./timelineContext";
 import * as InMediaObjectLayerPanel from "./InMediaObjectLayerPanel";
+import { SetupEditorContext } from "./../SetupEditor/SetupEditorContext";
+import { SetupToolbarContext } from "./../SetupEditor/SetupToolbarContext";
 
 const MediaObjectAreaComponent = (props: any) => {
   const mediaObjectAreaElement = useRef<HTMLDivElement>(null);
@@ -17,21 +19,49 @@ const MediaObjectAreaComponent = (props: any) => {
 
   const AppContextValue = useContext(AppContext);
   const [animatorOpen, animatorOpenSetState] = useState<boolean>(true);
-  const [staStylePos, StaSetState] = useState<number>(500);
-  const [endStylePos, EndSetState] = useState<number>(1000);
+
+  console.log(" MediaObjectAreaComponent - MediaObject_time")
+
+  const MediaObject_ID = props.DownstreamMiddleDataMediaObject["MediaObject_ID"]
+
+  // const [staStylePos, StaSetState] = useState<number>(500);
+  // const [endStylePos, EndSetState] = useState<number>(1000);
   // const [mediaObjectUUID] = useState<string>(DownstreamMiddleDataMediaObject["MediaObject_ID"] as string);
 
   // const mediaObjectUUID: string =
+  const SetupToolbarContextValue = useContext(SetupToolbarContext);
 
-  const MediaObject_ID = props.DownstreamMiddleDataMediaObject["MediaObject_ID"]
-    
+  const [updateMediaObject, setMediaObjectUpdata] = useState<boolean>(false);
+  const updateMediaObjectDOM = () => {
+    //強制再レンダリング関数
+    setMediaObjectUpdata(updateMediaObject ? false : true);
+  };
   useEffect(() => {
+    console.log("updateMediaObject 再レンダリング");
+  }, [updateMediaObject]);
+
+
+  const operationStaStylePos = (staStylePos:number) => {
     AppContextValue.operationMediaObjectTime({
       mediaObjectID: MediaObject_ID,
-      sta: staStylePos,
-      end: endStylePos,
+      sta: staStylePos
     });
-  }, [staStylePos, endStylePos]);
+    updateMediaObjectDOM();
+  }
+  const operationEndStylePos = (endStylePos:number) => {
+    AppContextValue.operationMediaObjectTime({
+      mediaObjectID: MediaObject_ID,
+      end: endStylePos
+    });
+    updateMediaObjectDOM();
+  }
+  // useEffect(() => {
+  //   AppContextValue.operationMediaObjectTime({
+  //     mediaObjectID: MediaObject_ID,
+  //     sta: staStylePos,
+  //     end: endStylePos,
+  //   });
+  // }, [staStylePos, endStylePos]);
 
   return (
     <>
@@ -41,10 +71,8 @@ const MediaObjectAreaComponent = (props: any) => {
             mediaObjectAreaElement: mediaObjectAreaElement,
             animatorOpen: animatorOpen,
             animatorOpenSetState: animatorOpenSetState,
-            staStylePos: staStylePos,
-            StaSetState: StaSetState,
-            endStylePos: endStylePos,
-            EndSetState: EndSetState,
+            operationStaStylePos: operationStaStylePos,
+            operationEndStylePos: operationEndStylePos,
             mediaObjectUUID: MediaObject_ID 
           }}
         >

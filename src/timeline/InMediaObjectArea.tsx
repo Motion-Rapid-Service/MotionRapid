@@ -21,6 +21,8 @@ import UUID from "uuidjs";
 
 import timeLineMousePosition from "./timeLineMousePosition";
 import AnimatorAreaComponent from "./animatorAreaComponent";
+import { SetupEditorContext } from "./../SetupEditor/SetupEditorContext";
+import { SetupToolbarContext } from "./../SetupEditor/SetupToolbarContext";
 
 import { AppContext } from "../AppContext";
 
@@ -51,6 +53,8 @@ export const MediaObjectScrollComponent = () => {
   const AppContextValue = useContext(AppContext);
   const MediaObjectContextValue = useContext(MediaObjectContext);
   const TimelineAreaDivContextValue = useContext(TimelineAreaDivContext);
+  const SetupEditorContextValue = useContext(SetupEditorContext);
+  const SetupToolbarContextValue = useContext(SetupToolbarContext);
 
   const [MouseSelected, MouseSelectedSetState] = useState<string>("auto");
   const [MouseUnselected, MouseUnselectedSetState] = useState<string>("auto");
@@ -64,17 +68,16 @@ export const MediaObjectScrollComponent = () => {
   const animatorOpen = MediaObjectContextValue.animatorOpen;
 
   const [areaFocus, areaFocusSetState] = useState<boolean>(false);
-  const staStylePos = MediaObjectContextValue.staStylePos;
-  const StaSetState = MediaObjectContextValue.StaSetState;
-  const endStylePos = MediaObjectContextValue.endStylePos;
-  const EndSetState = MediaObjectContextValue.EndSetState;
+  const operationStaStylePos = MediaObjectContextValue.operationStaStylePos;
+  const operationEndStylePos = MediaObjectContextValue.operationEndStylePos;
   const mediaObjectUUID = MediaObjectContextValue.mediaObjectUUID;
 
-  const countStaRef = useRef(null); //  ref オブジェクト作成する
-  countStaRef.current = staStylePos; // countを.currentプロパティへ保持する
 
-  const countEndRef = useRef(null); //  ref オブジェクト作成する
-  countEndRef.current = endStylePos; // countを.currentプロパティへ保持する
+  // const countStaRef = useRef(null); //  ref オブジェクト作成する
+  // countStaRef.current = staStylePos; // countを.currentプロパティへ保持する
+
+  // const countEndRef = useRef(null); //  ref オブジェクト作成する
+  // countEndRef.current = endStylePos; // countを.currentプロパティへ保持する
 
   const mediObjectEdgeJudge = (judgeX: number, judgePos: number) => {
     return Math.abs(judgeX - judgePos) <= UserHandTolerance;
@@ -92,14 +95,18 @@ export const MediaObjectScrollComponent = () => {
     const mouseX = timeLineMousePosition(event, mediaObjectAreaElement)[0];
     const selectHand = mediaObjectUUID in UserHandMediaObjectList;
 
+
+    const mediaObjectTime = AppContextValue.getMediaObject_time(mediaObjectUUID) as Array<number>
+
+
     // console.log("countStaRef.current",countStaRef.current)
 
-    if (mediObjectEdgeJudge(mouseX, countStaRef.current)) {
+    if (mediObjectEdgeJudge(mouseX, mediaObjectTime[0])) {
       MouseUnselectedSetState("ew-resize");
-    } else if (mediObjectEdgeJudge(mouseX, countEndRef.current)) {
+    } else if (mediObjectEdgeJudge(mouseX, mediaObjectTime[1])) {
       MouseUnselectedSetState("ew-resize");
     } else if (
-      mediObjectAreaJudge(mouseX, countStaRef.current, countEndRef.current)
+      mediObjectAreaJudge(mouseX, mediaObjectTime[0], mediaObjectTime[1])
     ) {
       MouseUnselectedSetState("grab");
     } else {
@@ -117,14 +124,14 @@ export const MediaObjectScrollComponent = () => {
 
     switch (userHandMediaObject.mouseDownFlag) {
       case 1:
-        StaSetState(mouseMoveX + userHandMediaObject.mouseDownStaStyle);
+        operationStaStylePos(mouseMoveX + userHandMediaObject.mouseDownStaStyle);
         break;
       case 2:
-        EndSetState(mouseMoveX + userHandMediaObject.mouseDownEndStyle);
+        operationEndStylePos(mouseMoveX + userHandMediaObject.mouseDownEndStyle);
         break;
       case 3:
-        StaSetState(mouseMoveX + userHandMediaObject.mouseDownStaStyle);
-        EndSetState(mouseMoveX + userHandMediaObject.mouseDownEndStyle);
+        operationStaStylePos(mouseMoveX + userHandMediaObject.mouseDownStaStyle);
+        operationEndStylePos(mouseMoveX + userHandMediaObject.mouseDownEndStyle);
         break;
     }
   };
@@ -138,15 +145,18 @@ export const MediaObjectScrollComponent = () => {
       event,
       mediaObjectAreaElement
     )[0];
+    
+    const mediaObjectTime = AppContextValue.getMediaObject_time(mediaObjectUUID) as Array<number>
+
 
     let tempNumber = 0;
-    if (mediObjectEdgeJudge(mousePushPos, staStylePos)) {
+    if (mediObjectEdgeJudge(mousePushPos, mediaObjectTime[0])) {
       tempNumber = 1;
       MouseSelectedSetState("col-resize");
-    } else if (mediObjectEdgeJudge(mousePushPos, endStylePos)) {
+    } else if (mediObjectEdgeJudge(mousePushPos, mediaObjectTime[1])) {
       tempNumber = 2;
       MouseSelectedSetState("col-resize");
-    } else if (mediObjectAreaJudge(mousePushPos, staStylePos, endStylePos)) {
+    } else if (mediObjectAreaJudge(mousePushPos, mediaObjectTime[0], mediaObjectTime[1])) {
       tempNumber = 3;
       MouseSelectedSetState("grabbing");
     } else {
@@ -157,8 +167,8 @@ export const MediaObjectScrollComponent = () => {
     UserHandMediaObjectList[mediaObjectUUID] = new UserHandMediaObjectOperation(
       tempNumber,
       mousePushPos,
-      staStylePos,
-      endStylePos
+      mediaObjectTime[0],
+      mediaObjectTime[1]
     );
 
     // console.log("mouseDownFlag", mouseDownFlag,tempNumber);
@@ -173,13 +183,17 @@ export const MediaObjectScrollComponent = () => {
   //     console.log("cssCursor",cssCursor)
   //   },[cssCursor]);
 
+  // useEffect(() => {
+  //   console.log("useEffect MediaObject_time")
+  //   const MediaObject_time = AppContextValue.getMediaObject_time(mediaObjectUUID) as Array<number>
+  //   StaSetState(MediaObject_time[0])
+  //   EndSetState(MediaObject_time[1])
+  // }, [SetupToolbarContextValue.choiceComposite]);
+
   useEffect(() => {
     // const TimelineAreaDivContextValue = useContext(TimelineAreaDivContext);
     // const timelineAreaElement = TimelineAreaDivContextValue.TimelineAreaDiv as any;
 
-    // const MediaObject_time = AppContextValue.getMediaObject_time(mediaObjectUUID) as Array<number>
-    // StaSetState(MediaObject_time[0])
-    // EndSetState(MediaObject_time[1])
 
     window.addEventListener("mousemove", timeLineMouseMoveAction);
     window.addEventListener("mouseup", MouseRelease);
@@ -218,6 +232,7 @@ export const MediaObjectScrollComponent = () => {
   };
 
   return (
+
     <div
       className="media_object-area-move"
       style={{ cursor: Mouselogic }}
@@ -232,11 +247,13 @@ export const MediaObjectScrollComponent = () => {
         className="media_object-area-scroll"
         draggable="false"
         style={{
-          left: staStylePos,
-          width: endStylePos - staStylePos,
+          left: AppContextValue.getMediaObject_time(mediaObjectUUID)[0],
+          width: AppContextValue.getMediaObject_time(mediaObjectUUID)[1] - AppContextValue.getMediaObject_time(mediaObjectUUID)[0],
         }}
         onDoubleClick={MouseDoubleClick}
-      ></div>
+      >
+        <p>{mediaObjectUUID}</p>
+      </div>
     </div>
   );
 };
