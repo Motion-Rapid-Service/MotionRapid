@@ -73,21 +73,18 @@ const toolBarComponent = (props: any) => {
     console.log("（╹◡╹）");
   };
 
-  const TestUdon = () => {
-    console.log("TestUdon")
-    insertToolBarEditorDictSetStateValue("tool2", AppContextValue.getUUID(), "うどん", TestUdon);
-    
+  const downloadFile = () => {
+    AppContextValue.fileExportDataCentral()
   }
 
   useEffect(() => {
-    insertToolBarClassificationArraySetStateValue("tool1","い");
-    insertToolBarEditorDictSetStateValue("tool1", "1A", "は", Test);
-    insertToolBarEditorDictSetStateValue("tool1", "1B", "に", Test);
-    insertToolBarClassificationArraySetStateValue("tool2","ろ");
-    insertToolBarEditorDictSetStateValue("tool2", "2A", "ほ", TestUdon);
-    insertToolBarEditorDictSetStateValue("tool2", "2B", "へ", Test);
-    insertToolBarEditorDictSetStateValue("tool2", "2C", "と", Test);
-    switchToolBarDetailSetState("tool1");
+
+    const toolBar_A = "fileEdit"
+
+    insertToolBarClassificationArraySetStateValue(toolBar_A,"ファイル操作");
+    insertToolBarEditorDictSetStateValue(toolBar_A, "1A", "ダウンロード", downloadFile);
+    insertToolBarEditorDictSetStateValue(toolBar_A, "1B", "アップロード", Test);
+    switchToolBarDetailSetState(toolBar_A);
     AppContextValue.updateDOM();
   }, []);
 

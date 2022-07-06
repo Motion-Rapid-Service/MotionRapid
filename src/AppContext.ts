@@ -13,6 +13,9 @@ type AppContextValue = {
   operationKeyframeTime:Function
   getMediaObjectTime:Function
   getKeyframeTime:Function
+
+  fileExportDataCentral:Function
+  fileExportComposite:Function
 };
 
 export const AppContext = createContext<AppContextValue>({} as AppContextValue);

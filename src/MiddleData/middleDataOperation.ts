@@ -107,7 +107,7 @@ export default class MiddleDataOperation {
       return;
     }
     if (hasKeyFound("time", sendData)) {
-      console.log("operationKeyframeTime - time",sendData["time"]);
+      console.log("operationKeyframeTime - time", sendData["time"]);
 
       this.DataCentral.OwnedClass_Keyframe[KeyframeID].Keyframe_AbsoluteTime =
         sendData["time"];
@@ -155,13 +155,12 @@ export default class MiddleDataOperation {
   };
 
   getKeyframeTime = (keyframeID: string) => {
+    const Keyframe_AbsoluteTime =
+      this.DataCentral.OwnedClass_Keyframe[keyframeID].Keyframe_AbsoluteTime;
 
-    const Keyframe_AbsoluteTime = this.DataCentral.OwnedClass_Keyframe[keyframeID]
-    .Keyframe_AbsoluteTime;
+    console.log("Keyframe_AbsoluteTime", Keyframe_AbsoluteTime, keyframeID);
 
-    console.log("Keyframe_AbsoluteTime",Keyframe_AbsoluteTime,keyframeID)
-
-    return Keyframe_AbsoluteTime
+    return Keyframe_AbsoluteTime;
   };
 
   copyMediaObject = () => {};
@@ -187,6 +186,24 @@ export default class MiddleDataOperation {
   layerNormalization = (compositeID: string) => {
     //たぶん計算量がn^2ぐらいになりそう
   };
+  fileExportCommon = (classData:any,fileName:string) => {
+    const jsonData = JSON.stringify(classData,null , "\t")
+    const blob = new Blob([jsonData], { type: 'text/json' });
+    const aTag = document.createElement('a');
+    aTag.href = URL.createObjectURL(blob);
+    aTag.target = '_blank';
+    aTag.download = fileName + ".json";
+    aTag.click();
+    URL.revokeObjectURL(aTag.href);
+  }
+  fileExportDataCentral = () => {
+    this.fileExportCommon(this.DataCentral,"DataCentralFile")
+  }
+  fileExportComposite = (CompositeID :string) => {
+    const Composite = this.DataCentral.OwnedClass_Composite[CompositeID]
+    this.fileExportCommon(Composite,CompositeID + "File")
+  }
+
 }
 
 //ユーザー操作をEdit
