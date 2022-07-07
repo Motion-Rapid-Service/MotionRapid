@@ -7,7 +7,7 @@ import { TimelineAreaDivContext } from "./timelineContext";
 import MediaObjectAreaComponent from "./mediaObjectAreaComponent";
 import { AppContext } from "./../AppContext";
 import { SetupEditorContext } from "./../SetupEditor/SetupEditorContext";
-import { SetupToolbarContext } from "./../SetupEditor/SetupToolbarContext";
+//import { SetupToolbarContext } from "./../SetupEditor/SetupToolbarContext";
 
 class UserHandMediaObjectOperation {
   mouseDownFlag: number; //0:押していない , 1:左側 , 2:右側 , 3:動作
@@ -34,7 +34,7 @@ const TimelineComponent = () => {
 
   const AppContextValue = useContext(AppContext);
   const SetupEditorContextValue = useContext(SetupEditorContext);
-  const SetupToolbarContextValue = useContext(SetupToolbarContext);
+  //const SetupToolbarContextValue = useContext(SetupToolbarContext);
 
   const [UserHandMediaObjectList, UserHandMediaObjectListSetState] = useState<{
     [name: string]: UserHandMediaObjectOperation;

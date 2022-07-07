@@ -5,13 +5,13 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import { AppContext } from "../AppContext";
 import { SetupEditorContext } from "./../SetupEditor/SetupEditorContext";
-import { SetupToolbarContext } from "./../SetupEditor/SetupToolbarContext";
+//import { SetupToolbarContext } from "./../SetupEditor/SetupToolbarContext";
 
 //SetupToolbarContext
 
 const CompositeChoiceListIndexComponent = (props: any) => {
   const SetupEditorContextValue = useContext(SetupEditorContext);
-  const SetupToolbarContextValue = useContext(SetupToolbarContext);
+  //const SetupToolbarContextValue = useContext(SetupToolbarContext);
   const Composite_ID = props.DownstreamMiddleDataComposite["Composite_ID"];
 
   const MouseDown = () => {
@@ -28,7 +28,7 @@ const CompositeChoiceListIndexComponent = (props: any) => {
 const CompositeChoiceListComponent = () => {
   const AppContextValue = useContext(AppContext);
   const SetupEditorContextValue = useContext(SetupEditorContext);
-  const SetupToolbarContextValue = useContext(SetupToolbarContext);
+  //const SetupToolbarContextValue = useContext(SetupToolbarContext);
 
   return (
     <div className="composite_choice-list-area">
