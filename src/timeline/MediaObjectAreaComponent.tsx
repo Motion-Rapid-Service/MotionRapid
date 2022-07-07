@@ -10,7 +10,13 @@ import { AppContext } from "../AppContext";
 import { MediaObjectContext } from "./timelineContext";
 import * as InMediaObjectLayerPanel from "./InMediaObjectLayerPanel";
 
-const MediaObjectAreaComponent = (props: any) => {
+export const MediaObjectAreaSpaceComponent = (props:any) => {
+  return (
+    <div className="media_object-area-space"></div>
+  )
+}
+
+export const MediaObjectAreaComponent = (props: any) => {
   const mediaObjectAreaElement = useRef<HTMLDivElement>(null);
 
   // console.log("middleDataMediaObject",DownstreamMiddleDataMediaObject)
@@ -26,6 +32,16 @@ const MediaObjectAreaComponent = (props: any) => {
   const MediaObject_ID = props.DownstreamMiddleDataMediaObject["MediaObject_ID"]
   console.log("props.DownstreamMiddleDataMediaObjectMediaObject_ID",props.DownstreamMiddleDataMediaObject["MediaObject_ID"])
     
+  useEffect(() => {
+
+    const ElementBoundingClientRect =
+    mediaObjectAreaElement.current.getBoundingClientRect();
+  
+    const ElementLeft = ElementBoundingClientRect.left;
+    const ElementTop = ElementBoundingClientRect.top;
+    console.log("MediaObjectAreaComponent",ElementLeft,ElementTop)
+  }, []);
+
   useEffect(() => {
 
     if (!staStylePos || !endStylePos){
@@ -64,4 +80,4 @@ const MediaObjectAreaComponent = (props: any) => {
   );
 };
 
-export default MediaObjectAreaComponent;
+// export default MediaObjectAreaComponent;

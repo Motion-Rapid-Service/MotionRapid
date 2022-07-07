@@ -4,7 +4,10 @@ const { useState, useRef, useEffect, useContext, useReducer, createContext } =
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import { TimelineAreaDivContext } from "./timelineContext";
-import MediaObjectAreaComponent from "./mediaObjectAreaComponent";
+import {
+  MediaObjectAreaComponent,
+  MediaObjectAreaSpaceComponent,
+} from "./MediaObjectAreaComponent";
 import { AppContext } from "./../AppContext";
 import { SetupEditorContext } from "./../SetupEditor/SetupEditorContext";
 import { SetupToolbarContext } from "./../SetupEditor/SetupToolbarContext";
@@ -40,32 +43,40 @@ const TimelineComponent = () => {
     [name: string]: UserHandMediaObjectOperation;
   }>({});
 
-  const insertUserHandMediaObjectList = (mediaObjectUUID:string,stateUserHand:number,mousePushPos:number,staStylePos:number,endStylePos:number) => {
-    const CopyUserHandMediaObjectList = Object.assign(UserHandMediaObjectList)
-    CopyUserHandMediaObjectList[mediaObjectUUID] = new UserHandMediaObjectOperation(
-      stateUserHand,
-      mousePushPos,
-      staStylePos,
-      endStylePos
-    );
-    UserHandMediaObjectListSetState(CopyUserHandMediaObjectList)
-  }
-  const deleteUserHandMediaObjectList = (mediaObjectUUID:string) => {
-    const CopyUserHandMediaObjectList = Object.assign(UserHandMediaObjectList)
+  const insertUserHandMediaObjectList = (
+    mediaObjectUUID: string,
+    stateUserHand: number,
+    mousePushPos: number,
+    staStylePos: number,
+    endStylePos: number
+  ) => {
+    const CopyUserHandMediaObjectList = Object.assign(UserHandMediaObjectList);
+    CopyUserHandMediaObjectList[mediaObjectUUID] =
+      new UserHandMediaObjectOperation(
+        stateUserHand,
+        mousePushPos,
+        staStylePos,
+        endStylePos
+      );
+    UserHandMediaObjectListSetState(CopyUserHandMediaObjectList);
+  };
+  const deleteUserHandMediaObjectList = (mediaObjectUUID: string) => {
+    const CopyUserHandMediaObjectList = Object.assign(UserHandMediaObjectList);
     delete UserHandMediaObjectList[mediaObjectUUID];
-    UserHandMediaObjectListSetState(CopyUserHandMediaObjectList)
-    
-  }
-  const hasUserHandMediaObjectList = (mediaObjectUUID:string) => {
+    UserHandMediaObjectListSetState(CopyUserHandMediaObjectList);
+  };
+  const hasUserHandMediaObjectList = (mediaObjectUUID: string) => {
     const hasHand = mediaObjectUUID in UserHandMediaObjectList;
-    return hasHand
-  }
-  const getUserHandMediaObjectList = (mediaObjectUUID:string) => {
+    return hasHand;
+  };
+  const getUserHandMediaObjectList = (mediaObjectUUID: string) => {
     const getHand = UserHandMediaObjectList[mediaObjectUUID];
     //console.log("getUserHandMediaObjectList",mediaObjectUUID)
-    return getHand
-  }
-  console.log();
+    return getHand;
+  };
+  const componentGenerateMediaObjectAreaSpace = (index:number) => {
+    return <MediaObjectAreaSpaceComponent index={index}/>;
+  };
 
   useEffect(() => {
     AppContextValue.updateDOM();
@@ -88,27 +99,29 @@ const TimelineComponent = () => {
           // onScroll={TimeLineAreaMove}
         >
           <TimelineAreaDivContext.Provider
-            value={
-              {
-                insertUserHandMediaObjectList:insertUserHandMediaObjectList,
-                deleteUserHandMediaObjectList:deleteUserHandMediaObjectList,
-                hasUserHandMediaObjectList:hasUserHandMediaObjectList,
-                getUserHandMediaObjectList:getUserHandMediaObjectList
-                // middleDataOperation: middleDataOperation,
-                // MouseSelectedSetValue: MouseSelectedSetValue,
-                // MouseUnselectedSetValue: MouseUnselectedSetValue,
-              }
-            }
+            value={{
+              insertUserHandMediaObjectList: insertUserHandMediaObjectList,
+              deleteUserHandMediaObjectList: deleteUserHandMediaObjectList,
+              hasUserHandMediaObjectList: hasUserHandMediaObjectList,
+              getUserHandMediaObjectList: getUserHandMediaObjectList,
+              // middleDataOperation: middleDataOperation,
+              // MouseSelectedSetValue: MouseSelectedSetValue,
+              // MouseUnselectedSetValue: MouseUnselectedSetValue,
+            }}
           >
             <>
+              {componentGenerateMediaObjectAreaSpace(0)}
               {AppContextValue.componentConvertMediaObjectArea(
                 SetupEditorContextValue.choiceComposite
               ).map((output: any, index: number) => (
                 // <>{fruit}</> //SurfaceControlIndividualを追加するmap (list_surface_controlに入っている)
-                <MediaObjectAreaComponent
-                  DownstreamMiddleDataMediaObject={output}
-                  key={index}
-                />
+                <>
+                  <MediaObjectAreaComponent
+                    DownstreamMiddleDataMediaObject={output}
+                    key={index}
+                  />
+                  {componentGenerateMediaObjectAreaSpace(index + 1)}
+                </>
               ))}
             </>
           </TimelineAreaDivContext.Provider>

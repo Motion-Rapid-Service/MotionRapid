@@ -20,7 +20,7 @@
 .timeline-area-scroll > .media_object-area {
   /* background-color: rgb(200, 200, 200); */
   width: 100%;
-  margin: 3px 0px 3px 0px;
+  margin: 0px;
   --media_object-height: 20px;
   /* メディアオブジェクトの高さ */
 
@@ -31,6 +31,12 @@
   /* キーフレームレイヤーの高さ */
 
   display: flex;
+}
+
+.timeline-area-scroll .media_object-area-space {
+  margin: 0px;
+  width: 100%;
+  height: 3px;
 }
 
 .timeline-area-scroll .media_object-area-scroll {

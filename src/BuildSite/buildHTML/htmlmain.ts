@@ -34,15 +34,19 @@ const htmlBuildMain = (jsonDataCentral: any, compositeID: string) => {
 
   console.table(rootComposite);
 
-  const firstMediaObjectID = rootComposite["OwnedID_MediaObject"][0];
-
   let rootText: string = "";
-  rootText = parseMediaObject(
-    rootText,
-    jsonDataCentral,
-    compositeID,
-    firstMediaObjectID
-  );
+
+  const OwnedID_MediaObject = rootComposite["OwnedID_MediaObject"]
+
+  for (let i = 0;i < OwnedID_MediaObject.length;i++){
+    const firstMediaObjectID = OwnedID_MediaObject[i];
+    rootText = parseMediaObject(
+      rootText,
+      jsonDataCentral,
+      compositeID,
+      firstMediaObjectID
+    );
+  }
   const htmlTextReplace = htmlText.replace('rootEdit', rootText);
   return htmlTextReplace;
 };
@@ -59,9 +63,9 @@ const parseMediaObject = (
   const OwnedClass_MediaObject = jsonDataCentral["OwnedClass_MediaObject"];
   const tag = "div";
 
-  const rtextS = testJoin(["<", tag, " ", "class=", mediaObjectID, ">"]);
+  const rtextS = testJoin(["<", tag, " ", "class=", mediaObjectID, ">","\n"]);
 
-  const rtextE = testJoin(["</", tag, ">"]);
+  const rtextE = testJoin(["</", tag, ">","\n"]);
 
   const addText = rtextS + rtextE;
   console.log("addText", addText);
