@@ -12,9 +12,7 @@ const ToolBarDetailSingleComponent = (props: any) => {
   const SetupToolbarContextValue = useContext(SetupToolbarContext);
   // const componentConvertToolBarEditor =
   //   AppContextValue.componentConvertToolBarEditor;
-
   // const toolBarClassificationArray = AppContextValue.toolBarClassificationArray;
-
   // console.log("DownstreamToolBarEditorData", props.DownstreamToolBarEditorData);
   const MouseDown = () => {
     props.DownstreamToolBarEditorData.editorFunction({"choiceComposite":props.choiceComposite});
@@ -91,10 +89,9 @@ const toolBarComponent = (props: any) => {
     );
   }, [SetupEditorContextValue.choiceComposite]);
 
-  const buildHtml = (data:any) => {
-    console.log("buildHtml", SetupEditorContextValue.choiceComposite);
+  const buildHtml = (funcdata:any) => {
     AppContextValue.buildMiddleDataHtml(
-      data["choiceComposite"]
+      funcdata["choiceComposite"]
     );
   };
 

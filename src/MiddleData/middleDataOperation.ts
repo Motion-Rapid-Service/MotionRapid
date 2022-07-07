@@ -210,7 +210,7 @@ export default class MiddleDataOperation {
   }
   buildMiddleDataHtml = (CompositeID:string) => {
     console.log("CompositeID-buildMiddleDataHtml",CompositeID)
-    const jsonData = JSON.stringify(this.DataCentral)
+    const jsonData = JSON.parse(JSON.stringify(this.DataCentral,null , "\t"))
     const jsonSyntaxHtml = htmlBuildMain(jsonData,CompositeID)
     this.fileExportCommon(jsonSyntaxHtml,CompositeID + "html","text/html","html")
   }
