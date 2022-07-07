@@ -2,10 +2,7 @@ import * as React from "react";
 const { useContext, useReducer, createContext, useEffect, useState } = React;
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import TimelineComponent from "../timeline/timeline";
-import ToolBarComponent from "../ToolBar/ToolBar";
-import CompositeEditorComponent from "../CompositeChoice/CompositeChoice";
-
+import SetupToolbar from "./SetupToolbar";
 import { AppContext } from "../AppContext";
 import { SetupEditorContext } from "./SetupEditorContext";
 
@@ -13,11 +10,22 @@ import { SetupEditorContext } from "./SetupEditorContext";
 //ここから ツールバー処理用のクラス
 
 const Editor = () => {
+  const [choiceComposite, choiceCompositeSetState] = useState<string>("not");
+
+  useEffect(() => {
+    console.log("choiceComposite - useEffect",choiceComposite)
+  }, [choiceComposite]);
+
+  const getChoiceComposite = () => {
+    return choiceComposite
+  }
+
   return (
-    <SetupEditorContext.Provider value={{}}>
-      <ToolBarComponent />
-      <CompositeEditorComponent />
-      <TimelineComponent />
+    <SetupEditorContext.Provider value={{
+      choiceComposite:choiceComposite,
+      choiceCompositeSetState: choiceCompositeSetState
+    }}>
+      <SetupToolbar />
     </SetupEditorContext.Provider>
   );
 };

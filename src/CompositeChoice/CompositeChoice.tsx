@@ -15,7 +15,7 @@ const CompositeChoiceListIndexComponent = (props: any) => {
   const Composite_ID = props.DownstreamMiddleDataComposite["Composite_ID"];
 
   const MouseDown = () => {
-    SetupToolbarContextValue.choiceCompositeSetState(Composite_ID);
+    SetupEditorContextValue.choiceCompositeSetState(Composite_ID);
   };
 
   return (

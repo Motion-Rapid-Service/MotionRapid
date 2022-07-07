@@ -73,7 +73,7 @@ const TimelineComponent = () => {
 
   return (
     <>
-      <p>選択中のコンポジット：{SetupToolbarContextValue.choiceComposite}</p>
+      <p>選択中のコンポジット：{SetupEditorContextValue.choiceComposite}</p>
 
       <div
         className="timeline-area"
@@ -102,7 +102,7 @@ const TimelineComponent = () => {
           >
             <>
               {AppContextValue.componentConvertMediaObjectArea(
-                SetupToolbarContextValue.choiceComposite
+                SetupEditorContextValue.choiceComposite
               ).map((output: any, index: number) => (
                 // <>{fruit}</> //SurfaceControlIndividualを追加するmap (list_surface_controlに入っている)
                 <MediaObjectAreaComponent

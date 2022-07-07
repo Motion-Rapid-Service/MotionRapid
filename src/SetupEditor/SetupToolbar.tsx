@@ -5,6 +5,15 @@ import SetupEditor from "./SetupEditor";
 import { AppContext } from "../AppContext";
 import { SetupToolbarContext } from "./SetupToolbarContext";
 
+import TimelineComponent from "../timeline/timeline";
+import ToolBarComponent from "../ToolBar/ToolBar";
+import CompositeEditorComponent from "../CompositeChoice/CompositeChoice";
+
+const hasKeyFound = (key: string, dict: any) => {
+  //keyが存在していたらtrue それ以外ならfalse
+  return dict[key] !== undefined;
+};
+
 class ToolBarClassificationData {
   toolBarClassificationName: string;
   toolBarClassificationLogo: string; //ディレクトリで良い
@@ -58,7 +67,6 @@ const SetupToolbar = () => {
   // ここでhooksを使える
   const [toolBarClassificationArray, toolBarClassificationArraySetState] =
     useState<{ [name: string]: ToolBarClassificationData }>({}); //これで仕分け
-  const [choiceComposite, choiceCompositeSetState] = useState<string>("");
 
   const insertToolBarClassificationArraySetStateValue = (
     send_toolBarClassificationName: string,
@@ -82,8 +90,15 @@ const SetupToolbar = () => {
     send_toolBarClassificationName: string,
     send_toolBarEditorName: string,
     send_EditorLogo: any,
-    send_EditorFunction: Function
+    send_EditorFunction: Function,
+    overwrite:boolean
   ) => {
+
+    if (hasKeyFound(send_toolBarClassificationName,toolBarClassificationArray) && !overwrite){
+      console.log("insertToolBarEditorDictSetStateValue - not overwrite")
+      return
+    }
+
     const copyToolBarClassification = Object.assign(toolBarClassificationArray);
     copyToolBarClassification[
       send_toolBarClassificationName
@@ -188,6 +203,7 @@ const SetupToolbar = () => {
     <div>
       <SetupToolbarContext.Provider
         value={{
+
           insertToolBarClassificationArraySetStateValue:
             insertToolBarClassificationArraySetStateValue,
           insertToolBarEditorDictSetStateValue:
@@ -197,11 +213,13 @@ const SetupToolbar = () => {
           componentConvertToolBarClassification:
             componentConvertToolBarClassification,
           componentConvertToolBarEditor: componentConvertToolBarEditor,
-          choiceComposite:choiceComposite,
-          choiceCompositeSetState: choiceCompositeSetState
+
         }}
       >
-        <SetupEditor />
+
+        <ToolBarComponent />
+      <CompositeEditorComponent />
+      <TimelineComponent />
       </SetupToolbarContext.Provider>
     </div>
   );

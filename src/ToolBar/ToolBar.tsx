@@ -3,8 +3,9 @@ const { useState, useContext, useReducer, createContext, useEffect } = React;
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import { AppContext } from "./../AppContext";
-import { SetupToolbarContext } from "../SetupEditor/SetupToolbarContext";
 
+import { SetupEditorContext } from "./../SetupEditor/SetupEditorContext";
+import { SetupToolbarContext } from "../SetupEditor/SetupToolbarContext";
 
 const ToolBarDetailSingleComponent = (props: any) => {
   const AppContextValue = useContext(AppContext);
@@ -16,7 +17,7 @@ const ToolBarDetailSingleComponent = (props: any) => {
 
   // console.log("DownstreamToolBarEditorData", props.DownstreamToolBarEditorData);
   const MouseDown = () => {
-    props.DownstreamToolBarEditorData.editorFunction()
+    props.DownstreamToolBarEditorData.editorFunction();
     AppContextValue.updateDOM();
   };
   return (
@@ -44,7 +45,9 @@ const ToolBarSingleComponent = (props: any) => {
   return (
     <div className="toolBar_single-area" onMouseDown={MouseDown}>
       <div className="toolBar_single-area-title">
-        <p>{props.DownstreamToolBarClassificationData.toolBarClassificationLogo}</p>
+        <p>
+          {props.DownstreamToolBarClassificationData.toolBarClassificationLogo}
+        </p>
       </div>
 
       {/* <TimelineComponent /> */}
@@ -55,11 +58,14 @@ const ToolBarSingleComponent = (props: any) => {
 const toolBarComponent = (props: any) => {
   // ここでhooksを使える
   const AppContextValue = useContext(AppContext);
+
+  const SetupEditorContextValue = useContext(SetupEditorContext);
   const SetupToolbarContextValue = useContext(SetupToolbarContext);
+
   const insertToolBarClassificationArraySetStateValue =
-  SetupToolbarContextValue.insertToolBarClassificationArraySetStateValue;
+    SetupToolbarContextValue.insertToolBarClassificationArraySetStateValue;
   const insertToolBarEditorDictSetStateValue =
-  SetupToolbarContextValue.insertToolBarEditorDictSetStateValue;
+    SetupToolbarContextValue.insertToolBarEditorDictSetStateValue;
   const operationEditorStatus = SetupToolbarContextValue.operationEditorStatus;
   // const componentConvertToolBarClassification =
   //   AppContextValue.componentConvertToolBarClassification;
@@ -74,19 +80,50 @@ const toolBarComponent = (props: any) => {
   };
 
   const downloadFile = () => {
-    AppContextValue.fileExportDataCentral()
-  }
+    AppContextValue.fileExportDataCentral();
+  };
+
+
+  useEffect(() => {
+    console.log("choiceComposite - SetupEditorContextValue - useEffect",SetupEditorContextValue.choiceComposite)
+  }, [SetupEditorContextValue.choiceComposite]);
+
+
+  const buildHtml = () => {
+    console.log("buildHtml", SetupEditorContextValue.choiceComposite);
+    AppContextValue.buildMiddleDataHtml(
+      SetupEditorContextValue.choiceComposite
+    );
+  };
 
   useEffect(() => {
 
-    const toolBar_A = "fileEdit"
+    console.log("toolBar - useEffect")
 
-    insertToolBarClassificationArraySetStateValue(toolBar_A,"ファイル操作");
-    insertToolBarEditorDictSetStateValue(toolBar_A, "1A", "ダウンロード", downloadFile);
+    let toolBar_A = "fileEdit";
+    insertToolBarClassificationArraySetStateValue(toolBar_A, "ファイル操作");
+    insertToolBarEditorDictSetStateValue(
+      toolBar_A,
+      "1A",
+      "ダウンロード",
+      downloadFile,
+      true
+    );
     insertToolBarEditorDictSetStateValue(toolBar_A, "1B", "アップロード", Test);
+
+    let toolBar_B = "buildEdit";
+    insertToolBarClassificationArraySetStateValue(toolBar_B, "ファイル生成");
+    insertToolBarEditorDictSetStateValue(
+      toolBar_B,
+      "2A",
+      "html出力",
+      buildHtml,
+      true
+    );
+
     switchToolBarDetailSetState(toolBar_A);
     AppContextValue.updateDOM();
-  }, []);
+  }, [SetupEditorContextValue.choiceComposite]);
 
   // useEffect(() => {
   //   console.log(
@@ -114,14 +151,14 @@ const toolBarComponent = (props: any) => {
       </div>
       <div className="toolBarDetail-area">
         <>
-        {SetupToolbarContextValue.componentConvertToolBarEditor(switchToolBarDetail).map(
-            (output: any, index: number) => (
-              <ToolBarDetailSingleComponent
+          {SetupToolbarContextValue.componentConvertToolBarEditor(
+            switchToolBarDetail
+          ).map((output: any, index: number) => (
+            <ToolBarDetailSingleComponent
               DownstreamToolBarEditorData={output}
               key={index}
             />
-            )
-          )}
+          ))}
 
           {/* {AppContextValue.componentConvertToolBarEditor(
             switchToolBarDetail

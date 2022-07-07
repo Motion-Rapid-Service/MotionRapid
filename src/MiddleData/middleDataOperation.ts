@@ -2,6 +2,8 @@
 import * as middleDataClass from "./middleDataClass";
 import UUID from "uuidjs";
 
+import htmlBuildMain from "../BuildSite/buildHTML/htmlmain";
+
 const getUUID = () => {
   return String(UUID.generate());
 };
@@ -186,22 +188,31 @@ export default class MiddleDataOperation {
   layerNormalization = (compositeID: string) => {
     //たぶん計算量がn^2ぐらいになりそう
   };
-  fileExportCommon = (classData:any,fileName:string) => {
-    const jsonData = JSON.stringify(classData,null , "\t")
-    const blob = new Blob([jsonData], { type: 'text/json' });
+
+  fileExportCommon = (jsonData:any,fileName:string,typeText:string,extension:string) => {
+    //typeについてhttps://asahi-net.jp/support/guide/homepage/0017.html
+    const blob = new Blob([jsonData], { type: typeText });
     const aTag = document.createElement('a');
     aTag.href = URL.createObjectURL(blob);
     aTag.target = '_blank';
-    aTag.download = fileName + ".json";
+    aTag.download = fileName + "." + extension;
     aTag.click();
     URL.revokeObjectURL(aTag.href);
   }
   fileExportDataCentral = () => {
-    this.fileExportCommon(this.DataCentral,"DataCentralFile")
+    const jsonDataCentral = JSON.stringify(this.DataCentral,null , "\t")
+    this.fileExportCommon(jsonDataCentral,"DataCentralFile",'application/json',"json")
   }
   fileExportComposite = (CompositeID :string) => {
     const Composite = this.DataCentral.OwnedClass_Composite[CompositeID]
-    this.fileExportCommon(Composite,CompositeID + "File")
+    const jsonComposite = JSON.stringify(Composite,null , "\t")
+    this.fileExportCommon(jsonComposite,CompositeID + "File",'application/json',"json")
+  }
+  buildMiddleDataHtml = (CompositeID:string) => {
+    console.log("CompositeID-buildMiddleDataHtml",CompositeID)
+    const jsonData = JSON.stringify(this.DataCentral)
+    const jsonSyntaxHtml = htmlBuildMain(jsonData,CompositeID)
+    this.fileExportCommon(jsonSyntaxHtml,CompositeID + "html","text/html","html")
   }
 
 }

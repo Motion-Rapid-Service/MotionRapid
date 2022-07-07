@@ -10,7 +10,7 @@ import "./timeline/CSS/layerPanel.css";
 import "./ToolBar/CSS/ToolBar.css";
 import "./ToolBar/CSS/ToolBarDetail.css";
 import "./CompositeChoice/CSS/CompositeChoice.css";
-import SetupToolbar from "./SetupEditor/SetupToolbar";
+import SetupEditor from "./SetupEditor/SetupEditor";
 
 import { AppContext } from "./AppContext";
 
@@ -192,10 +192,12 @@ const App = () => {
           getMediaObjectTime:middleDataOperation.getMediaObjectTime,
           getKeyframeTime:middleDataOperation.getKeyframeTime,
           fileExportDataCentral:middleDataOperation.fileExportDataCentral,
-          fileExportComposite:middleDataOperation.fileExportComposite
+          fileExportComposite:middleDataOperation.fileExportComposite,
+          // htmlBuildMain:htmlBuildMain
+          buildMiddleDataHtml:middleDataOperation.buildMiddleDataHtml
         }}
       >
-        <SetupToolbar />
+        <SetupEditor />
       </AppContext.Provider>
     </div>
   );

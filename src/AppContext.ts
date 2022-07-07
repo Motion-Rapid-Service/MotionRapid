@@ -16,6 +16,9 @@ type AppContextValue = {
 
   fileExportDataCentral:Function
   fileExportComposite:Function
+  buildMiddleDataHtml:Function
+
+  // htmlBuildMain:Function
 };
 
 export const AppContext = createContext<AppContextValue>({} as AppContextValue);
