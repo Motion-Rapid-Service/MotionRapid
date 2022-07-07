@@ -31,8 +31,13 @@ class ToolBarClassificationData {
   insertToolBarEditorDict = (
     newName: string,
     send_EditorLogo: string,
-    send_EditorFunction: Function
+    send_EditorFunction: Function,
+    overwrite:boolean
   ) => {
+    if (hasKeyFound(newName,this.toolBarEditorDict) && !overwrite){
+      console.log("insertToolBarEditorDict - not overwrite")
+      return
+    }
     const newObj = new ToolBarEditorData(
       newName,
       send_EditorLogo,
@@ -46,7 +51,7 @@ class ToolBarEditorData {
   toolBarEditorName: string;
   editorLogo: any;
   editorFunction: Function;
-  editorStatus: number; //0:通常 1:操作不可 2:非表示(コンポーネント除外)
+  editorStatus:  number; //0:通常 1:操作不可 2:非表示(コンポーネント除外)
   constructor(
     send_toolBarEditorName: string,
     send_editorLogo: any,
@@ -70,8 +75,13 @@ const SetupToolbar = () => {
 
   const insertToolBarClassificationArraySetStateValue = (
     send_toolBarClassificationName: string,
-    send_toolBarClassificationLogo: string
+    send_toolBarClassificationLogo: string,
+    overwrite:boolean
   ) => {
+    if (hasKeyFound(send_toolBarClassificationName,toolBarClassificationArray) && !overwrite){
+      console.log("insertToolBarClassificationArraySetStateValue - not overwrite")
+      return
+    }
     const copyToolBarClassification = Object.assign(toolBarClassificationArray);
     // const newID = getUUID()
     const newObj = new ToolBarClassificationData(
@@ -94,18 +104,14 @@ const SetupToolbar = () => {
     overwrite:boolean
   ) => {
 
-    if (hasKeyFound(send_toolBarClassificationName,toolBarClassificationArray) && !overwrite){
-      console.log("insertToolBarEditorDictSetStateValue - not overwrite")
-      return
-    }
-
     const copyToolBarClassification = Object.assign(toolBarClassificationArray);
     copyToolBarClassification[
       send_toolBarClassificationName
     ].insertToolBarEditorDict(
       send_toolBarEditorName,
       send_EditorLogo,
-      send_EditorFunction
+      send_EditorFunction,
+      overwrite
     );
     toolBarClassificationArraySetState(copyToolBarClassification);
     // console.log(
@@ -115,21 +121,15 @@ const SetupToolbar = () => {
   };
 
   const operationEditorStatus = (
-    //ユーザーが選択できるか変更する
     send_toolBarClassificationName: string,
     send_toolBarEditorName: string,
     status: number
   ) => {
     const copyToolBarClassification = Object.assign(toolBarClassificationArray);
-    // const newID = getUUID()
     copyToolBarClassification[send_toolBarClassificationName].toolBarEditorDict[
       send_toolBarEditorName
     ].editorStatus = status;
     toolBarClassificationArraySetState(copyToolBarClassification);
-    // console.log(
-    //   "toolBarClassificationArray operationEditorStatus",
-    //   toolBarClassificationArray
-    // );
   };
 
   const componentConvertToolBarClassification = () => {

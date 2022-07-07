@@ -16,10 +16,6 @@ const Editor = () => {
     console.log("choiceComposite - useEffect",choiceComposite)
   }, [choiceComposite]);
 
-  const getChoiceComposite = () => {
-    return choiceComposite
-  }
-
   return (
     <SetupEditorContext.Provider value={{
       choiceComposite:choiceComposite,

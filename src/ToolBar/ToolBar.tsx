@@ -20,6 +20,7 @@ const ToolBarDetailSingleComponent = (props: any) => {
     props.DownstreamToolBarEditorData.editorFunction();
     AppContextValue.updateDOM();
   };
+  
   return (
     <div className="toolBarDetail_single-area" onMouseDown={MouseDown}>
       <div className="toolBarDetail_single-area-title">
@@ -83,11 +84,12 @@ const toolBarComponent = (props: any) => {
     AppContextValue.fileExportDataCentral();
   };
 
-
   useEffect(() => {
-    console.log("choiceComposite - SetupEditorContextValue - useEffect",SetupEditorContextValue.choiceComposite)
+    console.log(
+      "choiceComposite - SetupEditorContextValue - useEffect",
+      SetupEditorContextValue.choiceComposite
+    );
   }, [SetupEditorContextValue.choiceComposite]);
-
 
   const buildHtml = () => {
     console.log("buildHtml", SetupEditorContextValue.choiceComposite);
@@ -96,41 +98,52 @@ const toolBarComponent = (props: any) => {
     );
   };
 
-  useEffect(() => {
+  const buildA = () => {
+    console.log("buildHtmA", SetupEditorContextValue.choiceComposite);
+    buildHtml();
+  };
 
-    console.log("toolBar - useEffect")
+  useEffect(() => {
+    console.log("toolBar - useEffect");
 
     let toolBar_A = "fileEdit";
-    insertToolBarClassificationArraySetStateValue(toolBar_A, "ファイル操作");
+    insertToolBarClassificationArraySetStateValue(
+      toolBar_A,
+      "ファイル操作",
+      false
+    );
     insertToolBarEditorDictSetStateValue(
       toolBar_A,
       "1A",
       "ダウンロード",
       downloadFile,
-      true
+      false
     );
-    insertToolBarEditorDictSetStateValue(toolBar_A, "1B", "アップロード", Test);
+    insertToolBarEditorDictSetStateValue(
+      toolBar_A,
+      "1B",
+      "アップロード",
+      Test,
+      false
+    );
 
     let toolBar_B = "buildEdit";
-    insertToolBarClassificationArraySetStateValue(toolBar_B, "ファイル生成");
+    insertToolBarClassificationArraySetStateValue(
+      toolBar_B,
+      "ファイル生成",
+      false
+    );
     insertToolBarEditorDictSetStateValue(
       toolBar_B,
       "2A",
       "html出力",
-      buildHtml,
-      true
+      buildA,
+      false
     );
 
     switchToolBarDetailSetState(toolBar_A);
     AppContextValue.updateDOM();
-  }, [SetupEditorContextValue.choiceComposite]);
-
-  // useEffect(() => {
-  //   console.log(
-  //     "AppContextValue.toolBarClassificationArray useEffect",
-  //     SetupToolbarContextValue.toolBarClassificationArray
-  //   );
-  // }, [SetupToolbarContextValue.toolBarClassificationArray]);
+  }, []);
 
   return (
     <div className="toolBar">
@@ -159,15 +172,6 @@ const toolBarComponent = (props: any) => {
               key={index}
             />
           ))}
-
-          {/* {AppContextValue.componentConvertToolBarEditor(
-            switchToolBarDetail
-          ).map((output: any, index: number) => {
-            <ToolBarDetailSingleComponent
-              DownstreamToolBarEditorData={output}
-              key={index}
-            />;
-          })} */}
         </>
       </div>
     </div>
