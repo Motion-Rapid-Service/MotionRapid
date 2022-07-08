@@ -43,7 +43,7 @@ export const MediaObjectScrollComponent = () => {
   const animatorOpenSetState = MediaObjectContextValue.animatorOpenSetState;
   const animatorOpen = MediaObjectContextValue.animatorOpen;
 
-  const [areaFocus, areaFocusSetState] = useState<boolean>(false);
+  // const [areaFocus, areaFocusSetState] = useState<boolean>(false);
   const staStylePos = MediaObjectContextValue.staStylePos;
   const StaSetState = MediaObjectContextValue.StaSetState;
   const endStylePos = MediaObjectContextValue.endStylePos;
@@ -112,7 +112,7 @@ export const MediaObjectScrollComponent = () => {
     animatorOpenSetState(!animatorOpen);
   };
 
-  const MouseDown = (event: any) => {
+  const MouseDown = (event: any) => { //マウスでクリックされた時に、メディアオブジェクトの操作を開始するか検証し、マウスのデータを格納する
     const mousePushPos = timeLineMousePosition.mediaObjectMousePosition(
       event,
       LayerDurationContextValue.timelineAreaLayerDurationElement
@@ -184,10 +184,10 @@ export const MediaObjectScrollComponent = () => {
   }, [MouseSelected, MouseUnselected]);
 
   const mouseOver = () => {
-    areaFocusSetState(true);
+    //areaFocusSetState(true);
   };
   const mouseOut = () => {
-    areaFocusSetState(false);
+    //areaFocusSetState(false);
   };
 
   return (

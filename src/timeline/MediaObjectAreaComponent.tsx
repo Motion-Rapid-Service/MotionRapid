@@ -22,21 +22,17 @@ export const MediaObjectAreaComponent = (props: any) => {
   const [animatorOpen, animatorOpenSetState] = useState<boolean>(true);
   const [staStylePos, StaSetState] = useState<number>(null);
   const [endStylePos, EndSetState] = useState<number>(null);
-  // const [mediaObjectUUID] = useState<string>(DownstreamMiddleDataMediaObject["MediaObject_ID"] as string);
-
-  // const mediaObjectUUID: string =
 
   const MediaObject_ID = props.DownstreamMiddleDataMediaObject["MediaObject_ID"]
   console.log("props.DownstreamMiddleDataMediaObjectMediaObject_ID",props.DownstreamMiddleDataMediaObject["MediaObject_ID"])
     
   useEffect(() => {
-
-    const ElementBoundingClientRect =
-    mediaObjectAreaElement.current.getBoundingClientRect();
+    // const ElementBoundingClientRect =
+    // mediaObjectAreaElement.current.getBoundingClientRect();
   
-    const ElementLeft = ElementBoundingClientRect.left;
-    const ElementTop = ElementBoundingClientRect.top;
-    console.log("MediaObjectAreaComponent",ElementLeft,ElementTop)
+    // const ElementLeft = ElementBoundingClientRect.left;
+    // const ElementTop = ElementBoundingClientRect.top;
+    // console.log("MediaObjectAreaComponent",ElementLeft,ElementTop)
   }, []);
 
   useEffect(() => {
@@ -52,6 +48,7 @@ export const MediaObjectAreaComponent = (props: any) => {
     });
   }, [staStylePos, endStylePos]);
 
+
   return (
     <>
     
@@ -65,7 +62,8 @@ export const MediaObjectAreaComponent = (props: any) => {
             StaSetState: StaSetState,
             endStylePos: endStylePos,
             EndSetState: EndSetState,
-            mediaObjectUUID: MediaObject_ID 
+            mediaObjectUUID: MediaObject_ID,
+            indexMediaObejct:props.indexMediaObejct
           }}
         >
           {/* <div className="media_object-area-left"></div> */}

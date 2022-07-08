@@ -36,6 +36,21 @@ export const mediaObjectTimelinePostion = ( //timelineに対してmediaObjectの
   const y = mediaObjectElementTop - timelineElementTop
   return [x,y]
 };
+
+export const mediaObjectSize = ( //timelineに対してmediaObjectの座標を取得
+  mediaObjectAreaElement: any
+) => {
+
+  const mediaObjectElementBoundingClientRect = mediaObjectAreaElement.current.getBoundingClientRect();
+
+  const mediaObjectElementWidth = mediaObjectElementBoundingClientRect.width;
+  const mediaObjectElementHeight = mediaObjectElementBoundingClientRect.height;
+
+  console.log("mediaObjectSize",mediaObjectElementWidth,mediaObjectElementHeight)
+
+  return [mediaObjectElementWidth,mediaObjectElementHeight]
+};
+
 export const timelineMousePostion = ( //タイムラインに対してのマウスを取得
     event: any,
   timelineAreaElement: any,

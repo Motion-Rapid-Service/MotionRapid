@@ -4,10 +4,7 @@ const { useState, useRef, useEffect, useContext, useReducer, createContext } =
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import { TimelineAreaDivContext } from "./timelineContext";
-import {
-  MediaObjectAreaComponent,
-} from "./MediaObjectAreaComponent";
-
+import { MediaObjectAreaComponent } from "./MediaObjectAreaComponent";
 
 import * as MediaObjectAreaSpaceComponent from "./MediaObjectSpace";
 import { AppContext } from "./../AppContext";
@@ -34,6 +31,22 @@ class UserHandMediaObjectOperation {
 
 const TimelineComponent = () => {
   // ここでhooksを使える
+
+  const [timelineUpdate, timelineSetUpdata] = useState<boolean>(false);
+
+  const timelineUpdateDOM = () => {
+    //強制再レンダリング関数
+    timelineSetUpdata(timelineUpdate ? false : true);
+  };
+
+  useEffect(() => {
+    console.log("timelineUpdate 再レンダリング");
+  }, [timelineUpdate]);
+
+  // useEffect(() => {
+  //   AppContextValue.updateDOM();
+  // }, []);
+
   const timelineAreaElement = useRef(null);
   const timelineScrollElement = useRef(null);
 
@@ -77,9 +90,48 @@ const TimelineComponent = () => {
     return getHand;
   };
 
-  useEffect(() => {
-    AppContextValue.updateDOM();
-  }, []);
+  const [mediaObejctDivHeight, mediaObejctDivHeightSetState] = useState<{
+    [name: number]: Array<number>;
+  }>({});
+
+  const mediaObejctDivHeightSetStateValue = (
+    heightIndex: number,
+    height: Array<number>
+  ) => {
+
+    if (heightIndex === 0){
+      mediaObejctDivHeightSetMaxSize()
+    }
+
+    const copyMediaObejctDivHeight = Object.assign(mediaObejctDivHeight);
+    copyMediaObejctDivHeight[heightIndex] = height;
+    mediaObejctDivHeightSetState(copyMediaObejctDivHeight);
+
+    console.log("mediaObejctDivHeightSetStateValue",mediaObejctDivHeight)
+  };
+
+  const mediaObejctDivHeightSetMaxSize = () => {
+    const mediaObejctDivHeightKeys = Object.keys(mediaObejctDivHeight);
+    const copyMediaObejctDivHeight = Object.assign(mediaObejctDivHeight);
+
+    const maxSize: number = AppContextValue.componentConvertMediaObjectArea(
+      SetupEditorContextValue.choiceComposite
+    ).length;
+
+    console.log("mediaObejctDivHeightSetMaxSize",maxSize)
+
+    for (let i = 0; i < mediaObejctDivHeightKeys.length; i++) {
+      const key = Number(mediaObejctDivHeightKeys[i]);
+      if (key >= maxSize) {
+        console.log("mediaObejctDivHeightSetMaxSize-del",key,maxSize)
+        delete copyMediaObejctDivHeight[key];
+      }
+    }
+
+    mediaObejctDivHeightSetState(copyMediaObejctDivHeight);
+  };
+
+  // mediaObejctDivHeightSetState(new Array(10)) //レンダリングがかかるたびに要素高さ管理stateの要素数更新する
 
   return (
     <>
@@ -97,19 +149,23 @@ const TimelineComponent = () => {
 
           // onScroll={TimeLineAreaMove}
         >
-          {MediaObjectAreaSpaceComponent.componentGenerateMediaObjectAreaSpace(-1)}
+          {MediaObjectAreaSpaceComponent.componentGenerateMediaObjectAreaSpace(
+            -1
+          )}
           <TimelineAreaDivContext.Provider
             value={{
               insertUserHandMediaObjectList: insertUserHandMediaObjectList,
               deleteUserHandMediaObjectList: deleteUserHandMediaObjectList,
               hasUserHandMediaObjectList: hasUserHandMediaObjectList,
               getUserHandMediaObjectList: getUserHandMediaObjectList,
-              timelineAreaElement:timelineAreaElement,
-              timelineScrollElement:timelineScrollElement
+              timelineAreaElement: timelineAreaElement,
+              timelineScrollElement: timelineScrollElement,
+
+              timelineUpdateDOM: timelineUpdateDOM,
+              mediaObejctDivHeightSetStateValue:mediaObejctDivHeightSetStateValue
               // middleDataOperation: middleDataOperation,
               // MouseSelectedSetValue: MouseSelectedSetValue,
               // MouseUnselectedSetValue: MouseUnselectedSetValue,
-              
             }}
           >
             <>
@@ -118,14 +174,12 @@ const TimelineComponent = () => {
                 SetupEditorContextValue.choiceComposite
               ).map((output: any, index: number) => (
                 // <>{fruit}</> //SurfaceControlIndividualを追加するmap (list_surface_controlに入っている)
-                
-                  <MediaObjectAreaComponent
-                    DownstreamMiddleDataMediaObject={output}
-                    indexMediaObejct={index}
-                    key={index}
-                  />
-                  
-                
+
+                <MediaObjectAreaComponent
+                  DownstreamMiddleDataMediaObject={output}
+                  indexMediaObejct={index}
+                  key={index}
+                />
               ))}
             </>
           </TimelineAreaDivContext.Provider>

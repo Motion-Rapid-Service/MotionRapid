@@ -4,38 +4,65 @@ const { useState, useRef, useEffect, useContext, useReducer, createContext } =
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import { AppContext } from "../AppContext";
-import { MediaObjectContext,TimelineAreaDivContext,LayerPanelContext,LayerDurationContext } from "./timelineContext";
+import {
+  MediaObjectContext,
+  TimelineAreaDivContext,
+  LayerPanelContext,
+  LayerDurationContext,
+} from "./timelineContext";
 import { SetupToolbarContext } from "./../SetupEditor/SetupToolbarContext";
 
 // import { timelineMousePosition ,timelineLayerPanelPostion} from "./timeLineMousePosition";
 import * as timeLineMousePosition from "./timeLineMousePosition";
 
-const SwitchTimelineAreaLayerPanelComponent = (props:any) =>{
+const SwitchTimelineAreaLayerPanelComponent = (props: any) => {
   const AppContextValue = useContext(AppContext);
   const MediaObjectContextValue = useContext(MediaObjectContext);
-
+  const TimelineAreaDivContextValue = useContext(TimelineAreaDivContext);
+  const LayerPanelContextValue = useContext(LayerPanelContext);
   const animatorOpen = MediaObjectContextValue.animatorOpen as boolean;
+    
+  useEffect(() => {
+    console.log(
+      TimelineAreaDivContextValue.timelineScrollElement,
+      LayerPanelContextValue.timelineAreaLayerPanelElement
+    );
+  
+    const positon = timeLineMousePosition.mediaObjectTimelinePostion(
+      TimelineAreaDivContextValue.timelineScrollElement,
+      LayerPanelContextValue.timelineAreaLayerPanelElement
+    );
+
+    const size = timeLineMousePosition.mediaObjectSize(
+      LayerPanelContextValue.timelineAreaLayerPanelElement
+    );
+
+    const yPosHeight = [positon[1],positon[1]+size[1]]
+
+    TimelineAreaDivContextValue.mediaObejctDivHeightSetStateValue(
+      MediaObjectContextValue.indexMediaObejct,
+      yPosHeight
+    );
+  }, [MediaObjectContextValue.mediaObjectUUID,animatorOpen]);
 
   if (animatorOpen) {
-    return(
+    return (
       <div className="layer_panel-animator">
-      {AppContextValue.componentConvertAnimatorArea(
-        MediaObjectContextValue.mediaObjectUUID
-      ).map((output: any, index: number) => (
-        // <>{fruit}</> //SurfaceControlIndividualを追加するmap (list_surface_controlに入っている)
-        <LayerPanelAnimaterComponent
-          DownstreamMiddleDataAnimator={output}
-          key={index}
-        />
-      ))}
-    </div>
-    )
+        {AppContextValue.componentConvertAnimatorArea(
+          MediaObjectContextValue.mediaObjectUUID
+        ).map((output: any, index: number) => (
+          // <>{fruit}</> //SurfaceControlIndividualを追加するmap (list_surface_controlに入っている)
+          <LayerPanelAnimaterComponent
+            DownstreamMiddleDataAnimator={output}
+            key={index}
+          />
+        ))}
+      </div>
+    );
+  } else {
+    return <></>;
   }
-  else{
-    return <></>
-  }
-
-}
+};
 
 export const TimelineAreaLayerPanelComponent = (props: any) => {
   const AppContextValue = useContext(AppContext);
@@ -43,21 +70,21 @@ export const TimelineAreaLayerPanelComponent = (props: any) => {
   const TimelineAreaDivContextValue = useContext(TimelineAreaDivContext);
   const timelineAreaLayerPanelElement = useRef(null);
 
-
-  useEffect(() => {
-    const xy = timeLineMousePosition.mediaObjectTimelinePostion(TimelineAreaDivContextValue.timelineScrollElement,timelineAreaLayerPanelElement)
-    console.log("TimelineAreaLayerPanelComponent",xy)
-  }, [MediaObjectContextValue.mediaObjectUUID]);
-
+  const mouseDown = () => {};
 
   return (
-    <LayerPanelContext.Provider value={{timelineAreaLayerPanelElement:timelineAreaLayerPanelElement}}>
-    <div className="media_object-area-layer_panel" ref={timelineAreaLayerPanelElement}>
-      <LayerPanelMediaObjectComponent />
-      <SwitchTimelineAreaLayerPanelComponent/>
+    <div
+      className="media_object-area-layer_panel"
+      ref={timelineAreaLayerPanelElement}
+      onMouseDown={mouseDown}
+    >
+      <LayerPanelContext.Provider
+        value={{ timelineAreaLayerPanelElement: timelineAreaLayerPanelElement }}
+      >
+        <LayerPanelMediaObjectComponent />
+        <SwitchTimelineAreaLayerPanelComponent />
+      </LayerPanelContext.Provider>
     </div>
-    </LayerPanelContext.Provider>
-
   );
 };
 

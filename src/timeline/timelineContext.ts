@@ -12,6 +12,7 @@ type MediaObjectContextValue = {
   endStylePos: number;
   EndSetState: Function;
   mediaObjectUUID: string;
+  indexMediaObejct:number;
   // areaFocus:boolean;
 };
 
@@ -26,6 +27,8 @@ type TimelineAreaDivContextValue = {
   getUserHandMediaObjectList:Function
   timelineAreaElement:any
   timelineScrollElement:any
+  timelineUpdateDOM:Function
+  mediaObejctDivHeightSetStateValue:Function
 };
 
 export const TimelineAreaDivContext =
