@@ -36,7 +36,7 @@
 .timeline-area-scroll .media_object-area-space {
   margin: 0px;
   width: 100%;
-  height: 3px;
+  height: 2px;
 }
 
 .timeline-area-scroll .media_object-area-scroll {
@@ -50,7 +50,14 @@
 }
 
 .media_object-area .media_object-area-layer_panel {
-  width: 300px;
+  width: 30%;
+  margin: 0px;
   background-color: rgb(100, 100, 100);
   /* height: var(--media_object-height); */
+}
+
+.media_object-area .media_object-area-layer_duration {
+  width: 70%;
+  margin: 0px;
+  overflow: hidden;
 }

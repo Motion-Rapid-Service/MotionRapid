@@ -13,13 +13,15 @@ import {
   MediaObjectContext,
   TimelineAreaDivContext,
   TimelineAreaRightContext,
+  LayerPanelContext,
+  LayerDurationContext,
 } from "./timelineContext";
 
 const UserHandTolerance = 5;
 
 import UUID from "uuidjs";
 
-import timeLineMousePosition from "./timeLineMousePosition";
+import * as timeLineMousePosition from "./timeLineMousePosition";
 import AnimatorAreaComponent from "./animatorAreaComponent";
 
 import { AppContext } from "../AppContext";
@@ -28,6 +30,7 @@ export const MediaObjectScrollComponent = () => {
   const AppContextValue = useContext(AppContext);
   const MediaObjectContextValue = useContext(MediaObjectContext);
   const TimelineAreaDivContextValue = useContext(TimelineAreaDivContext);
+  const LayerDurationContextValue = useContext(LayerDurationContext);
 
   const [MouseSelected, MouseSelectedSetState] = useState<string>("auto");
   const [MouseUnselected, MouseUnselectedSetState] = useState<string>("auto");
@@ -66,7 +69,7 @@ export const MediaObjectScrollComponent = () => {
   };
 
   const timeLineMouseMoveAction = (event: any) => {
-    const mouseX = timeLineMousePosition(event, mediaObjectAreaElement)[0];
+    const mouseX = timeLineMousePosition.mediaObjectMousePosition(event, LayerDurationContextValue.timelineAreaLayerDurationElement)[0];
 
     if (mediObjectEdgeJudge(mouseX, countStaRef.current)) {
       MouseUnselectedSetState("ew-resize");
@@ -110,9 +113,9 @@ export const MediaObjectScrollComponent = () => {
   };
 
   const MouseDown = (event: any) => {
-    const mousePushPos = timeLineMousePosition(
+    const mousePushPos = timeLineMousePosition.mediaObjectMousePosition(
       event,
-      mediaObjectAreaElement
+      LayerDurationContextValue.timelineAreaLayerDurationElement
     )[0];
 
     let stateUserHand = 0;
@@ -146,24 +149,21 @@ export const MediaObjectScrollComponent = () => {
     MouseSelectedSetState("auto");
   };
 
-
   useEffect(() => {
-
-    const mediaObjectTime= AppContextValue.getMediaObjectTime(mediaObjectUUID)
+    const mediaObjectTime = AppContextValue.getMediaObjectTime(mediaObjectUUID);
 
     window.addEventListener("mousemove", timeLineMouseMoveAction);
     window.addEventListener("mouseup", MouseRelease);
-    StaSetState(mediaObjectTime[0])
-    EndSetState(mediaObjectTime[1])
-    console.log("InMediaObjectArea - add ")
-
+    StaSetState(mediaObjectTime[0]);
+    EndSetState(mediaObjectTime[1]);
+    console.log("InMediaObjectArea - add ");
 
     return () => {
       // イベントの設定解除
       // document.removeEventListener('click', countUp);
       window.removeEventListener("mousemove", timeLineMouseMoveAction);
       window.removeEventListener("mouseup", MouseRelease);
-      console.log("InMediaObjectArea - del ")
+      console.log("InMediaObjectArea - del ");
       // console.log("timeLineMouseMoveAction - remove");
     };
   }, [mediaObjectUUID]);
@@ -233,13 +233,15 @@ const SwitchTimelineAreaLayerDurationComponent = () => {
 };
 
 export const TimelineAreaLayerDurationComponent = () => {
-  const timelineAreaRightElement = useRef(null);
+  const timelineAreaLayerDurationElement = useRef(null);
   return (
-    <div
-      className="media_object-area-layer_duration"
-      ref={timelineAreaRightElement}
-    >
-      <SwitchTimelineAreaLayerDurationComponent />
-    </div>
+    <LayerDurationContext.Provider value={{ timelineAreaLayerDurationElement:timelineAreaLayerDurationElement }}>
+      <div
+        className="media_object-area-layer_duration"
+        ref={timelineAreaLayerDurationElement}
+      >
+        <SwitchTimelineAreaLayerDurationComponent />
+      </div>
+    </LayerDurationContext.Provider>
   );
 };

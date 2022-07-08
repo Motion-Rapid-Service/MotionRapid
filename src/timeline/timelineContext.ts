@@ -24,6 +24,8 @@ type TimelineAreaDivContextValue = {
   deleteUserHandMediaObjectList:Function
   hasUserHandMediaObjectList:Function
   getUserHandMediaObjectList:Function
+  timelineAreaElement:any
+  timelineScrollElement:any
 };
 
 export const TimelineAreaDivContext =
@@ -42,3 +44,21 @@ export const TimelineAreaRightContext =
 // };
 // export const MediaObjectGenerationContext =
 // createContext<MediaObjectGenerationContextValue>({} as MediaObjectGenerationContextValue);
+
+
+type LayerPanelContextValue = {
+  timelineAreaLayerPanelElement:any
+};
+
+export const LayerPanelContext = createContext<LayerPanelContextValue>(
+  {} as LayerPanelContextValue
+);
+
+
+type LayerDurationContextValue = {
+  timelineAreaLayerDurationElement:any
+};
+
+export const LayerDurationContext = createContext<LayerDurationContextValue>(
+  {} as LayerDurationContextValue
+);

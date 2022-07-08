@@ -4,9 +4,11 @@ const { useState, useRef, useEffect, useContext, useReducer, createContext } =
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import { AppContext } from "../AppContext";
-import { MediaObjectContext } from "./timelineContext";
+import { MediaObjectContext,TimelineAreaDivContext,LayerPanelContext,LayerDurationContext } from "./timelineContext";
 import { SetupToolbarContext } from "./../SetupEditor/SetupToolbarContext";
 
+// import { timelineMousePosition ,timelineLayerPanelPostion} from "./timeLineMousePosition";
+import * as timeLineMousePosition from "./timeLineMousePosition";
 
 const SwitchTimelineAreaLayerPanelComponent = (props:any) =>{
   const AppContextValue = useContext(AppContext);
@@ -38,12 +40,24 @@ const SwitchTimelineAreaLayerPanelComponent = (props:any) =>{
 export const TimelineAreaLayerPanelComponent = (props: any) => {
   const AppContextValue = useContext(AppContext);
   const MediaObjectContextValue = useContext(MediaObjectContext);
+  const TimelineAreaDivContextValue = useContext(TimelineAreaDivContext);
+  const timelineAreaLayerPanelElement = useRef(null);
+
+
+  useEffect(() => {
+    const xy = timeLineMousePosition.mediaObjectTimelinePostion(TimelineAreaDivContextValue.timelineScrollElement,timelineAreaLayerPanelElement)
+    console.log("TimelineAreaLayerPanelComponent",xy)
+  }, [MediaObjectContextValue.mediaObjectUUID]);
+
 
   return (
-    <div className="media_object-area-layer_panel">
+    <LayerPanelContext.Provider value={{timelineAreaLayerPanelElement:timelineAreaLayerPanelElement}}>
+    <div className="media_object-area-layer_panel" ref={timelineAreaLayerPanelElement}>
       <LayerPanelMediaObjectComponent />
       <SwitchTimelineAreaLayerPanelComponent/>
     </div>
+    </LayerPanelContext.Provider>
+
   );
 };
 

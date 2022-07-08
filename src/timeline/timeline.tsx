@@ -6,8 +6,10 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { TimelineAreaDivContext } from "./timelineContext";
 import {
   MediaObjectAreaComponent,
-  MediaObjectAreaSpaceComponent,
 } from "./MediaObjectAreaComponent";
+
+
+import * as MediaObjectAreaSpaceComponent from "./MediaObjectSpace";
 import { AppContext } from "./../AppContext";
 import { SetupEditorContext } from "./../SetupEditor/SetupEditorContext";
 import { SetupToolbarContext } from "./../SetupEditor/SetupToolbarContext";
@@ -74,9 +76,6 @@ const TimelineComponent = () => {
     //console.log("getUserHandMediaObjectList",mediaObjectUUID)
     return getHand;
   };
-  const componentGenerateMediaObjectAreaSpace = (index:number) => {
-    return <MediaObjectAreaSpaceComponent index={index}/>;
-  };
 
   useEffect(() => {
     AppContextValue.updateDOM();
@@ -98,30 +97,35 @@ const TimelineComponent = () => {
 
           // onScroll={TimeLineAreaMove}
         >
+          {MediaObjectAreaSpaceComponent.componentGenerateMediaObjectAreaSpace(-1)}
           <TimelineAreaDivContext.Provider
             value={{
               insertUserHandMediaObjectList: insertUserHandMediaObjectList,
               deleteUserHandMediaObjectList: deleteUserHandMediaObjectList,
               hasUserHandMediaObjectList: hasUserHandMediaObjectList,
               getUserHandMediaObjectList: getUserHandMediaObjectList,
+              timelineAreaElement:timelineAreaElement,
+              timelineScrollElement:timelineScrollElement
               // middleDataOperation: middleDataOperation,
               // MouseSelectedSetValue: MouseSelectedSetValue,
               // MouseUnselectedSetValue: MouseUnselectedSetValue,
+              
             }}
           >
             <>
-              {componentGenerateMediaObjectAreaSpace(0)}
+              {/* {componentGenerateMediaObjectAreaSpace(-1)} */}
               {AppContextValue.componentConvertMediaObjectArea(
                 SetupEditorContextValue.choiceComposite
               ).map((output: any, index: number) => (
                 // <>{fruit}</> //SurfaceControlIndividualを追加するmap (list_surface_controlに入っている)
-                <>
+                
                   <MediaObjectAreaComponent
                     DownstreamMiddleDataMediaObject={output}
+                    indexMediaObejct={index}
                     key={index}
                   />
-                  {componentGenerateMediaObjectAreaSpace(index + 1)}
-                </>
+                  
+                
               ))}
             </>
           </TimelineAreaDivContext.Provider>

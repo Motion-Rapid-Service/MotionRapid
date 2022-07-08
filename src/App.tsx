@@ -25,7 +25,7 @@ const middleDataOperation = new MiddleDataOperationClass(); //
 middleDataOperation.createDataCentral();
 
 //ここからテスト用 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-for (let i = 1; i <= 5; i++) {
+for (let i = 1; i <= 20; i++) {
   const t_CompositeID = middleDataOperation.createComposite();
 
   for (let j = 1; j <= i; j++) {

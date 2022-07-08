@@ -3,9 +3,9 @@ const { useState, useRef, useEffect, useContext, useReducer, createContext } =
   React;
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import timeLineMousePosition from "./timeLineMousePosition";
+import * as timelineMousePosition  from "./timeLineMousePosition";
 import { AppContext } from "./../AppContext";
-import { MediaObjectContext } from "./timelineContext";
+import { MediaObjectContext ,LayerPanelContext,LayerDurationContext} from "./timelineContext";
 
 class UserHandKeyframeOperation {
   mousePushPos: number; //マウスが押された時のマウス座標
@@ -28,6 +28,8 @@ export const KeyFrameComponent = (props: any) => {
   const mediaObjectAreaElement =
     MediaObjectContextValue.mediaObjectAreaElement as any;
   const animatorOpen = MediaObjectContextValue.animatorOpen as boolean;
+  const LayerDurationContextValue = useContext(LayerDurationContext);
+
 
   const keyframeMouseMoveAction = (event: any) => {
     if (!(keyframeUUID in UserHandKeyframeList)) {
@@ -37,20 +39,20 @@ export const KeyFrameComponent = (props: any) => {
     const UserHandKeyframe = UserHandKeyframeList[keyframeUUID];
     // console.log(UserHandKeyframe);
 
-    const mouseX = timeLineMousePosition(event, mediaObjectAreaElement)[0];
+    const mouseX = timelineMousePosition.mediaObjectMousePosition(event, LayerDurationContextValue.timelineAreaLayerDurationElement)[0];
     const mouseMoveX = mouseX - UserHandKeyframe.mousePushPos;
     KeyframePosSetState(mouseMoveX + UserHandKeyframe.mouseDownKeyframeStyle);
   };
 
   const MouseRelease = (event: any) => {
-    const mouseEndPos = timeLineMousePosition(event, mediaObjectAreaElement)[0];
+    const mouseEndPos = timelineMousePosition.mediaObjectMousePosition(event, LayerDurationContextValue.timelineAreaLayerDurationElement)[0];
     delete UserHandKeyframeList[keyframeUUID];
   };
 
   const MouseDown = (event: any) => {
-    const mousePushPos = timeLineMousePosition(
+    const mousePushPos = timelineMousePosition.mediaObjectMousePosition(
       event,
-      mediaObjectAreaElement
+      LayerDurationContextValue.timelineAreaLayerDurationElement
     )[0];
 
     UserHandKeyframeList[keyframeUUID] = new UserHandKeyframeOperation(

@@ -9,12 +9,9 @@ import UUID from "uuidjs";
 import { AppContext } from "../AppContext";
 import { MediaObjectContext } from "./timelineContext";
 import * as InMediaObjectLayerPanel from "./InMediaObjectLayerPanel";
+import * as MediaObjectAreaSpaceComponent from "./MediaObjectSpace";
+// {componentGenerateMediaObjectAreaSpace(index)}
 
-export const MediaObjectAreaSpaceComponent = (props:any) => {
-  return (
-    <div className="media_object-area-space"></div>
-  )
-}
 
 export const MediaObjectAreaComponent = (props: any) => {
   const mediaObjectAreaElement = useRef<HTMLDivElement>(null);
@@ -57,6 +54,7 @@ export const MediaObjectAreaComponent = (props: any) => {
 
   return (
     <>
+    
       <div className="media_object-area" ref={mediaObjectAreaElement}>
         <MediaObjectContext.Provider
           value={{
@@ -72,10 +70,13 @@ export const MediaObjectAreaComponent = (props: any) => {
         >
           {/* <div className="media_object-area-left"></div> */}
           {/* <div className="media_object-area-right"></div>*/}
+          
           <InMediaObjectLayerPanel.TimelineAreaLayerPanelComponent />
           <InMediaObjectArea.TimelineAreaLayerDurationComponent />
+          
         </MediaObjectContext.Provider>
       </div>
+      {MediaObjectAreaSpaceComponent.componentGenerateMediaObjectAreaSpace(props.indexMediaObejct)}
     </>
   );
 };

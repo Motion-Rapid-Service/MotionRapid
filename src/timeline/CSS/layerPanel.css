@@ -1,7 +1,6 @@
-.media_object-area .media_object-area-layer_duration {
-}
-.media_object-area-layer_duration .media_object-area-layer_panel {
-}
+/* .media_object-area-layer_duration .media_object-area-layer_panel {
+} */
+
 .media_object-area-layer_panel .layer_panel-media_object {
   height: var(--media_object-height);
 }
