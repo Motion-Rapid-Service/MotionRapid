@@ -113,7 +113,7 @@ export const TimelineAreaLayerPanelComponent = (props: any) => {
     )
 
     console.log("spaceNumber",spaceNumber)
-
+    TimelineAreaDivContextValue.focusMediaObjectSpaceSetState(spaceNumber)
     
   };
   const mouseDown = (event:any) => {

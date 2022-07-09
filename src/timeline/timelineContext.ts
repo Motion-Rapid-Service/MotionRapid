@@ -30,6 +30,8 @@ type TimelineAreaDivContextValue = {
   timelineUpdateDOM:Function
   mediaObejctDivHeightSetStateValue:Function
   mediaObjectSwopInsertionDestination:Function
+  focusMediaObjectSpace:number
+  focusMediaObjectSpaceSetState:Function
 };
 
 export const TimelineAreaDivContext =

@@ -58,6 +58,9 @@ const TimelineComponent = () => {
     [name: string]: UserHandMediaObjectOperation;
   }>({});
 
+
+  const [focusMediaObjectSpace , focusMediaObjectSpaceSetState]  = useState<number>(null);
+
   const insertUserHandMediaObjectList = (
     mediaObjectUUID: string,
     stateUserHand: number,
@@ -199,9 +202,9 @@ const TimelineComponent = () => {
 
           // onScroll={TimeLineAreaMove}
         >
-          {MediaObjectAreaSpaceComponent.componentGenerateMediaObjectAreaSpace(
-            -1
-          )}
+          <MediaObjectAreaSpaceComponent.switchMediaObjectAreaSpace
+            spaceIndex={-1}
+          />
           <TimelineAreaDivContext.Provider
             value={{
               insertUserHandMediaObjectList: insertUserHandMediaObjectList,
@@ -216,7 +219,9 @@ const TimelineComponent = () => {
               // middleDataOperation: middleDataOperation,
               // MouseSelectedSetValue: MouseSelectedSetValue,
               // MouseUnselectedSetValue: MouseUnselectedSetValue,
-              mediaObjectSwopInsertionDestination:mediaObjectSwopInsertionDestination
+              mediaObjectSwopInsertionDestination:mediaObjectSwopInsertionDestination,
+              focusMediaObjectSpace:focusMediaObjectSpace,
+              focusMediaObjectSpaceSetState:focusMediaObjectSpaceSetState
             }}
           >
             <>

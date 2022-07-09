@@ -12,7 +12,6 @@ import * as InMediaObjectLayerPanel from "./InMediaObjectLayerPanel";
 import * as MediaObjectAreaSpaceComponent from "./MediaObjectSpace";
 // {componentGenerateMediaObjectAreaSpace(index)}
 
-
 export const MediaObjectAreaComponent = (props: any) => {
   const mediaObjectAreaElement = useRef<HTMLDivElement>(null);
 
@@ -23,22 +22,24 @@ export const MediaObjectAreaComponent = (props: any) => {
   const [staStylePos, StaSetState] = useState<number>(null);
   const [endStylePos, EndSetState] = useState<number>(null);
 
-  const MediaObject_ID = props.DownstreamMiddleDataMediaObject["MediaObject_ID"]
-  console.log("props.DownstreamMiddleDataMediaObjectMediaObject_ID",props.DownstreamMiddleDataMediaObject["MediaObject_ID"])
-    
+  const MediaObject_ID =
+    props.DownstreamMiddleDataMediaObject["MediaObject_ID"];
+  console.log(
+    "props.DownstreamMiddleDataMediaObjectMediaObject_ID",
+    props.DownstreamMiddleDataMediaObject["MediaObject_ID"]
+  );
+
   useEffect(() => {
     // const ElementBoundingClientRect =
     // mediaObjectAreaElement.current.getBoundingClientRect();
-  
     // const ElementLeft = ElementBoundingClientRect.left;
     // const ElementTop = ElementBoundingClientRect.top;
     // console.log("MediaObjectAreaComponent",ElementLeft,ElementTop)
   }, []);
 
   useEffect(() => {
-
-    if (!staStylePos || !endStylePos){
-      return
+    if (!staStylePos || !endStylePos) {
+      return;
     }
 
     AppContextValue.operationMediaObjectTime({
@@ -48,10 +49,8 @@ export const MediaObjectAreaComponent = (props: any) => {
     });
   }, [staStylePos, endStylePos]);
 
-
   return (
     <>
-    
       <div className="media_object-area" ref={mediaObjectAreaElement}>
         <MediaObjectContext.Provider
           value={{
@@ -63,18 +62,20 @@ export const MediaObjectAreaComponent = (props: any) => {
             endStylePos: endStylePos,
             EndSetState: EndSetState,
             mediaObjectUUID: MediaObject_ID,
-            indexMediaObejct:props.indexMediaObejct
+            indexMediaObejct: props.indexMediaObejct,
           }}
         >
           {/* <div className="media_object-area-left"></div> */}
           {/* <div className="media_object-area-right"></div>*/}
-          
+
           <InMediaObjectLayerPanel.TimelineAreaLayerPanelComponent />
           <InMediaObjectArea.TimelineAreaLayerDurationComponent />
-          
         </MediaObjectContext.Provider>
       </div>
-      {MediaObjectAreaSpaceComponent.componentGenerateMediaObjectAreaSpace(props.indexMediaObejct)}
+
+      <MediaObjectAreaSpaceComponent.switchMediaObjectAreaSpace
+        spaceIndex={props.indexMediaObejct}
+      />
     </>
   );
 };
