@@ -13,7 +13,19 @@ import {
 import { SetupToolbarContext } from "./../SetupEditor/SetupToolbarContext";
 
 // import { timelineMousePosition ,timelineLayerPanelPostion} from "./timeLineMousePosition";
-import * as timeLineMousePosition from "./timeLineMousePosition";
+import * as timelineMousePosition from "./timeLineMousePosition";
+
+class UserHandLayerPanelOperation {
+  mousePushPos: number; //マウスが押された時のマウス座標
+  //mouseDownKeyframeStyle: number; //マウスが押された時のメディアオブジェクト開始地点
+  constructor(send_mousePushPos: number) {
+    this.mousePushPos = send_mousePushPos;
+
+  }
+}
+const UserHandLayerPanelList: {
+  [name: string]: UserHandLayerPanelOperation;
+} = {};
 
 const SwitchTimelineAreaLayerPanelComponent = (props: any) => {
   const AppContextValue = useContext(AppContext);
@@ -21,29 +33,29 @@ const SwitchTimelineAreaLayerPanelComponent = (props: any) => {
   const TimelineAreaDivContextValue = useContext(TimelineAreaDivContext);
   const LayerPanelContextValue = useContext(LayerPanelContext);
   const animatorOpen = MediaObjectContextValue.animatorOpen as boolean;
-    
+
   useEffect(() => {
     console.log(
       TimelineAreaDivContextValue.timelineScrollElement,
       LayerPanelContextValue.timelineAreaLayerPanelElement
     );
-  
-    const positon = timeLineMousePosition.mediaObjectTimelinePostion(
+
+    const positon = timelineMousePosition.mediaObjectTimelinePostion(
       TimelineAreaDivContextValue.timelineScrollElement,
       LayerPanelContextValue.timelineAreaLayerPanelElement
     );
 
-    const size = timeLineMousePosition.mediaObjectSize(
+    const size = timelineMousePosition.mediaObjectSize(
       LayerPanelContextValue.timelineAreaLayerPanelElement
     );
 
-    const yPosHeight = [positon[1],positon[1]+size[1]]
+    const yPosHeight = [positon[1], positon[1] + size[1]];
 
     TimelineAreaDivContextValue.mediaObejctDivHeightSetStateValue(
       MediaObjectContextValue.indexMediaObejct,
       yPosHeight
     );
-  }, [MediaObjectContextValue.mediaObjectUUID,animatorOpen]);
+  }, [MediaObjectContextValue.mediaObjectUUID, animatorOpen]);
 
   if (animatorOpen) {
     return (
@@ -69,8 +81,63 @@ export const TimelineAreaLayerPanelComponent = (props: any) => {
   const MediaObjectContextValue = useContext(MediaObjectContext);
   const TimelineAreaDivContextValue = useContext(TimelineAreaDivContext);
   const timelineAreaLayerPanelElement = useRef(null);
+  const animatorOpen = MediaObjectContextValue.animatorOpen as boolean;
 
-  const mouseDown = () => {};
+  const mouseUp = (event:any) => {
+    if (!(MediaObjectContextValue.mediaObjectUUID in UserHandLayerPanelList)) {
+      return;
+    }
+
+    const mousePushPosY = timelineMousePosition.timelineMousePostion(
+      event,
+      TimelineAreaDivContextValue.timelineScrollElement
+    )[1];
+
+    delete UserHandLayerPanelList[MediaObjectContextValue.mediaObjectUUID]
+
+
+  };
+  const mouseMove = (event:any) => {
+    if (!(MediaObjectContextValue.mediaObjectUUID in UserHandLayerPanelList)) {
+      return;
+    }
+
+    const mousePushPosY = timelineMousePosition.timelineMousePostion(
+      event,
+      TimelineAreaDivContextValue.timelineScrollElement
+    )[1];
+
+    const spaceNumber = TimelineAreaDivContextValue.mediaObjectSwopInsertionDestination(
+      Object.values(UserHandLayerPanelList)[0].mousePushPos,
+      mousePushPosY
+    )
+
+    console.log("spaceNumber",spaceNumber)
+
+    
+  };
+  const mouseDown = (event:any) => {
+    const mousePushPosY = timelineMousePosition.timelineMousePostion(
+      event,
+      TimelineAreaDivContextValue.timelineScrollElement
+    )[1];
+
+    UserHandLayerPanelList[MediaObjectContextValue.mediaObjectUUID] = new UserHandLayerPanelOperation(
+      mousePushPosY
+    );
+
+    console.log("mousePushPosY",mousePushPosY)
+
+  };
+
+  useEffect(() => {
+    window.addEventListener("mousemove", mouseMove);
+    window.addEventListener("mouseup", mouseUp);
+    return () => {
+      window.removeEventListener("mousemove", mouseMove);
+      window.removeEventListener("mouseup", mouseUp);
+    };
+  }, [MediaObjectContextValue.mediaObjectUUID, animatorOpen]);
 
   return (
     <div

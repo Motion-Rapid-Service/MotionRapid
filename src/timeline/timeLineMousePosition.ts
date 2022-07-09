@@ -62,7 +62,9 @@ export const timelineMousePostion = ( //タイムラインに対してのマウ�
   const timelineElementLeft = timelineElementBoundingClientRect.left;
   const timelineElementTop = timelineElementBoundingClientRect.top;
 
-  console.log("timelineMousePostion",timelineElementLeft,timelineElementTop)
+  console.log("timelineMousePostion",clientX,clientY,timelineElementLeft,timelineElementTop)
+
+  //console.log("timelineMousePostion",timelineElementLeft,timelineElementTop)
   const x = (clientX - timelineElementLeft)
   const y = (clientY - timelineElementTop)
   return [x,y]

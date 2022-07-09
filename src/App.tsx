@@ -21,6 +21,19 @@ const getUUID = () => {
   return String(UUID.generate());
 };
 
+const sortNumber  = (arrayData:Array<number>) => {
+  arrayData.sort(function(first, second){
+    if (first > second){
+      return 1;
+    }else if (first < second){
+      return -1;
+    }else{
+      return 0;
+    }
+  });
+  return arrayData
+}
+
 const middleDataOperation = new MiddleDataOperationClass(); //
 middleDataOperation.createDataCentral();
 
@@ -179,6 +192,7 @@ const App = () => {
       <AppContext.Provider
         value={{
           getUUID: getUUID,
+          sortNumber:sortNumber,
           componentConvertCompositeChoiceArea:
             componentConvertCompositeChoiceArea,
           componentConvertMediaObjectArea: componentConvertMediaObjectArea,

@@ -131,6 +131,56 @@ const TimelineComponent = () => {
     mediaObejctDivHeightSetState(copyMediaObejctDivHeight);
   };
 
+
+  const mediaObjectSwopInsertionDestination = (staY:number,nowY:number) => {
+    const mediaObejctDivHeightKeys:Array<number> = AppContextValue.sortNumber(Object.keys(mediaObejctDivHeight));
+    //ここから範囲外の座標処理
+    const firstYpos = mediaObejctDivHeight[0][0]
+    if (nowY <= firstYpos){
+      console.log("firstYpos")
+      return -1
+    }
+
+    const lastKey = mediaObejctDivHeightKeys[mediaObejctDivHeightKeys.length - 1]
+    const lastYpos = mediaObejctDivHeight[lastKey][1]
+
+    if (lastYpos <= nowY){
+      console.log("lastYpos",mediaObejctDivHeightKeys,lastKey)
+      return lastKey
+    }
+    //ここまでが範囲外の座標処理
+    let subject; //subject変数はmediaObejctDivHeight連想配列に格納されているheightArrayの上下どちらがわを取得するか決める
+
+    if (staY > nowY) { //上向きへの移動
+      mediaObejctDivHeightKeys.reverse()
+      subject = 0 //subjectは0にする
+    }
+    else if (staY < nowY){ //下向きへの移動
+      subject = 1 //subjectは1にする
+    }
+    let spaceNumber = null;
+
+    for (let i = 0; i < mediaObejctDivHeightKeys.length ; i++){
+      const key:number = mediaObejctDivHeightKeys[i]
+      const yPosArray:Array<number> = mediaObejctDivHeight[key]
+      const yPos:number = yPosArray[subject]
+      if (subject === 0){ //上向きへの移動
+        if (yPos < nowY){
+          spaceNumber = key
+          continue;
+        }
+      }
+      if (subject === 1){ //下向きへの移動
+        if (yPos > nowY){
+          spaceNumber = key - 1
+          continue;
+        }
+      }
+    }
+    return spaceNumber;
+  }
+
+
   // mediaObejctDivHeightSetState(new Array(10)) //レンダリングがかかるたびに要素高さ管理stateの要素数更新する
 
   return (
@@ -162,10 +212,11 @@ const TimelineComponent = () => {
               timelineScrollElement: timelineScrollElement,
 
               timelineUpdateDOM: timelineUpdateDOM,
-              mediaObejctDivHeightSetStateValue:mediaObejctDivHeightSetStateValue
+              mediaObejctDivHeightSetStateValue:mediaObejctDivHeightSetStateValue,
               // middleDataOperation: middleDataOperation,
               // MouseSelectedSetValue: MouseSelectedSetValue,
               // MouseUnselectedSetValue: MouseUnselectedSetValue,
+              mediaObjectSwopInsertionDestination:mediaObjectSwopInsertionDestination
             }}
           >
             <>
