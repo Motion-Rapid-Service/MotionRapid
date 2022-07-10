@@ -31,7 +31,7 @@ export const switchMediaObjectAreaSpace = (props:any) => {
 
   useEffect(() => {
     
-    const match:boolean = props.spaceIndex === TimelineAreaDivContextValue.focusMediaObjectSpace
+    const match:boolean = Number(props.spaceIndex) === Number(TimelineAreaDivContextValue.focusMediaObjectSpace)
     console.log("spaceIndex",props.spaceIndex,match,TimelineAreaDivContextValue.focusMediaObjectSpace)
     if (match) {
       emphasisSpaceSetState(true)

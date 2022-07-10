@@ -74,7 +74,7 @@ export const MediaObjectAreaComponent = (props: any) => {
       </div>
 
       <MediaObjectAreaSpaceComponent.switchMediaObjectAreaSpace
-        spaceIndex={props.indexMediaObejct}
+        spaceIndex={props.indexMediaObejct + 1}
       />
     </>
   );

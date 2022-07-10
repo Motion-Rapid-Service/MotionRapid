@@ -59,7 +59,7 @@ const TimelineComponent = () => {
   }>({});
 
   const [focusMediaObjectSpace, focusMediaObjectSpaceSetState] =
-    useState<number>(null);
+    useState<number>(-1);
 
   const insertUserHandMediaObjectList = (
     mediaObjectUUID: string,
@@ -140,18 +140,19 @@ const TimelineComponent = () => {
     );
 
     const firstKey = mediaObejctDivHeightKeys[0];
-    const lastKey = mediaObejctDivHeightKeys[mediaObejctDivHeightKeys.length - 1];
+    const lastKey =
+      mediaObejctDivHeightKeys[mediaObejctDivHeightKeys.length - 1];
     const firstYpos = mediaObejctDivHeight[firstKey][0];
     const lastYpos = mediaObejctDivHeight[lastKey][1];
 
     if (nowY <= firstYpos) {
       console.log("firstYpos");
-      return -1;
+      return 0;
     }
 
     if (lastYpos <= nowY) {
       console.log("lastYpos");
-      return lastKey;
+      return Number(lastKey) + 1;
     }
 
     if (staY > nowY) {
@@ -168,7 +169,7 @@ const TimelineComponent = () => {
         if (A_yPos >= nowY && nowY >= B_yPos) {
           //上方面
           console.log("上方面", A_yPos, nowY, B_yPos);
-          return A_key - 1;
+          return Number(A_key);
         }
       }
     } else if (staY <= nowY) {
@@ -185,19 +186,11 @@ const TimelineComponent = () => {
         if (A_yPos <= nowY && nowY <= B_yPos) {
           //下方面
           console.log("下方面", A_yPos, nowY, B_yPos);
-          return Number(A_key);
+          return Number(A_key) + 1;
         }
       }
     }
-
-    //console.log("mediaObejctDivHeightKeys",mediaObejctDivHeightKeys)
-    //ここから範囲外の座標処理
-
-    //ここまでが範囲外の座標処理
-
-    //console.log("mediaObejctDivHeight",mediaObejctDivHeight,nowY,staY)
-
-    //return null;
+     return -1;
   };
 
   // mediaObejctDivHeightSetState(new Array(10)) //レンダリングがかかるたびに要素高さ管理stateの要素数更新する
@@ -218,9 +211,6 @@ const TimelineComponent = () => {
 
           // onScroll={TimeLineAreaMove}
         >
-          <MediaObjectAreaSpaceComponent.switchMediaObjectAreaSpace
-            spaceIndex={-1}
-          />
           <TimelineAreaDivContext.Provider
             value={{
               insertUserHandMediaObjectList: insertUserHandMediaObjectList,
@@ -243,6 +233,10 @@ const TimelineComponent = () => {
             }}
           >
             <>
+              <MediaObjectAreaSpaceComponent.switchMediaObjectAreaSpace
+                spaceIndex={0}
+              />
+
               {/* {componentGenerateMediaObjectAreaSpace(-1)} */}
               {AppContextValue.componentConvertMediaObjectArea(
                 SetupEditorContextValue.choiceComposite

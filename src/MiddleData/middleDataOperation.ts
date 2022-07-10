@@ -79,6 +79,13 @@ export default class MiddleDataOperation {
     );
   };
 
+  swopMediaObject = (compositeID: string,swopSubject:number,swopInsertion:number) => {
+    const swopID = this.DataCentral.OwnedClass_Composite[compositeID].OwnedID_MediaObject[swopSubject]
+    this.DataCentral.OwnedClass_Composite[compositeID].OwnedID_MediaObject[swopSubject] = null
+
+    
+  }
+
   operationMediaObjectTime = (sendData: any) => {
     const mediaObjectID = sendData["mediaObjectID"];
 

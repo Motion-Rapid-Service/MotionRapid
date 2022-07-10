@@ -95,7 +95,7 @@ export const TimelineAreaLayerPanelComponent = (props: any) => {
 
     delete UserHandLayerPanelList[MediaObjectContextValue.mediaObjectUUID]
 
-    TimelineAreaDivContextValue.focusMediaObjectSpaceSetState(null)
+    TimelineAreaDivContextValue.focusMediaObjectSpaceSetState(-1)
 
 
   };
@@ -119,6 +119,7 @@ export const TimelineAreaLayerPanelComponent = (props: any) => {
     )
 
     console.log("spaceNumber",spaceNumber, MediaObjectContextValue.mediaObejctIndex)
+
 
     TimelineAreaDivContextValue.focusMediaObjectSpaceSetState(spaceNumber)
     
