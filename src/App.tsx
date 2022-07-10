@@ -21,12 +21,30 @@ const getUUID = () => {
   return String(UUID.generate());
 };
 
-const sortNumber  = (arrayData:Array<number>) => {
+const sortNumber  = (arrayData:Array<number>,sortMode:boolean   ) => {
+  //sortMode
+  //  falseになると昇順ソート
+  //  trueにすると降順ソート
+  
+  let A:number;
+  let B:number;
+  
+  if (sortMode){ //降順ソート
+    A = -1
+    B = 1
+  }
+  else{ //昇順ソート
+    A = 1
+    B = -1
+  }
+
   arrayData.sort(function(first, second){
-    if (first > second){
-      return 1;
-    }else if (first < second){
-      return -1;
+    const Fn = Number(first)
+    const Sn = Number(second)
+    if (Fn > Sn){
+      return A;
+    }else if (Fn < Sn){
+      return B;
     }else{
       return 0;
     }

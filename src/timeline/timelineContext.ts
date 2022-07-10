@@ -12,7 +12,7 @@ type MediaObjectContextValue = {
   endStylePos: number;
   EndSetState: Function;
   mediaObjectUUID: string;
-  indexMediaObejct:number;
+  mediaObejctIndex:number;
   // areaFocus:boolean;
 };
 

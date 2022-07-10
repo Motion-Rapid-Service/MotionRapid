@@ -58,8 +58,8 @@ const TimelineComponent = () => {
     [name: string]: UserHandMediaObjectOperation;
   }>({});
 
-
-  const [focusMediaObjectSpace , focusMediaObjectSpaceSetState]  = useState<number>(null);
+  const [focusMediaObjectSpace, focusMediaObjectSpaceSetState] =
+    useState<number>(null);
 
   const insertUserHandMediaObjectList = (
     mediaObjectUUID: string,
@@ -101,16 +101,15 @@ const TimelineComponent = () => {
     heightIndex: number,
     height: Array<number>
   ) => {
-
-    if (heightIndex === 0){
-      mediaObejctDivHeightSetMaxSize()
+    if (heightIndex === 0) {
+      mediaObejctDivHeightSetMaxSize();
     }
 
     const copyMediaObejctDivHeight = Object.assign(mediaObejctDivHeight);
     copyMediaObejctDivHeight[heightIndex] = height;
     mediaObejctDivHeightSetState(copyMediaObejctDivHeight);
 
-    console.log("mediaObejctDivHeightSetStateValue",mediaObejctDivHeight)
+    console.log("mediaObejctDivHeightSetStateValue", mediaObejctDivHeight);
   };
 
   const mediaObejctDivHeightSetMaxSize = () => {
@@ -121,12 +120,12 @@ const TimelineComponent = () => {
       SetupEditorContextValue.choiceComposite
     ).length;
 
-    console.log("mediaObejctDivHeightSetMaxSize",maxSize)
+    console.log("mediaObejctDivHeightSetMaxSize", maxSize);
 
     for (let i = 0; i < mediaObejctDivHeightKeys.length; i++) {
       const key = Number(mediaObejctDivHeightKeys[i]);
       if (key >= maxSize) {
-        console.log("mediaObejctDivHeightSetMaxSize-del",key,maxSize)
+        console.log("mediaObejctDivHeightSetMaxSize-del", key, maxSize);
         delete copyMediaObejctDivHeight[key];
       }
     }
@@ -134,55 +133,72 @@ const TimelineComponent = () => {
     mediaObejctDivHeightSetState(copyMediaObejctDivHeight);
   };
 
+  const mediaObjectSwopInsertionDestination = (staY: number, nowY: number) => {
+    const mediaObejctDivHeightKeys: Array<number> = AppContextValue.sortNumber(
+      Object.keys(mediaObejctDivHeight),
+      false
+    );
 
-  const mediaObjectSwopInsertionDestination = (staY:number,nowY:number) => {
-    const mediaObejctDivHeightKeys:Array<number> = AppContextValue.sortNumber(Object.keys(mediaObejctDivHeight));
+    const firstKey = mediaObejctDivHeightKeys[0];
+    const lastKey = mediaObejctDivHeightKeys[mediaObejctDivHeightKeys.length - 1];
+    const firstYpos = mediaObejctDivHeight[firstKey][0];
+    const lastYpos = mediaObejctDivHeight[lastKey][1];
+
+    if (nowY <= firstYpos) {
+      console.log("firstYpos");
+      return -1;
+    }
+
+    if (lastYpos <= nowY) {
+      console.log("lastYpos");
+      return lastKey;
+    }
+
+    if (staY > nowY) {
+      //上向きへの移動
+      for (let i = mediaObejctDivHeightKeys.length - 1; i >= 1; i--) {
+        const A_key: number = mediaObejctDivHeightKeys[i];
+        const A_yPosArray: Array<number> = mediaObejctDivHeight[A_key];
+        const A_yPos: number = A_yPosArray[0];
+
+        const B_key: number = mediaObejctDivHeightKeys[i - 1];
+        const B_yPosArray: Array<number> = mediaObejctDivHeight[B_key];
+        const B_yPos: number = B_yPosArray[0];
+
+        if (A_yPos >= nowY && nowY >= B_yPos) {
+          //上方面
+          console.log("上方面", A_yPos, nowY, B_yPos);
+          return A_key - 1;
+        }
+      }
+    } else if (staY <= nowY) {
+      //下向きへの移動
+      for (let i = 0; i < mediaObejctDivHeightKeys.length - 1; i++) {
+        const A_key: number = mediaObejctDivHeightKeys[i];
+        const A_yPosArray: Array<number> = mediaObejctDivHeight[A_key];
+        const A_yPos: number = A_yPosArray[1];
+
+        const B_key: number = mediaObejctDivHeightKeys[i + 1];
+        const B_yPosArray: Array<number> = mediaObejctDivHeight[B_key];
+        const B_yPos: number = B_yPosArray[1];
+
+        if (A_yPos <= nowY && nowY <= B_yPos) {
+          //下方面
+          console.log("下方面", A_yPos, nowY, B_yPos);
+          return Number(A_key);
+        }
+      }
+    }
+
+    //console.log("mediaObejctDivHeightKeys",mediaObejctDivHeightKeys)
     //ここから範囲外の座標処理
-    const firstYpos = mediaObejctDivHeight[0][0]
-    if (nowY <= firstYpos){
-      console.log("firstYpos")
-      return -1
-    }
 
-    const lastKey = mediaObejctDivHeightKeys[mediaObejctDivHeightKeys.length - 1]
-    const lastYpos = mediaObejctDivHeight[lastKey][1]
-
-    if (lastYpos <= nowY){
-      console.log("lastYpos",mediaObejctDivHeightKeys,lastKey)
-      return lastKey
-    }
     //ここまでが範囲外の座標処理
-    let subject; //subject変数はmediaObejctDivHeight連想配列に格納されているheightArrayの上下どちらがわを取得するか決める
 
-    if (staY > nowY) { //上向きへの移動
-      mediaObejctDivHeightKeys.reverse()
-      subject = 0 //subjectは0にする
-    }
-    else if (staY < nowY){ //下向きへの移動
-      subject = 1 //subjectは1にする
-    }
-    let spaceNumber = null;
+    //console.log("mediaObejctDivHeight",mediaObejctDivHeight,nowY,staY)
 
-    for (let i = 0; i < mediaObejctDivHeightKeys.length ; i++){
-      const key:number = mediaObejctDivHeightKeys[i]
-      const yPosArray:Array<number> = mediaObejctDivHeight[key]
-      const yPos:number = yPosArray[subject]
-      if (subject === 0){ //上向きへの移動
-        if (yPos < nowY){
-          spaceNumber = key
-          continue;
-        }
-      }
-      if (subject === 1){ //下向きへの移動
-        if (yPos > nowY){
-          spaceNumber = key - 1
-          continue;
-        }
-      }
-    }
-    return spaceNumber;
-  }
-
+    //return null;
+  };
 
   // mediaObejctDivHeightSetState(new Array(10)) //レンダリングがかかるたびに要素高さ管理stateの要素数更新する
 
@@ -215,13 +231,15 @@ const TimelineComponent = () => {
               timelineScrollElement: timelineScrollElement,
 
               timelineUpdateDOM: timelineUpdateDOM,
-              mediaObejctDivHeightSetStateValue:mediaObejctDivHeightSetStateValue,
+              mediaObejctDivHeightSetStateValue:
+                mediaObejctDivHeightSetStateValue,
               // middleDataOperation: middleDataOperation,
               // MouseSelectedSetValue: MouseSelectedSetValue,
               // MouseUnselectedSetValue: MouseUnselectedSetValue,
-              mediaObjectSwopInsertionDestination:mediaObjectSwopInsertionDestination,
-              focusMediaObjectSpace:focusMediaObjectSpace,
-              focusMediaObjectSpaceSetState:focusMediaObjectSpaceSetState
+              mediaObjectSwopInsertionDestination:
+                mediaObjectSwopInsertionDestination,
+              focusMediaObjectSpace: focusMediaObjectSpace,
+              focusMediaObjectSpaceSetState: focusMediaObjectSpaceSetState,
             }}
           >
             <>

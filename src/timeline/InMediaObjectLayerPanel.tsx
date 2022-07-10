@@ -52,7 +52,7 @@ const SwitchTimelineAreaLayerPanelComponent = (props: any) => {
     const yPosHeight = [positon[1], positon[1] + size[1]];
 
     TimelineAreaDivContextValue.mediaObejctDivHeightSetStateValue(
-      MediaObjectContextValue.indexMediaObejct,
+      MediaObjectContextValue.mediaObejctIndex,
       yPosHeight
     );
   }, [MediaObjectContextValue.mediaObjectUUID, animatorOpen]);
@@ -95,6 +95,8 @@ export const TimelineAreaLayerPanelComponent = (props: any) => {
 
     delete UserHandLayerPanelList[MediaObjectContextValue.mediaObjectUUID]
 
+    TimelineAreaDivContextValue.focusMediaObjectSpaceSetState(null)
+
 
   };
   const mouseMove = (event:any) => {
@@ -107,12 +109,17 @@ export const TimelineAreaLayerPanelComponent = (props: any) => {
       TimelineAreaDivContextValue.timelineScrollElement
     )[1];
 
+    const staY =  Object.values(UserHandLayerPanelList)[0].mousePushPos
+    const nowY = mousePushPosY
+
+    console.log("UserHandLayerPanelListMouseMove",staY,nowY,MediaObjectContextValue.mediaObjectUUID)
+
     const spaceNumber = TimelineAreaDivContextValue.mediaObjectSwopInsertionDestination(
-      Object.values(UserHandLayerPanelList)[0].mousePushPos,
-      mousePushPosY
+      staY,nowY
     )
 
-    console.log("spaceNumber",spaceNumber)
+    console.log("spaceNumber",spaceNumber, MediaObjectContextValue.mediaObejctIndex)
+
     TimelineAreaDivContextValue.focusMediaObjectSpaceSetState(spaceNumber)
     
   };

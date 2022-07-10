@@ -62,7 +62,7 @@ export const MediaObjectAreaComponent = (props: any) => {
             endStylePos: endStylePos,
             EndSetState: EndSetState,
             mediaObjectUUID: MediaObject_ID,
-            indexMediaObejct: props.indexMediaObejct,
+            mediaObejctIndex: props.indexMediaObejct,
           }}
         >
           {/* <div className="media_object-area-left"></div> */}
