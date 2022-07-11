@@ -80,10 +80,11 @@ export default class MiddleDataOperation {
   };
 
   swopMediaObject = (compositeID: string,swopSubject:number,swopInsertion:number) => {
-    const swopID = this.DataCentral.OwnedClass_Composite[compositeID].OwnedID_MediaObject[swopSubject]
-    this.DataCentral.OwnedClass_Composite[compositeID].OwnedID_MediaObject[swopSubject] = null
+    // const swopID = this.DataCentral.OwnedClass_Composite[compositeID].OwnedID_MediaObject[swopSubject]
+    // this.DataCentral.OwnedClass_Composite[compositeID].OwnedID_MediaObject[swopSubject] = null
 
-    
+    // arr.splice(2, 0, 'AAA', 'BBB', 'CCC');
+
   }
 
   operationMediaObjectTime = (sendData: any) => {
