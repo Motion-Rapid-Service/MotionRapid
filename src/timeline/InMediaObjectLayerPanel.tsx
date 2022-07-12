@@ -10,7 +10,8 @@ import {
   LayerPanelContext,
   LayerDurationContext,
 } from "./timelineContext";
-import { SetupToolbarContext } from "./../SetupEditor/SetupToolbarContext";
+import { SetupEditorContext } from "./../SetupEditor/SetupEditorContext";
+
 
 // import { timelineMousePosition ,timelineLayerPanelPostion} from "./timeLineMousePosition";
 import * as timelineMousePosition from "./timeLineMousePosition";
@@ -81,6 +82,7 @@ export const TimelineAreaLayerPanelComponent = (props: any) => {
   const MediaObjectContextValue = useContext(MediaObjectContext);
   const TimelineAreaDivContextValue = useContext(TimelineAreaDivContext);
   const timelineAreaLayerPanelElement = useRef(null);
+  const SetupEditorContextValue = useContext(SetupEditorContext)
   const animatorOpen = MediaObjectContextValue.animatorOpen as boolean;
 
   const mouseUp = (event:any) => {
@@ -88,15 +90,17 @@ export const TimelineAreaLayerPanelComponent = (props: any) => {
       return;
     }
 
-    const mousePushPosY = timelineMousePosition.timelineMousePostion(
+    const nowY = timelineMousePosition.timelineMousePostion(
       event,
       TimelineAreaDivContextValue.timelineScrollElement
     )[1];
 
+    AppContextValue.swopMediaObject(SetupEditorContextValue.choiceComposite,MediaObjectContextValue.mediaObejctIndex,nowY)
+
     delete UserHandLayerPanelList[MediaObjectContextValue.mediaObjectUUID]
 
     TimelineAreaDivContextValue.focusMediaObjectSpaceSetState(-1)
-
+    AppContextValue.updateDOM();
 
   };
   const mouseMove = (event:any) => {
@@ -104,13 +108,12 @@ export const TimelineAreaLayerPanelComponent = (props: any) => {
       return;
     }
 
-    const mousePushPosY = timelineMousePosition.timelineMousePostion(
+    const nowY = timelineMousePosition.timelineMousePostion(
       event,
       TimelineAreaDivContextValue.timelineScrollElement
     )[1];
 
     const staY =  Object.values(UserHandLayerPanelList)[0].mousePushPos
-    const nowY = mousePushPosY
 
     console.log("UserHandLayerPanelListMouseMove",staY,nowY,MediaObjectContextValue.mediaObjectUUID)
 

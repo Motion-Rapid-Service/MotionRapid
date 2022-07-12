@@ -18,7 +18,7 @@ type AppContextValue = {
   fileExportDataCentral:Function
   fileExportComposite:Function
   buildMiddleDataHtml:Function
-
+  swopMediaObject:Function
   // htmlBuildMain:Function
 };
 
