@@ -82,7 +82,7 @@ export const TimelineAreaLayerPanelComponent = (props: any) => {
   const SetupEditorContextValue = useContext(SetupEditorContext)
   const animatorOpen = MediaObjectContextValue.animatorOpen as boolean;
 
-  const mouseUp = (event:any) => {
+  const mouseUp = (event: any) => {
     if (!(MediaObjectContextValue.mediaObjectUUID in UserHandLayerPanelList)) {
       return;
     }
@@ -92,12 +92,17 @@ export const TimelineAreaLayerPanelComponent = (props: any) => {
       TimelineAreaDivContextValue.timelineScrollElement
     )[1];
 
-    const staY =  Object.values(UserHandLayerPanelList)[0].mousePushPos
+    const staY = Object.values(UserHandLayerPanelList)[0].mousePushPos
 
     const spaceNumber = TimelineAreaDivContextValue.mediaObjectSwopInsertionDestination(
-      staY,nowY
+      staY, nowY
     )
-    AppContextValue.swopMediaObject(SetupEditorContextValue.choiceComposite,MediaObjectContextValue.mediaObejctIndex,spaceNumber)
+
+    if (spaceNumber < 0) {
+      return
+    }
+
+    AppContextValue.swopMediaObject(SetupEditorContextValue.choiceComposite, MediaObjectContextValue.mediaObejctIndex, spaceNumber)
 
     delete UserHandLayerPanelList[MediaObjectContextValue.mediaObjectUUID]
 
@@ -105,7 +110,7 @@ export const TimelineAreaLayerPanelComponent = (props: any) => {
     AppContextValue.updateDOM();
 
   };
-  const mouseMove = (event:any) => {
+  const mouseMove = (event: any) => {
     if (!(MediaObjectContextValue.mediaObjectUUID in UserHandLayerPanelList)) {
       return;
     }
@@ -115,17 +120,17 @@ export const TimelineAreaLayerPanelComponent = (props: any) => {
       TimelineAreaDivContextValue.timelineScrollElement
     )[1];
 
-    const staY =  Object.values(UserHandLayerPanelList)[0].mousePushPos
+    const staY = Object.values(UserHandLayerPanelList)[0].mousePushPos
 
     const spaceNumber = TimelineAreaDivContextValue.mediaObjectSwopInsertionDestination(
-      staY,nowY
+      staY, nowY
     )
 
 
     TimelineAreaDivContextValue.focusMediaObjectSpaceSetState(spaceNumber)
-    
+
   };
-  const mouseDown = (event:any) => {
+  const mouseDown = (event: any) => {
     const mousePushPosY = timelineMousePosition.timelineMousePostion(
       event,
       TimelineAreaDivContextValue.timelineScrollElement
@@ -152,7 +157,7 @@ export const TimelineAreaLayerPanelComponent = (props: any) => {
       className="media_object-area-layer_panel"
       ref={timelineAreaLayerPanelElement}
       onMouseDown={mouseDown}
-      style={{"width":TimelineAreaDivContextValue.elementLayerPanelWidth+"px"}}
+      style={{ "width": TimelineAreaDivContextValue.elementLayerPanelWidth + "px" }}
     >
       <LayerPanelContext.Provider
         value={{ timelineAreaLayerPanelElement: timelineAreaLayerPanelElement }}
