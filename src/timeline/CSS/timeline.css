@@ -17,7 +17,7 @@
   width: 3000px;
 }
 
-.timeline-area-scroll > .media_object-area {
+.timeline-area-scroll .media_object-area {
   /* background-color: rgb(200, 200, 200); */
   width: 100%;
   margin: 0px;
