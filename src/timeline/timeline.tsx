@@ -95,7 +95,6 @@ const TimelineComponent = () => {
   };
   const getUserHandMediaObjectList = (mediaObjectUUID: string) => {
     const getHand = UserHandMediaObjectList[mediaObjectUUID];
-    //console.log("getUserHandMediaObjectList",mediaObjectUUID)
     return getHand;
   };
 
@@ -115,7 +114,6 @@ const TimelineComponent = () => {
     copyMediaObejctDivHeight[heightIndex] = height;
     mediaObejctDivHeightSetState(copyMediaObejctDivHeight);
 
-    console.log("mediaObejctDivHeightSetStateValue", mediaObejctDivHeight);
   };
 
   const mediaObejctDivHeightSetMaxSize = () => {
@@ -126,12 +124,10 @@ const TimelineComponent = () => {
       SetupEditorContextValue.choiceComposite
     ).length;
 
-    console.log("mediaObejctDivHeightSetMaxSize", maxSize);
-
     for (let i = 0; i < mediaObejctDivHeightKeys.length; i++) {
       const key = Number(mediaObejctDivHeightKeys[i]);
       if (key >= maxSize) {
-        console.log("mediaObejctDivHeightSetMaxSize-del", key, maxSize);
+
         delete copyMediaObejctDivHeight[key];
       }
     }
@@ -152,12 +148,10 @@ const TimelineComponent = () => {
     const lastYpos = mediaObejctDivHeight[lastKey][1];
 
     if (nowY <= firstYpos) {
-      console.log("firstYpos");
       return 0;
     }
 
     if (lastYpos <= nowY) {
-      console.log("lastYpos");
       return Number(lastKey) + 1;
     }
 
@@ -174,7 +168,6 @@ const TimelineComponent = () => {
 
         if (A_yPos >= nowY && nowY >= B_yPos) {
           //上方面
-          console.log("上方面", A_yPos, nowY, B_yPos);
           return Number(A_key);
         }
       }
@@ -191,7 +184,6 @@ const TimelineComponent = () => {
 
         if (A_yPos <= nowY && nowY <= B_yPos) {
           //下方面
-          console.log("下方面", A_yPos, nowY, B_yPos);
           return Number(A_key) + 1;
         }
       }
@@ -205,7 +197,6 @@ const TimelineComponent = () => {
     const size = timelineMousePosition.elementSize(
       timelineAreaElement
     );
-    console.log("windowSizeEvent",size)
 
     elementTimelineWidthSetState(size[0])
   }

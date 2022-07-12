@@ -13,7 +13,7 @@ const ToolBarDetailSingleComponent = (props: any) => {
   // const componentConvertToolBarEditor =
   //   AppContextValue.componentConvertToolBarEditor;
   // const toolBarClassificationArray = AppContextValue.toolBarClassificationArray;
-  // console.log("DownstreamToolBarEditorData", props.DownstreamToolBarEditorData);
+
   const MouseDown = () => {
     props.DownstreamToolBarEditorData.editorFunction({"choiceComposite":props.choiceComposite});
     AppContextValue.updateDOM();
@@ -30,14 +30,11 @@ const ToolBarDetailSingleComponent = (props: any) => {
 
 const ToolBarSingleComponent = (props: any) => {
   // ここでhooksを使える
-  // console.log(
-  //   "props.DownstreamToolBarClassificationData",
-  //   props.DownstreamToolBarClassificationData
-  // );
+
   const MouseDown = () => {
     const toolBarClassificationName =
       props.DownstreamToolBarClassificationData.toolBarClassificationName;
-    // console.log("ToolBarSingleComponent-MouseDown", toolBarClassificationName);
+
     props.switchToolBarDetailSetState(toolBarClassificationName);
   };
 
@@ -83,10 +80,7 @@ const toolBarComponent = (props: any) => {
   };
 
   useEffect(() => {
-    console.log(
-      "choiceComposite - SetupEditorContextValue - useEffect",
-      SetupEditorContextValue.choiceComposite
-    );
+
   }, [SetupEditorContextValue.choiceComposite]);
 
   const buildHtml = (funcdata:any) => {
@@ -96,7 +90,7 @@ const toolBarComponent = (props: any) => {
   };
 
   useEffect(() => {
-    console.log("toolBar - useEffect");
+
 
     let toolBar_A = "fileEdit";
     insertToolBarClassificationArraySetStateValue(

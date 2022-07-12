@@ -9,7 +9,7 @@
   background-color: rgb(50, 50, 50);
   width: auto;
   height: 90vh;
-  margin: 0px 2px 2px 2px;
+  margin: 0px 2px 200px 2px;
   overflow: scroll;
 }
 
@@ -21,7 +21,7 @@
 .timeline-area-scroll {
   /* background-color: rgb(200, 200, 200); */
   margin: 0px;
-  width: 1500px;
+  width: 3000px;
 }
 
 .timeline-area-scroll > .media_object-area {
@@ -57,14 +57,14 @@
 }
 
 .media_object-area .media_object-area-layer_panel {
-  width: 30%;
+  /* width: 20vw; */
   margin: 0px;
   background-color: rgb(100, 100, 100);
   /* height: var(--media_object-height); */
 }
 
 .media_object-area .media_object-area-layer_duration {
-  width: 70%;
+  /* width: 70vw; */
   margin: 0px;
   overflow: hidden;
 }
@@ -104,10 +104,11 @@
   margin: auto;
 }
 
-/* .media_object-area-layer_duration .media_object-area-layer_panel {
-} */
+.media_object-area-layer_panel {
+  /* position: absolute; */
+}
 
-.media_object-area-layer_panel .layer_panel-media_object {
+.media_object-area-layer_panel .layer_panel-entity {
   height: var(--media_object-height);
 }
 .media_object-area-layer_panel .layer_panel-animator {

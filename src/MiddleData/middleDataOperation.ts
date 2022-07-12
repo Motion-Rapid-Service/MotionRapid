@@ -81,7 +81,6 @@ export default class MiddleDataOperation {
 
   swopMediaObject = (compositeID: string, swopSubject: number, swopInsertion: number) => {
 
-    console.log("swopMediaObject", compositeID, swopSubject, swopInsertion)
     //compositeID : 対象コンポジットID
     //swopSubject : スワップ対象
     //swopInsertion : 挿入先
@@ -90,15 +89,15 @@ export default class MiddleDataOperation {
 
 
     const swopID = swopOwnedID_MediaObject[swopSubject]
-    console.log("swopOwnedID_MediaObject", swopOwnedID_MediaObject)
+
     swopOwnedID_MediaObject[swopSubject] = "not"
     swopOwnedID_MediaObject.splice(swopInsertion, 0, swopID);
 
     for (let i = 0; i < swopOwnedID_MediaObject.length; i++) {
       if (swopOwnedID_MediaObject[i] == "not") {
-        console.log("swopOwnedID_MediaObject-null値判定", i)
+
         const beforeSwopOwnedID_MediaObject = swopOwnedID_MediaObject.splice(i, 1)
-        console.log("beforeSwopOwnedID_MediaObject", beforeSwopOwnedID_MediaObject)
+
         continue
       }
     }
@@ -115,7 +114,7 @@ export default class MiddleDataOperation {
     const mediaObjectID = sendData["mediaObjectID"];
 
     if (!hasKeyFound("mediaObjectID", sendData)) {
-      // console.log("notFound mediaObjectID");
+
       return;
     }
     if (hasKeyFound("sta", sendData)) {
@@ -130,14 +129,12 @@ export default class MiddleDataOperation {
     }
   };
   operationKeyframeTime = (sendData: any) => {
-    console.log("operationKeyframeTime", sendData);
+
 
     const KeyframeID = sendData["KeyframeID"];
 
-    // console.log("operationKeyframeTime - 1",  this.DataCentral.OwnedClass_Keyframe,this.DataCentral.OwnedClass_Keyframe[KeyframeID],KeyframeID);
-
     if (!hasKeyFound("KeyframeID", sendData)) {
-      // console.log("notFound KeyframeID");
+
       return;
     }
     if (hasKeyFound("time", sendData)) {
@@ -147,16 +144,14 @@ export default class MiddleDataOperation {
         sendData["time"];
     }
 
-    // console.log("operationKeyframeTime - 2", this.DataCentral.OwnedClass_Keyframe[KeyframeID]);
   };
 
   getOwnedID_Composite = () => {
-    // console.log("md",this.DataCentral.OwnedClass_Composite[compositeID].OwnedID_MediaObject)
+
     return Object.assign(Object.keys(this.DataCentral.OwnedClass_Composite));
   };
 
   getOwnedID_MediaObject = (compositeID: string) => {
-    // console.log("md",this.DataCentral.OwnedClass_Composite[compositeID].OwnedID_MediaObject)
 
     let returnData = [];
     if (hasKeyFound(compositeID, this.DataCentral.OwnedClass_Composite)) {
@@ -168,7 +163,7 @@ export default class MiddleDataOperation {
   };
 
   getOwnedID_Animator = (mediaObjectID: string) => {
-    console.log("getOwnedID_Animator", mediaObjectID)
+
     return Object.assign(
       this.DataCentral.OwnedClass_MediaObject[mediaObjectID].OwnedID_Animator
     );
@@ -192,8 +187,6 @@ export default class MiddleDataOperation {
   getKeyframeTime = (keyframeID: string) => {
     const Keyframe_AbsoluteTime =
       this.DataCentral.OwnedClass_Keyframe[keyframeID].Keyframe_AbsoluteTime;
-
-    console.log("Keyframe_AbsoluteTime", Keyframe_AbsoluteTime, keyframeID);
 
     return Keyframe_AbsoluteTime;
   };
@@ -242,19 +235,17 @@ export default class MiddleDataOperation {
     this.fileExportCommon(jsonComposite, CompositeID + "File", 'application/json', "json")
   }
   buildMiddleDataHtml = (CompositeID: string) => {
-    console.log("CompositeID-buildMiddleDataHtml", CompositeID)
+
     const jsonData = JSON.parse(JSON.stringify(this.DataCentral, null, "\t"))
     const jsonSyntaxHtml = htmlBuildMain(jsonData, CompositeID)
     this.fileExportCommon(jsonSyntaxHtml, CompositeID + "html", "text/html", "html")
   }
   rewriteMediaObejctAnimatorOpen = (mediaObjectID: string, openBool: boolean) => {
-    //console.log("rewriteMediaObejctAnimatorOpen",this.DataCentral.OwnedClass_MediaObject,mediaObjectID)
 
     this.DataCentral.OwnedClass_MediaObject[mediaObjectID].animatorOpen = openBool
   }
   getMediaObejctAnimatorOpen = (mediaObjectID: string) => {
 
-    //console.log("rewriteMediaObejctAnimatorOpen2",this.DataCentral.OwnedClass_MediaObject[mediaObjectID])
 
     const retemp:boolean = this.DataCentral.OwnedClass_MediaObject[mediaObjectID].animatorOpen
     return retemp;

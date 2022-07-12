@@ -49,14 +49,9 @@ export const MediaObjectAreaComponent = (props: any) => {
     });
   }, [staStylePos, endStylePos]);
 
-  const MediaObjectContextValue = useContext(MediaObjectContext);
-  const [emphasisSpace, emphasisSpaceSetState] = useState<boolean>(false);
-
   useEffect(() => {
     AppContextValue.rewriteMediaObejctAnimatorOpen(MediaObject_ID,animatorOpen)
   }, [animatorOpen]);
-
-
   useEffect(() => {
     const openTemp = AppContextValue.getMediaObejctAnimatorOpen(MediaObject_ID)
     animatorOpenSetState(openTemp)
