@@ -10,6 +10,7 @@ import * as MediaObjectAreaSpaceComponent from "./MediaObjectSpace";
 import { AppContext } from "./../AppContext";
 import { SetupEditorContext } from "./../SetupEditor/SetupEditorContext";
 import { SetupToolbarContext } from "./../SetupEditor/SetupToolbarContext";
+import * as timelineMousePosition from "./timeLineMousePosition";
 
 class UserHandMediaObjectOperation {
   mouseDownFlag: number; //0:押していない , 1:左側 , 2:右側 , 3:動作
@@ -53,6 +54,11 @@ const TimelineComponent = () => {
   const AppContextValue = useContext(AppContext);
   const SetupEditorContextValue = useContext(SetupEditorContext);
   const SetupToolbarContextValue = useContext(SetupToolbarContext);
+
+  //elementTimelineWidthSetState elementLayerPanelWidthSetState elementLayerDurationWidthSetState
+  const [elementTimelineWidth,elementTimelineWidthSetState] = useState<number>(0);
+  const [elementLayerPanelWidth,elementLayerPanelWidthSetState] = useState<number>(0);
+  const [elementLayerDurationWidth,elementLayerDurationWidthSetState] = useState<number>(0);
 
   const [UserHandMediaObjectList, UserHandMediaObjectListSetState] = useState<{
     [name: string]: UserHandMediaObjectOperation;
@@ -193,6 +199,27 @@ const TimelineComponent = () => {
      return -1;
   };
 
+  
+  //elementTimelineWidthSetState elementLayerPanelWidthSetState elementLayerDurationWidthSetState
+  const windowSizeEvent = () => {
+    const size = timelineMousePosition.elementSize(
+      timelineAreaElement
+    );
+    console.log("windowSizeEvent",size)
+
+    elementTimelineWidthSetState(size[0])
+    elementLayerPanelWidthSetState(300)
+    elementLayerDurationWidthSetState(size[0] - 300)
+  }
+
+  useEffect(() => {
+    window.addEventListener('resize', windowSizeEvent);
+    return () => {
+      window.removeEventListener('resize', windowSizeEvent);
+    }
+  }, [])
+  
+
   // mediaObejctDivHeightSetState(new Array(10)) //レンダリングがかかるたびに要素高さ管理stateの要素数更新する
 
   return (
@@ -208,6 +235,8 @@ const TimelineComponent = () => {
           className="timeline-area-scroll"
           ref={timelineScrollElement}
           draggable="false"
+
+          style={{width:"1000px"}}
 
           // onScroll={TimeLineAreaMove}
         >
@@ -230,6 +259,10 @@ const TimelineComponent = () => {
                 mediaObjectSwopInsertionDestination,
               focusMediaObjectSpace: focusMediaObjectSpace,
               focusMediaObjectSpaceSetState: focusMediaObjectSpaceSetState,
+
+              elementTimelineWidth:elementTimelineWidth,
+              elementLayerPanelWidth:elementLayerPanelWidth,
+              elementLayerDurationWidth:elementLayerDurationWidth
             }}
           >
             <>

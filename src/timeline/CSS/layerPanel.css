@@ -1,7 +1,7 @@
 /* .media_object-area-layer_duration .media_object-area-layer_panel {
 } */
 
-.media_object-area-layer_panel .layer_panel-media_object {
+.media_object-area-layer_panel .layer_panel-entity {
   height: var(--media_object-height);
 }
 .media_object-area-layer_panel .layer_panel-animator {

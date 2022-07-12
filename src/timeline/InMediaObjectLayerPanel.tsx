@@ -46,7 +46,7 @@ const SwitchTimelineAreaLayerPanelComponent = (props: any) => {
       LayerPanelContextValue.timelineAreaLayerPanelElement
     );
 
-    const size = timelineMousePosition.mediaObjectSize(
+    const size = timelineMousePosition.elementSize(
       LayerPanelContextValue.timelineAreaLayerPanelElement
     );
 
@@ -95,7 +95,12 @@ export const TimelineAreaLayerPanelComponent = (props: any) => {
       TimelineAreaDivContextValue.timelineScrollElement
     )[1];
 
-    AppContextValue.swopMediaObject(SetupEditorContextValue.choiceComposite,MediaObjectContextValue.mediaObejctIndex,nowY)
+    const staY =  Object.values(UserHandLayerPanelList)[0].mousePushPos
+
+    const spaceNumber = TimelineAreaDivContextValue.mediaObjectSwopInsertionDestination(
+      staY,nowY
+    )
+    AppContextValue.swopMediaObject(SetupEditorContextValue.choiceComposite,MediaObjectContextValue.mediaObejctIndex,spaceNumber)
 
     delete UserHandLayerPanelList[MediaObjectContextValue.mediaObjectUUID]
 
@@ -155,6 +160,7 @@ export const TimelineAreaLayerPanelComponent = (props: any) => {
       className="media_object-area-layer_panel"
       ref={timelineAreaLayerPanelElement}
       onMouseDown={mouseDown}
+      style={{width:TimelineAreaDivContextValue.elementLayerPanelWidth+"px"}}
     >
       <LayerPanelContext.Provider
         value={{ timelineAreaLayerPanelElement: timelineAreaLayerPanelElement }}
@@ -172,7 +178,7 @@ export const LayerPanelMediaObjectComponent = (props: any) => {
 
   // const MediaObjectContextValue = useContext(MediaObjectContext);
   return (
-    <div className="layer_panel-media_object">
+    <div className="layer_panel-entity">
       <p>{MediaObjectContextValue.mediaObjectUUID}</p>
     </div>
   );

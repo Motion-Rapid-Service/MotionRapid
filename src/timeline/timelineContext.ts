@@ -32,6 +32,10 @@ type TimelineAreaDivContextValue = {
   mediaObjectSwopInsertionDestination:Function
   focusMediaObjectSpace:number
   focusMediaObjectSpaceSetState:Function
+
+  elementTimelineWidth:number,
+  elementLayerPanelWidth:number,
+  elementLayerDurationWidth:number
 };
 
 export const TimelineAreaDivContext =

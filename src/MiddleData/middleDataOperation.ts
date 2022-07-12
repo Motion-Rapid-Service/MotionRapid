@@ -85,14 +85,20 @@ export default class MiddleDataOperation {
       //compositeID : 対象コンポジットID
       //swopSubject : スワップ対象
       //swopInsertion : 挿入先
+
     const swopOwnedID_MediaObject = Object.assign(this.DataCentral.OwnedClass_Composite[compositeID].OwnedID_MediaObject)
+
+    
     const swopID = swopOwnedID_MediaObject[swopSubject]
-    swopOwnedID_MediaObject[swopSubject] = null
+    console.log("swopOwnedID_MediaObject",swopOwnedID_MediaObject)
+    swopOwnedID_MediaObject[swopSubject] = "not"
     swopOwnedID_MediaObject.splice(swopInsertion, 0,swopID);
 
     for (let i = 0 ; i < swopOwnedID_MediaObject.length; i++){
-      if(!swopOwnedID_MediaObject[i]){
-        delete swopOwnedID_MediaObject[i]
+      if(swopOwnedID_MediaObject[i] == "not"){
+        console.log("swopOwnedID_MediaObject-null値判定",i)
+        const beforeSwopOwnedID_MediaObject = swopOwnedID_MediaObject.splice(i,1)
+        console.log("beforeSwopOwnedID_MediaObject",beforeSwopOwnedID_MediaObject)
         continue
       }
     }
@@ -162,6 +168,7 @@ export default class MiddleDataOperation {
   };
 
   getOwnedID_Animator = (mediaObjectID: string) => {
+    console.log("getOwnedID_Animator",mediaObjectID)
     return Object.assign(
       this.DataCentral.OwnedClass_MediaObject[mediaObjectID].OwnedID_Animator
     );
