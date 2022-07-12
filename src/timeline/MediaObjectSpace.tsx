@@ -32,7 +32,7 @@ export const switchMediaObjectAreaSpace = (props:any) => {
   useEffect(() => {
     
     const match:boolean = Number(props.spaceIndex) === Number(TimelineAreaDivContextValue.focusMediaObjectSpace)
-    console.log("spaceIndex",props.spaceIndex,match,TimelineAreaDivContextValue.focusMediaObjectSpace)
+
     if (match) {
       emphasisSpaceSetState(true)
     }
@@ -42,6 +42,5 @@ export const switchMediaObjectAreaSpace = (props:any) => {
   }, [TimelineAreaDivContextValue.focusMediaObjectSpace,MediaObjectContextValue.mediaObjectUUID, MediaObjectContextValue.animatorOpen]);
 
 
-  console.log("MediaObjectAreaSpaceComponentIndex", props.spaceIndex);
   return (<MediaObjectAreaSpaceComponent emphasis={emphasisSpace}/>);
 };

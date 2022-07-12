@@ -37,7 +37,6 @@ export const KeyFrameComponent = (props: any) => {
     }
 
     const UserHandKeyframe = UserHandKeyframeList[keyframeUUID];
-    // console.log(UserHandKeyframe);
 
     const mouseX = timelineMousePosition.mediaObjectMousePosition(event, LayerDurationContextValue.timelineAreaLayerDurationElement)[0];
     const mouseMoveX = mouseX - UserHandKeyframe.mousePushPos;
@@ -70,21 +69,17 @@ export const KeyFrameComponent = (props: any) => {
       KeyframeID: keyframeUUID,
       time: keyframeStylePos,
     });
-    console.log("keyframeStylePos",keyframeStylePos,keyframeUUID)
   }, [keyframeStylePos]);
 
   useEffect(() => {
     const KeyframeTime = AppContextValue.getKeyframeTime(keyframeUUID);
-    console.log("useEffect - add - keyframeUUID",keyframeUUID,KeyframeTime);
     KeyframePosSetState(KeyframeTime);
 
     window.addEventListener("mousemove", keyframeMouseMoveAction);
     window.addEventListener("mouseup", MouseRelease);
-    // console.log("keyframeMouseMoveAction");
 
     return () => {
       //removeEventListener
-      console.log("useEffect - del - keyframeUUID");
       window.removeEventListener("mousemove", keyframeMouseMoveAction);
       window.removeEventListener("mouseup", MouseRelease);
     };

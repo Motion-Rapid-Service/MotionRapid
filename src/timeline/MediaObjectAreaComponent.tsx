@@ -15,8 +15,6 @@ import * as MediaObjectAreaSpaceComponent from "./MediaObjectSpace";
 export const MediaObjectAreaComponent = (props: any) => {
   const mediaObjectAreaElement = useRef<HTMLDivElement>(null);
 
-  // console.log("middleDataMediaObject",DownstreamMiddleDataMediaObject)
-
   const AppContextValue = useContext(AppContext);
   const [animatorOpen, animatorOpenSetState] = useState<boolean>(true);
   const [staStylePos, StaSetState] = useState<number>(null);
@@ -24,17 +22,14 @@ export const MediaObjectAreaComponent = (props: any) => {
 
   const MediaObject_ID =
     props.DownstreamMiddleDataMediaObject["MediaObject_ID"];
-  console.log(
-    "props.DownstreamMiddleDataMediaObjectMediaObject_ID",
-    props.DownstreamMiddleDataMediaObject["MediaObject_ID"]
-  );
+
 
   useEffect(() => {
     // const ElementBoundingClientRect =
     // mediaObjectAreaElement.current.getBoundingClientRect();
     // const ElementLeft = ElementBoundingClientRect.left;
     // const ElementTop = ElementBoundingClientRect.top;
-    // console.log("MediaObjectAreaComponent",ElementLeft,ElementTop)
+
   }, []);
 
   useEffect(() => {

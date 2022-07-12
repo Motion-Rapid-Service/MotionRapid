@@ -36,10 +36,7 @@ const SwitchTimelineAreaLayerPanelComponent = (props: any) => {
   const animatorOpen = MediaObjectContextValue.animatorOpen as boolean;
 
   useEffect(() => {
-    console.log(
-      TimelineAreaDivContextValue.timelineScrollElement,
-      LayerPanelContextValue.timelineAreaLayerPanelElement
-    );
+
 
     const positon = timelineMousePosition.mediaObjectTimelinePostion(
       TimelineAreaDivContextValue.timelineScrollElement,
@@ -120,13 +117,9 @@ export const TimelineAreaLayerPanelComponent = (props: any) => {
 
     const staY =  Object.values(UserHandLayerPanelList)[0].mousePushPos
 
-    console.log("UserHandLayerPanelListMouseMove",staY,nowY,MediaObjectContextValue.mediaObjectUUID)
-
     const spaceNumber = TimelineAreaDivContextValue.mediaObjectSwopInsertionDestination(
       staY,nowY
     )
-
-    console.log("spaceNumber",spaceNumber, MediaObjectContextValue.mediaObejctIndex)
 
 
     TimelineAreaDivContextValue.focusMediaObjectSpaceSetState(spaceNumber)
@@ -142,7 +135,6 @@ export const TimelineAreaLayerPanelComponent = (props: any) => {
       mousePushPosY
     );
 
-    console.log("mousePushPosY",mousePushPosY)
 
   };
 

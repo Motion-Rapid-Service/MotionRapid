@@ -13,7 +13,6 @@ const Editor = () => {
   const [choiceComposite, choiceCompositeSetState] = useState<string>("not");
 
   useEffect(() => {
-    console.log("choiceComposite - useEffect",choiceComposite)
   }, [choiceComposite]);
 
   return (

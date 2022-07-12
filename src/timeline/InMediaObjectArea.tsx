@@ -88,11 +88,10 @@ export const MediaObjectScrollComponent = () => {
     ) {
       return;
     }
-    //console.log(userHandMediaObject, "B");
+
     const userHandMediaObject =
       TimelineAreaDivContextValue.getUserHandMediaObjectList(mediaObjectUUID);
     const mouseMoveX = mouseX - userHandMediaObject.mousePushPos;
-    // console.log(mouseX, mousePushPos, mouseMoveX, staStylePos, endStylePos);
 
     switch (userHandMediaObject.mouseDownFlag) {
       case 1:
@@ -141,7 +140,7 @@ export const MediaObjectScrollComponent = () => {
       endStylePos
     );
 
-    // console.log("mouseDownFlag", mouseDownFlag,tempNumber);
+
   };
   const MouseRelease = (event: any) => {
     // const mouseEndPos = timeLineMousePosition(event, mediaObjectAreaElement)[0];
@@ -156,15 +155,14 @@ export const MediaObjectScrollComponent = () => {
     window.addEventListener("mouseup", MouseRelease);
     StaSetState(mediaObjectTime[0]);
     EndSetState(mediaObjectTime[1]);
-    console.log("InMediaObjectArea - add ");
+
 
     return () => {
       // イベントの設定解除
       // document.removeEventListener('click', countUp);
       window.removeEventListener("mousemove", timeLineMouseMoveAction);
       window.removeEventListener("mouseup", MouseRelease);
-      console.log("InMediaObjectArea - del ");
-      // console.log("timeLineMouseMoveAction - remove");
+
     };
   }, [mediaObjectUUID]);
 

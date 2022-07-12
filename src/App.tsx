@@ -140,8 +140,7 @@ const componentConvertCompositeChoiceArea = () => {
       Composite_ID: compositeIDArray[i],
     });
   }
-  // console.log("compositeIDArray",compositeIDArray)
-  // console.log("middleDataCompositeTemp",middleDataCompositeTemp)
+
   return middleDataCompositeTemp;
 };
 
@@ -149,7 +148,6 @@ const componentConvertMediaObjectArea = (send_CompositeID: string) => {
   // const send_CompositeID =  CompositeID_0
   const mediaObjIDArray =
     middleDataOperation.getOwnedID_MediaObject(send_CompositeID);
-  // console.log("componentConvertMediaObjectArea", mediaObjIDArray);
 
   const middleDataMediaObjectTemp = [];
 
@@ -164,7 +162,6 @@ const componentConvertMediaObjectArea = (send_CompositeID: string) => {
 const componentConvertAnimatorArea = (send_MediaObjectID: string) => {
   const AnimatorIDArray =
     middleDataOperation.getOwnedID_Animator(send_MediaObjectID);
-  // console.log("componentConvertMediaObjectArea", mediaObjIDArray);
 
   const middleDataAnimatorTemp = [];
 
@@ -173,14 +170,13 @@ const componentConvertAnimatorArea = (send_MediaObjectID: string) => {
       Animator_ID: AnimatorIDArray[i],
     });
   }
-  // console.log("middleDataAnimatorTemp", middleDataAnimatorTemp);
+
   return middleDataAnimatorTemp;
 };
 
 const componentConvertKeyframeArea = (send_AnimatorID: string) => {
   const KeyframeIDArray =
     middleDataOperation.getOwnedID_Keyframe(send_AnimatorID);
-  // console.log("componentConvertMediaObjectArea", mediaObjIDArray);
 
   const middleDataKeyframeTemp = [];
 

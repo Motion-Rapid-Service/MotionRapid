@@ -35,7 +35,7 @@ class ToolBarClassificationData {
     overwrite:boolean
   ) => {
     if (hasKeyFound(newName,this.toolBarEditorDict) && !overwrite){
-      console.log("insertToolBarEditorDict - not overwrite")
+      
       return
     }
     const newObj = new ToolBarEditorData(
@@ -79,7 +79,7 @@ const SetupToolbar = () => {
     overwrite:boolean
   ) => {
     if (hasKeyFound(send_toolBarClassificationName,toolBarClassificationArray) && !overwrite){
-      console.log("insertToolBarClassificationArraySetStateValue - not overwrite")
+
       return
     }
     const copyToolBarClassification = Object.assign(toolBarClassificationArray);
@@ -90,10 +90,7 @@ const SetupToolbar = () => {
     );
     copyToolBarClassification[send_toolBarClassificationName] = newObj;
     toolBarClassificationArraySetState(copyToolBarClassification);
-    console.log(
-      "toolBarClassificationArray insertToolBarClassificationArraySetStateValue",
-      toolBarClassificationArray
-    );
+
   };
 
   const insertToolBarEditorDictSetStateValue = (
@@ -114,10 +111,7 @@ const SetupToolbar = () => {
       overwrite
     );
     toolBarClassificationArraySetState(copyToolBarClassification);
-    // console.log(
-    //   "toolBarClassificationArray insertToolBarEditorDictSetStateValue",
-    //   toolBarClassificationArray
-    // );
+
   };
 
   const operationEditorStatus = (
@@ -138,19 +132,10 @@ const SetupToolbar = () => {
       toolBarClassificationArray
     );
 
-    // console.log(
-    //   "componentConvertToolBarClassification - s",
-    //   ToolBarClassificationValue
-    // );
 
     for (let i = 0; i < ToolBarClassificationValue.length; i++) {
       componentConvertToolBarTemp.push(ToolBarClassificationValue[i]);
     }
-
-    // console.log(
-    //   "componentConvertToolBarClassification - e",
-    //   componentConvertToolBarTemp
-    // );
 
     return componentConvertToolBarTemp;
   };
@@ -163,7 +148,7 @@ const SetupToolbar = () => {
     if (
       toolBarClassificationArray[send_toolBarClassificationName] === undefined
     ) {
-      // console.log("componentConvertToolBarEditor-undefined");
+
       return [];
     }
 
@@ -176,24 +161,10 @@ const SetupToolbar = () => {
       componentConvertToolBarTemp.push(toolBarEditorDictValue[i]);
     }
 
-    // console.log("componentConvertToolBarEditor", componentConvertToolBarTemp);
+
 
     return componentConvertToolBarTemp;
   };
-
-  // useEffect(() => {
-  //   console.log(
-  //     "choiceComposite useEffect",
-  //     choiceComposite
-  //   );
-  // }, [choiceComposite]);
-
-  // useEffect(() => {
-  //   console.log(
-  //     "toolBarClassificationArray useEffect",
-  //     toolBarClassificationArray
-  //   );
-  // }, [toolBarClassificationArray]);
 
   const Test = () => {
     console.log("（╹◡╹）");

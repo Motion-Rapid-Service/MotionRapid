@@ -138,7 +138,6 @@ export default class MiddleDataOperation {
       return;
     }
     if (hasKeyFound("time", sendData)) {
-      console.log("operationKeyframeTime - time", sendData["time"]);
 
       this.DataCentral.OwnedClass_Keyframe[KeyframeID].Keyframe_AbsoluteTime =
         sendData["time"];
