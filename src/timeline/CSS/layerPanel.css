@@ -1,5 +1,6 @@
-/* .media_object-area-layer_duration .media_object-area-layer_panel {
-} */
+.media_object-area-layer_panel {
+  /* position: absolute; */
+}
 
 .media_object-area-layer_panel .layer_panel-entity {
   height: var(--media_object-height);

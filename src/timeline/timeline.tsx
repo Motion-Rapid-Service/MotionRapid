@@ -208,12 +208,18 @@ const TimelineComponent = () => {
     console.log("windowSizeEvent",size)
 
     elementTimelineWidthSetState(size[0])
-    elementLayerPanelWidthSetState(300)
-    elementLayerDurationWidthSetState(size[0] - 300)
   }
 
   useEffect(() => {
+
+  }, [elementTimelineWidth])
+
+  useEffect(() => {
     window.addEventListener('resize', windowSizeEvent);
+    windowSizeEvent()
+    elementLayerPanelWidthSetState(400)
+    elementLayerDurationWidthSetState(4000)
+
     return () => {
       window.removeEventListener('resize', windowSizeEvent);
     }
@@ -236,7 +242,7 @@ const TimelineComponent = () => {
           ref={timelineScrollElement}
           draggable="false"
 
-          style={{width:"1000px"}}
+          style={{"width":elementLayerPanelWidth+elementLayerDurationWidth+"px"}}
 
           // onScroll={TimeLineAreaMove}
         >

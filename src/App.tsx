@@ -227,8 +227,9 @@ const App = () => {
           fileExportComposite:middleDataOperation.fileExportComposite,
           // htmlBuildMain:htmlBuildMain
           buildMiddleDataHtml:middleDataOperation.buildMiddleDataHtml,
-          swopMediaObject:middleDataOperation.swopMediaObject
-          
+          swopMediaObject:middleDataOperation.swopMediaObject,
+          rewriteMediaObejctAnimatorOpen:middleDataOperation.rewriteMediaObejctAnimatorOpen,
+          getMediaObejctAnimatorOpen:middleDataOperation.getMediaObejctAnimatorOpen,
         }}
       >
         <SetupEditor />

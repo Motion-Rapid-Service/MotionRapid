@@ -33,12 +33,14 @@ export class MediaObject {
   MediaObject_EndTime: number;
   MediaObject_LayerNumber: number;
   OwnedID_Animator: Array<string>;
+  animatorOpen:boolean
   constructor(send_MediaObject_ID: string) {
     this.MediaObject_ID = send_MediaObject_ID;
     this.MediaObject_StartTime = 500;
     this.MediaObject_EndTime = 750;
     this.MediaObject_LayerNumber = 0;
     this.OwnedID_Animator = [];
+    this.animatorOpen = true
   }
 }
 

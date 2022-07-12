@@ -160,7 +160,7 @@ export const TimelineAreaLayerPanelComponent = (props: any) => {
       className="media_object-area-layer_panel"
       ref={timelineAreaLayerPanelElement}
       onMouseDown={mouseDown}
-      style={{width:TimelineAreaDivContextValue.elementLayerPanelWidth+"px"}}
+      style={{"width":TimelineAreaDivContextValue.elementLayerPanelWidth+"px"}}
     >
       <LayerPanelContext.Provider
         value={{ timelineAreaLayerPanelElement: timelineAreaLayerPanelElement }}
