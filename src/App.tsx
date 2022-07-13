@@ -58,12 +58,27 @@ const sortNumber  = (arrayData:Array<number>,sortMode:boolean   ) => {
 const middleDataOperation = new MiddleDataOperationClass(); //
 middleDataOperation.createDataCentral();
 
+
+
 //ここからテスト用 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+let old_CompositeID;
+
 for (let i = 1; i <= 20; i++) {
   const t_CompositeID = middleDataOperation.createComposite();
 
   for (let j = 1; j <= i; j++) {
-    const t_MediaObjectID = middleDataOperation.createMediaObject(new buildSourceType.SourceTypeTextClass("g( 'ω')hxtjんりうh",10,"font"));
+    let addClass;
+    if (i !== 1 && j === 1){
+
+      addClass = new buildSourceType.SourceTypeCompositeClass(old_CompositeID)
+      console.log(i,j,old_CompositeID)
+    }
+    else{
+      addClass = new buildSourceType.SourceTypeTextClass("( 'ω')"+i+" "+j,10,"font")
+    }
+
+    const t_MediaObjectID = middleDataOperation.createMediaObject(addClass);
     middleDataOperation.linkMediaObject(t_CompositeID, t_MediaObjectID);
 
     for (let k = 1; k <= j; k++) {
@@ -74,6 +89,8 @@ for (let i = 1; i <= 20; i++) {
       middleDataOperation.linkKeyframe(t_AnimatorID, t_KeyframeID);
     }
   }
+
+  old_CompositeID = t_CompositeID
 }
 console.log (middleDataOperation.DataCentral)
 

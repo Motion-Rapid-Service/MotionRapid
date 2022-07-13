@@ -9,6 +9,7 @@ export const sourceTypeList = [
 export const sourceTypeFunctionDefault = () => {};
 
 export const sourceTypeFunctionText = (
+  jsonDataCentral:Function,
   sourceTypeTextClass: SourceTypeTextClass
 ) => {
   const reTemp = testJoin(["<p>", sourceTypeTextClass.text, "</p>"]);
@@ -16,8 +17,13 @@ export const sourceTypeFunctionText = (
 };
 
 export const sourceTypeFunctionComposite = (
-  sourceTypeCompositeClass: SourceTypeCompositeClass
-) => {};
+  jsonDataCentral:Function,
+  sourceTypeCompositeClass: SourceTypeCompositeClass,
+  parseComposite:Function
+) => {
+  const reTemp = parseComposite(jsonDataCentral,sourceTypeCompositeClass.compositeID)
+  return reTemp
+};
 
 export abstract class SourceTypeClass {
   constructor() {}
@@ -46,8 +52,10 @@ export class SourceTypeTextClass extends SourceTypeClass {
 export class SourceTypeCompositeClass extends SourceTypeClass {
 
   sourceType = sourceTypeList[2];
+  compositeID:string
 
-  constructor() {
+  constructor(send_compositeID:string) {
     super();
+    this.compositeID = send_compositeID
   }
 }
