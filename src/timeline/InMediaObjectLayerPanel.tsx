@@ -87,7 +87,7 @@ export const TimelineAreaLayerPanelComponent = (props: any) => {
       return;
     }
 
-    const nowY = timelineMousePosition.timelineMousePostion(
+    const thenY = timelineMousePosition.timelineMousePostion(
       event,
       TimelineAreaDivContextValue.timelineScrollElement
     )[1];
@@ -95,7 +95,7 @@ export const TimelineAreaLayerPanelComponent = (props: any) => {
     const staY = Object.values(UserHandLayerPanelList)[0].mousePushPos
 
     const spaceNumber = TimelineAreaDivContextValue.mediaObjectSwopInsertionDestination(
-      staY, nowY
+      staY, thenY
     )
 
     if (spaceNumber < 0) {
@@ -115,7 +115,7 @@ export const TimelineAreaLayerPanelComponent = (props: any) => {
       return;
     }
 
-    const nowY = timelineMousePosition.timelineMousePostion(
+    const thenY = timelineMousePosition.timelineMousePostion(
       event,
       TimelineAreaDivContextValue.timelineScrollElement
     )[1];
@@ -123,7 +123,7 @@ export const TimelineAreaLayerPanelComponent = (props: any) => {
     const staY = Object.values(UserHandLayerPanelList)[0].mousePushPos
 
     const spaceNumber = TimelineAreaDivContextValue.mediaObjectSwopInsertionDestination(
-      staY, nowY
+      staY, thenY
     )
 
 

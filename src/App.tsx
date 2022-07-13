@@ -10,6 +10,9 @@ import "./timeline/CSS/layerPanel.css";
 import "./ToolBar/CSS/ToolBar.css";
 import "./ToolBar/CSS/ToolBarDetail.css";
 import "./CompositeChoice/CSS/CompositeChoice.css";
+
+import * as buildSourceType from "./BuildSite/buildHTML/buildSourceType"
+
 import SetupEditor from "./SetupEditor/SetupEditor";
 
 import { AppContext } from "./AppContext";
@@ -60,7 +63,7 @@ for (let i = 1; i <= 20; i++) {
   const t_CompositeID = middleDataOperation.createComposite();
 
   for (let j = 1; j <= i; j++) {
-    const t_MediaObjectID = middleDataOperation.createMediaObject();
+    const t_MediaObjectID = middleDataOperation.createMediaObject(new buildSourceType.SourceTypeTextClass("g( 'ω')hxtjんりうh",10,"font"));
     middleDataOperation.linkMediaObject(t_CompositeID, t_MediaObjectID);
 
     for (let k = 1; k <= j; k++) {
@@ -73,60 +76,7 @@ for (let i = 1; i <= 20; i++) {
   }
 }
 console.log (middleDataOperation.DataCentral)
-// const CompositeID_0 = Object.keys(
-//   middleDataOperation.DataCentral.OwnedClass_Composite
-// )[0];
 
-// let MediaObjectID_0;
-// let AnimatorID_0;
-// let KeyframeID_0;
-// let MediaObjectID_i;
-// let AnimatorID_i;
-// let KeyframeID_i;
-
-// for (let i = 0; i < 20; i++) {
-//   //mediaobjectのテスト用
-//   middleDataOperation.createMediaObject();
-//   MediaObjectID_i = Object.keys(
-//     middleDataOperation.DataCentral.OwnedClass_MediaObject
-//   )[i];
-//   middleDataOperation.linkMediaObject(CompositeID_0, MediaObjectID_i);
-// }
-
-//   MediaObjectID_0 = Object.keys(
-//     middleDataOperation.DataCentral.OwnedClass_MediaObject
-//   )[0];
-
-// for (let i = 0; i < 20; i++) {
-//   middleDataOperation.createAnimator();
-
-//   AnimatorID_i = Object.keys(
-//     middleDataOperation.DataCentral.OwnedClass_Animator
-//   )[i];
-//   middleDataOperation.linkAnimator(MediaObjectID_0, AnimatorID_i);
-
-//   middleDataOperation.createKeyframe();
-
-//   KeyframeID_i = Object.keys(
-//     middleDataOperation.DataCentral.OwnedClass_Keyframe
-//   )[i];
-//   middleDataOperation.linkKeyframe(AnimatorID_i, KeyframeID_i);
-// }
-
-// AnimatorID_0 = Object.keys(
-//   middleDataOperation.DataCentral.OwnedClass_Animator
-// )[0];
-
-for (let i = 0; i < 20; i++) {
-  //mediaobjectのテスト用
-  // middleDataOperation.createKeyframe();
-  // KeyframeID_i = Object.keys(
-  //   middleDataOperation.DataCentral.OwnedClass_Keyframe
-  // )[i];
-  // middleDataOperation.linkKeyframe(AnimatorID_i, KeyframeID_i);
-}
-
-// console.log("CompositeID_0", CompositeID_0);
 //ここまでテスト用 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 const componentConvertCompositeChoiceArea = () => {

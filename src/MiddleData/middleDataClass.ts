@@ -1,3 +1,6 @@
+
+import * as buildSourceType from "./../BuildSite/buildHTML/buildSourceType"
+
 export class DataCentral {
   OwnedClass_Composite: { [name: string]: Composite };
   OwnedClass_MediaObject: { [name: string]: MediaObject };
@@ -34,15 +37,18 @@ export class MediaObject {
   MediaObject_LayerNumber: number;
   OwnedID_Animator: Array<string>;
   animatorOpen:boolean
-  constructor(send_MediaObject_ID: string) {
+  sourceType:buildSourceType.SourceTypeClass
+  constructor(send_MediaObject_ID: string,send_sourceType:buildSourceType.SourceTypeClass) {
     this.MediaObject_ID = send_MediaObject_ID;
     this.MediaObject_StartTime = 500;
     this.MediaObject_EndTime = 750;
     this.MediaObject_LayerNumber = 0;
     this.OwnedID_Animator = [];
     this.animatorOpen = true
+    this.sourceType = send_sourceType
   }
 }
+
 
 export class Animator {
   Animator_ID: string;
@@ -61,3 +67,4 @@ export class Keyframe {
     this.Keyframe_AbsoluteTime = 500;
   }
 }
+

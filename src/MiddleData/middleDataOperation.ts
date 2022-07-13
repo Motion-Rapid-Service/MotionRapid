@@ -2,7 +2,10 @@
 import * as middleDataClass from "./middleDataClass";
 import UUID from "uuidjs";
 
-import htmlBuildMain from "../BuildSite/buildHTML/htmlmain";
+import htmlBuildMain from "../BuildSite/buildHTML/buildHtmlMain";
+
+import * as buildSourceType from "./../BuildSite/buildHTML/buildSourceType"
+
 
 const getUUID = () => {
   return String(UUID.generate());
@@ -37,9 +40,9 @@ export default class MiddleDataOperation {
     return newID;
   };
 
-  createMediaObject = () => {
+  createMediaObject = (sourceType:buildSourceType.SourceTypeClass) => {
     const newID = "MediaObject_" + getUUID();
-    const newObj = new middleDataClass.MediaObject(newID);
+    const newObj = new middleDataClass.MediaObject(newID,sourceType);
     this.DataCentral.OwnedClass_MediaObject[newID] = newObj;
     return newID;
   };

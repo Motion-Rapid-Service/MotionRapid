@@ -135,7 +135,7 @@ const TimelineComponent = () => {
     mediaObejctDivHeightSetState(copyMediaObejctDivHeight);
   };
 
-  const mediaObjectSwopInsertionDestination = (staY: number, nowY: number) => {
+  const mediaObjectSwopInsertionDestination = (staY: number, thenY: number) => {
     const mediaObejctDivHeightKeys: Array<number> = AppContextValue.sortNumber(
       Object.keys(mediaObejctDivHeight),
       false
@@ -147,15 +147,15 @@ const TimelineComponent = () => {
     const firstYpos = mediaObejctDivHeight[firstKey][0];
     const lastYpos = mediaObejctDivHeight[lastKey][1];
 
-    if (nowY <= firstYpos) {
+    if (thenY <= firstYpos) {
       return 0;
     }
 
-    if (lastYpos <= nowY) {
+    if (lastYpos <= thenY) {
       return Number(lastKey) + 1;
     }
 
-    if (staY > nowY) {
+    if (staY > thenY) {
       //上向きへの移動
       for (let i = mediaObejctDivHeightKeys.length - 1; i >= 1; i--) {
         const A_key: number = mediaObejctDivHeightKeys[i];
@@ -166,12 +166,12 @@ const TimelineComponent = () => {
         const B_yPosArray: Array<number> = mediaObejctDivHeight[B_key];
         const B_yPos: number = B_yPosArray[0];
 
-        if (A_yPos >= nowY && nowY >= B_yPos) {
+        if (A_yPos >= thenY && thenY >= B_yPos) {
           //上方面
           return Number(A_key);
         }
       }
-    } else if (staY <= nowY) {
+    } else if (staY <= thenY) {
       //下向きへの移動
       for (let i = 0; i < mediaObejctDivHeightKeys.length - 1; i++) {
         const A_key: number = mediaObejctDivHeightKeys[i];
@@ -182,7 +182,7 @@ const TimelineComponent = () => {
         const B_yPosArray: Array<number> = mediaObejctDivHeight[B_key];
         const B_yPos: number = B_yPosArray[1];
 
-        if (A_yPos <= nowY && nowY <= B_yPos) {
+        if (A_yPos <= thenY && thenY <= B_yPos) {
           //下方面
           return Number(A_key) + 1;
         }

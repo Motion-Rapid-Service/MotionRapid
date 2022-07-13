@@ -1,14 +1,7 @@
 //require('raw-loader!./input.txt');
 
-const testJoin = (textArray: Array<string>) => {
-  let text = "";
-
-  for (let i = 0; i < textArray.length; i++) {
-    text += textArray[i];
-  }
-
-  return text;
-};
+import {testJoin} from "./buildAuxiliaryFunction"
+import * as buildSourceType from "./buildSourceType"
 
 const htmlBuildMain = (jsonDataCentral: any, compositeID: string) => {
   const htmlText = String(
@@ -39,12 +32,12 @@ const htmlBuildMain = (jsonDataCentral: any, compositeID: string) => {
   const OwnedID_MediaObject = rootComposite["OwnedID_MediaObject"]
 
   for (let i = 0;i < OwnedID_MediaObject.length;i++){
-    const firstMediaObjectID = OwnedID_MediaObject[i];
+    const thenMediaObjectID = OwnedID_MediaObject[i];
     rootText = parseMediaObject(
       rootText,
       jsonDataCentral,
       compositeID,
-      firstMediaObjectID
+      thenMediaObjectID
     );
   }
   const htmlTextReplace = htmlText.replace('rootEdit', rootText);
@@ -63,11 +56,26 @@ const parseMediaObject = (
   const OwnedClass_MediaObject = jsonDataCentral["OwnedClass_MediaObject"];
   const tag = "div";
 
-  const rtextS = testJoin(["<", tag, " ", "class=", mediaObjectID, ">","\n"]);
 
+  const thenMediaObject = OwnedClass_MediaObject[mediaObjectID]
+  const sourceTypeClass = thenMediaObject["sourceType"]
+  const sourceType = String(sourceTypeClass.sourceType)
+
+  console.log("sourceTypeClass",sourceTypeClass)
+
+  let rtextC;
+  if (sourceType === buildSourceType.sourceTypeList[0]){ //default
+
+  }
+  if (sourceType === buildSourceType.sourceTypeList[1]){ //text
+    console.log("sourceType",sourceType)
+    rtextC = buildSourceType.sourceTypeFunctionText(sourceTypeClass)
+  }
+
+  const rtextS = testJoin(["<", tag, " ", "class=", mediaObjectID, ">","\n"]);
   const rtextE = testJoin(["</", tag, ">","\n"]);
 
-  const addText = rtextS + rtextE;
+  const addText = rtextS + rtextC +rtextE;
   console.log("addText", addText);
 
   htmlRoot += addText;
