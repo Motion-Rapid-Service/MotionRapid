@@ -13,6 +13,7 @@ type AppContextValue = {
   operationMediaObjectTime:Function  
   operationKeyframeTime:Function
   getMediaObjectTime:Function
+  getMediaObjectSourceType:Function
   getKeyframeTime:Function
 
   fileExportDataCentral:Function

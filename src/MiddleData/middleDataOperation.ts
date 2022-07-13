@@ -186,6 +186,11 @@ export default class MiddleDataOperation {
     ];
   };
 
+  getMediaObjectSourceType = (mediaObjectID: string) => {
+    return       this.DataCentral.OwnedClass_MediaObject[mediaObjectID]
+    .sourceType
+  }
+
   getKeyframeTime = (keyframeID: string) => {
     const Keyframe_AbsoluteTime =
       this.DataCentral.OwnedClass_Keyframe[keyframeID].Keyframe_AbsoluteTime;

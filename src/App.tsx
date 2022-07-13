@@ -185,6 +185,7 @@ const App = () => {
             middleDataOperation.operationMediaObjectTime,
           operationKeyframeTime: middleDataOperation.operationKeyframeTime,
           getMediaObjectTime:middleDataOperation.getMediaObjectTime,
+          getMediaObjectSourceType:middleDataOperation.getMediaObjectSourceType,
           getKeyframeTime:middleDataOperation.getKeyframeTime,
           fileExportDataCentral:middleDataOperation.fileExportDataCentral,
           fileExportComposite:middleDataOperation.fileExportComposite,

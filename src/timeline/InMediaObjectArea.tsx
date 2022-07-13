@@ -26,6 +26,8 @@ import AnimatorAreaComponent from "./animatorAreaComponent";
 
 import { AppContext } from "../AppContext";
 
+import * as buildSourceType from "./../BuildSite/buildHTML/buildSourceType"
+
 export const MediaObjectScrollComponent = () => {
   const AppContextValue = useContext(AppContext);
   const MediaObjectContextValue = useContext(MediaObjectContext);
@@ -150,12 +152,12 @@ export const MediaObjectScrollComponent = () => {
 
   useEffect(() => {
     const mediaObjectTime = AppContextValue.getMediaObjectTime(mediaObjectUUID);
+    const mediaObjectSourceType = AppContextValue.getMediaObjectSourceType(mediaObjectUUID);
 
     window.addEventListener("mousemove", timeLineMouseMoveAction);
     window.addEventListener("mouseup", MouseRelease);
     StaSetState(mediaObjectTime[0]);
     EndSetState(mediaObjectTime[1]);
-
 
     return () => {
       // イベントの設定解除
