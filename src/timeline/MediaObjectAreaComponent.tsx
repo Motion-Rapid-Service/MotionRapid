@@ -15,13 +15,15 @@ import * as MediaObjectAreaSpaceComponent from "./MediaObjectSpace";
 export const MediaObjectAreaComponent = (props: any) => {
   const mediaObjectAreaElement = useRef<HTMLDivElement>(null);
 
-  const AppContextValue = useContext(AppContext);
-  const [animatorOpen, animatorOpenSetState] = useState<boolean>(true);
-  const [staStylePos, StaSetState] = useState<number>(null);
-  const [endStylePos, EndSetState] = useState<number>(null);
-
   const MediaObject_ID =
     props.DownstreamMiddleDataMediaObject["MediaObject_ID"];
+
+  const AppContextValue = useContext(AppContext);
+  const [animatorOpen, animatorOpenSetState] = useState<boolean>(
+    AppContextValue.getMediaObejctAnimatorOpen(MediaObject_ID)
+  );
+  const [staStylePos, StaSetState] = useState<number>(null);
+  const [endStylePos, EndSetState] = useState<number>(null);
 
 
   useEffect(() => {
@@ -45,16 +47,17 @@ export const MediaObjectAreaComponent = (props: any) => {
   }, [staStylePos, endStylePos]);
 
   useEffect(() => {
+
+
     AppContextValue.rewriteMediaObejctAnimatorOpen(MediaObject_ID,animatorOpen)
+    console.log("set animatorOpen",animatorOpen,MediaObject_ID)
   }, [animatorOpen]);
   useEffect(() => {
     const openTemp = AppContextValue.getMediaObejctAnimatorOpen(MediaObject_ID)
+    console.log("get animatorOpen MediaObject_ID",animatorOpen,MediaObject_ID)
     animatorOpenSetState(openTemp)
   }, [MediaObject_ID]);
-    useEffect(() => {
-    const openTemp = AppContextValue.getMediaObejctAnimatorOpen(MediaObject_ID)
-    animatorOpenSetState(openTemp)
-  }, []);
+
 
   return (
     <>
