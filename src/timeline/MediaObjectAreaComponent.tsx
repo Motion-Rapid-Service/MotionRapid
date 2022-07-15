@@ -7,7 +7,7 @@ import * as InMediaObjectArea from "./InMediaObjectArea";
 import UUID from "uuidjs";
 
 import { AppContext } from "../AppContext";
-import { MediaObjectContext } from "./timelineContext";
+import { MediaObjectContext ,TimelineAreaDivContext} from "./timelineContext";
 import * as InMediaObjectLayerPanel from "./InMediaObjectLayerPanel";
 import * as MediaObjectAreaSpaceComponent from "./MediaObjectSpace";
 // {componentGenerateMediaObjectAreaSpace(index)}
@@ -19,6 +19,8 @@ export const MediaObjectAreaComponent = (props: any) => {
     props.DownstreamMiddleDataMediaObject["MediaObject_ID"];
 
   const AppContextValue = useContext(AppContext);
+  const TimelineAreaDivContextValue = useContext(TimelineAreaDivContext);
+  
   const [animatorOpen, animatorOpenSetState] = useState<boolean>(
     AppContextValue.getMediaObejctAnimatorOpen(MediaObject_ID)
   );
@@ -47,10 +49,10 @@ export const MediaObjectAreaComponent = (props: any) => {
   }, [staStylePos, endStylePos]);
 
   useEffect(() => {
-
-
     AppContextValue.rewriteMediaObejctAnimatorOpen(MediaObject_ID,animatorOpen)
     console.log("set animatorOpen",animatorOpen,MediaObject_ID)
+
+    TimelineAreaDivContextValue.animationOpenUpdateDOM()
   }, [animatorOpen]);
   useEffect(() => {
     const openTemp = AppContextValue.getMediaObejctAnimatorOpen(MediaObject_ID)

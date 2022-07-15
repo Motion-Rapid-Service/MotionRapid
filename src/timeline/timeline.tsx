@@ -44,6 +44,17 @@ const TimelineComponent = () => {
     console.log("timelineUpdate 再レンダリング");
   }, [timelineUpdate]);
 
+
+  const [animationOpenUpdate, animationOpenSetUpdata] = useState<boolean>(false);
+  const animationOpenUpdateDOM = () => {
+    //強制再レンダリング関数
+    animationOpenSetUpdata(animationOpenUpdate ? false : true);
+  };
+  useEffect(() => {
+    console.log("animationOpenUpdate 再レンダリング");
+  }, [animationOpenUpdate]);
+
+
   // useEffect(() => {
   //   AppContextValue.updateDOM();
   // }, []);
@@ -247,6 +258,8 @@ const TimelineComponent = () => {
               timelineScrollElement: timelineScrollElement,
 
               timelineUpdateDOM: timelineUpdateDOM,
+              animationOpenUpdateDOM:animationOpenUpdateDOM,
+              animationOpenUpdate:animationOpenUpdate,
               mediaObejctDivHeightSetStateValue:
                 mediaObejctDivHeightSetStateValue,
               // middleDataOperation: middleDataOperation,

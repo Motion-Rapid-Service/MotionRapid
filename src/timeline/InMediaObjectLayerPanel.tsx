@@ -53,7 +53,7 @@ const SwitchTimelineAreaLayerPanelComponent = (props: any) => {
       MediaObjectContextValue.mediaObejctIndex,
       yPosHeight
     );
-  }, [MediaObjectContextValue.mediaObjectUUID, animatorOpen]);
+  }, [MediaObjectContextValue.mediaObjectUUID, animatorOpen,,TimelineAreaDivContextValue.animationOpenUpdate]);
 
   if (animatorOpen) {
     return (
@@ -151,6 +151,8 @@ export const TimelineAreaLayerPanelComponent = (props: any) => {
       window.removeEventListener("mouseup", mouseUp);
     };
   }, [MediaObjectContextValue.mediaObjectUUID, animatorOpen]);
+
+  
 
   return (
     <div

@@ -28,6 +28,8 @@ type TimelineAreaDivContextValue = {
   timelineAreaElement:any
   timelineScrollElement:any
   timelineUpdateDOM:Function
+  animationOpenUpdate:boolean
+  animationOpenUpdateDOM:Function
   mediaObejctDivHeightSetStateValue:Function
   mediaObjectSwopInsertionDestination:Function
   focusMediaObjectSpace:number
