@@ -51,6 +51,10 @@ export const MediaObjectAreaComponent = (props: any) => {
     const openTemp = AppContextValue.getMediaObejctAnimatorOpen(MediaObject_ID)
     animatorOpenSetState(openTemp)
   }, [MediaObject_ID]);
+    useEffect(() => {
+    const openTemp = AppContextValue.getMediaObejctAnimatorOpen(MediaObject_ID)
+    animatorOpenSetState(openTemp)
+  }, []);
 
   return (
     <>
