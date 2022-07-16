@@ -50,13 +50,10 @@ export const MediaObjectAreaComponent = (props: any) => {
 
   useEffect(() => {
     AppContextValue.rewriteMediaObejctAnimatorOpen(MediaObject_ID,animatorOpen)
-    console.log("set animatorOpen",animatorOpen,MediaObject_ID)
-
     TimelineAreaDivContextValue.animationOpenUpdateDOM()
   }, [animatorOpen]);
   useEffect(() => {
     const openTemp = AppContextValue.getMediaObejctAnimatorOpen(MediaObject_ID)
-    console.log("get animatorOpen MediaObject_ID",animatorOpen,MediaObject_ID)
     animatorOpenSetState(openTemp)
   }, [MediaObject_ID]);
 

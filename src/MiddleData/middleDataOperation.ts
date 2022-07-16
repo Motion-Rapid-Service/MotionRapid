@@ -34,7 +34,7 @@ export default class MiddleDataOperation {
 
   createComposite = () => {
     const newID = "Composite_" + getUUID();
-    const newObj = new middleDataClass.Composite(newID, "test_composite");
+    const newObj = new middleDataClass.Composite(newID, "test_composite",middleDataClass.Composite_Mode[1]);
     this.DataCentral.OwnedClass_Composite[newID] = newObj;
     // this.linkComposite(newID)
     return newID;

@@ -1,7 +1,9 @@
 //require('raw-loader!./input.txt');
 
-import { testJoin } from "./buildAuxiliaryFunction";
+import { testJoin, textReplace } from "./buildAuxiliaryFunction";
 import * as buildSourceType from "./buildSourceType";
+
+
 
 const htmlBuildMain = (jsonDataCentral: any, compositeID: string) => {
   const htmlText = String(
@@ -12,13 +14,20 @@ const htmlBuildMain = (jsonDataCentral: any, compositeID: string) => {
   const OwnedClass_MediaObject = jsonDataCentral["OwnedClass_MediaObject"];
   const OwnedClass_Animator = jsonDataCentral["OwnedClass_Animator"];
   const OwnedClass_Keyframe = jsonDataCentral["OwnedClass_Keyframe"];
-  
+
   function getJsonDataCentral() {
     return jsonDataCentral;
   }
 
   const rootText = parseComposite(getJsonDataCentral, compositeID);
-  const htmlTextReplace = htmlText.replace("rootEdit", rootText);
+  const replaceData = {
+    "%rootEdit%": rootText,
+    "%title%": "MotionRapidTest",
+    "%style%": "<style type='text/css'>" + "</style>"
+  }
+
+  const htmlTextReplace = textReplace(htmlText, replaceData)
+
   return htmlTextReplace;
 };
 
@@ -79,7 +88,7 @@ const parseMediaObject = (
     );
   }
   if (thenSourceType === buildSourceType.sourceTypeList[2]) {
-    //text
+    //Composite
     rtextC = buildSourceType.sourceTypeFunctionComposite(
       getJsonDataCentral,
       thenSsourceTypeClass,
