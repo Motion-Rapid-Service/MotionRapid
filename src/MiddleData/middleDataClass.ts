@@ -6,6 +6,7 @@ export const Composite_Mode:Array<string> = ["time","parallax"]
 export class DataCentral {
   OwnedClass_Composite: { [name: string]: Composite };
   OwnedClass_MediaObject: { [name: string]: MediaObject };
+  OwnedClass_AnimatorGroup: { [name: string]: AnimatorGroup };
   OwnedClass_Animator: { [name: string]: Animator };
   OwnedClass_Keyframe: { [name: string]: Keyframe };
   projectName: string;
@@ -16,6 +17,7 @@ export class DataCentral {
     this.projectName = send_projectName;
     this.OwnedClass_Composite = {};
     this.OwnedClass_MediaObject = {};
+    this.OwnedClass_AnimatorGroup = {};
     this.OwnedClass_Animator = {};
     this.OwnedClass_Keyframe = {};
   }
@@ -39,7 +41,7 @@ export class MediaObject {
   MediaObject_StartTime: number;
   MediaObject_EndTime: number;
   MediaObject_LayerNumber: number;
-  OwnedID_Animator: Array<string>;
+  OwnedID_AnimatorGroup: Array<string>;
   animatorOpen:boolean
   sourceType:buildSourceType.SourceTypeClass
   constructor(send_MediaObject_ID: string,send_sourceType:buildSourceType.SourceTypeClass) {
@@ -47,12 +49,21 @@ export class MediaObject {
     this.MediaObject_StartTime = 500;
     this.MediaObject_EndTime = 750;
     this.MediaObject_LayerNumber = 0;
-    this.OwnedID_Animator = [];
+    this.OwnedID_AnimatorGroup = [];
     this.animatorOpen = true
     this.sourceType = send_sourceType
   }
 }
  
+export class AnimatorGroup {
+  AnimatorGroup_ID: string;
+  OwnedID_Animator: Array<string>;
+  constructor(send_Animator_ID: string) {
+    this.AnimatorGroup_ID = send_Animator_ID;
+    this.OwnedID_Animator = [];
+  }
+}
+
 export class Animator {
   Animator_ID: string;
   OwnedID_Keyframe: Array<string>;

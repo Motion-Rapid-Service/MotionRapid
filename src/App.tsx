@@ -77,16 +77,18 @@ for (let i = 1; i <= 20; i++) {
     else{
       addClass = new buildSourceType.SourceTypeTextClass("( 'ω')"+i+" "+j,10,"font")
     }
-
     const t_MediaObjectID = middleDataOperation.createMediaObject(addClass);
     middleDataOperation.linkMediaObject(t_CompositeID, t_MediaObjectID);
-
     for (let k = 1; k <= j; k++) {
-      const t_AnimatorID = middleDataOperation.createAnimator();
-      middleDataOperation.linkAnimator(t_MediaObjectID, t_AnimatorID);
-
-      const t_KeyframeID = middleDataOperation.createKeyframe();
-      middleDataOperation.linkKeyframe(t_AnimatorID, t_KeyframeID);
+      const t_animatorGroupID = middleDataOperation.createAnimatorGroup();
+      middleDataOperation.linkAnimatorGroup(t_MediaObjectID, t_animatorGroupID);
+      for (let n = 1; n <= k; n++) {
+        const t_AnimatorID = middleDataOperation.createAnimator();
+        middleDataOperation.linkAnimator(t_animatorGroupID, t_AnimatorID);
+  
+        const t_KeyframeID = middleDataOperation.createKeyframe();
+        middleDataOperation.linkKeyframe(t_AnimatorID, t_KeyframeID);
+      }
     }
   }
 

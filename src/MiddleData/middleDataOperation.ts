@@ -47,6 +47,13 @@ export default class MiddleDataOperation {
     return newID;
   };
 
+  createAnimatorGroup = () => {
+    const newID = "AnimatorGroup_" + getUUID();
+    const newObj = new middleDataClass.AnimatorGroup(newID);
+    this.DataCentral.OwnedClass_AnimatorGroup[newID] = newObj;
+    return newID;
+  };
+
   createAnimator = () => {
     const newID = "Animator_" + getUUID();
     const newObj = new middleDataClass.Animator(newID);
@@ -71,9 +78,15 @@ export default class MiddleDataOperation {
       mediaObjectID
     );
   };
-  linkAnimator = (mediaObjectID: string, animatorID: string) => {
+  linkAnimatorGroup = (mediaObjectID: string, animatorGroupID: string) => {
     this.DataCentral.OwnedClass_MediaObject[
       mediaObjectID
+    ].OwnedID_AnimatorGroup.push(animatorGroupID);
+  };
+
+  linkAnimator = (animatorGroupID: string, animatorID: string) => {
+    this.DataCentral.OwnedClass_AnimatorGroup[
+      animatorGroupID
     ].OwnedID_Animator.push(animatorID);
   };
   linkKeyframe = (animatorID: string, keyframeID: string) => {
@@ -164,10 +177,15 @@ export default class MiddleDataOperation {
     return returnData;
   };
 
-  getOwnedID_Animator = (mediaObjectID: string) => {
-
+  getOwnedID_AnimatorGroup = (mediaObjectID: string) => {
     return Object.assign(
-      this.DataCentral.OwnedClass_MediaObject[mediaObjectID].OwnedID_Animator
+      this.DataCentral.OwnedClass_MediaObject[mediaObjectID].OwnedID_AnimatorGroup
+    );
+  };
+
+  getOwnedID_Animator = (animatorGroup: string) => {
+    return Object.assign(
+      this.DataCentral.OwnedClass_AnimatorGroup[animatorGroup].OwnedID_Animator
     );
   };
 
@@ -176,6 +194,29 @@ export default class MiddleDataOperation {
       this.DataCentral.OwnedClass_Animator[animatorID].OwnedID_Keyframe
     );
   };
+
+  
+  getOwnedClassComposite = (compositeID: string) => {
+    return Object.assign(
+      this.DataCentral.OwnedClass_Composite[compositeID]
+    );
+  }
+  getOwnedClassMediaObject = (mediaObjectID: string) => {
+    return Object.assign(
+      this.DataCentral.OwnedClass_MediaObject[mediaObjectID]
+    );
+  }
+  getOwnedClassAnimator = (animatorID: string) =>  {
+    return Object.assign(
+      this.DataCentral.OwnedClass_Animator[animatorID]
+    );
+  };
+  getOwnedClassKeyframe = (keyframeID: string) => {
+    return Object.assign(
+      this.DataCentral.OwnedClass_Keyframe[keyframeID]
+    );
+  };
+
 
   getMediaObjectTime = (mediaObjectID: string) => {
     return [
