@@ -3,9 +3,9 @@ const { useState, useRef, useEffect, useContext, useReducer, createContext } =
   React;
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import * as timelineMousePosition  from "./timeLineMousePosition";
+import * as timelineMousePosition from "./timeLineMousePosition";
 import { AppContext } from "./../AppContext";
-import { MediaObjectContext ,LayerPanelContext,LayerDurationContext} from "./timelineContext";
+import { MediaObjectContext, LayerPanelContext, LayerDurationContext } from "./timelineContext";
 
 class UserHandKeyframeOperation {
   mousePushPos: number; //マウスが押された時のマウス座標
@@ -21,9 +21,10 @@ const UserHandKeyframeList: {
 
 export const KeyFrameComponent = (props: any) => {
   const keyframeUUID = props.DownstreamMiddleDataKeyframe["Keyframe_ID"];
-  const [keyframeStylePos, KeyframePosSetState] = useState<number>(null);
 
   const AppContextValue = useContext(AppContext);
+  const [keyframeStylePos, KeyframePosSetState] = useState<number>(AppContextValue.getKeyframeTime(keyframeUUID));
+
   const MediaObjectContextValue = useContext(MediaObjectContext);
   const mediaObjectAreaElement =
     MediaObjectContextValue.mediaObjectAreaElement as any;
@@ -61,7 +62,7 @@ export const KeyFrameComponent = (props: any) => {
   };
 
   useEffect(() => {
-    if (!keyframeStylePos){
+    if (!keyframeStylePos) {
       return
     }
 
@@ -105,6 +106,29 @@ const AnimatorAreaEntity = (props: any) => {
 
   const AppContextValue = useContext(AppContext);
 
+  const entityType = props.DownstreamMiddleDataAnimator["entity_type"]
+
+  if (entityType === "AnimatorGroup") {
+    return (
+      <div className="animator_area-entity animator_area-entity-group" ref={animatorAreaEntityElement}>
+      </div>
+    );
+  }
+  if (entityType === "Animator") {
+    return (
+      <div className="animator_area-entity" ref={animatorAreaEntityElement}>
+        {AppContextValue.componentConvertKeyframeArea(
+          props.DownstreamMiddleDataAnimator["Animator_ID"]
+        ).map((output: any, index: number) => (
+          // <>{fruit}</> //SurfaceControlIndividualを追加するmap (list_surface_controlに入っている)
+          <KeyFrameComponent DownstreamMiddleDataKeyframe={output} key={index} />
+        ))}
+      </div>
+    );
+  }
+  else { //ほぼおまじない
+    return (<></>)
+  }
   // const keyfrmaeSize = animatorOpen ? 20 : 0;
 
   // useEffect(() => {
@@ -117,16 +141,6 @@ const AnimatorAreaEntity = (props: any) => {
   //   );
   // }, [animatorOpen]);
 
-  return (
-    <div className="animator_area-entity" ref={animatorAreaEntityElement}>
-      {AppContextValue.componentConvertKeyframeArea(
-        props.DownstreamMiddleDataAnimator["Animator_ID"]
-      ).map((output: any, index: number) => (
-        // <>{fruit}</> //SurfaceControlIndividualを追加するmap (list_surface_controlに入っている)
-        <KeyFrameComponent DownstreamMiddleDataKeyframe={output} key={index} />
-      ))}
-    </div>
-  );
 };
 
 const AnimatorAreaComponent = () => {

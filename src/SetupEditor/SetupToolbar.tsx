@@ -1,13 +1,9 @@
 import * as React from "react";
 const { useContext, useReducer, createContext, useEffect, useState } = React;
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import SetupEditor from "./SetupEditor";
+import SetupCompletion from "./SetupCompletion";
 import { AppContext } from "../AppContext";
 import { SetupToolbarContext } from "./SetupToolbarContext";
-
-import TimelineComponent from "../timeline/timeline";
-import ToolBarComponent from "../ToolBar/ToolBar";
-import CompositeEditorComponent from "../CompositeChoice/CompositeChoice";
 
 const hasKeyFound = (key: string, dict: any) => {
   //keyが存在していたらtrue それ以外ならfalse
@@ -32,10 +28,10 @@ class ToolBarClassificationData {
     newName: string,
     send_EditorLogo: string,
     send_EditorFunction: Function,
-    overwrite:boolean
+    overwrite: boolean
   ) => {
-    if (hasKeyFound(newName,this.toolBarEditorDict) && !overwrite){
-      
+    if (hasKeyFound(newName, this.toolBarEditorDict) && !overwrite) {
+
       return
     }
     const newObj = new ToolBarEditorData(
@@ -51,7 +47,7 @@ class ToolBarEditorData {
   toolBarEditorName: string;
   editorLogo: any;
   editorFunction: Function;
-  editorStatus:  number; //0:通常 1:操作不可 2:非表示(コンポーネント除外)
+  editorStatus: number; //0:通常 1:操作不可 2:非表示(コンポーネント除外)
   constructor(
     send_toolBarEditorName: string,
     send_editorLogo: any,
@@ -76,9 +72,9 @@ const SetupToolbar = () => {
   const insertToolBarClassificationArraySetStateValue = (
     send_toolBarClassificationName: string,
     send_toolBarClassificationLogo: string,
-    overwrite:boolean
+    overwrite: boolean
   ) => {
-    if (hasKeyFound(send_toolBarClassificationName,toolBarClassificationArray) && !overwrite){
+    if (hasKeyFound(send_toolBarClassificationName, toolBarClassificationArray) && !overwrite) {
 
       return
     }
@@ -98,7 +94,7 @@ const SetupToolbar = () => {
     send_toolBarEditorName: string,
     send_EditorLogo: any,
     send_EditorFunction: Function,
-    overwrite:boolean
+    overwrite: boolean
   ) => {
 
     const copyToolBarClassification = Object.assign(toolBarClassificationArray);
@@ -187,10 +183,7 @@ const SetupToolbar = () => {
 
         }}
       >
-
-        <ToolBarComponent />
-      <CompositeEditorComponent />
-      <TimelineComponent />
+        <SetupCompletion/>
       </SetupToolbarContext.Provider>
     </div>
   );

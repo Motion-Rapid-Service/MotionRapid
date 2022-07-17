@@ -23,6 +23,19 @@ type AppContextValue = {
   rewriteMediaObejctAnimatorOpen:Function
   getMediaObejctAnimatorOpen:Function
   // htmlBuildMain:Function
+
+  
+  createComposite: Function
+  createMediaObject: Function
+  createAnimatorGroup: Function
+  createAnimator: Function
+  createKeyframe: Function
+
+  
+linkMediaObject: Function
+linkAnimatorGroup: Function
+linkAnimator: Function
+linkKeyframe: Function
 };
 
 export const AppContext = createContext<AppContextValue>({} as AppContextValue);

@@ -11,6 +11,8 @@ import "./ToolBar/CSS/ToolBar.css";
 import "./ToolBar/CSS/ToolBarDetail.css";
 import "./CompositeChoice/CSS/CompositeChoice.css";
 
+import "./ToolConfig/CSS/SetupConfig.css"
+
 import * as buildSourceType from "./BuildSite/buildHTML/buildSourceType"
 
 import SetupEditor from "./SetupEditor/SetupEditor";
@@ -24,31 +26,31 @@ const getUUID = () => {
   return String(UUID.generate());
 };
 
-const sortNumber  = (arrayData:Array<number>,sortMode:boolean   ) => {
+const sortNumber = (arrayData: Array<number>, sortMode: boolean) => {
   //sortMode
   //  falseになると昇順ソート
   //  trueにすると降順ソート
-  
-  let A:number;
-  let B:number;
-  
-  if (sortMode){ //降順ソート
+
+  let A: number;
+  let B: number;
+
+  if (sortMode) { //降順ソート
     A = -1
     B = 1
   }
-  else{ //昇順ソート
+  else { //昇順ソート
     A = 1
     B = -1
   }
 
-  arrayData.sort(function(first, second){
+  arrayData.sort(function (first, second) {
     const Fn = Number(first)
     const Sn = Number(second)
-    if (Fn > Sn){
+    if (Fn > Sn) {
       return A;
-    }else if (Fn < Sn){
+    } else if (Fn < Sn) {
       return B;
-    }else{
+    } else {
       return 0;
     }
   });
@@ -57,8 +59,6 @@ const sortNumber  = (arrayData:Array<number>,sortMode:boolean   ) => {
 
 const middleDataOperation = new MiddleDataOperationClass(); //
 middleDataOperation.createDataCentral();
-
-
 
 //ここからテスト用 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
@@ -69,13 +69,13 @@ for (let i = 1; i <= 20; i++) {
 
   for (let j = 1; j <= i; j++) {
     let addClass;
-    if (i !== 1 && j === 1){
+    if (i !== 1 && j === 1) {
 
       addClass = new buildSourceType.SourceTypeCompositeClass(old_CompositeID)
-      console.log(i,j,old_CompositeID)
+      console.log(i, j, old_CompositeID)
     }
-    else{
-      addClass = new buildSourceType.SourceTypeTextClass("( 'ω')"+i+" "+j,10,"font")
+    else {
+      addClass = new buildSourceType.SourceTypeTextClass("( 'ω')" + i + " " + j, 10, "font")
     }
     const t_MediaObjectID = middleDataOperation.createMediaObject(addClass);
     middleDataOperation.linkMediaObject(t_CompositeID, t_MediaObjectID);
@@ -85,7 +85,7 @@ for (let i = 1; i <= 20; i++) {
       for (let n = 1; n <= k; n++) {
         const t_AnimatorID = middleDataOperation.createAnimator();
         middleDataOperation.linkAnimator(t_animatorGroupID, t_AnimatorID);
-  
+
         const t_KeyframeID = middleDataOperation.createKeyframe();
         middleDataOperation.linkKeyframe(t_AnimatorID, t_KeyframeID);
       }
@@ -94,7 +94,7 @@ for (let i = 1; i <= 20; i++) {
 
   old_CompositeID = t_CompositeID
 }
-console.log (middleDataOperation.DataCentral)
+console.log(middleDataOperation.DataCentral)
 
 //ここまでテスト用 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
@@ -129,15 +129,28 @@ const componentConvertMediaObjectArea = (send_CompositeID: string) => {
 };
 
 const componentConvertAnimatorArea = (send_MediaObjectID: string) => {
-  const AnimatorIDArray =
-    middleDataOperation.getOwnedID_Animator(send_MediaObjectID);
+  const AnimatorGroupIDArray =
+    middleDataOperation.getOwnedID_AnimatorGroup(send_MediaObjectID);
+
 
   const middleDataAnimatorTemp = [];
 
-  for (let i = 0; i < AnimatorIDArray.length; i++) {
+  for (let gi = 0; gi < AnimatorGroupIDArray.length; gi++) {
+    const AnimatorGroupID = AnimatorGroupIDArray[gi]
+    const AnimatorGroupClass = middleDataOperation.getOwnedClassAnimatorGroup(AnimatorGroupID)
+
+    const AnimatorIDArray = middleDataOperation.getOwnedID_Animator(AnimatorGroupID)
     middleDataAnimatorTemp.push({
-      Animator_ID: AnimatorIDArray[i],
+      entity_type: "AnimatorGroup",
+      Animator_ID: AnimatorGroupID,
     });
+
+    for (let i = 0; i < AnimatorIDArray.length; i++) {
+      middleDataAnimatorTemp.push({
+        entity_type: "Animator",
+        Animator_ID: AnimatorIDArray[i],
+      });
+    }
   }
 
   return middleDataAnimatorTemp;
@@ -175,7 +188,7 @@ const App = () => {
       <AppContext.Provider
         value={{
           getUUID: getUUID,
-          sortNumber:sortNumber,
+          sortNumber: sortNumber,
           componentConvertCompositeChoiceArea:
             componentConvertCompositeChoiceArea,
           componentConvertMediaObjectArea: componentConvertMediaObjectArea,
@@ -186,16 +199,29 @@ const App = () => {
           operationMediaObjectTime:
             middleDataOperation.operationMediaObjectTime,
           operationKeyframeTime: middleDataOperation.operationKeyframeTime,
-          getMediaObjectTime:middleDataOperation.getMediaObjectTime,
-          getMediaObjectSourceType:middleDataOperation.getMediaObjectSourceType,
-          getKeyframeTime:middleDataOperation.getKeyframeTime,
-          fileExportDataCentral:middleDataOperation.fileExportDataCentral,
-          fileExportComposite:middleDataOperation.fileExportComposite,
+          getMediaObjectTime: middleDataOperation.getMediaObjectTime,
+          getMediaObjectSourceType: middleDataOperation.getMediaObjectSourceType,
+          getKeyframeTime: middleDataOperation.getKeyframeTime,
+          fileExportDataCentral: middleDataOperation.fileExportDataCentral,
+          fileExportComposite: middleDataOperation.fileExportComposite,
           // htmlBuildMain:htmlBuildMain
-          buildMiddleDataHtml:middleDataOperation.buildMiddleDataHtml,
-          swopMediaObject:middleDataOperation.swopMediaObject,
-          rewriteMediaObejctAnimatorOpen:middleDataOperation.rewriteMediaObejctAnimatorOpen,
-          getMediaObejctAnimatorOpen:middleDataOperation.getMediaObejctAnimatorOpen,
+          buildMiddleDataHtml: middleDataOperation.buildMiddleDataHtml,
+          swopMediaObject: middleDataOperation.swopMediaObject,
+          rewriteMediaObejctAnimatorOpen: middleDataOperation.rewriteMediaObejctAnimatorOpen,
+          getMediaObejctAnimatorOpen: middleDataOperation.getMediaObejctAnimatorOpen,
+
+
+          createComposite: middleDataOperation.createComposite,
+          createMediaObject: middleDataOperation.createMediaObject,
+          createAnimatorGroup: middleDataOperation.createAnimatorGroup,
+          createAnimator: middleDataOperation.createAnimator,
+          createKeyframe: middleDataOperation.createKeyframe,
+
+
+          linkMediaObject:middleDataOperation.linkMediaObject,
+          linkAnimatorGroup:middleDataOperation.linkAnimatorGroup,
+          linkAnimator:middleDataOperation.linkAnimator,
+          linkKeyframe:middleDataOperation.linkKeyframe,
         }}
       >
         <SetupEditor />

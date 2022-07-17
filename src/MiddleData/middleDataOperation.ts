@@ -206,6 +206,12 @@ export default class MiddleDataOperation {
       this.DataCentral.OwnedClass_MediaObject[mediaObjectID]
     );
   }
+  getOwnedClassAnimatorGroup = (animatorGroupID:string) => {
+    return Object.assign(
+      this.DataCentral.OwnedClass_AnimatorGroup[animatorGroupID]
+    );
+  }
+
   getOwnedClassAnimator = (animatorID: string) =>  {
     return Object.assign(
       this.DataCentral.OwnedClass_Animator[animatorID]

@@ -7,6 +7,10 @@ import { AppContext } from "./../AppContext";
 import { SetupEditorContext } from "./../SetupEditor/SetupEditorContext";
 import { SetupToolbarContext } from "../SetupEditor/SetupToolbarContext";
 
+import * as buildSourceType from "./../BuildSite/buildHTML/buildSourceType"
+
+
+
 const ToolBarDetailSingleComponent = (props: any) => {
   const AppContextValue = useContext(AppContext);
   const SetupToolbarContextValue = useContext(SetupToolbarContext);
@@ -83,51 +87,99 @@ const toolBarComponent = (props: any) => {
 
   }, [SetupEditorContextValue.choiceComposite]);
 
-  const buildHtml = (funcdata:any) => {
+  const buildHtml = (funcdata:{[name:string]:any}) => {
     AppContextValue.buildMiddleDataHtml(
       funcdata["choiceComposite"]
     );
   };
 
+  const toolBarCreateComposite = (funcdata:{[name:string]:any}) => {
+    AppContextValue.createComposite()
+  }
+
+  const toolBarCreateMediaObjectText = (funcdata:{[name:string]:any}) => {
+    
+    const addClass = new buildSourceType.SourceTypeTextClass("( 'ω')", 10, "font")
+    const t_MediaObjectID = AppContextValue.createMediaObject(addClass)
+    AppContextValue.linkMediaObject(funcdata["choiceComposite"], t_MediaObjectID);
+
+  }
+
   useEffect(() => {
 
 
-    let toolBar_A = "fileEdit";
+    let toolBar1 = "fileEdit";
     insertToolBarClassificationArraySetStateValue(
-      toolBar_A,
+      toolBar1,
       "ファイル操作",
       false
     );
     insertToolBarEditorDictSetStateValue(
-      toolBar_A,
+      toolBar1,
       "1A",
       "ダウンロード",
       downloadFile,
       false
     );
     insertToolBarEditorDictSetStateValue(
-      toolBar_A,
+      toolBar1,
       "1B",
       "アップロード",
       Test,
       false
     );
 
-    let toolBar_B = "buildEdit";
+    let toolBar2 = "buildEdit";
     insertToolBarClassificationArraySetStateValue(
-      toolBar_B,
+      toolBar2,
       "ファイル生成",
       false
     );
     insertToolBarEditorDictSetStateValue(
-      toolBar_B,
+      toolBar2,
       "2A",
       "html出力",
       buildHtml,
       false
     );
 
-    switchToolBarDetailSetState(toolBar_A);
+    let toolBar3 = "compositeEdit";
+    insertToolBarClassificationArraySetStateValue(
+      toolBar3,
+      "コンポジット",
+      false
+    );
+    insertToolBarEditorDictSetStateValue(
+      toolBar3,
+      "3A",
+      "新規作成",
+      toolBarCreateComposite,
+      false
+    );
+
+    
+    let toolBar4 = "mediaObjectEdit";
+    insertToolBarClassificationArraySetStateValue(
+      toolBar4,
+      "メディアオブジェクト",
+      false
+    );
+    insertToolBarEditorDictSetStateValue(
+      toolBar4,
+      "4A",
+      "新規作成",
+      toolBarCreateMediaObjectText,
+      false
+    );
+    insertToolBarEditorDictSetStateValue(
+      toolBar4,
+      "4B",
+      "エフェクトを追加する",
+      buildHtml,
+      false
+    );
+
+    switchToolBarDetailSetState(toolBar1);
     AppContextValue.updateDOM();
   }, []);
 

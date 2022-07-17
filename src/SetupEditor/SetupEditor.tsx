@@ -2,7 +2,7 @@ import * as React from "react";
 const { useContext, useReducer, createContext, useEffect, useState } = React;
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import SetupToolbar from "./SetupToolbar";
+import SetupConfig from "./SetupConfig";
 import { AppContext } from "../AppContext";
 import { SetupEditorContext } from "./SetupEditorContext";
 
@@ -20,7 +20,7 @@ const Editor = () => {
       choiceComposite:choiceComposite,
       choiceCompositeSetState: choiceCompositeSetState
     }}>
-      <SetupToolbar />
+      <SetupConfig />
     </SetupEditorContext.Provider>
   );
 };

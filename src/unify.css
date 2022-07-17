@@ -4,3 +4,12 @@
   --background-B: rgb(70, 70, 70);
   /* ちょっと薄い */
 }
+
+#root {
+  margin: 5px;
+}
+
+body{
+  padding: 0px;
+  margin: 0px;
+}
