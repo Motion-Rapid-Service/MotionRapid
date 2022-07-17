@@ -6,10 +6,9 @@ import { AppContext } from "./../AppContext";
 
 import { SetupEditorContext } from "./../SetupEditor/SetupEditorContext";
 import { SetupToolbarContext } from "../SetupEditor/SetupToolbarContext";
+import { SetupConfigContext } from "../SetupEditor/SetupConfigContext";
 
-import * as buildSourceType from "./../BuildSite/buildHTML/buildSourceType"
-
-
+import * as buildSourceType from "./../BuildSite/buildHTML/buildSourceType";
 
 const ToolBarDetailSingleComponent = (props: any) => {
   const AppContextValue = useContext(AppContext);
@@ -19,10 +18,12 @@ const ToolBarDetailSingleComponent = (props: any) => {
   // const toolBarClassificationArray = AppContextValue.toolBarClassificationArray;
 
   const MouseDown = () => {
-    props.DownstreamToolBarEditorData.editorFunction({"choiceComposite":props.choiceComposite});
+    props.DownstreamToolBarEditorData.editorFunction({
+      choiceComposite: props.choiceComposite,
+    });
     AppContextValue.updateDOM();
   };
-  
+
   return (
     <div className="toolBarDetail_single-area" onMouseDown={MouseDown}>
       <div className="toolBarDetail_single-area-title">
@@ -62,6 +63,8 @@ const toolBarComponent = (props: any) => {
   const SetupEditorContextValue = useContext(SetupEditorContext);
   const SetupToolbarContextValue = useContext(SetupToolbarContext);
 
+  const SetupConfigContextValue = useContext(SetupConfigContext);
+
   const insertToolBarClassificationArraySetStateValue =
     SetupToolbarContextValue.insertToolBarClassificationArraySetStateValue;
   const insertToolBarEditorDictSetStateValue =
@@ -83,31 +86,34 @@ const toolBarComponent = (props: any) => {
     AppContextValue.fileExportDataCentral();
   };
 
-  useEffect(() => {
+  useEffect(() => {}, [SetupEditorContextValue.choiceComposite]);
 
-  }, [SetupEditorContextValue.choiceComposite]);
+  const buildHtml = (funcdata: { [name: string]: any }) => {
+    AppContextValue.buildMiddleDataHtml(funcdata["choiceComposite"]);
+  };
 
-  const buildHtml = (funcdata:{[name:string]:any}) => {
-    AppContextValue.buildMiddleDataHtml(
-      funcdata["choiceComposite"]
+  const toolBarCreateComposite = (funcdata: { [name: string]: any }) => {
+    AppContextValue.createComposite();
+
+    SetupConfigContextValue.configModeSetState(
+      SetupConfigContextValue.configModeList[1]
     );
   };
 
-  const toolBarCreateComposite = (funcdata:{[name:string]:any}) => {
-    AppContextValue.createComposite()
-  }
-
-  const toolBarCreateMediaObjectText = (funcdata:{[name:string]:any}) => {
-    
-    const addClass = new buildSourceType.SourceTypeTextClass("( 'ω')", 10, "font")
-    const t_MediaObjectID = AppContextValue.createMediaObject(addClass)
-    AppContextValue.linkMediaObject(funcdata["choiceComposite"], t_MediaObjectID);
-
-  }
+  const toolBarCreateMediaObjectText = (funcdata: { [name: string]: any }) => {
+    const addClass = new buildSourceType.SourceTypeTextClass(
+      "( 'ω')",
+      10,
+      "font"
+    );
+    const t_MediaObjectID = AppContextValue.createMediaObject(addClass);
+    AppContextValue.linkMediaObject(
+      funcdata["choiceComposite"],
+      t_MediaObjectID
+    );
+  };
 
   useEffect(() => {
-
-
     let toolBar1 = "fileEdit";
     insertToolBarClassificationArraySetStateValue(
       toolBar1,
@@ -157,7 +163,6 @@ const toolBarComponent = (props: any) => {
       false
     );
 
-    
     let toolBar4 = "mediaObjectEdit";
     insertToolBarClassificationArraySetStateValue(
       toolBar4,
@@ -207,7 +212,7 @@ const toolBarComponent = (props: any) => {
           ).map((output: any, index: number) => (
             <ToolBarDetailSingleComponent
               DownstreamToolBarEditorData={output}
-              choiceComposite = {SetupEditorContextValue.choiceComposite}
+              choiceComposite={SetupEditorContextValue.choiceComposite}
               key={index}
             />
           ))}

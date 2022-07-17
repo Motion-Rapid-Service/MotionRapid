@@ -20,8 +20,66 @@
      height: 80vh;
      position: absolute;
      top: 0;
-     right: 0;
      bottom: 0;
+     right: 0;
      left: 0;
      margin: auto;
+}
+
+.tool_config-area-title {
+    background-color: rgb(255,255,255);
+    width: 100%;
+    height: 50px;
+    position: static;
+}
+
+.tool_config-area-title .text { 
+    width: 100%;
+    height: 100%;
+    left: 10px;
+	display: flex;
+	align-items: center;
+    position:relative;
+}
+.tool_config-area-title p {
+
+}
+
+.tool_config-area-bottom-area * {
+    user-select: none;
+}
+
+.tool_config-area-bottom-area {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    height: 50px;
+
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+}
+
+.tool_config-area-button {
+    /* position: relative; */
+    border-radius: 20px;
+    margin-right: 10px;
+    min-width: 160px;
+    padding-left: 10px;
+    padding-right: 10px;
+    height: 30px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 2px solid;
+
+    border-color: rgb(255,255,255);
+}
+.tool_config-area-button p {
+    color: rgb(255,255,255);
+    /* position: absolute; */
+    margin: 0px;
 }

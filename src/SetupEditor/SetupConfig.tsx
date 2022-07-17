@@ -9,24 +9,22 @@ import { SetupConfigContext } from "./SetupConfigContext";
 //ここを画面結合専用層にする予定
 //ここから ツールバー処理用のクラス
 
-
 const SetupConfig = () => {
-    const configModeList = ["not", "composite"]
-    const [configMode, configModeSetState] = useState<string>(configModeList[1]);
+  const configModeList = ["not", "composite"];
+  const [configMode, configModeSetState] = useState<string>(configModeList[1]);
 
-    useEffect(() => {
-    }, [configMode]);
+  useEffect(() => {}, [configMode]);
 
-    return (
-        <SetupConfigContext.Provider value={{
-            configMode: configMode,
-            configModeSetState: configModeSetState,
-            configModeList: configModeList
-        }}>
-
-            <SetupToolbar />
-        </SetupConfigContext.Provider>
-        
-    );
+  return (
+    <SetupConfigContext.Provider
+      value={{
+        configMode: configMode,
+        configModeSetState: configModeSetState,
+        configModeList: configModeList,
+      }}
+    >
+      <SetupToolbar />
+    </SetupConfigContext.Provider>
+  );
 };
 export default SetupConfig;

@@ -14,15 +14,40 @@ const ConfigModeComposite = () => {
 //     return ()
 // }
 
+const ConfigButton = (props: any) => {
+
+    const SetupConfigContextValue = useContext(SetupConfigContext);
+
+    const mouseDown = () => { //マウスがクリックされたとき
+        SetupConfigContextValue.configModeSetState(SetupConfigContextValue.configModeList[0])
+        props.buttonFunc()
+    }
+
+    return (
+        <div className="tool_config-area-button" onMouseDown={mouseDown}>
+            <p>{props.text}</p>
+        </div>
+    )
+}
+
+const ConfigButtonBottm = (props: any) => {
+    return (
+        <div className="tool_config-area-bottom-area">
+            <ConfigButton text={"決定"} />
+            <ConfigButton text={"キャンセル"} />
+        </div>
+    )
+}
+
 const SwitchConfigMode = (props: any) => {
     const configMode: string = props.configMode
     const configModeList: Array<string> = props.configModeList
     if (configMode === configModeList[1]) {
         return (
-            <div className="tool_config-area-view">
+            <>
                 <ConfigModeComposite />
-            </div>
-
+                <ConfigButtonBottm/>
+            </>
         )
     }
 }
@@ -42,7 +67,10 @@ const SwitchConfigBackGrounde = () => {
     return (
         <div className="tool_config-area">
             <div className="tool_config-area-background">
-                <SwitchConfigMode configMode={configMode} configModeList={configModeList} />
+                <div className="tool_config-area-view">
+                    <div className="tool_config-area-title"><div className="text"><p>config mode {configMode}</p></div></div>
+                    <SwitchConfigMode configMode={configMode} configModeList={configModeList} />
+                </div>
             </div>
         </div>
 
