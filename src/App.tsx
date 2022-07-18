@@ -11,7 +11,8 @@ import "./ToolBar/CSS/ToolBar.css";
 import "./ToolBar/CSS/ToolBarDetail.css";
 import "./CompositeChoice/CSS/CompositeChoice.css";
 
-import "./ToolConfig/CSS/SetupConfig.css";
+import "./ToolConfig/CSS/ToolConfig.css";
+import "./ToolConfig/CSS/ToolConfigParts.css";
 
 import * as buildSourceType from "./BuildSite/buildHTML/buildSourceType";
 
@@ -101,13 +102,18 @@ middleDataOperation.createDataCentral();
 
 const componentConvertCompositeChoiceArea = () => {
   const compositeIDArray = middleDataOperation.getOwnedID_Composite();
+  const AppContextValue = useContext(AppContext);
   // console.log("componentConvertMediaObjectArea", mediaObjIDArray);
 
   const middleDataCompositeTemp = [];
 
   for (let i = 0; i < compositeIDArray.length; i++) {
+    const thisCompositeClass = middleDataOperation.getOwnedClassComposite(
+      compositeIDArray[i]
+    );
     middleDataCompositeTemp.push({
       Composite_ID: compositeIDArray[i],
+      Composite_Name: thisCompositeClass.Composite_Name,
     });
   }
 

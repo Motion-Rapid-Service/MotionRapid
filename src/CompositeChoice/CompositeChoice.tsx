@@ -13,6 +13,7 @@ const CompositeChoiceListIndexComponent = (props: any) => {
   const SetupEditorContextValue = useContext(SetupEditorContext);
   const SetupToolbarContextValue = useContext(SetupToolbarContext);
   const Composite_ID = props.DownstreamMiddleDataComposite["Composite_ID"];
+  const Composite_Name = props.DownstreamMiddleDataComposite["Composite_Name"];
 
   const MouseDown = () => {
     SetupEditorContextValue.choiceCompositeSetState(Composite_ID);
@@ -20,7 +21,7 @@ const CompositeChoiceListIndexComponent = (props: any) => {
 
   return (
     <div className="composite_choice-listindex-area" onMouseDown={MouseDown}>
-      <p>{Composite_ID}</p>
+      <p>{Composite_Name}</p>
     </div>
   );
 };

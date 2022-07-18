@@ -4,8 +4,7 @@ import UUID from "uuidjs";
 
 import htmlBuildMain from "../BuildSite/buildHTML/buildHtmlMain";
 
-import * as buildSourceType from "./../BuildSite/buildHTML/buildSourceType"
-
+import * as buildSourceType from "./../BuildSite/buildHTML/buildSourceType";
 
 const getUUID = () => {
   return String(UUID.generate());
@@ -32,17 +31,23 @@ export default class MiddleDataOperation {
     this.DataCentral = new middleDataClass.DataCentral(projectName);
   };
 
-  createComposite = () => {
+  createComposite = (compositeName: string, compositeMode: string) => {
     const newID = "Composite_" + getUUID();
-    const newObj = new middleDataClass.Composite(newID, "test_composite",middleDataClass.Composite_Mode[1]);
+    const newObj = new middleDataClass.Composite(
+      newID,
+      compositeName,
+      compositeMode
+      // middleDataClass.Composite_Mode[1]
+    );
+    console.log("newObj", newObj);
     this.DataCentral.OwnedClass_Composite[newID] = newObj;
     // this.linkComposite(newID)
     return newID;
   };
 
-  createMediaObject = (sourceType:buildSourceType.SourceTypeClass) => {
+  createMediaObject = (sourceType: buildSourceType.SourceTypeClass) => {
     const newID = "MediaObject_" + getUUID();
-    const newObj = new middleDataClass.MediaObject(newID,sourceType);
+    const newObj = new middleDataClass.MediaObject(newID, sourceType);
     this.DataCentral.OwnedClass_MediaObject[newID] = newObj;
     return newID;
   };
@@ -95,42 +100,45 @@ export default class MiddleDataOperation {
     );
   };
 
-  swopMediaObject = (compositeID: string, swopSubject: number, swopInsertion: number) => {
-
+  swopMediaObject = (
+    compositeID: string,
+    swopSubject: number,
+    swopInsertion: number
+  ) => {
     //compositeID : 対象コンポジットID
     //swopSubject : スワップ対象
     //swopInsertion : 挿入先
 
-    const swopOwnedID_MediaObject = Object.assign(this.DataCentral.OwnedClass_Composite[compositeID].OwnedID_MediaObject)
+    const swopOwnedID_MediaObject = Object.assign(
+      this.DataCentral.OwnedClass_Composite[compositeID].OwnedID_MediaObject
+    );
 
+    const swopID = swopOwnedID_MediaObject[swopSubject];
 
-    const swopID = swopOwnedID_MediaObject[swopSubject]
-
-    swopOwnedID_MediaObject[swopSubject] = "not"
+    swopOwnedID_MediaObject[swopSubject] = "not";
     swopOwnedID_MediaObject.splice(swopInsertion, 0, swopID);
 
     for (let i = 0; i < swopOwnedID_MediaObject.length; i++) {
       if (swopOwnedID_MediaObject[i] == "not") {
+        const beforeSwopOwnedID_MediaObject = swopOwnedID_MediaObject.splice(
+          i,
+          1
+        );
 
-        const beforeSwopOwnedID_MediaObject = swopOwnedID_MediaObject.splice(i, 1)
-
-        continue
+        continue;
       }
     }
-
 
     // const swopID = this.DataCentral.OwnedClass_Composite[compositeID].OwnedID_MediaObject[swopSubject]
     // this.DataCentral.OwnedClass_Composite[compositeID].OwnedID_MediaObject[swopSubject] = null
 
     // arr.splice(2, 0, 'AAA', 'BBB', 'CCC');
-
-  }
+  };
 
   operationMediaObjectTime = (sendData: any) => {
     const mediaObjectID = sendData["mediaObjectID"];
 
     if (!hasKeyFound("mediaObjectID", sendData)) {
-
       return;
     }
     if (hasKeyFound("sta", sendData)) {
@@ -145,29 +153,22 @@ export default class MiddleDataOperation {
     }
   };
   operationKeyframeTime = (sendData: any) => {
-
-
     const KeyframeID = sendData["KeyframeID"];
 
     if (!hasKeyFound("KeyframeID", sendData)) {
-
       return;
     }
     if (hasKeyFound("time", sendData)) {
-
       this.DataCentral.OwnedClass_Keyframe[KeyframeID].Keyframe_AbsoluteTime =
         sendData["time"];
     }
-
   };
 
   getOwnedID_Composite = () => {
-
     return Object.assign(Object.keys(this.DataCentral.OwnedClass_Composite));
   };
 
   getOwnedID_MediaObject = (compositeID: string) => {
-
     let returnData = [];
     if (hasKeyFound(compositeID, this.DataCentral.OwnedClass_Composite)) {
       returnData = Object.assign(
@@ -179,7 +180,8 @@ export default class MiddleDataOperation {
 
   getOwnedID_AnimatorGroup = (mediaObjectID: string) => {
     return Object.assign(
-      this.DataCentral.OwnedClass_MediaObject[mediaObjectID].OwnedID_AnimatorGroup
+      this.DataCentral.OwnedClass_MediaObject[mediaObjectID]
+        .OwnedID_AnimatorGroup
     );
   };
 
@@ -195,34 +197,26 @@ export default class MiddleDataOperation {
     );
   };
 
-  
   getOwnedClassComposite = (compositeID: string) => {
-    return Object.assign(
-      this.DataCentral.OwnedClass_Composite[compositeID]
-    );
-  }
+    return Object.assign(this.DataCentral.OwnedClass_Composite[compositeID]);
+  };
   getOwnedClassMediaObject = (mediaObjectID: string) => {
     return Object.assign(
       this.DataCentral.OwnedClass_MediaObject[mediaObjectID]
     );
-  }
-  getOwnedClassAnimatorGroup = (animatorGroupID:string) => {
+  };
+  getOwnedClassAnimatorGroup = (animatorGroupID: string) => {
     return Object.assign(
       this.DataCentral.OwnedClass_AnimatorGroup[animatorGroupID]
     );
-  }
+  };
 
-  getOwnedClassAnimator = (animatorID: string) =>  {
-    return Object.assign(
-      this.DataCentral.OwnedClass_Animator[animatorID]
-    );
+  getOwnedClassAnimator = (animatorID: string) => {
+    return Object.assign(this.DataCentral.OwnedClass_Animator[animatorID]);
   };
   getOwnedClassKeyframe = (keyframeID: string) => {
-    return Object.assign(
-      this.DataCentral.OwnedClass_Keyframe[keyframeID]
-    );
+    return Object.assign(this.DataCentral.OwnedClass_Keyframe[keyframeID]);
   };
-
 
   getMediaObjectTime = (mediaObjectID: string) => {
     return [
@@ -234,9 +228,8 @@ export default class MiddleDataOperation {
   };
 
   getMediaObjectSourceType = (mediaObjectID: string) => {
-    return       this.DataCentral.OwnedClass_MediaObject[mediaObjectID]
-    .sourceType
-  }
+    return this.DataCentral.OwnedClass_MediaObject[mediaObjectID].sourceType;
+  };
 
   getKeyframeTime = (keyframeID: string) => {
     const Keyframe_AbsoluteTime =
@@ -245,13 +238,13 @@ export default class MiddleDataOperation {
     return Keyframe_AbsoluteTime;
   };
 
-  copyMediaObject = () => { };
-  copyAnimator = () => { };
-  copyKeyframe = () => { };
+  copyMediaObject = () => {};
+  copyAnimator = () => {};
+  copyKeyframe = () => {};
 
-  deleteMediaObject = () => { };
-  deleteAnimator = () => { };
-  deleteKeyframe = () => { };
+  deleteMediaObject = () => {};
+  deleteAnimator = () => {};
+  deleteKeyframe = () => {};
 
   layerMaximum = (compositeID: string) => {
     const targetMediaObjectLengh =
@@ -269,41 +262,62 @@ export default class MiddleDataOperation {
     //たぶん計算量がn^2ぐらいになりそう
   };
 
-  fileExportCommon = (jsonData: any, fileName: string, typeText: string, extension: string) => {
+  fileExportCommon = (
+    jsonData: any,
+    fileName: string,
+    typeText: string,
+    extension: string
+  ) => {
     //typeについてhttps://asahi-net.jp/support/guide/homepage/0017.html
     const blob = new Blob([jsonData], { type: typeText });
-    const aTag = document.createElement('a');
+    const aTag = document.createElement("a");
     aTag.href = URL.createObjectURL(blob);
-    aTag.target = '_blank';
+    aTag.target = "_blank";
     aTag.download = fileName + "." + extension;
     aTag.click();
     URL.revokeObjectURL(aTag.href);
-  }
+  };
   fileExportDataCentral = () => {
-    const jsonDataCentral = JSON.stringify(this.DataCentral, null, "\t")
-    this.fileExportCommon(jsonDataCentral, "DataCentralFile", 'application/json', "json")
-  }
+    const jsonDataCentral = JSON.stringify(this.DataCentral, null, "\t");
+    this.fileExportCommon(
+      jsonDataCentral,
+      "DataCentralFile",
+      "application/json",
+      "json"
+    );
+  };
   fileExportComposite = (CompositeID: string) => {
-    const Composite = this.DataCentral.OwnedClass_Composite[CompositeID]
-    const jsonComposite = JSON.stringify(Composite, null, "\t")
-    this.fileExportCommon(jsonComposite, CompositeID + "File", 'application/json', "json")
-  }
+    const Composite = this.DataCentral.OwnedClass_Composite[CompositeID];
+    const jsonComposite = JSON.stringify(Composite, null, "\t");
+    this.fileExportCommon(
+      jsonComposite,
+      CompositeID + "File",
+      "application/json",
+      "json"
+    );
+  };
   buildMiddleDataHtml = (CompositeID: string) => {
-
-    const jsonData = JSON.parse(JSON.stringify(this.DataCentral, null, "\t"))
-    const jsonSyntaxHtml = htmlBuildMain(jsonData, CompositeID)
-    this.fileExportCommon(jsonSyntaxHtml, CompositeID + "html", "text/html", "html")
-  }
-  rewriteMediaObejctAnimatorOpen = (mediaObjectID: string, openBool: boolean) => {
-
-    this.DataCentral.OwnedClass_MediaObject[mediaObjectID].animatorOpen = openBool
-  }
+    const jsonData = JSON.parse(JSON.stringify(this.DataCentral, null, "\t"));
+    const jsonSyntaxHtml = htmlBuildMain(jsonData, CompositeID);
+    this.fileExportCommon(
+      jsonSyntaxHtml,
+      CompositeID + "html",
+      "text/html",
+      "html"
+    );
+  };
+  rewriteMediaObejctAnimatorOpen = (
+    mediaObjectID: string,
+    openBool: boolean
+  ) => {
+    this.DataCentral.OwnedClass_MediaObject[mediaObjectID].animatorOpen =
+      openBool;
+  };
   getMediaObejctAnimatorOpen = (mediaObjectID: string) => {
-
-
-    const retemp:boolean = this.DataCentral.OwnedClass_MediaObject[mediaObjectID].animatorOpen
+    const retemp: boolean =
+      this.DataCentral.OwnedClass_MediaObject[mediaObjectID].animatorOpen;
     return retemp;
-  }
+  };
 }
 
 //ユーザー操作をEdit

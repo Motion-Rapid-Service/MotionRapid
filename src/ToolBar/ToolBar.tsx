@@ -93,8 +93,6 @@ const toolBarComponent = (props: any) => {
   };
 
   const toolBarCreateComposite = (funcdata: { [name: string]: any }) => {
-    AppContextValue.createComposite();
-
     SetupConfigContextValue.configModeSetState(
       SetupConfigContextValue.configModeList[1]
     );
