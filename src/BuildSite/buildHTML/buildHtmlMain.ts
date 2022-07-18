@@ -2,13 +2,10 @@
 
 import { testJoin, textReplace } from "./buildAuxiliaryFunction";
 import * as buildSourceType from "./buildSourceType";
-
-
+import CSSBuildMain from "../buildCSS/buildCSSMain";
 
 const htmlBuildMain = (jsonDataCentral: any, compositeID: string) => {
-  const htmlText = String(
-    require("./../buildFormat/htmlFormat.html")["default"]
-  );
+  const htmlText = String(require("./../buildFormat/htmlFormat.html")["default"]);
 
   const OwnedClass_Composite = jsonDataCentral["OwnedClass_Composite"];
   const OwnedClass_MediaObject = jsonDataCentral["OwnedClass_MediaObject"];
@@ -19,14 +16,21 @@ const htmlBuildMain = (jsonDataCentral: any, compositeID: string) => {
     return jsonDataCentral;
   }
 
-  const rootText = parseComposite(getJsonDataCentral, compositeID);
+  let indentHTML: number = 3; //root等を考慮した値
+
+  const cssText = CSSBuildMain(jsonDataCentral, compositeID);
+  console.log("cssText", cssText);
+
+  const rootText = "\n" + parseComposite(getJsonDataCentral, compositeID, indentHTML) + buildSourceType.writeIndentHTML(indentHTML - 1);
   const replaceData = {
     "%rootEdit%": rootText,
     "%title%": "MotionRapidTest",
-    "%style%": "<style type='text/css'>" + "</style>"
-  }
+    "%style%": testJoin(["<style type='text/css'>", "\n", cssText, "\n", "</style>"]),
+  };
 
-  const htmlTextReplace = textReplace(htmlText, replaceData)
+  // const jsonSyntaxCSS = CSSBuildMain(jsonData, CompositeID);
+
+  const htmlTextReplace = textReplace(htmlText, replaceData);
 
   return htmlTextReplace;
 };
@@ -36,7 +40,8 @@ export default htmlBuildMain;
 const parseComposite = (
   // htmlRoot: string,
   getJsonDataCentral: Function,
-  compositeID: string
+  compositeID: string,
+  indentHTML: number
 ) => {
   console.log(getJsonDataCentral);
   const OwnedClass_Composite = getJsonDataCentral()["OwnedClass_Composite"];
@@ -45,15 +50,11 @@ const parseComposite = (
   let rootText: string = "";
   const OwnedID_MediaObject = thenComposite["OwnedID_MediaObject"];
 
-  console.log(compositeID)
+  console.log(compositeID);
 
   for (let i = 0; i < OwnedID_MediaObject.length; i++) {
     const thenMediaObjectID = OwnedID_MediaObject[i];
-    const thenText: string = parseMediaObject(
-      getJsonDataCentral,
-      compositeID,
-      thenMediaObjectID
-    );
+    const thenText: string = parseMediaObject(getJsonDataCentral, compositeID, thenMediaObjectID, indentHTML);
     rootText += thenText;
   }
   return rootText;
@@ -63,7 +64,8 @@ const parseMediaObject = (
   // htmlRoot: string,
   getJsonDataCentral: Function,
   compositeID: string,
-  mediaObjectID: string
+  mediaObjectID: string,
+  indentHTML: number
 ) => {
   const OwnedClass_Composite = getJsonDataCentral()["OwnedClass_Composite"];
   const OwnedClass_MediaObject = getJsonDataCentral()["OwnedClass_MediaObject"];
@@ -82,24 +84,19 @@ const parseMediaObject = (
   }
   if (thenSourceType === buildSourceType.sourceTypeList[1]) {
     //text
-    rtextC = buildSourceType.sourceTypeFunctionText(
-      getJsonDataCentral,
-      thenSsourceTypeClass
-    );
+    rtextC = buildSourceType.sourceTypeFunctionText(getJsonDataCentral, thenSsourceTypeClass, indentHTML + 1);
   }
   if (thenSourceType === buildSourceType.sourceTypeList[2]) {
     //Composite
-    rtextC = buildSourceType.sourceTypeFunctionComposite(
-      getJsonDataCentral,
-      thenSsourceTypeClass,
-      parseComposite
-    );
+    rtextC = buildSourceType.sourceTypeFunctionComposite(getJsonDataCentral, thenSsourceTypeClass, parseComposite, indentHTML + 1);
   }
 
-  const rtextS = testJoin(["<", tag, " ", "class=", mediaObjectID, ">", "\n"]);
-  const rtextE = testJoin(["</", tag, ">", "\n"]);
+  const thisIndentStr = buildSourceType.writeIndentHTML(indentHTML);
 
-  const addText = rtextS + rtextC + rtextE;
+  const rtextS = testJoin([thisIndentStr, "<", tag, " ", "class=", mediaObjectID, ">", "\n"]);
+  const rtextE = testJoin([thisIndentStr, "</", tag, ">", "\n"]);
+
+  const addText = rtextS + rtextC + "\n" + rtextE;
   //console.log("addText", addText);
   return addText;
 };

@@ -162,8 +162,9 @@ const SwitchConfigMode = (props: any) => {
       >
         <div className="tool_config-area-switch_config">
           <ConfigSettingItemsComposite />
+          <p>{String(configContent["compositeName"])}</p>
         </div>
-        <p>{String(configContent["compositeName"])}</p>
+
         <ConfigButtonBottm />
       </ToolConfigContext.ConfigModeContext.Provider>
     </>

@@ -21,7 +21,9 @@ const CompositeChoiceListIndexComponent = (props: any) => {
 
   return (
     <div className="composite_choice-listindex-area" onMouseDown={MouseDown}>
-      <p>{Composite_Name}</p>
+      <p>
+        {Composite_Name} / {Composite_ID}
+      </p>
     </div>
   );
 };

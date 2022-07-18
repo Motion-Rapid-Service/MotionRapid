@@ -5,6 +5,14 @@
   /* ちょっと薄い */
 }
 
+#root {
+  margin: 5px;
+}
+
+body{
+  padding: 0px;
+  margin: 0px;
+}
 .timeline-area {
   background-color: rgb(50, 50, 50);
   width: auto;
@@ -74,7 +82,7 @@
   min-height: 0px;
 }
 
-.animator_area > .animator_area-entity {
+.animator_area .animator_area-entity {
   height: var(--animator-height);
 
   width: 100%;
@@ -82,7 +90,9 @@
   /* 
   display: flex; */
 }
-
+.animator_area .animator_area-entity-group{
+  background-color: var(--background-B);
+}
 .animator_area-entity > .keyframe-area {
   width: calc(var(--keyfrmae-size) * 1px);
   height: calc(var(--keyfrmae-size) * 1px);
@@ -227,5 +237,118 @@
 
 .composite_choice-area .composite_choice-listindex-area:hover {
   background-color: var(--background-B);
+}
+
+.tool_config-area-background {
+  background-color: rgba(20, 20, 20, 0.9);
+  /* width: 100%;
+  height: 100%;
+  position: relative; */
+
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tool_config-area {
+  background-color: rgb(60, 60, 60);
+  width: 70vw;
+}
+
+.tool_config-area-title {
+  background-color: rgb(255, 255, 255);
+  width: 100%;
+  height: 30px;
+  position: static;
+}
+
+.tool_config-area-title .text {
+  width: 100%;
+  height: 100%;
+  left: 10px;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+.tool_config-area-title p {
+}
+.tool_config-area-view {
+  overflow-y: scroll;
+  height: 80vh;
+}
+
+.tool_config-area-switch_config {
+  width: 100%;
+  min-height: calc((80vh - 70px));
+  /* position: relative; */
+}
+
+.tool_config-area-bottom-area * {
+  user-select: none;
+}
+
+.tool_config-area-bottom-area {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  height: 50px;
+  /* 
+  position: absolute;
+  bottom: 10px;
+  right: 10px; */
+}
+
+.tool_config-area-button {
+  /* position: relative; */
+  border-radius: 20px;
+  margin-right: 10px;
+  min-width: 160px;
+  padding-left: 10px;
+  padding-right: 10px;
+  height: 30px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 2px solid;
+
+  border-color: rgb(255, 255, 255);
+}
+.tool_config-area-button p {
+  color: rgb(255, 255, 255);
+  /* position: absolute; */
+  margin: 0px;
+}
+
+.tool_config-area-setting-items {
+  margin: 2px 0px 2px 10px;
+}
+
+.tool_config-area-setting-items h3 {
+  color: rgb(255, 255, 255);
+  margin: 0px;
+}
+
+.tool_config-area-setting-items p {
+  color: rgb(255, 255, 255);
+  margin: 0px;
+}
+
+.config_parts-textbox input {
+  font-size: 16px; /*フォントサイズ*/
+  border: 1px solid #999999; /*ボーダー*/
+  padding: 2px; /*パディング*/
+  border-radius: 3px; /*角丸にする*/
+  box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.1) inset; /*影を付ける*/
+  background-color: rgb(60, 60, 60);
+  color: rgb(255, 255, 255);
 }
 
