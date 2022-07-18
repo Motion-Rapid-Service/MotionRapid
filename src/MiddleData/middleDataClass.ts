@@ -28,16 +28,12 @@ export class Composite {
   OwnedID_MediaObject: Array<string>;
   Composite_Mode: string;
   Composite_Duration: number;
-  constructor(
-    send_Composite_ID: string,
-    send_Composite_Name: string,
-    send_Composite_Mode: string
-  ) {
+  constructor(send_Composite_ID: string, send_Composite_Name: string, send_Composite_Mode: string) {
     this.Composite_ID = send_Composite_ID;
     this.Composite_Name = send_Composite_Name;
     this.OwnedID_MediaObject = [];
     this.Composite_Mode = send_Composite_Mode;
-    this.Composite_Duration = 1000;
+    this.Composite_Duration = 3000;
   }
 }
 
@@ -49,10 +45,7 @@ export class MediaObject {
   OwnedID_AnimatorGroup: Array<string>;
   animatorOpen: boolean;
   sourceType: buildSourceType.SourceTypeClass;
-  constructor(
-    send_MediaObject_ID: string,
-    send_sourceType: buildSourceType.SourceTypeClass
-  ) {
+  constructor(send_MediaObject_ID: string, send_sourceType: buildSourceType.SourceTypeClass) {
     this.MediaObject_ID = send_MediaObject_ID;
     this.MediaObject_StartTime = 500;
     this.MediaObject_EndTime = 750;

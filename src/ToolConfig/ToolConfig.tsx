@@ -14,40 +14,20 @@ import * as middleDataClass from "./../MiddleData/middleDataClass";
 // }
 
 const SwitchConfigSettingItemsComposite = (props: any) => {
-  const settingItemsData: ToolConfigContext.settingItemsData =
-    props.settingItemsData;
+  const settingItemsData: ToolConfigContext.settingItemsData = props.settingItemsData;
 
-  const [configInput, configInputSetState] = useState<
-    Array<string> | string | number | boolean
-  >(String(settingItemsData.exposeValue));
+  const [configInput, configInputSetState] = useState<Array<string> | string | number | boolean>(String(settingItemsData.exposeValue));
 
-  const ConfigModeContextValue = useContext(
-    ToolConfigContext.ConfigModeContext
-  );
+  const ConfigModeContextValue = useContext(ToolConfigContext.ConfigModeContext);
 
   useEffect(() => {
-    ConfigModeContextValue.configContentSetStateValue(
-      settingItemsData.configItem,
-      configInput
-    );
+    ConfigModeContextValue.configContentSetStateValue(settingItemsData.configItem, configInput);
 
-    console.log(
-      "SwitchConfigSettingItemsComposite",
-      settingItemsData.configItem,
-      configInput
-    );
+    console.log("SwitchConfigSettingItemsComposite", settingItemsData.configItem, configInput);
   }, [configInput]);
 
-  if (
-    settingItemsData.thisConfigSettingGUI ==
-    ToolConfigContext.configSettingGUI[1]
-  ) {
-    return (
-      <ToolConfigParts.ConfigTextBox
-        configInput={String(configInput) as string}
-        configInputSetState={configInputSetState}
-      />
-    );
+  if (settingItemsData.thisConfigSettingGUI == ToolConfigContext.configSettingGUI[1]) {
+    return <ToolConfigParts.ConfigTextBox configInput={String(configInput) as string} configInputSetState={configInputSetState} />;
   }
 };
 
@@ -62,33 +42,24 @@ const ConfigSettingItemsCompositeEntity = (props: any) => {
 };
 
 const ConfigSettingItemsComposite = () => {
-  const ConfigModeContextValue = useContext(
-    ToolConfigContext.ConfigModeContext
-  );
+  const ConfigModeContextValue = useContext(ToolConfigContext.ConfigModeContext);
 
   return (
     <div className="tool_config-area-setting-items">
-      {ConfigModeContextValue.settingItemsArray.map(
-        (output: ToolConfigContext.settingItemsData, index: number) => (
-          // <>{fruit}</> //SurfaceControlIndividualを追加するmap (list_surface_controlに入っている)
-          <ConfigSettingItemsCompositeEntity key={index} output={output} />
-        )
-      )}
+      {ConfigModeContextValue.settingItemsArray.map((output: ToolConfigContext.settingItemsData, index: number) => (
+        // <>{fruit}</> //SurfaceControlIndividualを追加するmap (list_surface_controlに入っている)
+        <ConfigSettingItemsCompositeEntity key={index} output={output} />
+      ))}
     </div>
   );
 };
 
 const ConfigButtonBottm = (props: any) => {
-  const ConfigModeContextValue = useContext(
-    ToolConfigContext.ConfigModeContext
-  );
+  const ConfigModeContextValue = useContext(ToolConfigContext.ConfigModeContext);
 
   return (
     <div className="tool_config-area-bottom-area">
-      <ToolConfigParts.ConfigButton
-        text={"決定"}
-        buttonFunc={ConfigModeContextValue.buttonOperationFunc}
-      />
+      <ToolConfigParts.ConfigButton text={"決定"} buttonFunc={ConfigModeContextValue.buttonOperationFunc} />
       <ToolConfigParts.ConfigButton text={"キャンセル"} />
     </div>
   );
@@ -109,11 +80,7 @@ const SwitchConfigMode = (props: any) => {
 
   const configContentSetStateValue = (send_key: string, send_value: string) => {
     const CopyConfigContent = JSON.parse(JSON.stringify(configContent));
-    console.log(
-      "CopyConfigContentA",
-      configContent,
-      Object.is(configContent, CopyConfigContent)
-    );
+    console.log("CopyConfigContentA", configContent, Object.is(configContent, CopyConfigContent));
     CopyConfigContent[send_key] = send_value;
 
     console.log("CopyConfigContent", configContent, CopyConfigContent);
@@ -127,15 +94,8 @@ const SwitchConfigMode = (props: any) => {
     const configItem = ToolConfigContext.ConfigItemNewComposite[0];
 
     buttonOperationFunc = () => {
-      console.log(
-        "buttonOperationFunc",
-        configContent[configItem],
-        middleDataClass.Composite_Mode[0]
-      );
-      AppContextValue.createComposite(
-        configContent[configItem],
-        middleDataClass.Composite_Mode[0]
-      );
+      console.log("buttonOperationFunc", configContent[configItem], middleDataClass.Composite_Mode[0]);
+      AppContextValue.createComposite(configContent[configItem], middleDataClass.Composite_Mode[0]);
       //   AppContextValue.updateDOM();
     };
 
@@ -192,10 +152,7 @@ const SwitchConfigBackGrounde = () => {
         </div>
 
         <div className="tool_config-area-view">
-          <SwitchConfigMode
-            configMode={configMode}
-            configModeList={configModeList}
-          />
+          <SwitchConfigMode configMode={configMode} configModeList={configModeList} />
         </div>
       </div>
     </div>
