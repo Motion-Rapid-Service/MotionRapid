@@ -184,6 +184,15 @@ export default class MiddleDataOperation {
     return Object.assign(this.DataCentral.OwnedClass_Keyframe[keyframeID]);
   };
 
+  getCompositeName = (compositeID: string) => {
+    if (!hasKeyFound(compositeID, this.DataCentral.OwnedClass_Composite)) {
+      return "";
+    }
+
+    const thenComposite = this.DataCentral.OwnedClass_Composite[compositeID];
+    console.log("thenComposite", thenComposite);
+    return thenComposite.Composite_Name;
+  };
   getMediaObjectTime = (mediaObjectID: string) => {
     return [
       this.DataCentral.OwnedClass_MediaObject[mediaObjectID].MediaObject_StartTime,

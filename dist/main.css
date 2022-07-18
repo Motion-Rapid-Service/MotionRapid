@@ -137,6 +137,11 @@ body{
 /*   layer_panel-media_object */
 /*   layer_panel-animator layer_panel-animator-entity*/
 
+.playhead {
+  width: 2px;
+  height: 100%;
+}
+
 .toolBar {
   margin-bottom: 5px;
 }
@@ -215,8 +220,8 @@ body{
 }
 
 .composite_choice-area {
-  width: 70%;
-  height: 100px;
+  width: 90%;
+  height: 300px;
   overflow-y: scroll;
   background-color: var(--background-A);
   margin-bottom: 10px;

@@ -207,6 +207,7 @@ const App = () => {
           swopMediaObject: middleDataOperation.swopMediaObject,
           rewriteMediaObejctAnimatorOpen: middleDataOperation.rewriteMediaObejctAnimatorOpen,
           getMediaObejctAnimatorOpen: middleDataOperation.getMediaObejctAnimatorOpen,
+          getCompositeName: middleDataOperation.getCompositeName,
 
           createComposite: middleDataOperation.createComposite,
           createMediaObject: middleDataOperation.createMediaObject,
