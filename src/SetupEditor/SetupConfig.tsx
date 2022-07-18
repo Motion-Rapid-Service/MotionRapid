@@ -11,7 +11,7 @@ import { SetupConfigContext } from "./SetupConfigContext";
 
 const SetupConfig = () => {
   const configModeList = ["not", "composite"];
-  const [configMode, configModeSetState] = useState<string>(configModeList[1]);
+  const [configMode, configModeSetState] = useState<string>(configModeList[0]);
 
   useEffect(() => {}, [configMode]);
 

@@ -2,84 +2,115 @@ import * as React from "react";
 const { useContext, useReducer, createContext, useEffect, useState } = React;
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-
 import { AppContext } from "../AppContext";
 import { SetupConfigContext } from "./../SetupEditor/SetupConfigContext";
-
-const ConfigModeComposite = () => {
-    return (<div className="tool_config-area-mode-composite"></div>)
-}
-
+import * as ToolConfigContext from "./ToolConfigContext";
 // const ConfigBackGround = () => {
 //     return ()
 // }
 
+const ConfigSettingItemsComposite = () => {
+  return <div className="tool_config-area-setting-items"></div>;
+};
+
 const ConfigButton = (props: any) => {
+  const SetupConfigContextValue = useContext(SetupConfigContext);
 
-    const SetupConfigContextValue = useContext(SetupConfigContext);
+  const mouseDown = () => {
+    //マウスがクリックされたとき
+    SetupConfigContextValue.configModeSetState(
+      SetupConfigContextValue.configModeList[0]
+    );
+    props.buttonFunc();
+  };
 
-    const mouseDown = () => { //マウスがクリックされたとき
-        SetupConfigContextValue.configModeSetState(SetupConfigContextValue.configModeList[0])
-        props.buttonFunc()
-    }
-
-    return (
-        <div className="tool_config-area-button" onMouseDown={mouseDown}>
-            <p>{props.text}</p>
-        </div>
-    )
-}
+  return (
+    <div className="tool_config-area-button" onMouseDown={mouseDown}>
+      <p>{props.text}</p>
+    </div>
+  );
+};
 
 const ConfigButtonBottm = (props: any) => {
-    return (
-        <div className="tool_config-area-bottom-area">
-            <ConfigButton text={"決定"} />
-            <ConfigButton text={"キャンセル"} />
-        </div>
-    )
-}
+  return (
+    <div className="tool_config-area-bottom-area">
+      <ConfigButton text={"決定"} />
+      <ConfigButton text={"キャンセル"} />
+    </div>
+  );
+};
 
 const SwitchConfigMode = (props: any) => {
-    const configMode: string = props.configMode
-    const configModeList: Array<string> = props.configModeList
-    if (configMode === configModeList[1]) {
-        return (
-            <>
-                <ConfigModeComposite />
-                <ConfigButtonBottm/>
-            </>
-        )
-    }
-}
+  const configMode: string = props.configMode;
+  const configModeList: Array<string> = props.configModeList;
 
-const SwitchConfigBackGrounde = () => {
-    const SetupConfigContextValue = useContext(SetupConfigContext)
-    const configMode = SetupConfigContextValue.configMode
-    const configModeList = SetupConfigContextValue.configModeList
+  let settingItemsTemp: Array<ToolConfigContext.settingItemsData> = [];
+  if (configMode === configModeList[1]) {
+    const buttonFunc: Function = () => {};
 
-    console.log(configMode, configModeList)
+    const settingItemsDataCompositeName: ToolConfigContext.settingItemsData = {
+      settingTitle: "コンポジット名",
+      settingMessage: "",
+      buttonFunc: buttonFunc,
+      thisConfigSettingGUI: ToolConfigContext.configSettingGUI[0],
+      exposeValue: "newComposite",
+    };
 
-    if (configMode === configModeList[0]) {
-        return (<></>)
-    }
+    settingItemsTemp.push(settingItemsDataCompositeName);
+  }
 
+  console.log(settingItemsTemp);
 
-    return (
-        <div className="tool_config-area">
-            <div className="tool_config-area-background">
-                <div className="tool_config-area-view">
-                    <div className="tool_config-area-title"><div className="text"><p>config mode {configMode}</p></div></div>
-                    <SwitchConfigMode configMode={configMode} configModeList={configModeList} />
-                </div>
-            </div>
+  return (
+    <>
+      <ToolConfigContext.ConfigModeContext.Provider
+        value={{
+          settingItemsArray: settingItemsTemp,
+        }}
+      >
+        <div className="tool_config-area-switch_config">
+          <ConfigSettingItemsComposite />
         </div>
 
-    )
+        <ConfigButtonBottm />
+      </ToolConfigContext.ConfigModeContext.Provider>
+    </>
+  );
+};
 
-}
+const SwitchConfigBackGrounde = () => {
+  const SetupConfigContextValue = useContext(SetupConfigContext);
+  const configMode = SetupConfigContextValue.configMode;
+  const configModeList = SetupConfigContextValue.configModeList;
+
+  console.log(configMode, configModeList);
+
+  if (configMode === configModeList[0]) {
+    return <></>;
+  }
+
+  return (
+    <div className="tool_config-area-background">
+      <div className="tool_config-area">
+        <div className="tool_config-area-title">
+          <div className="text">
+            <p>config mode {configMode}</p>
+          </div>
+        </div>
+
+        <div className="tool_config-area-view">
+          <SwitchConfigMode
+            configMode={configMode}
+            configModeList={configModeList}
+          />
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const ToolConfigComponent = () => {
-    return (<SwitchConfigBackGrounde />)
-}
+  return <SwitchConfigBackGrounde />;
+};
 
-export default ToolConfigComponent
+export default ToolConfigComponent;
