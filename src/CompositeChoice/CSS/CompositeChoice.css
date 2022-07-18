@@ -1,6 +1,6 @@
 .composite_choice-area {
-  width: 70%;
-  height: 100px;
+  width: 90%;
+  height: 300px;
   overflow-y: scroll;
   background-color: var(--background-A);
   margin-bottom: 10px;

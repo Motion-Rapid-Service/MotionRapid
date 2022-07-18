@@ -67,7 +67,7 @@ middleDataOperation.createDataCentral();
 
 let old_CompositeID;
 
-for (let i = 1; i <= 20; i++) {
+for (let i = 1; i <= 5; i++) {
   const t_CompositeID = middleDataOperation.createComposite();
 
   for (let j = 1; j <= i; j++) {

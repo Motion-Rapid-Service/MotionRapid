@@ -18,10 +18,16 @@ const htmlBuildMain = (jsonDataCentral: any, compositeID: string) => {
 
   let indentHTML: number = 3; //root等を考慮した値
 
-  const cssText = CSSBuildMain(jsonDataCentral, compositeID);
-  console.log("cssText", cssText);
+  let cssText: string = "";
+  // console.log("cssText", cssText);
 
-  const rootText = "\n" + parseComposite(getJsonDataCentral, compositeID, indentHTML) + buildSourceType.writeIndentHTML(indentHTML - 1);
+  const writeCSS = (send_AddCssText: string) => {
+    cssText += "\n";
+    cssText += send_AddCssText;
+    cssText += "\n";
+  };
+
+  const rootText = "\n" + parseComposite(getJsonDataCentral, compositeID, indentHTML, writeCSS) + buildSourceType.writeIndentHTML(indentHTML - 1);
   const replaceData = {
     "%rootEdit%": rootText,
     "%title%": "MotionRapidTest",
@@ -41,7 +47,8 @@ const parseComposite = (
   // htmlRoot: string,
   getJsonDataCentral: Function,
   compositeID: string,
-  indentHTML: number
+  indentHTML: number,
+  writeCSS: Function
 ) => {
   console.log(getJsonDataCentral);
   const OwnedClass_Composite = getJsonDataCentral()["OwnedClass_Composite"];
@@ -54,7 +61,7 @@ const parseComposite = (
 
   for (let i = 0; i < OwnedID_MediaObject.length; i++) {
     const thenMediaObjectID = OwnedID_MediaObject[i];
-    const thenText: string = parseMediaObject(getJsonDataCentral, compositeID, thenMediaObjectID, indentHTML);
+    const thenText: string = parseMediaObject(getJsonDataCentral, compositeID, thenMediaObjectID, indentHTML, writeCSS);
     rootText += thenText;
   }
   return rootText;
@@ -65,7 +72,8 @@ const parseMediaObject = (
   getJsonDataCentral: Function,
   compositeID: string,
   mediaObjectID: string,
-  indentHTML: number
+  indentHTML: number,
+  writeCSS: Function
 ) => {
   const OwnedClass_Composite = getJsonDataCentral()["OwnedClass_Composite"];
   const OwnedClass_MediaObject = getJsonDataCentral()["OwnedClass_MediaObject"];
@@ -84,17 +92,20 @@ const parseMediaObject = (
   }
   if (thenSourceType === buildSourceType.sourceTypeList[1]) {
     //text
-    rtextC = buildSourceType.sourceTypeFunctionText(getJsonDataCentral, thenSsourceTypeClass, indentHTML + 1);
+    rtextC = buildSourceType.sourceTypeFunctionText(getJsonDataCentral, thenSsourceTypeClass, indentHTML + 1, writeCSS);
   }
   if (thenSourceType === buildSourceType.sourceTypeList[2]) {
     //Composite
-    rtextC = buildSourceType.sourceTypeFunctionComposite(getJsonDataCentral, thenSsourceTypeClass, parseComposite, indentHTML + 1);
+    rtextC = buildSourceType.sourceTypeFunctionComposite(getJsonDataCentral, thenSsourceTypeClass, parseComposite, indentHTML + 1, writeCSS);
   }
 
   const thisIndentStr = buildSourceType.writeIndentHTML(indentHTML);
 
   const rtextS = testJoin([thisIndentStr, "<", tag, " ", "class=", mediaObjectID, ">", "\n"]);
   const rtextE = testJoin([thisIndentStr, "</", tag, ">", "\n"]);
+
+  const addCSSText = CSSBuildMain(getJsonDataCentral(), compositeID, mediaObjectID);
+  writeCSS(addCSSText);
 
   const addText = rtextS + rtextC + "\n" + rtextE;
   //console.log("addText", addText);

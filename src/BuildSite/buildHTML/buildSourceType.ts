@@ -18,7 +18,7 @@ export const writeIndentHTML = (indentHTML: number) => {
 
 export const sourceTypeFunctionDefault = () => {};
 
-export const sourceTypeFunctionText = (jsonDataCentral: Function, sourceTypeTextClass: SourceTypeTextClass, indentHTML: number) => {
+export const sourceTypeFunctionText = (jsonDataCentral: Function, sourceTypeTextClass: SourceTypeTextClass, indentHTML: number, writeCSS: Function) => {
   const reTemp = testJoin([writeIndentHTML(indentHTML), "<p>", sourceTypeTextClass.text, "</p>"]);
   return reTemp;
 };
@@ -27,9 +27,10 @@ export const sourceTypeFunctionComposite = (
   jsonDataCentral: Function,
   sourceTypeCompositeClass: SourceTypeCompositeClass,
   parseComposite: Function,
-  indentHTML: number
+  indentHTML: number,
+  writeCSS: Function
 ) => {
-  const reTemp = parseComposite(jsonDataCentral, sourceTypeCompositeClass.compositeID, indentHTML + 1);
+  const reTemp = parseComposite(jsonDataCentral, sourceTypeCompositeClass.compositeID, indentHTML + 1, writeCSS);
   return writeIndentHTML(indentHTML) + reTemp;
 };
 
