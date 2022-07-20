@@ -7,28 +7,23 @@ import { SetupConfigContext } from "./../SetupEditor/SetupConfigContext";
 import * as ToolConfigContext from "./ToolConfigContext";
 
 const ConfigSelectOption = () => {
-  return (<option></option>)
-}
-
-export const ConfigSelect = (props: configTextBoxProps) => {
-   return (<select></select>)
-}
-
-export type configTextBoxProps = {
-  configInput: string;
-  configInputSetState: Function;
-  exposeValue:Array<string> | Array<number> | Array<boolean>;
+  return <option></option>;
 };
 
-export const ConfigTextBox = (props: configTextBoxProps) => {
+export const ConfigSelect = () => {
+  return <select></select>;
+};
+
+export const ConfigTextBox = () => {
+  const SwitchConfigSettingItemsCompositeContextValue = useContext(ToolConfigContext.SwitchConfigSettingItemsCompositeContext);
   const onChange = (event: any) => {
     const text = event.target.value;
-    props.configInputSetState(String(text));
+    SwitchConfigSettingItemsCompositeContextValue.configInputSetState(String(text));
     console.log("ConfigTextBox", text);
   };
   return (
     <div className="config_parts-textbox">
-      <input type="text" value={props.configInput} onChange={onChange} />
+      <input type="text" value={SwitchConfigSettingItemsCompositeContextValue.configInput} onChange={onChange} />
     </div>
   );
 };
@@ -38,9 +33,7 @@ export const ConfigButton = (props: any) => {
 
   const mouseDown = () => {
     //マウスがクリックされたとき
-    SetupConfigContextValue.configModeSetState(
-      SetupConfigContextValue.configModeList[0]
-    );
+    SetupConfigContextValue.configModeSetState(SetupConfigContextValue.configModeList[0]);
     props.buttonFunc();
   };
 

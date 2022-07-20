@@ -16,6 +16,16 @@ import * as middleDataClass from "./../MiddleData/middleDataClass";
 const SwitchConfigSettingItemsComposite = (props: any) => {
   const settingItemsData: ToolConfigContext.settingItemsData = props.settingItemsData;
 
+  if (settingItemsData.thisConfigSettingGUI == ToolConfigContext.configSettingGUI[1]) {
+    return <ToolConfigParts.ConfigTextBox />;
+  }
+  if (settingItemsData.thisConfigSettingGUI == ToolConfigContext.configSettingGUI[3]) {
+    return <ToolConfigParts.ConfigSelect />;
+  }
+};
+
+const ConfigSettingItemsCompositeEntity = (props: any) => {
+  const settingItemsData = props.output;
   const [configInput, configInputSetState] = useState<string | number | boolean>(settingItemsData.exposeValue[0]);
   const ConfigModeContextValue = useContext(ToolConfigContext.ConfigModeContext);
 
@@ -25,26 +35,20 @@ const SwitchConfigSettingItemsComposite = (props: any) => {
     console.log("SwitchConfigSettingItemsComposite", settingItemsData.configItem, configInput);
   }, [configInput]);
 
-  if (settingItemsData.thisConfigSettingGUI == ToolConfigContext.configSettingGUI[1]) {
-    return (
-      <ToolConfigParts.ConfigTextBox configInput={String(configInput) as string} configInputSetState={configInputSetState} exposeValue={settingItemsData.exposeValue}/>
-    );
-  }
-  if (settingItemsData.thisConfigSettingGUI == ToolConfigContext.configSettingGUI[3]) {
-    return (
-      <ToolConfigParts.ConfigTextBox configInput={String(configInput) as string} configInputSetState={configInputSetState} exposeValue={settingItemsData.exposeValue}/>
-    );
-  }
-
-};
-
-const ConfigSettingItemsCompositeEntity = (props: any) => {
   return (
-    <div className="tool_config-area-setting-items-entity">
-      <h3>{props.output.settingTitle}</h3>
-      <SwitchConfigSettingItemsComposite settingItemsData={props.output} />
-      <p>{props.output.settingMessage}</p>
-    </div>
+    <ToolConfigContext.SwitchConfigSettingItemsCompositeContext.Provider
+      value={{
+        configInput: String(configInput),
+        configInputSetState: configInputSetState,
+        exposeValue: settingItemsData.exposeValue,
+      }}
+    >
+      <div className="tool_config-area-setting-items-entity">
+        <h3>{props.output.settingTitle}</h3>
+        <SwitchConfigSettingItemsComposite settingItemsData={settingItemsData} />
+        <p>{props.output.settingMessage}</p>
+      </div>
+    </ToolConfigContext.SwitchConfigSettingItemsCompositeContext.Provider>
   );
 };
 
