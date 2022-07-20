@@ -16,8 +16,7 @@ import * as middleDataClass from "./../MiddleData/middleDataClass";
 const SwitchConfigSettingItemsComposite = (props: any) => {
   const settingItemsData: ToolConfigContext.settingItemsData = props.settingItemsData;
 
-  const [configInput, configInputSetState] = useState<Array<string> | string | number | boolean>(String(settingItemsData.exposeValue));
-
+  const [configInput, configInputSetState] = useState<string | number | boolean>(settingItemsData.exposeValue[0]);
   const ConfigModeContextValue = useContext(ToolConfigContext.ConfigModeContext);
 
   useEffect(() => {
@@ -27,8 +26,16 @@ const SwitchConfigSettingItemsComposite = (props: any) => {
   }, [configInput]);
 
   if (settingItemsData.thisConfigSettingGUI == ToolConfigContext.configSettingGUI[1]) {
-    return <ToolConfigParts.ConfigTextBox configInput={String(configInput) as string} configInputSetState={configInputSetState} />;
+    return (
+      <ToolConfigParts.ConfigTextBox configInput={String(configInput) as string} configInputSetState={configInputSetState} exposeValue={settingItemsData.exposeValue}/>
+    );
   }
+  if (settingItemsData.thisConfigSettingGUI == ToolConfigContext.configSettingGUI[3]) {
+    return (
+      <ToolConfigParts.ConfigTextBox configInput={String(configInput) as string} configInputSetState={configInputSetState} exposeValue={settingItemsData.exposeValue}/>
+    );
+  }
+
 };
 
 const ConfigSettingItemsCompositeEntity = (props: any) => {
@@ -79,7 +86,7 @@ const SwitchConfigMode = (props: any) => {
   }, [configContent]);
 
   const configContentSetStateValue = (send_key: string, send_value: string) => {
-    const CopyConfigContent = JSON.parse(JSON.stringify(configContent));
+    const CopyConfigContent = JSON.parse(JSON.stringify(configContent)); //深いコピーをしなければならない
     console.log("CopyConfigContentA", configContent, Object.is(configContent, CopyConfigContent));
     CopyConfigContent[send_key] = send_value;
 
@@ -103,7 +110,7 @@ const SwitchConfigMode = (props: any) => {
       settingTitle: "コンポジット名",
       settingMessage: "入力してください",
       thisConfigSettingGUI: ToolConfigContext.configSettingGUI[1],
-      exposeValue: "newComposite",
+      exposeValue: ["newComposite"],
       configItem: configItem,
     };
     settingItemsTemp.push(settingItemsDataCompositeName);

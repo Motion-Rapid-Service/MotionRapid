@@ -13,12 +13,13 @@ export const configSettingGUI: Array<string> = [
 
 // *******************************************************************************************************
 
+
 export type settingItemsData = {
   settingTitle: string;
   settingMessage: string;
   //   buttonFunc: Function;
   thisConfigSettingGUI: string;
-  exposeValue: Array<string> | string | number | boolean;
+  exposeValue: Array<string> | Array<number> | Array<boolean>; //exposeは公開という意味があるけど、正しいのか
   configItem: string;
 };
 

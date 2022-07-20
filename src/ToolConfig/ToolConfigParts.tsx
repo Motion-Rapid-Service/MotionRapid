@@ -6,9 +6,18 @@ import { AppContext } from "../AppContext";
 import { SetupConfigContext } from "./../SetupEditor/SetupConfigContext";
 import * as ToolConfigContext from "./ToolConfigContext";
 
+const ConfigSelectOption = () => {
+  return (<option></option>)
+}
+
+export const ConfigSelect = (props: configTextBoxProps) => {
+   return (<select></select>)
+}
+
 export type configTextBoxProps = {
   configInput: string;
   configInputSetState: Function;
+  exposeValue:Array<string> | Array<number> | Array<boolean>;
 };
 
 export const ConfigTextBox = (props: configTextBoxProps) => {
