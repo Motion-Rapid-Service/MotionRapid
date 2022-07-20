@@ -102,11 +102,12 @@ const SwitchConfigMode = (props: any) => {
   let settingItemsTemp: Array<ToolConfigContext.settingItemsData> = [];
   let buttonOperationFunc: Function;
   if (configMode === configModeList[1]) {
-    const configItem = ToolConfigContext.ConfigItemNewComposite[0];
+    const configItemCompositeName: string = ToolConfigContext.ConfigItemNewComposite[0];
+    const configItemCompositeMode: string = ToolConfigContext.ConfigItemNewComposite[3];
 
     buttonOperationFunc = () => {
-      console.log("buttonOperationFunc", configContent[configItem], middleDataClass.Composite_Mode[0]);
-      AppContextValue.createComposite(configContent[configItem], middleDataClass.Composite_Mode[0]);
+      console.log("buttonOperationFunc", configContent[configItemCompositeName], middleDataClass.Composite_Mode[0]);
+      AppContextValue.createComposite(configContent[configItemCompositeName], middleDataClass.Composite_Mode[0]);
       //   AppContextValue.updateDOM();
     };
 
@@ -115,9 +116,18 @@ const SwitchConfigMode = (props: any) => {
       settingMessage: "入力してください",
       thisConfigSettingGUI: ToolConfigContext.configSettingGUI[1],
       exposeValue: ["newComposite"],
-      configItem: configItem,
+      configItem: configItemCompositeName,
     };
     settingItemsTemp.push(settingItemsDataCompositeName);
+
+    const settingItemsDataCompositeName2: ToolConfigContext.settingItemsData = {
+      settingTitle: "コンポジット名t",
+      settingMessage: "選択してください",
+      thisConfigSettingGUI: ToolConfigContext.configSettingGUI[3],
+      exposeValue: ["A", "B", "C"],
+      configItem: configItemCompositeMode,
+    };
+    settingItemsTemp.push(settingItemsDataCompositeName2);
   }
   console.log(settingItemsTemp);
 
