@@ -28,7 +28,7 @@ class UserHandMediaObjectOperation {
 //   [name: string]: UserHandMediaObjectOperation;
 // }>({});
 
-const UserHandMediaObjectList:{[name: string]: UserHandMediaObjectOperation} = {}
+const UserHandMediaObjectList:{[name: string]: UserHandMediaObjectOperation} = {} //0番 無操作 1番左 2番右 3番移動 4番選択
 
 const TimelineComponent = () => {
   // ここでhooksを使える

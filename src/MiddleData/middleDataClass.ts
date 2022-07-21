@@ -27,7 +27,7 @@ export class Composite {
   Composite_Name: string;
   OwnedID_MediaObject: Array<string>;
   Composite_Mode: string;
-  Composite_Duration: number;
+  Composite_Duration: number; //コンポジットの長さ
   constructor(send_Composite_ID: string, send_Composite_Name: string, send_Composite_Mode: string) {
     this.Composite_ID = send_Composite_ID;
     this.Composite_Name = send_Composite_Name;
