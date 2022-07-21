@@ -13,14 +13,16 @@ const ConfigSelectOption = (props: any) => {
 export const ConfigSelect = () => {
   const SwitchConfigSettingItemsCompositeContextValue = useContext(ToolConfigContext.SwitchConfigSettingItemsCompositeContext);
 
-  const onChange = () => {
-    console.log("ConfigSelect","onChange")
+  const onChange = (event:any) => {
+    const selectValue = Number(event.target.value);
+    const thisExposeValue = SwitchConfigSettingItemsCompositeContextValue.exposeValue[selectValue]
+    SwitchConfigSettingItemsCompositeContextValue.configInputSetState(thisExposeValue);
   }
 
   return (
-    <select>
+    <select onChange={onChange}>
       {SwitchConfigSettingItemsCompositeContextValue.exposeValue.map((output, index) => (
-        <ConfigSelectOption output={output} index={index} onChange={onChange}/>
+        <ConfigSelectOption output={output} index={index} key={index}/>
       ))}
     </select>
   );
@@ -31,7 +33,6 @@ export const ConfigTextBox = () => {
   const onChange = (event: any) => {
     const text = event.target.value;
     SwitchConfigSettingItemsCompositeContextValue.configInputSetState(String(text));
-    console.log("ConfigTextBox", text);
   };
   return (
     <div className="config_parts-textbox">

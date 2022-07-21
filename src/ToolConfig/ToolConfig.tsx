@@ -1,5 +1,5 @@
 import * as React from "react";
-const { useContext, useReducer, createContext, useEffect, useState } = React;
+const { useContext, useReducer, createContext, useEffect, useState,useRef } = React;
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import { AppContext } from "../AppContext";
@@ -29,10 +29,18 @@ const ConfigSettingItemsCompositeEntity = (props: any) => {
   const [configInput, configInputSetState] = useState<string | number | boolean>(settingItemsData.exposeValue[0]);
   const ConfigModeContextValue = useContext(ToolConfigContext.ConfigModeContext);
 
-  useEffect(() => {
-    ConfigModeContextValue.configContentSetStateValue(settingItemsData.configItem, configInput);
 
-    console.log("SwitchConfigSettingItemsComposite", settingItemsData.configItem, configInput);
+  const configContentSetStateValue = (send_key: string, send_value: string | number | boolean) => {
+    console.log("configContentSetStateValue - S",send_key,send_value,ConfigModeContextValue.configContent)
+    const CopyConfigContent = JSON.parse(JSON.stringify(ConfigModeContextValue.configContent)); //深いコピーをしなければならない
+    CopyConfigContent[send_key] = send_value;
+    ConfigModeContextValue.configContentSetState(CopyConfigContent);
+    console.log("configContentSetStateValue - E",send_key,send_value,CopyConfigContent)
+  };
+
+  useEffect(() => {
+    console.log("configInput UseEffect",configInput)
+    configContentSetStateValue(settingItemsData.configItem, configInput);
   }, [configInput]);
 
   return (
@@ -85,30 +93,14 @@ const SwitchConfigMode = (props: any) => {
     [name: string]: string;
   }>({});
 
-  useEffect(() => {
-    console.log("configContent", configContent);
-  }, [configContent]);
-
-  const configContentSetStateValue = (send_key: string, send_value: string) => {
-    const CopyConfigContent = JSON.parse(JSON.stringify(configContent)); //深いコピーをしなければならない
-    console.log("CopyConfigContentA", configContent, Object.is(configContent, CopyConfigContent));
-    CopyConfigContent[send_key] = send_value;
-
-    console.log("CopyConfigContent", configContent, CopyConfigContent);
-
-    configContentSetState(CopyConfigContent);
-  };
-
   let settingItemsTemp: Array<ToolConfigContext.settingItemsData> = [];
   let buttonOperationFunc: Function;
   if (configMode === configModeList[1]) {
     const configItemCompositeName: string = ToolConfigContext.ConfigItemNewComposite[0];
-    const configItemCompositeMode: string = ToolConfigContext.ConfigItemNewComposite[3];
+    const configItemCompositeMode: string = ToolConfigContext.ConfigItemNewComposite[2];
 
     buttonOperationFunc = () => {
-      console.log("buttonOperationFunc", configContent[configItemCompositeName], middleDataClass.Composite_Mode[0]);
       AppContextValue.createComposite(configContent[configItemCompositeName], middleDataClass.Composite_Mode[0]);
-      //   AppContextValue.updateDOM();
     };
 
     const settingItemsDataCompositeName: ToolConfigContext.settingItemsData = {
@@ -121,7 +113,7 @@ const SwitchConfigMode = (props: any) => {
     settingItemsTemp.push(settingItemsDataCompositeName);
 
     const settingItemsDataCompositeName2: ToolConfigContext.settingItemsData = {
-      settingTitle: "コンポジット名t",
+      settingTitle: "コンポジット名",
       settingMessage: "選択してください",
       thisConfigSettingGUI: ToolConfigContext.configSettingGUI[3],
       exposeValue: ["A", "B", "C"],
@@ -129,7 +121,6 @@ const SwitchConfigMode = (props: any) => {
     };
     settingItemsTemp.push(settingItemsDataCompositeName2);
   }
-  console.log(settingItemsTemp);
 
   return (
     <>
@@ -137,7 +128,7 @@ const SwitchConfigMode = (props: any) => {
         value={{
           settingItemsArray: settingItemsTemp,
           configContent: configContent,
-          configContentSetStateValue: configContentSetStateValue,
+          configContentSetState: configContentSetState,
           buttonOperationFunc: buttonOperationFunc,
         }}
       >
@@ -156,8 +147,6 @@ const SwitchConfigBackGrounde = () => {
   const SetupConfigContextValue = useContext(SetupConfigContext);
   const configMode = SetupConfigContextValue.configMode;
   const configModeList = SetupConfigContextValue.configModeList;
-
-  console.log(configMode, configModeList);
 
   if (configMode === configModeList[0]) {
     return <></>;
