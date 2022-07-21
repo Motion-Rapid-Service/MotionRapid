@@ -13,6 +13,8 @@ import * as middleDataClass from "./../MiddleData/middleDataClass";
 //     return ()
 // }
 
+const configContent:{[name:string]:string | number | boolean} = {}
+
 const SwitchConfigSettingItemsComposite = (props: any) => {
   const settingItemsData: ToolConfigContext.settingItemsData = props.settingItemsData;
 
@@ -29,18 +31,13 @@ const ConfigSettingItemsCompositeEntity = (props: any) => {
   const [configInput, configInputSetState] = useState<string | number | boolean>(settingItemsData.exposeValue[0]);
   const ConfigModeContextValue = useContext(ToolConfigContext.ConfigModeContext);
 
-
-  const configContentSetStateValue = (send_key: string, send_value: string | number | boolean) => {
-    console.log("configContentSetStateValue - S",send_key,send_value,ConfigModeContextValue.configContent)
-    const CopyConfigContent = JSON.parse(JSON.stringify(ConfigModeContextValue.configContent)); //深いコピーをしなければならない
-    CopyConfigContent[send_key] = send_value;
-    ConfigModeContextValue.configContentSetState(CopyConfigContent);
-    console.log("configContentSetStateValue - E",send_key,send_value,CopyConfigContent)
-  };
+  
 
   useEffect(() => {
-    console.log("configInput UseEffect",configInput)
-    configContentSetStateValue(settingItemsData.configItem, configInput);
+    
+    configContent[settingItemsData.configItem] = configInput
+    console.log("configInput UseEffect",configInput,configContent)
+    // ConfigModeContextValue.configContentSetStateValue(settingItemsData.configItem, configInput);
   }, [configInput]);
 
   return (
@@ -89,9 +86,15 @@ const SwitchConfigMode = (props: any) => {
   const configModeList: Array<string> = props.configModeList;
   const AppContextValue = useContext(AppContext);
 
-  const [configContent, configContentSetState] = useState<{
-    [name: string]: string;
-  }>({});
+  // const [configContent, configContentSetState] = useState<{
+  //   [name: string]: string | number | boolean;
+  // }>({});
+
+  // const configContentSetStateValue = (send_key: string, send_value: string | number | boolean) => {
+  //   const CopyConfigContent = JSON.parse(JSON.stringify(configContent)); //深いコピーをしなければならない
+
+  //   configContentSetState(CopyConfigContent);
+  // };
 
   let settingItemsTemp: Array<ToolConfigContext.settingItemsData> = [];
   let buttonOperationFunc: Function;
@@ -101,6 +104,10 @@ const SwitchConfigMode = (props: any) => {
 
     buttonOperationFunc = () => {
       AppContextValue.createComposite(configContent[configItemCompositeName], middleDataClass.Composite_Mode[0]);
+      for(var key in configContent){
+        delete configContent[key];
+      }
+      console.log("buttonOperationFunc",configContent)
     };
 
     const settingItemsDataCompositeName: ToolConfigContext.settingItemsData = {
@@ -110,7 +117,6 @@ const SwitchConfigMode = (props: any) => {
       exposeValue: ["newComposite"],
       configItem: configItemCompositeName,
     };
-    settingItemsTemp.push(settingItemsDataCompositeName);
 
     const settingItemsDataCompositeName2: ToolConfigContext.settingItemsData = {
       settingTitle: "コンポジット名",
@@ -119,7 +125,9 @@ const SwitchConfigMode = (props: any) => {
       exposeValue: ["A", "B", "C"],
       configItem: configItemCompositeMode,
     };
+    settingItemsTemp.push(settingItemsDataCompositeName);
     settingItemsTemp.push(settingItemsDataCompositeName2);
+
   }
 
   return (
@@ -127,14 +135,13 @@ const SwitchConfigMode = (props: any) => {
       <ToolConfigContext.ConfigModeContext.Provider
         value={{
           settingItemsArray: settingItemsTemp,
-          configContent: configContent,
-          configContentSetState: configContentSetState,
+          // configContent: configContent,
+          // configContentSetStateValue: configContentSetStateValue,
           buttonOperationFunc: buttonOperationFunc,
         }}
       >
         <div className="tool_config-area-switch_config">
           <ConfigSettingItemsComposite />
-          <p>{String(configContent["compositeName"])}</p>
         </div>
 
         <ConfigButtonBottm />
