@@ -12,10 +12,15 @@ const ConfigSelectOption = (props: any) => {
 
 export const ConfigSelect = () => {
   const SwitchConfigSettingItemsCompositeContextValue = useContext(ToolConfigContext.SwitchConfigSettingItemsCompositeContext);
+
+  const onChange = () => {
+    console.log("ConfigSelect","onChange")
+  }
+
   return (
     <select>
       {SwitchConfigSettingItemsCompositeContextValue.exposeValue.map((output, index) => (
-        <ConfigSelectOption output={output} index={index} />
+        <ConfigSelectOption output={output} index={index} onChange={onChange}/>
       ))}
     </select>
   );
