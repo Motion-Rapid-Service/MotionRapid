@@ -82,11 +82,13 @@ const TimelineComponent = () => {
     //const CopyUserHandMediaObjectList = AppContextValue.deepCopyDict(UserHandMediaObjectList);
     UserHandMediaObjectList[mediaObjectUUID] = new UserHandMediaObjectOperation(stateUserHand, mousePushPos, staStylePos, endStylePos);
     //UserHandMediaObjectListSetState(CopyUserHandMediaObjectList);
+    animationOpenUpdateDOM()
   };
   const deleteUserHandMediaObjectList = (mediaObjectUUID: string) => {
     //const CopyUserHandMediaObjectList = AppContextValue.deepCopyDict(UserHandMediaObjectList);
     delete UserHandMediaObjectList[mediaObjectUUID];
     //UserHandMediaObjectListSetState(CopyUserHandMediaObjectList);
+    animationOpenUpdateDOM()
   };
   const hasUserHandMediaObjectList = (mediaObjectUUID: string) => {
     const hasHand = mediaObjectUUID in UserHandMediaObjectList;
@@ -101,7 +103,7 @@ const TimelineComponent = () => {
     for(let key in UserHandMediaObjectList){
       delete UserHandMediaObjectList[key];
     }
-
+    animationOpenUpdateDOM()
   }
 
   const [mediaObejctDivHeight, mediaObejctDivHeightSetState] = useState<{

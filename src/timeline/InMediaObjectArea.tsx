@@ -82,15 +82,15 @@ export const MediaObjectScrollComponent = () => {
     }
 
     mediaObjectColorSetState(defaultColor)
-    
     if (!TimelineAreaDivContextValue.hasUserHandMediaObjectList(mediaObjectUUID)) {
       return;
     }
+    mediaObjectColorSetState( selectColor)
 
     const userHandMediaObject = TimelineAreaDivContextValue.getUserHandMediaObjectList(mediaObjectUUID);    
     const mouseMoveX = mouseX - userHandMediaObject.mousePushPos;
 
-    mediaObjectColorSetState( selectColor)
+
 
     switch (userHandMediaObject.mouseDownFlag) {
       case 1:
@@ -168,6 +168,15 @@ export const MediaObjectScrollComponent = () => {
   useEffect(() => {
     const mediaObjectTime = AppContextValue.getMediaObjectTime(mediaObjectUUID);
     const mediaObjectSourceType = AppContextValue.getMediaObjectSourceType(mediaObjectUUID);
+
+
+
+    mediaObjectColorSetState( selectColor)
+
+    if (!TimelineAreaDivContextValue.hasUserHandMediaObjectList(mediaObjectUUID)) {
+      mediaObjectColorSetState(defaultColor)
+    }
+    
 
     window.addEventListener("mousemove", timeLineMouseMoveAction);
     window.addEventListener("mouseup", MouseRelease);
