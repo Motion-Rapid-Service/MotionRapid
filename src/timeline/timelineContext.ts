@@ -24,7 +24,8 @@ type TimelineAreaDivContextValue = {
   insertUserHandMediaObjectList:Function
   deleteUserHandMediaObjectList:Function
   hasUserHandMediaObjectList:Function
-  getUserHandMediaObjectList:Function
+  getUserHandMediaObjectList:Function,
+  alldeleteUserHandMediaObjectList:Function
   timelineAreaElement:any
   timelineScrollElement:any
   timelineUpdateDOM:Function

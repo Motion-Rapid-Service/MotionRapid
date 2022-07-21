@@ -24,6 +24,12 @@ class UserHandMediaObjectOperation {
   }
 }
 
+// const [UserHandMediaObjectList, UserHandMediaObjectListSetState] = useState<{
+//   [name: string]: UserHandMediaObjectOperation;
+// }>({});
+
+const UserHandMediaObjectList:{[name: string]: UserHandMediaObjectOperation} = {}
+
 const TimelineComponent = () => {
   // ここでhooksを使える
 
@@ -63,21 +69,24 @@ const TimelineComponent = () => {
   const [elementLayerPanelWidth, elementLayerPanelWidthSetState] = useState<number>(0);
   const [elementLayerDurationWidth, elementLayerDurationWidthSetState] = useState<number>(0);
 
-  const [UserHandMediaObjectList, UserHandMediaObjectListSetState] = useState<{
-    [name: string]: UserHandMediaObjectOperation;
-  }>({});
-
+  
   const [focusMediaObjectSpace, focusMediaObjectSpaceSetState] = useState<number>(-1);
 
+
+  // useEffect(() => {
+  //   console.log("UserHandMediaObjectList",UserHandMediaObjectList);
+  // }, [UserHandMediaObjectList]);
+
+
   const insertUserHandMediaObjectList = (mediaObjectUUID: string, stateUserHand: number, mousePushPos: number, staStylePos: number, endStylePos: number) => {
-    const CopyUserHandMediaObjectList = Object.assign(UserHandMediaObjectList);
-    CopyUserHandMediaObjectList[mediaObjectUUID] = new UserHandMediaObjectOperation(stateUserHand, mousePushPos, staStylePos, endStylePos);
-    UserHandMediaObjectListSetState(CopyUserHandMediaObjectList);
+    //const CopyUserHandMediaObjectList = AppContextValue.deepCopyDict(UserHandMediaObjectList);
+    UserHandMediaObjectList[mediaObjectUUID] = new UserHandMediaObjectOperation(stateUserHand, mousePushPos, staStylePos, endStylePos);
+    //UserHandMediaObjectListSetState(CopyUserHandMediaObjectList);
   };
   const deleteUserHandMediaObjectList = (mediaObjectUUID: string) => {
-    const CopyUserHandMediaObjectList = Object.assign(UserHandMediaObjectList);
+    //const CopyUserHandMediaObjectList = AppContextValue.deepCopyDict(UserHandMediaObjectList);
     delete UserHandMediaObjectList[mediaObjectUUID];
-    UserHandMediaObjectListSetState(CopyUserHandMediaObjectList);
+    //UserHandMediaObjectListSetState(CopyUserHandMediaObjectList);
   };
   const hasUserHandMediaObjectList = (mediaObjectUUID: string) => {
     const hasHand = mediaObjectUUID in UserHandMediaObjectList;
@@ -87,6 +96,13 @@ const TimelineComponent = () => {
     const getHand = UserHandMediaObjectList[mediaObjectUUID];
     return getHand;
   };
+  const alldeleteUserHandMediaObjectList = () => {
+    // UserHandMediaObjectListSetState({})
+    for(let key in UserHandMediaObjectList){
+      delete UserHandMediaObjectList[key];
+    }
+
+  }
 
   const [mediaObejctDivHeight, mediaObejctDivHeightSetState] = useState<{
     [name: number]: Array<number>;
@@ -213,6 +229,7 @@ const TimelineComponent = () => {
               deleteUserHandMediaObjectList: deleteUserHandMediaObjectList,
               hasUserHandMediaObjectList: hasUserHandMediaObjectList,
               getUserHandMediaObjectList: getUserHandMediaObjectList,
+              alldeleteUserHandMediaObjectList:alldeleteUserHandMediaObjectList,
               timelineAreaElement: timelineAreaElement,
               timelineScrollElement: timelineScrollElement,
 

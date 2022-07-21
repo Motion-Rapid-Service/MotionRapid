@@ -4,6 +4,7 @@ const { createContext } = React;
 type AppContextValue = {
   getUUID: Function;
   sortNumber: Function;
+  deepCopyDict : Function;
   componentConvertCompositeChoiceArea: Function;
   componentConvertMediaObjectArea: Function;
   componentConvertAnimatorArea: Function;

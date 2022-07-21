@@ -170,6 +170,18 @@ const componentConvertKeyframeArea = (send_AnimatorID: string) => {
   return middleDataKeyframeTemp;
 };
 
+const deepCopyDict = (ary:{[name:string | number]:any}) => {
+  const aryKeys = Object.keys(ary)
+  const aryValues = Object.values(ary)
+  let temp:{[name:string | number]:any} = {}
+  for (let i = 0;i < aryKeys.length;i++){
+    const thisKey :string | number = aryKeys[i]
+    const thisValue = aryValues[i]
+    temp[thisKey] = thisValue
+  }
+  return temp
+}
+
 //{ [name: string]: ToolBarClassificationData }
 const App = () => {
   const [update, setUpdata] = useState<boolean>(false);
@@ -189,6 +201,7 @@ const App = () => {
         value={{
           getUUID: getUUID,
           sortNumber: sortNumber,
+          deepCopyDict:deepCopyDict,
           componentConvertCompositeChoiceArea: componentConvertCompositeChoiceArea,
           componentConvertMediaObjectArea: componentConvertMediaObjectArea,
           componentConvertAnimatorArea: componentConvertAnimatorArea,

@@ -133,6 +133,8 @@ export const MediaObjectScrollComponent = () => {
       return;
     }
 
+    TimelineAreaDivContextValue.alldeleteUserHandMediaObjectList()
+
     TimelineAreaDivContextValue.insertUserHandMediaObjectList(
       mediaObjectUUID,
       stateUserHand,
@@ -142,9 +144,25 @@ export const MediaObjectScrollComponent = () => {
     );
   };
   const MouseRelease = (event: any) => {
-    // const mouseEndPos = timeLineMousePosition(event, mediaObjectAreaElement)[0];
-    TimelineAreaDivContextValue.deleteUserHandMediaObjectList(mediaObjectUUID);
+
     MouseSelectedSetState("auto");
+
+    mediaObjectColorSetState(defaultColor)
+    
+    if (!TimelineAreaDivContextValue.hasUserHandMediaObjectList(mediaObjectUUID)) {
+      return;
+    }
+    mediaObjectColorSetState(selectColor)    
+    TimelineAreaDivContextValue.insertUserHandMediaObjectList(
+      mediaObjectUUID,
+      4,
+      null,
+      null,
+      null
+    );
+
+    // TimelineAreaDivContextValue.deleteUserHandMediaObjectList(mediaObjectUUID);
+
   };
 
   useEffect(() => {
@@ -188,7 +206,7 @@ export const MediaObjectScrollComponent = () => {
 
   const backgroundColor = () => {
     const text = "rgb(" + mediaObjectColor[0] + ","  + mediaObjectColor[1]  + "," +  mediaObjectColor[2] + ")"
-    console.log("backgroundColor",text)
+    // console.log("backgroundColor",text)
     return  text
   }
 

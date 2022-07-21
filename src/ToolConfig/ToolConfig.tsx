@@ -104,7 +104,7 @@ const SwitchConfigMode = (props: any) => {
 
     buttonOperationFunc = () => {
       AppContextValue.createComposite(configContent[configItemCompositeName], configContent[configItemCompositeMode]);
-      for(var key in configContent){
+      for(let key in configContent){
         delete configContent[key];
       }
       console.log("buttonOperationFunc",configContent)
