@@ -111,6 +111,13 @@ const toolBarComponent = (props: any) => {
     );
   };
 
+  const toolBarCreateAnimatorGroup = (funcdata: { [name: string]: any }) => {
+    SetupConfigContextValue.configModeSetState(
+      SetupConfigContextValue.configModeList[2]
+    );
+  };
+
+
   useEffect(() => {
     let toolBar1 = "fileEdit";
     insertToolBarClassificationArraySetStateValue(
@@ -178,7 +185,7 @@ const toolBarComponent = (props: any) => {
       toolBar4,
       "4B",
       "エフェクトを追加する",
-      buildHtml,
+      toolBarCreateAnimatorGroup,
       false
     );
 

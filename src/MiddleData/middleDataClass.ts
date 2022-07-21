@@ -42,9 +42,11 @@ export class MediaObject {
   MediaObject_StartTime: number;
   MediaObject_EndTime: number;
   MediaObject_LayerNumber: number;
+  MediaObject_Color:Array<number>;
   OwnedID_AnimatorGroup: Array<string>;
   animatorOpen: boolean;
   sourceType: buildSourceType.SourceTypeClass;
+  
   constructor(send_MediaObject_ID: string, send_sourceType: buildSourceType.SourceTypeClass) {
     this.MediaObject_ID = send_MediaObject_ID;
     this.MediaObject_StartTime = 500;
@@ -53,6 +55,7 @@ export class MediaObject {
     this.OwnedID_AnimatorGroup = [];
     this.animatorOpen = true;
     this.sourceType = send_sourceType;
+    this.MediaObject_Color = [50,150,50]
   }
 }
 

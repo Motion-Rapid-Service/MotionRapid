@@ -16,6 +16,8 @@ type AppContextValue = {
   getMediaObjectSourceType: Function;
   getKeyframeTime: Function;
   getCompositeName: Function;
+  setMediaObjectColor:Function
+  getMediaObjectColor:Function
 
   fileExportDataCentral: Function;
   fileExportComposite: Function;

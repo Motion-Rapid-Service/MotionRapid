@@ -65,37 +65,37 @@ middleDataOperation.createDataCentral();
 
 //ここからテスト用 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-let old_CompositeID;
+// let old_CompositeID;
 
-for (let i = 1; i <= 5; i++) {
-  const t_CompositeID = middleDataOperation.createComposite();
+// for (let i = 1; i <= 5; i++) {
+//   const t_CompositeID = middleDataOperation.createComposite();
 
-  for (let j = 1; j <= i; j++) {
-    let addClass;
-    if (i !== 1 && j === 1) {
-      addClass = new buildSourceType.SourceTypeCompositeClass(old_CompositeID);
-      console.log(i, j, old_CompositeID);
-    } else {
-      addClass = new buildSourceType.SourceTypeTextClass("( 'ω')" + i + " " + j, 10, "font");
-    }
-    const t_MediaObjectID = middleDataOperation.createMediaObject(addClass);
-    middleDataOperation.linkMediaObject(t_CompositeID, t_MediaObjectID);
-    for (let k = 1; k <= j; k++) {
-      const t_animatorGroupID = middleDataOperation.createAnimatorGroup();
-      middleDataOperation.linkAnimatorGroup(t_MediaObjectID, t_animatorGroupID);
-      for (let n = 1; n <= k; n++) {
-        const t_AnimatorID = middleDataOperation.createAnimator();
-        middleDataOperation.linkAnimator(t_animatorGroupID, t_AnimatorID);
+//   for (let j = 1; j <= i; j++) {
+//     let addClass;
+//     if (i !== 1 && j === 1) {
+//       addClass = new buildSourceType.SourceTypeCompositeClass(old_CompositeID);
+//       console.log(i, j, old_CompositeID);
+//     } else {
+//       addClass = new buildSourceType.SourceTypeTextClass("( 'ω')" + i + " " + j, 10, "font");
+//     }
+//     const t_MediaObjectID = middleDataOperation.createMediaObject(addClass);
+//     middleDataOperation.linkMediaObject(t_CompositeID, t_MediaObjectID);
+//     for (let k = 1; k <= j; k++) {
+//       const t_animatorGroupID = middleDataOperation.createAnimatorGroup();
+//       middleDataOperation.linkAnimatorGroup(t_MediaObjectID, t_animatorGroupID);
+//       for (let n = 1; n <= k; n++) {
+//         const t_AnimatorID = middleDataOperation.createAnimator();
+//         middleDataOperation.linkAnimator(t_animatorGroupID, t_AnimatorID);
 
-        const t_KeyframeID = middleDataOperation.createKeyframe();
-        middleDataOperation.linkKeyframe(t_AnimatorID, t_KeyframeID);
-      }
-    }
-  }
+//         const t_KeyframeID = middleDataOperation.createKeyframe();
+//         middleDataOperation.linkKeyframe(t_AnimatorID, t_KeyframeID);
+//       }
+//     }
+//   }
 
-  old_CompositeID = t_CompositeID;
-}
-console.log(middleDataOperation.DataCentral);
+//   old_CompositeID = t_CompositeID;
+// }
+// console.log(middleDataOperation.DataCentral);
 
 //ここまでテスト用 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
@@ -208,6 +208,9 @@ const App = () => {
           rewriteMediaObejctAnimatorOpen: middleDataOperation.rewriteMediaObejctAnimatorOpen,
           getMediaObejctAnimatorOpen: middleDataOperation.getMediaObejctAnimatorOpen,
           getCompositeName: middleDataOperation.getCompositeName,
+
+          setMediaObjectColor:middleDataOperation.setMediaObjectColor,
+          getMediaObjectColor:middleDataOperation.getMediaObjectColor,
 
           createComposite: middleDataOperation.createComposite,
           createMediaObject: middleDataOperation.createMediaObject,

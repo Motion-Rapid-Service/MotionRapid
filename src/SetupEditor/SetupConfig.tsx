@@ -10,7 +10,7 @@ import { SetupConfigContext } from "./SetupConfigContext";
 //ここから ツールバー処理用のクラス
 
 const SetupConfig = () => {
-  const configModeList = ["not", "newComposite"];
+  const configModeList = ["not", "newComposite","newAnimatorGroup"];
   const [configMode, configModeSetState] = useState<string>(configModeList[0]);
 
   useEffect(() => {}, [configMode]);

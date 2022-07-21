@@ -1,14 +1,5 @@
 import * as React from "react";
-const {
-  useState,
-  useRef,
-  useEffect,
-  useContext,
-  useReducer,
-  createContext,
-  useImperativeHandle,
-  forwardRef,
-} = React;
+const { useState, useRef, useEffect, useContext, useReducer, createContext, useImperativeHandle, forwardRef } = React;
 import {
   MediaObjectContext,
   TimelineAreaDivContext,
@@ -26,7 +17,10 @@ import AnimatorAreaComponent from "./animatorAreaComponent";
 
 import { AppContext } from "../AppContext";
 
-import * as buildSourceType from "./../BuildSite/buildHTML/buildSourceType"
+import * as buildSourceType from "./../BuildSite/buildHTML/buildSourceType";
+
+const defaultColor = [50,150,50]
+const selectColor = [100,200,100]
 
 export const MediaObjectScrollComponent = () => {
   const AppContextValue = useContext(AppContext);
@@ -37,6 +31,7 @@ export const MediaObjectScrollComponent = () => {
   const [MouseSelected, MouseSelectedSetState] = useState<string>("auto");
   const [MouseUnselected, MouseUnselectedSetState] = useState<string>("auto");
   const [Mouselogic, MouselogicSetState] = useState<string>("auto");
+
 
   // const [Mouselogic, MouselogicSetState] = useState<string>("auto");
 
@@ -52,6 +47,10 @@ export const MediaObjectScrollComponent = () => {
   const EndSetState = MediaObjectContextValue.EndSetState;
   const mediaObjectUUID = MediaObjectContextValue.mediaObjectUUID;
 
+  const [mediaObjectColor, mediaObjectColorSetState] = useState<Array<number>>(AppContextValue.getMediaObjectColor(mediaObjectUUID));
+
+
+
   const countStaRef = useRef(null); //  ref オブジェクト作成する
   countStaRef.current = staStylePos; // countを.currentプロパティへ保持する
 
@@ -62,38 +61,36 @@ export const MediaObjectScrollComponent = () => {
     return Math.abs(judgeX - judgePos) <= UserHandTolerance;
   };
 
-  const mediObjectAreaJudge = (
-    judgeX: number,
-    judgeStaPos: number,
-    judgeEndPos: number
-  ) => {
+  const mediObjectAreaJudge = (judgeX: number, judgeStaPos: number, judgeEndPos: number) => {
     return judgeStaPos < judgeX && judgeX < judgeEndPos;
   };
 
   const timeLineMouseMoveAction = (event: any) => {
-    const mouseX = timeLineMousePosition.mediaObjectMousePosition(event, LayerDurationContextValue.timelineAreaLayerDurationElement)[0];
+    const mouseX = timeLineMousePosition.mediaObjectMousePosition(
+      event,
+      LayerDurationContextValue.timelineAreaLayerDurationElement
+    )[0];
 
     if (mediObjectEdgeJudge(mouseX, countStaRef.current)) {
       MouseUnselectedSetState("ew-resize");
     } else if (mediObjectEdgeJudge(mouseX, countEndRef.current)) {
       MouseUnselectedSetState("ew-resize");
-    } else if (
-      mediObjectAreaJudge(mouseX, countStaRef.current, countEndRef.current)
-    ) {
+    } else if (mediObjectAreaJudge(mouseX, countStaRef.current, countEndRef.current)) {
       MouseUnselectedSetState("grab");
     } else {
       MouseUnselectedSetState("auto");
     }
 
-    if (
-      !TimelineAreaDivContextValue.hasUserHandMediaObjectList(mediaObjectUUID)
-    ) {
+    mediaObjectColorSetState(defaultColor)
+    
+    if (!TimelineAreaDivContextValue.hasUserHandMediaObjectList(mediaObjectUUID)) {
       return;
     }
 
-    const userHandMediaObject =
-      TimelineAreaDivContextValue.getUserHandMediaObjectList(mediaObjectUUID);
+    const userHandMediaObject = TimelineAreaDivContextValue.getUserHandMediaObjectList(mediaObjectUUID);    
     const mouseMoveX = mouseX - userHandMediaObject.mousePushPos;
+
+    mediaObjectColorSetState( selectColor)
 
     switch (userHandMediaObject.mouseDownFlag) {
       case 1:
@@ -105,6 +102,7 @@ export const MediaObjectScrollComponent = () => {
       case 3:
         StaSetState(mouseMoveX + userHandMediaObject.mouseDownStaStyle);
         EndSetState(mouseMoveX + userHandMediaObject.mouseDownEndStyle);
+        
         break;
     }
   };
@@ -113,7 +111,8 @@ export const MediaObjectScrollComponent = () => {
     animatorOpenSetState(!animatorOpen);
   };
 
-  const MouseDown = (event: any) => { //マウスでクリックされた時に、メディアオブジェクトの操作を開始するか検証し、マウスのデータを格納する
+  const MouseDown = (event: any) => {
+    //マウスでクリックされた時に、メディアオブジェクトの操作を開始するか検証し、マウスのデータを格納する
     const mousePushPos = timeLineMousePosition.mediaObjectMousePosition(
       event,
       LayerDurationContextValue.timelineAreaLayerDurationElement
@@ -141,8 +140,6 @@ export const MediaObjectScrollComponent = () => {
       staStylePos,
       endStylePos
     );
-
-
   };
   const MouseRelease = (event: any) => {
     // const mouseEndPos = timeLineMousePosition(event, mediaObjectAreaElement)[0];
@@ -164,7 +161,6 @@ export const MediaObjectScrollComponent = () => {
       // document.removeEventListener('click', countUp);
       window.removeEventListener("mousemove", timeLineMouseMoveAction);
       window.removeEventListener("mouseup", MouseRelease);
-
     };
   }, [mediaObjectUUID]);
 
@@ -190,6 +186,12 @@ export const MediaObjectScrollComponent = () => {
     //areaFocusSetState(false);
   };
 
+  const backgroundColor = () => {
+    const text = "rgb(" + mediaObjectColor[0] + ","  + mediaObjectColor[1]  + "," +  mediaObjectColor[2] + ")"
+    console.log("backgroundColor",text)
+    return  text
+  }
+
   return (
     <div
       className="media_object-area-move"
@@ -207,6 +209,7 @@ export const MediaObjectScrollComponent = () => {
         style={{
           left: staStylePos,
           width: endStylePos - staStylePos,
+          backgroundColor: backgroundColor()
         }}
         onDoubleClick={MouseDoubleClick}
       ></div>
@@ -236,11 +239,11 @@ export const TimelineAreaLayerDurationComponent = () => {
   const timelineAreaLayerDurationElement = useRef(null);
   const TimelineAreaDivContextValue = useContext(TimelineAreaDivContext);
   return (
-    <LayerDurationContext.Provider value={{ timelineAreaLayerDurationElement:timelineAreaLayerDurationElement }}>
+    <LayerDurationContext.Provider value={{ timelineAreaLayerDurationElement: timelineAreaLayerDurationElement }}>
       <div
         className="media_object-area-layer_duration"
         ref={timelineAreaLayerDurationElement}
-        style={{width:TimelineAreaDivContextValue.elementLayerDurationWidth+"px"}}
+        style={{ width: TimelineAreaDivContextValue.elementLayerDurationWidth + "px" }}
       >
         <SwitchTimelineAreaLayerDurationComponent />
       </div>

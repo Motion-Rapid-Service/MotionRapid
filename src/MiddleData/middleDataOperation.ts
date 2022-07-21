@@ -184,6 +184,8 @@ export default class MiddleDataOperation {
     return Object.assign(this.DataCentral.OwnedClass_Keyframe[keyframeID]);
   };
 
+
+
   getCompositeName = (compositeID: string) => {
     if (!hasKeyFound(compositeID, this.DataCentral.OwnedClass_Composite)) {
       return "";
@@ -203,6 +205,13 @@ export default class MiddleDataOperation {
   getMediaObjectSourceType = (mediaObjectID: string) => {
     return this.DataCentral.OwnedClass_MediaObject[mediaObjectID].sourceType;
   };
+
+  getMediaObjectColor = (mediaObjectID: string) => {
+    return this.DataCentral.OwnedClass_MediaObject[mediaObjectID].MediaObject_Color;
+  };
+  setMediaObjectColor = (mediaObjectID: string, color:Array<number>) => {
+    this.DataCentral.OwnedClass_MediaObject[mediaObjectID].MediaObject_Color = color
+  }
 
   getKeyframeTime = (keyframeID: string) => {
     const Keyframe_AbsoluteTime = this.DataCentral.OwnedClass_Keyframe[keyframeID].Keyframe_AbsoluteTime;

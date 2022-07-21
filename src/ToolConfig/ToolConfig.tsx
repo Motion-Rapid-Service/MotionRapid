@@ -36,7 +36,7 @@ const ConfigSettingItemsCompositeEntity = (props: any) => {
   useEffect(() => {
     
     configContent[settingItemsData.configItem] = configInput
-    console.log("configInput UseEffect",configInput,configContent)
+    //console.log("configInput UseEffect",configInput,configContent)
     // ConfigModeContextValue.configContentSetStateValue(settingItemsData.configItem, configInput);
   }, [configInput]);
 
@@ -103,7 +103,7 @@ const SwitchConfigMode = (props: any) => {
     const configItemCompositeMode: string = ToolConfigContext.ConfigItemNewComposite[2];
 
     buttonOperationFunc = () => {
-      AppContextValue.createComposite(configContent[configItemCompositeName], middleDataClass.Composite_Mode[0]);
+      AppContextValue.createComposite(configContent[configItemCompositeName], configContent[configItemCompositeMode]);
       for(var key in configContent){
         delete configContent[key];
       }
@@ -122,7 +122,7 @@ const SwitchConfigMode = (props: any) => {
       settingTitle: "コンポジット名",
       settingMessage: "選択してください",
       thisConfigSettingGUI: ToolConfigContext.configSettingGUI[3],
-      exposeValue: ["A", "B", "C"],
+      exposeValue: Object.assign(middleDataClass.Composite_Mode),
       configItem: configItemCompositeMode,
     };
     settingItemsTemp.push(settingItemsDataCompositeName);
