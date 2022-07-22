@@ -55,7 +55,7 @@ body{
 }
 
 .timeline-area-scroll .media_object-area-scroll {
-  background-color: rgb(50, 150, 50);
+  /* background-color: rgb(50, 150, 50); */
   position: relative;
   height: var(--media_object-height);
   border-radius: 3px;
