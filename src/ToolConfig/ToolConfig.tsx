@@ -15,6 +15,12 @@ import * as middleDataClass from "./../MiddleData/middleDataClass";
 
 const configContent:{[name:string]:string | number | boolean} = {}
 
+const configContentInit = () => {
+  for(let key in configContent){
+    delete configContent[key];
+  }
+}
+
 const SwitchConfigSettingItemsComposite = (props: any) => {
   const settingItemsData: ToolConfigContext.settingItemsData = props.settingItemsData;
 
@@ -75,7 +81,7 @@ const ConfigButtonBottm = (props: any) => {
 
   return (
     <div className="tool_config-area-bottom-area">
-      <ToolConfigParts.ConfigButton text={"決定"} buttonFunc={ConfigModeContextValue.buttonOperationFunc} />
+      <ToolConfigParts.ConfigButton text={"決定"} buttonOperationFunc={ConfigModeContextValue.buttonOperationFunc} />
       <ToolConfigParts.ConfigButton text={"キャンセル"} />
     </div>
   );
@@ -104,9 +110,7 @@ const SwitchConfigMode = (props: any) => {
 
     buttonOperationFunc = () => {
       AppContextValue.createComposite(configContent[configItemCompositeName], configContent[configItemCompositeMode]);
-      for(let key in configContent){
-        delete configContent[key];
-      }
+
       console.log("buttonOperationFunc",configContent)
     };
 
@@ -127,7 +131,19 @@ const SwitchConfigMode = (props: any) => {
     };
     settingItemsTemp.push(settingItemsDataCompositeName);
     settingItemsTemp.push(settingItemsDataCompositeName2);
+  }
 
+  if(configMode == configModeList[2]){
+    
+    const settingItemsDataCompositeName2: ToolConfigContext.settingItemsData = {
+      settingTitle: "追加するAnimatorGroupを選択してください",
+      settingMessage: "選択してください",
+      thisConfigSettingGUI: ToolConfigContext.configSettingGUI[3],
+      exposeValue: Object.assign(middleDataClass.Composite_Mode),
+      configItem: configItemCompositeMode,
+    };
+
+    settingItemsTemp.push(settingItemsDataCompositeName2);
   }
 
   return (
@@ -135,6 +151,7 @@ const SwitchConfigMode = (props: any) => {
       <ToolConfigContext.ConfigModeContext.Provider
         value={{
           settingItemsArray: settingItemsTemp,
+          configContentInit:configContentInit,
           // configContent: configContent,
           // configContentSetStateValue: configContentSetStateValue,
           buttonOperationFunc: buttonOperationFunc,

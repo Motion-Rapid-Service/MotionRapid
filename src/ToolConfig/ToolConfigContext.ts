@@ -26,6 +26,7 @@ export type settingItemsData = {
 
 type ConfigModeContextValue = {
   settingItemsArray: Array<settingItemsData>;
+  configContentInit:Function
   // configContent: ConfigItemType;
   // configContentSetStateValue: Function;
   buttonOperationFunc: Function;

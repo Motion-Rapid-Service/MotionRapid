@@ -6,7 +6,13 @@ export abstract class PropertyFormatClass {
   abstract cssWriteFunction: Function;
 }
 
-export const propertyTypeList: Array<string> = ["not", "number", "rgb", "rgba", "text"];
+export const propertyTypeList: Array<string> = ["not", "number", "rgb", "rgba", "text"]; //ここで設定画面の方式を決定
+export const valueUnit:{[name:string]:Array<string>} = {
+    "number":["px","vw","vh","%"],
+    "rgb":[],
+    "rgba":[],
+    "text":[],
+}
 
 export class PropertyFormat_margin extends PropertyFormatClass {
   propertyName: string;
@@ -35,3 +41,4 @@ export class PropertyFormat_margin extends PropertyFormatClass {
     return rtext;
   };
 }
+

@@ -3,7 +3,7 @@ const { useContext, useReducer, createContext, useEffect, useState } = React;
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import { AppContext } from "../AppContext";
-import { SetupConfigContext } from "./../SetupEditor/SetupConfigContext";
+import { SetupConfigContext  } from "./../SetupEditor/SetupConfigContext";
 import * as ToolConfigContext from "./ToolConfigContext";
 
 const ConfigSelectOption = (props: any) => {
@@ -43,11 +43,13 @@ export const ConfigTextBox = () => {
 
 export const ConfigButton = (props: any) => {
   const SetupConfigContextValue = useContext(SetupConfigContext);
+  const ConfigModeContextValue = useContext(ToolConfigContext.ConfigModeContext);
 
   const mouseDown = () => {
     //マウスがクリックされたとき
     SetupConfigContextValue.configModeSetState(SetupConfigContextValue.configModeList[0]);
-    props.buttonFunc();
+    props.buttonOperationFunc();
+    ConfigModeContextValue.configContentInit()
   };
 
   return (
