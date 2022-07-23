@@ -1,5 +1,5 @@
 import * as React from "react";
-const { useContext, useReducer, createContext, useEffect, useState,useRef } = React;
+const { useContext, useReducer, createContext, useEffect, useState, useRef } = React;
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import { AppContext } from "../AppContext";
@@ -8,18 +8,18 @@ import * as ToolConfigContext from "./ToolConfigContext";
 import * as ToolConfigParts from "./ToolConfigParts";
 
 import * as middleDataClass from "./../MiddleData/middleDataClass";
-
+import * as animatorGroupFormat from "./../AnimatorGroupFormat/AnimatorGroupFormat";
 // const ConfigBackGround = () => {
 //     return ()
 // }
 
-const configContent:{[name:string]:string | number | boolean} = {}
+const configContent: { [name: string]: string | number | boolean } = {};
 
 const configContentInit = () => {
-  for(let key in configContent){
+  for (let key in configContent) {
     delete configContent[key];
   }
-}
+};
 
 const SwitchConfigSettingItemsComposite = (props: any) => {
   const settingItemsData: ToolConfigContext.settingItemsData = props.settingItemsData;
@@ -37,11 +37,8 @@ const ConfigSettingItemsCompositeEntity = (props: any) => {
   const [configInput, configInputSetState] = useState<string | number | boolean>(settingItemsData.exposeValue[0]);
   const ConfigModeContextValue = useContext(ToolConfigContext.ConfigModeContext);
 
-  
-
   useEffect(() => {
-    
-    configContent[settingItemsData.configItem] = configInput
+    configContent[settingItemsData.configItem] = configInput;
     //console.log("configInput UseEffect",configInput,configContent)
     // ConfigModeContextValue.configContentSetStateValue(settingItemsData.configItem, configInput);
   }, [configInput]);
@@ -103,15 +100,14 @@ const SwitchConfigMode = (props: any) => {
   // };
 
   let settingItemsTemp: Array<ToolConfigContext.settingItemsData> = [];
-  let buttonOperationFunc: Function;
+  let buttonOperationFunc: Function = () => {}; //これは上書きされる
   if (configMode === configModeList[1]) {
     const configItemCompositeName: string = ToolConfigContext.ConfigItemNewComposite[0];
     const configItemCompositeMode: string = ToolConfigContext.ConfigItemNewComposite[2];
 
     buttonOperationFunc = () => {
       AppContextValue.createComposite(configContent[configItemCompositeName], configContent[configItemCompositeMode]);
-
-      console.log("buttonOperationFunc",configContent)
+      console.log("buttonOperationFunc", configContent);
     };
 
     const settingItemsDataCompositeName: ToolConfigContext.settingItemsData = {
@@ -133,17 +129,20 @@ const SwitchConfigMode = (props: any) => {
     settingItemsTemp.push(settingItemsDataCompositeName2);
   }
 
-  if(configMode == configModeList[2]){
-    
-    const settingItemsDataCompositeName2: ToolConfigContext.settingItemsData = {
+  if (configMode == configModeList[2]) {
+    const configItemAnimatorGroupFormat: string = ToolConfigContext.ConfigItemNewAnimatorGroup[0];
+
+    buttonOperationFunc = () => {};
+
+    const settingItemsDataAnimatorGroupFormat: ToolConfigContext.settingItemsData = {
       settingTitle: "追加するAnimatorGroupを選択してください",
       settingMessage: "選択してください",
       thisConfigSettingGUI: ToolConfigContext.configSettingGUI[3],
-      exposeValue: Object.assign(middleDataClass.Composite_Mode),
-      configItem: configItemCompositeMode,
+      exposeValue: Object.keys(animatorGroupFormat.animatorGroupFormatList),
+      configItem: configItemAnimatorGroupFormat,
     };
 
-    settingItemsTemp.push(settingItemsDataCompositeName2);
+    settingItemsTemp.push(settingItemsDataAnimatorGroupFormat);
   }
 
   return (
@@ -151,7 +150,7 @@ const SwitchConfigMode = (props: any) => {
       <ToolConfigContext.ConfigModeContext.Provider
         value={{
           settingItemsArray: settingItemsTemp,
-          configContentInit:configContentInit,
+          configContentInit: configContentInit,
           // configContent: configContent,
           // configContentSetStateValue: configContentSetStateValue,
           buttonOperationFunc: buttonOperationFunc,

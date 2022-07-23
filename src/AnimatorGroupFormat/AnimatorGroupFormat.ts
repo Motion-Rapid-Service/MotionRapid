@@ -1,5 +1,9 @@
 import * as PropertyFormat from "./PropertyFormat";
 
-export const animatorGroupFormatList: { [name: string]: Array<PropertyFormat.PropertyFormatClass> } = {
-  "standard": [new PropertyFormat.PropertyFormat_margin()],
+const animatorGroupFormatList: { [name: string]: PropertyFormat.PropertyFormatClass } = {
+  margin: PropertyFormat.PropertyFormat_margin,
+};
+
+export const getAnimatorGroupFormatList = (animatorGroupFormatPropertyName: string) => {
+  return Object.assign(animatorGroupFormatList[animatorGroupFormatPropertyName]);
 };

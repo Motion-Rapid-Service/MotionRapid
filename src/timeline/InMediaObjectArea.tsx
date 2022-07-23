@@ -1,12 +1,6 @@
 import * as React from "react";
 const { useState, useRef, useEffect, useContext, useReducer, createContext, useImperativeHandle, forwardRef } = React;
-import {
-  MediaObjectContext,
-  TimelineAreaDivContext,
-  TimelineAreaRightContext,
-  LayerPanelContext,
-  LayerDurationContext,
-} from "./timelineContext";
+import { MediaObjectContext, TimelineAreaDivContext, TimelineAreaRightContext, LayerPanelContext, LayerDurationContext } from "./timelineContext";
 
 const UserHandTolerance = 5;
 
@@ -17,10 +11,10 @@ import AnimatorAreaComponent from "./animatorAreaComponent";
 
 import { AppContext } from "../AppContext";
 
-import * as buildSourceType from "./../BuildSite/buildHTML/buildSourceType";
+import * as buildSourceSpecies from "../BuildSite/buildHTML/buildSourceSpecies";
 
-const defaultColor = [50,150,50]
-const selectColor = [100,200,100]
+const defaultColor = [50, 150, 50];
+const selectColor = [100, 200, 100];
 
 export const MediaObjectScrollComponent = () => {
   const AppContextValue = useContext(AppContext);
@@ -31,7 +25,6 @@ export const MediaObjectScrollComponent = () => {
   const [MouseSelected, MouseSelectedSetState] = useState<string>("auto");
   const [MouseUnselected, MouseUnselectedSetState] = useState<string>("auto");
   const [Mouselogic, MouselogicSetState] = useState<string>("auto");
-
 
   // const [Mouselogic, MouselogicSetState] = useState<string>("auto");
 
@@ -49,8 +42,6 @@ export const MediaObjectScrollComponent = () => {
 
   const [mediaObjectColor, mediaObjectColorSetState] = useState<Array<number>>(AppContextValue.getMediaObjectColor(mediaObjectUUID));
 
-
-
   const countStaRef = useRef(null); //  ref オブジェクト作成する
   countStaRef.current = staStylePos; // countを.currentプロパティへ保持する
 
@@ -66,10 +57,7 @@ export const MediaObjectScrollComponent = () => {
   };
 
   const timeLineMouseMoveAction = (event: any) => {
-    const mouseX = timeLineMousePosition.mediaObjectMousePosition(
-      event,
-      LayerDurationContextValue.timelineAreaLayerDurationElement
-    )[0];
+    const mouseX = timeLineMousePosition.mediaObjectMousePosition(event, LayerDurationContextValue.timelineAreaLayerDurationElement)[0];
 
     if (mediObjectEdgeJudge(mouseX, countStaRef.current)) {
       MouseUnselectedSetState("ew-resize");
@@ -81,16 +69,14 @@ export const MediaObjectScrollComponent = () => {
       MouseUnselectedSetState("auto");
     }
 
-    mediaObjectColorSetState(defaultColor)
+    mediaObjectColorSetState(defaultColor);
     if (!TimelineAreaDivContextValue.hasUserHandMediaObjectList(mediaObjectUUID)) {
       return;
     }
-    mediaObjectColorSetState( selectColor)
+    mediaObjectColorSetState(selectColor);
 
-    const userHandMediaObject = TimelineAreaDivContextValue.getUserHandMediaObjectList(mediaObjectUUID);    
+    const userHandMediaObject = TimelineAreaDivContextValue.getUserHandMediaObjectList(mediaObjectUUID);
     const mouseMoveX = mouseX - userHandMediaObject.mousePushPos;
-
-
 
     switch (userHandMediaObject.mouseDownFlag) {
       case 1:
@@ -102,7 +88,7 @@ export const MediaObjectScrollComponent = () => {
       case 3:
         StaSetState(mouseMoveX + userHandMediaObject.mouseDownStaStyle);
         EndSetState(mouseMoveX + userHandMediaObject.mouseDownEndStyle);
-        
+
         break;
     }
   };
@@ -113,10 +99,7 @@ export const MediaObjectScrollComponent = () => {
 
   const MouseDown = (event: any) => {
     //マウスでクリックされた時に、メディアオブジェクトの操作を開始するか検証し、マウスのデータを格納する
-    const mousePushPos = timeLineMousePosition.mediaObjectMousePosition(
-      event,
-      LayerDurationContextValue.timelineAreaLayerDurationElement
-    )[0];
+    const mousePushPos = timeLineMousePosition.mediaObjectMousePosition(event, LayerDurationContextValue.timelineAreaLayerDurationElement)[0];
 
     let stateUserHand = 0;
     if (mediObjectEdgeJudge(mousePushPos, staStylePos)) {
@@ -133,50 +116,33 @@ export const MediaObjectScrollComponent = () => {
       return;
     }
 
-    TimelineAreaDivContextValue.alldeleteUserHandMediaObjectList()
+    TimelineAreaDivContextValue.alldeleteUserHandMediaObjectList();
 
-    TimelineAreaDivContextValue.insertUserHandMediaObjectList(
-      mediaObjectUUID,
-      stateUserHand,
-      mousePushPos,
-      staStylePos,
-      endStylePos
-    );
+    TimelineAreaDivContextValue.insertUserHandMediaObjectList(mediaObjectUUID, stateUserHand, mousePushPos, staStylePos, endStylePos);
   };
   const MouseRelease = (event: any) => {
-
     MouseSelectedSetState("auto");
 
-    mediaObjectColorSetState(defaultColor)
-    
+    mediaObjectColorSetState(defaultColor);
+
     if (!TimelineAreaDivContextValue.hasUserHandMediaObjectList(mediaObjectUUID)) {
       return;
     }
-    mediaObjectColorSetState(selectColor)    
-    TimelineAreaDivContextValue.insertUserHandMediaObjectList(
-      mediaObjectUUID,
-      4,
-      null,
-      null,
-      null
-    );
+    mediaObjectColorSetState(selectColor);
+    TimelineAreaDivContextValue.insertUserHandMediaObjectList(mediaObjectUUID, 4, null, null, null);
 
     // TimelineAreaDivContextValue.deleteUserHandMediaObjectList(mediaObjectUUID);
-
   };
 
   useEffect(() => {
     const mediaObjectTime = AppContextValue.getMediaObjectTime(mediaObjectUUID);
-    const mediaObjectSourceType = AppContextValue.getMediaObjectSourceType(mediaObjectUUID);
+    const mediaObjectSourceSpecies = AppContextValue.getMediaObjectSourceSpecies(mediaObjectUUID);
 
-
-
-    mediaObjectColorSetState( selectColor)
+    mediaObjectColorSetState(selectColor);
 
     if (!TimelineAreaDivContextValue.hasUserHandMediaObjectList(mediaObjectUUID)) {
-      mediaObjectColorSetState(defaultColor)
+      mediaObjectColorSetState(defaultColor);
     }
-    
 
     window.addEventListener("mousemove", timeLineMouseMoveAction);
     window.addEventListener("mouseup", MouseRelease);
@@ -214,10 +180,10 @@ export const MediaObjectScrollComponent = () => {
   };
 
   const backgroundColor = () => {
-    const text = "rgb(" + mediaObjectColor[0] + ","  + mediaObjectColor[1]  + "," +  mediaObjectColor[2] + ")"
+    const text = "rgb(" + mediaObjectColor[0] + "," + mediaObjectColor[1] + "," + mediaObjectColor[2] + ")";
     // console.log("backgroundColor",text)
-    return  text
-  }
+    return text;
+  };
 
   return (
     <div
@@ -236,7 +202,7 @@ export const MediaObjectScrollComponent = () => {
         style={{
           left: staStylePos,
           width: endStylePos - staStylePos,
-          backgroundColor: backgroundColor()
+          backgroundColor: backgroundColor(),
         }}
         onDoubleClick={MouseDoubleClick}
       ></div>

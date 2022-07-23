@@ -1,6 +1,6 @@
 import { testJoin } from "./buildAuxiliaryFunction";
 
-export const sourceTypeList = [
+export const sourceSpeciesList = [
   "default", //何もない状態(nullオブジェクトと同等)
   "text", //テキスト
   "composite", //他のコンポジットを呼びだす
@@ -16,35 +16,40 @@ export const writeIndentHTML = (indentHTML: number) => {
   return temp;
 };
 
-export const sourceTypeFunctionDefault = () => {};
+export const sourceSpeciesFunctionDefault = () => {};
 
-export const sourceTypeFunctionText = (jsonDataCentral: Function, sourceTypeTextClass: SourceTypeTextClass, indentHTML: number, writeCSS: Function) => {
-  const reTemp = testJoin([writeIndentHTML(indentHTML), "<p>", sourceTypeTextClass.text, "</p>"]);
+export const sourceSpeciesFunctionText = (
+  jsonDataCentral: Function,
+  SourceSpeciesTextClass: SourceSpeciesTextClass,
+  indentHTML: number,
+  writeCSS: Function
+) => {
+  const reTemp = testJoin([writeIndentHTML(indentHTML), "<p>", SourceSpeciesTextClass.text, "</p>"]);
   return reTemp;
 };
 
-export const sourceTypeFunctionComposite = (
+export const sourceSpeciesFunctionComposite = (
   jsonDataCentral: Function,
-  sourceTypeCompositeClass: SourceTypeCompositeClass,
+  sourceSpeciesCompositeClass: SourceSpeciesCompositeClass,
   parseComposite: Function,
   indentHTML: number,
   writeCSS: Function
 ) => {
-  const reTemp = parseComposite(jsonDataCentral, sourceTypeCompositeClass.compositeID, indentHTML + 1, writeCSS);
+  const reTemp = parseComposite(jsonDataCentral, sourceSpeciesCompositeClass.compositeID, indentHTML + 1, writeCSS);
   return writeIndentHTML(indentHTML) + reTemp;
 };
 
-export abstract class SourceTypeClass {
+export abstract class SourceSpeciesClass {
   constructor() {}
-  abstract sourceType: string;
+  abstract sourceSpecies: string;
 }
 
-export class SourceTypeTextClass extends SourceTypeClass {
+export class SourceSpeciesTextClass extends SourceSpeciesClass {
   text: string;
   fontSize: number;
   fontFamily: string;
 
-  sourceType = sourceTypeList[1];
+  sourceSpecies = sourceSpeciesList[1];
 
   constructor(send_text: string, send_fontSize: number, send_fontFamily: string) {
     super();
@@ -54,8 +59,8 @@ export class SourceTypeTextClass extends SourceTypeClass {
   }
 }
 
-export class SourceTypeCompositeClass extends SourceTypeClass {
-  sourceType = sourceTypeList[2];
+export class SourceSpeciesCompositeClass extends SourceSpeciesClass {
+  sourceSpecies = sourceSpeciesList[2];
   compositeID: string;
 
   constructor(send_compositeID: string) {

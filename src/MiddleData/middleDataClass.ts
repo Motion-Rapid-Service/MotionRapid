@@ -1,4 +1,4 @@
-import * as buildSourceType from "./../BuildSite/buildHTML/buildSourceType";
+import * as buildSourceSpecies from "../BuildSite/buildHTML/buildSourceSpecies";
 
 export const Composite_Mode: Array<string> = ["time", "parallax"];
 
@@ -42,29 +42,31 @@ export class MediaObject {
   MediaObject_StartTime: number;
   MediaObject_EndTime: number;
   MediaObject_LayerNumber: number;
-  MediaObject_Color:Array<number>;
+  MediaObject_Color: Array<number>;
   OwnedID_AnimatorGroup: Array<string>;
   animatorOpen: boolean;
-  sourceType: buildSourceType.SourceTypeClass;
-  
-  constructor(send_MediaObject_ID: string, send_sourceType: buildSourceType.SourceTypeClass) {
+  sourceSpecies: buildSourceSpecies.SourceSpeciesClass;
+
+  constructor(send_MediaObject_ID: string, send_sourceSpecies: buildSourceSpecies.SourceSpeciesClass) {
     this.MediaObject_ID = send_MediaObject_ID;
     this.MediaObject_StartTime = 500;
     this.MediaObject_EndTime = 750;
     this.MediaObject_LayerNumber = 0;
     this.OwnedID_AnimatorGroup = [];
     this.animatorOpen = true;
-    this.sourceType = send_sourceType;
-    this.MediaObject_Color = [50,150,50]
+    this.sourceSpecies = send_sourceSpecies;
+    this.MediaObject_Color = [50, 150, 50];
   }
 }
 
 export class AnimatorGroup {
   AnimatorGroup_ID: string;
   OwnedID_Animator: Array<string>;
-  constructor(send_Animator_ID: string) {
+  AnimatorGroup_Type: string;
+  constructor(send_Animator_ID: string, send_AnimatorGroup_Type: string) {
     this.AnimatorGroup_ID = send_Animator_ID;
     this.OwnedID_Animator = [];
+    this.AnimatorGroup_Type = send_AnimatorGroup_Type;
   }
 }
 

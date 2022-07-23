@@ -5,7 +5,8 @@ import UUID from "uuidjs";
 import htmlBuildMain from "../BuildSite/buildHTML/buildHtmlMain";
 import CSSBuildMain from "../BuildSite/buildCSS/buildCSSMain";
 
-import * as buildSourceType from "./../BuildSite/buildHTML/buildSourceType";
+import * as buildSourceSpecies from "../BuildSite/buildHTML/buildSourceSpecies";
+import * as animatorGroupFormat from "./../AnimatorGroupFormat/AnimatorGroupFormat";
 
 const getUUID = () => {
   return String(UUID.generate());
@@ -46,16 +47,16 @@ export default class MiddleDataOperation {
     return newID;
   };
 
-  createMediaObject = (sourceType: buildSourceType.SourceTypeClass) => {
+  createMediaObject = (sourceType: buildSourceSpecies.SourceSpeciesClass) => {
     const newID = "MediaObject_" + getUUID();
     const newObj = new middleDataClass.MediaObject(newID, sourceType);
     this.DataCentral.OwnedClass_MediaObject[newID] = newObj;
     return newID;
   };
 
-  createAnimatorGroup = () => {
+  createAnimatorGroup = (animatorGroupType: string) => {
     const newID = "AnimatorGroup_" + getUUID();
-    const newObj = new middleDataClass.AnimatorGroup(newID);
+    const newObj = new middleDataClass.AnimatorGroup(newID, animatorGroupType);
     this.DataCentral.OwnedClass_AnimatorGroup[newID] = newObj;
     return newID;
   };
@@ -72,6 +73,13 @@ export default class MiddleDataOperation {
     const newObj = new middleDataClass.Keyframe(newID);
     this.DataCentral.OwnedClass_Keyframe[newID] = newObj;
     return newID;
+  };
+
+  operationAnimatorGroup = (animatorGroupID: string, newAnimatorGroupSpeciesPropertyName: string) => {
+    //animatorgroupに新しい要素を適用したときに、アニメーターの追加も同時にする関数
+    // const animatorGroupID = this.createAnimatorGroup(newAnimatorGroupType); これはいらない
+
+    const newAnimatorGroupSpeciesPropertyClass = animatorGroupFormat.getAnimatorGroupFormatList(newAnimatorGroupSpeciesPropertyName);
   };
 
   // linkComposite = (compositeID: string) => {
@@ -184,8 +192,6 @@ export default class MiddleDataOperation {
     return Object.assign(this.DataCentral.OwnedClass_Keyframe[keyframeID]);
   };
 
-
-
   getCompositeName = (compositeID: string) => {
     if (!hasKeyFound(compositeID, this.DataCentral.OwnedClass_Composite)) {
       return "";
@@ -202,16 +208,16 @@ export default class MiddleDataOperation {
     ];
   };
 
-  getMediaObjectSourceType = (mediaObjectID: string) => {
-    return this.DataCentral.OwnedClass_MediaObject[mediaObjectID].sourceType;
+  getMediaObjectSourceSpecies = (mediaObjectID: string) => {
+    return this.DataCentral.OwnedClass_MediaObject[mediaObjectID].sourceSpecies;
   };
 
   getMediaObjectColor = (mediaObjectID: string) => {
     return this.DataCentral.OwnedClass_MediaObject[mediaObjectID].MediaObject_Color;
   };
-  setMediaObjectColor = (mediaObjectID: string, color:Array<number>) => {
-    this.DataCentral.OwnedClass_MediaObject[mediaObjectID].MediaObject_Color = color
-  }
+  setMediaObjectColor = (mediaObjectID: string, color: Array<number>) => {
+    this.DataCentral.OwnedClass_MediaObject[mediaObjectID].MediaObject_Color = color;
+  };
 
   getKeyframeTime = (keyframeID: string) => {
     const Keyframe_AbsoluteTime = this.DataCentral.OwnedClass_Keyframe[keyframeID].Keyframe_AbsoluteTime;

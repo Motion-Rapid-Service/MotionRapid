@@ -26,7 +26,7 @@ export type settingItemsData = {
 
 type ConfigModeContextValue = {
   settingItemsArray: Array<settingItemsData>;
-  configContentInit:Function
+  configContentInit: Function;
   // configContent: ConfigItemType;
   // configContentSetStateValue: Function;
   buttonOperationFunc: Function;
@@ -41,6 +41,7 @@ export type ConfigItemType = {
 };
 
 export const ConfigItemNewComposite: Array<string> = ["compositeName", "compositeTime", "compositeMode"];
+export const ConfigItemNewAnimatorGroup: Array<string> = ["animatorGroupFormatType"];
 
 // export type ConfigItemNewComposite = {
 //   compositeName: "";

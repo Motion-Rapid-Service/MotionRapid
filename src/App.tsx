@@ -15,7 +15,7 @@ import "./CompositeChoice/CSS/CompositeChoice.css";
 import "./ToolConfig/CSS/ToolConfig.css";
 import "./ToolConfig/CSS/ToolConfigParts.css";
 
-import * as buildSourceType from "./BuildSite/buildHTML/buildSourceType";
+import * as buildSourceType from "./BuildSite/buildHTML/buildSourceSpecies";
 
 import SetupEditor from "./SetupEditor/SetupEditor";
 
@@ -142,13 +142,13 @@ const componentConvertAnimatorArea = (send_MediaObjectID: string) => {
 
     const AnimatorIDArray = middleDataOperation.getOwnedID_Animator(AnimatorGroupID);
     middleDataAnimatorTemp.push({
-      entity_type: "AnimatorGroup",
+      entity_species: "AnimatorGroup",
       Animator_ID: AnimatorGroupID,
     });
 
     for (let i = 0; i < AnimatorIDArray.length; i++) {
       middleDataAnimatorTemp.push({
-        entity_type: "Animator",
+        entity_species: "Animator",
         Animator_ID: AnimatorIDArray[i],
       });
     }
@@ -170,17 +170,17 @@ const componentConvertKeyframeArea = (send_AnimatorID: string) => {
   return middleDataKeyframeTemp;
 };
 
-const deepCopyDict = (ary:{[name:string | number]:any}) => {
-  const aryKeys = Object.keys(ary)
-  const aryValues = Object.values(ary)
-  let temp:{[name:string | number]:any} = {}
-  for (let i = 0;i < aryKeys.length;i++){
-    const thisKey :string | number = aryKeys[i]
-    const thisValue = aryValues[i]
-    temp[thisKey] = thisValue
+const deepCopyDict = (ary: { [name: string | number]: any }) => {
+  const aryKeys = Object.keys(ary);
+  const aryValues = Object.values(ary);
+  let temp: { [name: string | number]: any } = {};
+  for (let i = 0; i < aryKeys.length; i++) {
+    const thisKey: string | number = aryKeys[i];
+    const thisValue = aryValues[i];
+    temp[thisKey] = thisValue;
   }
-  return temp
-}
+  return temp;
+};
 
 //{ [name: string]: ToolBarClassificationData }
 const App = () => {
@@ -201,7 +201,7 @@ const App = () => {
         value={{
           getUUID: getUUID,
           sortNumber: sortNumber,
-          deepCopyDict:deepCopyDict,
+          deepCopyDict: deepCopyDict,
           componentConvertCompositeChoiceArea: componentConvertCompositeChoiceArea,
           componentConvertMediaObjectArea: componentConvertMediaObjectArea,
           componentConvertAnimatorArea: componentConvertAnimatorArea,
@@ -211,7 +211,7 @@ const App = () => {
           operationMediaObjectTime: middleDataOperation.operationMediaObjectTime,
           operationKeyframeTime: middleDataOperation.operationKeyframeTime,
           getMediaObjectTime: middleDataOperation.getMediaObjectTime,
-          getMediaObjectSourceType: middleDataOperation.getMediaObjectSourceType,
+          getMediaObjectSourceSpecies: middleDataOperation.getMediaObjectSourceSpecies,
           getKeyframeTime: middleDataOperation.getKeyframeTime,
           fileExportDataCentral: middleDataOperation.fileExportDataCentral,
           fileExportComposite: middleDataOperation.fileExportComposite,
@@ -222,8 +222,8 @@ const App = () => {
           getMediaObejctAnimatorOpen: middleDataOperation.getMediaObejctAnimatorOpen,
           getCompositeName: middleDataOperation.getCompositeName,
 
-          setMediaObjectColor:middleDataOperation.setMediaObjectColor,
-          getMediaObjectColor:middleDataOperation.getMediaObjectColor,
+          setMediaObjectColor: middleDataOperation.setMediaObjectColor,
+          getMediaObjectColor: middleDataOperation.getMediaObjectColor,
 
           createComposite: middleDataOperation.createComposite,
           createMediaObject: middleDataOperation.createMediaObject,

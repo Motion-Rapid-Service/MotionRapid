@@ -8,7 +8,7 @@ import { SetupEditorContext } from "./../SetupEditor/SetupEditorContext";
 import { SetupToolbarContext } from "../SetupEditor/SetupToolbarContext";
 import { SetupConfigContext } from "../SetupEditor/SetupConfigContext";
 
-import * as buildSourceType from "./../BuildSite/buildHTML/buildSourceType";
+import * as buildSourceSpecies from "../BuildSite/buildHTML/buildSourceSpecies";
 
 const ToolBarDetailSingleComponent = (props: any) => {
   const AppContextValue = useContext(AppContext);
@@ -37,8 +37,7 @@ const ToolBarSingleComponent = (props: any) => {
   // ここでhooksを使える
 
   const MouseDown = () => {
-    const toolBarClassificationName =
-      props.DownstreamToolBarClassificationData.toolBarClassificationName;
+    const toolBarClassificationName = props.DownstreamToolBarClassificationData.toolBarClassificationName;
 
     props.switchToolBarDetailSetState(toolBarClassificationName);
   };
@@ -46,9 +45,7 @@ const ToolBarSingleComponent = (props: any) => {
   return (
     <div className="toolBar_single-area" onMouseDown={MouseDown}>
       <div className="toolBar_single-area-title">
-        <p>
-          {props.DownstreamToolBarClassificationData.toolBarClassificationLogo}
-        </p>
+        <p>{props.DownstreamToolBarClassificationData.toolBarClassificationLogo}</p>
       </div>
 
       {/* <TimelineComponent /> */}
@@ -65,18 +62,15 @@ const toolBarComponent = (props: any) => {
 
   const SetupConfigContextValue = useContext(SetupConfigContext);
 
-  const insertToolBarClassificationArraySetStateValue =
-    SetupToolbarContextValue.insertToolBarClassificationArraySetStateValue;
-  const insertToolBarEditorDictSetStateValue =
-    SetupToolbarContextValue.insertToolBarEditorDictSetStateValue;
+  const insertToolBarClassificationArraySetStateValue = SetupToolbarContextValue.insertToolBarClassificationArraySetStateValue;
+  const insertToolBarEditorDictSetStateValue = SetupToolbarContextValue.insertToolBarEditorDictSetStateValue;
   const operationEditorStatus = SetupToolbarContextValue.operationEditorStatus;
   // const componentConvertToolBarClassification =
   //   AppContextValue.componentConvertToolBarClassification;
 
   // const toolBarClassificationArray = AppContextValue.toolBarClassificationArray;
 
-  const [switchToolBarDetail, switchToolBarDetailSetState] =
-    useState<string>("");
+  const [switchToolBarDetail, switchToolBarDetailSetState] = useState<string>("");
 
   const Test = () => {
     console.log("（╹◡╹）");
@@ -93,101 +87,37 @@ const toolBarComponent = (props: any) => {
   };
 
   const toolBarCreateComposite = (funcdata: { [name: string]: any }) => {
-    SetupConfigContextValue.configModeSetState(
-      SetupConfigContextValue.configModeList[1]
-    );
+    SetupConfigContextValue.configModeSetState(SetupConfigContextValue.configModeList[1]);
   };
 
   const toolBarCreateMediaObjectText = (funcdata: { [name: string]: any }) => {
-    const addClass = new buildSourceType.SourceTypeTextClass(
-      "( 'ω')",
-      10,
-      "font"
-    );
+    const addClass = new buildSourceSpecies.SourceSpeciesTextClass("( 'ω')", 10, "font");
     const t_MediaObjectID = AppContextValue.createMediaObject(addClass);
-    AppContextValue.linkMediaObject(
-      funcdata["choiceComposite"],
-      t_MediaObjectID
-    );
+    AppContextValue.linkMediaObject(funcdata["choiceComposite"], t_MediaObjectID);
   };
 
   const toolBarCreateAnimatorGroup = (funcdata: { [name: string]: any }) => {
-    SetupConfigContextValue.configModeSetState(
-      SetupConfigContextValue.configModeList[2]
-    );
+    SetupConfigContextValue.configModeSetState(SetupConfigContextValue.configModeList[2]);
   };
-
 
   useEffect(() => {
     let toolBar1 = "fileEdit";
-    insertToolBarClassificationArraySetStateValue(
-      toolBar1,
-      "ファイル操作",
-      false
-    );
-    insertToolBarEditorDictSetStateValue(
-      toolBar1,
-      "1A",
-      "ダウンロード",
-      downloadFile,
-      false
-    );
-    insertToolBarEditorDictSetStateValue(
-      toolBar1,
-      "1B",
-      "アップロード",
-      Test,
-      false
-    );
+    insertToolBarClassificationArraySetStateValue(toolBar1, "ファイル操作", false);
+    insertToolBarEditorDictSetStateValue(toolBar1, "1A", "ダウンロード", downloadFile, false);
+    insertToolBarEditorDictSetStateValue(toolBar1, "1B", "アップロード", Test, false);
 
     let toolBar2 = "buildEdit";
-    insertToolBarClassificationArraySetStateValue(
-      toolBar2,
-      "ファイル生成",
-      false
-    );
-    insertToolBarEditorDictSetStateValue(
-      toolBar2,
-      "2A",
-      "html出力",
-      buildHtml,
-      false
-    );
+    insertToolBarClassificationArraySetStateValue(toolBar2, "ファイル生成", false);
+    insertToolBarEditorDictSetStateValue(toolBar2, "2A", "html出力", buildHtml, false);
 
     let toolBar3 = "compositeEdit";
-    insertToolBarClassificationArraySetStateValue(
-      toolBar3,
-      "コンポジット",
-      false
-    );
-    insertToolBarEditorDictSetStateValue(
-      toolBar3,
-      "3A",
-      "新規作成",
-      toolBarCreateComposite,
-      false
-    );
+    insertToolBarClassificationArraySetStateValue(toolBar3, "コンポジット", false);
+    insertToolBarEditorDictSetStateValue(toolBar3, "3A", "新規作成", toolBarCreateComposite, false);
 
     let toolBar4 = "mediaObjectEdit";
-    insertToolBarClassificationArraySetStateValue(
-      toolBar4,
-      "メディアオブジェクト",
-      false
-    );
-    insertToolBarEditorDictSetStateValue(
-      toolBar4,
-      "4A",
-      "新規作成",
-      toolBarCreateMediaObjectText,
-      false
-    );
-    insertToolBarEditorDictSetStateValue(
-      toolBar4,
-      "4B",
-      "エフェクトを追加する",
-      toolBarCreateAnimatorGroup,
-      false
-    );
+    insertToolBarClassificationArraySetStateValue(toolBar4, "メディアオブジェクト", false);
+    insertToolBarEditorDictSetStateValue(toolBar4, "4A", "新規作成", toolBarCreateMediaObjectText, false);
+    insertToolBarEditorDictSetStateValue(toolBar4, "4B", "エフェクトを追加する", toolBarCreateAnimatorGroup, false);
 
     switchToolBarDetailSetState(toolBar1);
     AppContextValue.updateDOM();
@@ -197,29 +127,17 @@ const toolBarComponent = (props: any) => {
     <div className="toolBar">
       <div className="toolBar-area">
         <>
-          {SetupToolbarContextValue.componentConvertToolBarClassification().map(
-            (output: any, index: number) => (
-              <ToolBarSingleComponent
-                DownstreamToolBarClassificationData={output}
-                switchToolBarDetailSetState={switchToolBarDetailSetState}
-                key={index}
-              />
-            )
-          )}
+          {SetupToolbarContextValue.componentConvertToolBarClassification().map((output: any, index: number) => (
+            <ToolBarSingleComponent DownstreamToolBarClassificationData={output} switchToolBarDetailSetState={switchToolBarDetailSetState} key={index} />
+          ))}
         </>
 
         {/* <TimelineComponent /> */}
       </div>
       <div className="toolBarDetail-area">
         <>
-          {SetupToolbarContextValue.componentConvertToolBarEditor(
-            switchToolBarDetail
-          ).map((output: any, index: number) => (
-            <ToolBarDetailSingleComponent
-              DownstreamToolBarEditorData={output}
-              choiceComposite={SetupEditorContextValue.choiceComposite}
-              key={index}
-            />
+          {SetupToolbarContextValue.componentConvertToolBarEditor(switchToolBarDetail).map((output: any, index: number) => (
+            <ToolBarDetailSingleComponent DownstreamToolBarEditorData={output} choiceComposite={SetupEditorContextValue.choiceComposite} key={index} />
           ))}
         </>
       </div>

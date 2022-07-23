@@ -4,7 +4,7 @@ const { createContext } = React;
 type AppContextValue = {
   getUUID: Function;
   sortNumber: Function;
-  deepCopyDict : Function;
+  deepCopyDict: Function;
   componentConvertCompositeChoiceArea: Function;
   componentConvertMediaObjectArea: Function;
   componentConvertAnimatorArea: Function;
@@ -14,11 +14,11 @@ type AppContextValue = {
   operationMediaObjectTime: Function;
   operationKeyframeTime: Function;
   getMediaObjectTime: Function;
-  getMediaObjectSourceType: Function;
+  getMediaObjectSourceSpecies: Function;
   getKeyframeTime: Function;
   getCompositeName: Function;
-  setMediaObjectColor:Function
-  getMediaObjectColor:Function
+  setMediaObjectColor: Function;
+  getMediaObjectColor: Function;
 
   fileExportDataCentral: Function;
   fileExportComposite: Function;
