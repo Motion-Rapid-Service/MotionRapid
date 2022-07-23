@@ -7,11 +7,12 @@ type SetupEditorContextValue = {
   playHeadTime: number;
   playHeadTimeSetState: Function;
 
-  insertUserHandMediaObjectList: Function;
-  deleteUserHandMediaObjectList: Function;
-  hasUserHandMediaObjectList: Function;
-  getUserHandMediaObjectList: Function;
-  alldeleteUserHandMediaObjectList: Function;
+  insertUserHandMediaObject: Function;
+  deleteUserHandMediaObject: Function;
+  hasUserHandMediaObject: Function;
+  getUserHandMediaObject: Function;
+  getUserHandMediaObjectIDArray: Function;
+  alldeleteUserHandMediaObject: Function;
 };
 
 export const SetupEditorContext = createContext<SetupEditorContextValue>({} as SetupEditorContextValue);

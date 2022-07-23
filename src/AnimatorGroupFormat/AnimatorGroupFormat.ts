@@ -1,6 +1,6 @@
 import * as PropertyFormat from "./AnimatorGroupPropertyFormat";
 
-const animatorGroupFormatList: { [name: string]: PropertyFormat.PropertyFormatType } = {
+const animatorGroupFormatList: { [name: string]: PropertyFormat.PropertyFormatSpecies } = {
   margin: PropertyFormat.PropertyFormat_margin,
 };
 

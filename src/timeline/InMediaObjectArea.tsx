@@ -74,12 +74,12 @@ export const MediaObjectScrollComponent = () => {
     }
 
     mediaObjectColorSetState(defaultColor);
-    if (!SetupEditorContextValue.hasUserHandMediaObjectList(mediaObjectUUID)) {
+    if (!SetupEditorContextValue.hasUserHandMediaObject(mediaObjectUUID)) {
       return;
     }
     mediaObjectColorSetState(selectColor);
 
-    const userHandMediaObject = SetupEditorContextValue.getUserHandMediaObjectList(mediaObjectUUID);
+    const userHandMediaObject = SetupEditorContextValue.getUserHandMediaObject(mediaObjectUUID);
     const mouseMoveX = mouseX - userHandMediaObject.mousePushPos;
 
     switch (userHandMediaObject.mouseDownFlag) {
@@ -120,20 +120,20 @@ export const MediaObjectScrollComponent = () => {
       return;
     }
 
-    SetupEditorContextValue.alldeleteUserHandMediaObjectList();
+    SetupEditorContextValue.alldeleteUserHandMediaObject();
 
-    SetupEditorContextValue.insertUserHandMediaObjectList(mediaObjectUUID, stateUserHand, mousePushPos, staStylePos, endStylePos);
+    SetupEditorContextValue.insertUserHandMediaObject(mediaObjectUUID, stateUserHand, mousePushPos, staStylePos, endStylePos);
   };
   const MouseRelease = (event: any) => {
     MouseSelectedSetState("auto");
 
     mediaObjectColorSetState(defaultColor);
 
-    if (!SetupEditorContextValue.hasUserHandMediaObjectList(mediaObjectUUID)) {
+    if (!SetupEditorContextValue.hasUserHandMediaObject(mediaObjectUUID)) {
       return;
     }
     mediaObjectColorSetState(selectColor);
-    SetupEditorContextValue.insertUserHandMediaObjectList(mediaObjectUUID, 4, null, null, null);
+    SetupEditorContextValue.insertUserHandMediaObject(mediaObjectUUID, 4, null, null, null);
 
     // TimelineAreaDivContextValue.deleteUserHandMediaObjectList(mediaObjectUUID);
   };
@@ -144,7 +144,7 @@ export const MediaObjectScrollComponent = () => {
 
     mediaObjectColorSetState(selectColor);
 
-    if (!SetupEditorContextValue.hasUserHandMediaObjectList(mediaObjectUUID)) {
+    if (!SetupEditorContextValue.hasUserHandMediaObject(mediaObjectUUID)) {
       mediaObjectColorSetState(defaultColor);
     }
 

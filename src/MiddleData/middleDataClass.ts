@@ -62,11 +62,11 @@ export class MediaObject {
 export class AnimatorGroup {
   AnimatorGroup_ID: string;
   OwnedID_Animator: Array<string>;
-  AnimatorGroup_Type: string;
-  constructor(send_Animator_ID: string, send_AnimatorGroup_Type: string) {
+  AnimatorGroup_Species: string;
+  constructor(send_Animator_ID: string, send_AnimatorGroup_Species: string) {
     this.AnimatorGroup_ID = send_Animator_ID;
     this.OwnedID_Animator = [];
-    this.AnimatorGroup_Type = send_AnimatorGroup_Type;
+    this.AnimatorGroup_Species = send_AnimatorGroup_Species;
   }
 }
 

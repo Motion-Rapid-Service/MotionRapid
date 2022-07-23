@@ -55,9 +55,9 @@ export default class MiddleDataOperation {
     return newID;
   };
 
-  createAnimatorGroup = (animatorGroupType: string) => {
+  createAnimatorGroup = (animatorGroupSpecies: string) => {
     const newID = "AnimatorGroup_" + getUUID();
-    const newObj = new middleDataClass.AnimatorGroup(newID, animatorGroupType);
+    const newObj = new middleDataClass.AnimatorGroup(newID, animatorGroupSpecies);
     this.DataCentral.OwnedClass_AnimatorGroup[newID] = newObj;
     return newID;
   };
@@ -76,17 +76,19 @@ export default class MiddleDataOperation {
     return newID;
   };
 
-  operationAnimatorGroup = (animatorGroupID: string, newAnimatorGroupSpeciesPropertyName: string) => {
+  operationAnimatorGroup = (animatorGroupID: string, newAnimatorGroupSpeciesPropertySpecies: string) => {
     //animatorgroupに新しい要素を適用したときに、アニメーターの追加も同時にする関数
-    // const animatorGroupID = this.createAnimatorGroup(newAnimatorGroupType); これはいらない
+    // const animatorGroupID = this.createAnimatorGroup(newAnimatorGroupSpecies); これはいらない
 
-    const newAnimatorGroupSpeciesPropertyClass: AnimatorGroupPropertyFormat.PropertyFormatType =
-      AnimatorGroupFormat.getAnimatorGroupFormatList(newAnimatorGroupSpeciesPropertyName);
+    const newAnimatorGroupSpeciesPropertyFormat: AnimatorGroupPropertyFormat.PropertyFormatSpecies =
+      AnimatorGroupFormat.getAnimatorGroupFormatList(newAnimatorGroupSpeciesPropertySpecies);
 
-    for (let key in newAnimatorGroupSpeciesPropertyClass.cssValueArray) {
-      const value = newAnimatorGroupSpeciesPropertyClass.cssValueArray[key];
+    for (let clk in newAnimatorGroupSpeciesPropertyFormat.cssValueList) {
+      //clk : cssValueListKey ( 混同しないようにあえてやくしてます )
+      const cssValue = newAnimatorGroupSpeciesPropertyFormat.cssValueList[clk];
 
-      this.createAnimator();
+      const newAnimatorID = this.createAnimator();
+      this.linkAnimator(animatorGroupID, newAnimatorID);
     }
   };
 

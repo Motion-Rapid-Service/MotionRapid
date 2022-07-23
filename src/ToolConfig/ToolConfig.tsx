@@ -4,11 +4,15 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import { AppContext } from "../AppContext";
 import { SetupConfigContext } from "./../SetupEditor/SetupConfigContext";
+import { SetupEditorContext } from "./../SetupEditor/SetupEditorContext";
+import * as SetupEditor from "./../SetupEditor/SetupEditor";
+
 import * as ToolConfigContext from "./ToolConfigContext";
 import * as ToolConfigParts from "./ToolConfigParts";
 
 import * as middleDataClass from "./../MiddleData/middleDataClass";
 import * as animatorGroupFormat from "./../AnimatorGroupFormat/AnimatorGroupFormat";
+
 // const ConfigBackGround = () => {
 //     return ()
 // }
@@ -89,6 +93,8 @@ const SwitchConfigMode = (props: any) => {
   const configModeList: Array<string> = props.configModeList;
   const AppContextValue = useContext(AppContext);
 
+  const SetupEditorContextValue = useContext(SetupEditorContext);
+
   // const [configContent, configContentSetState] = useState<{
   //   [name: string]: string | number | boolean;
   // }>({});
@@ -130,16 +136,32 @@ const SwitchConfigMode = (props: any) => {
   }
 
   if (configMode == configModeList[2]) {
-    const configItemAnimatorGroupFormat: string = ToolConfigContext.ConfigItemNewAnimatorGroup[0];
+    const configItemAnimatorGroupFormatSpecies: string = ToolConfigContext.ConfigItemNewAnimatorGroup[0];
 
-    buttonOperationFunc = () => {};
+    buttonOperationFunc = () => {
+      const userHandMediaObjectIDArray: Array<string> = SetupEditorContextValue.getUserHandMediaObjectIDArray();
+
+      const newAnimatorGroupSpecies = configContent[configItemAnimatorGroupFormatSpecies]; //どのanimatorgroupを追加するか 一般の動画編集ソフトでエフェクトに当たる
+
+      for (let i = 0; i < userHandMediaObjectIDArray.length; i++) {
+        const thisMediaObjectKey = userHandMediaObjectIDArray[i];
+        console.log("thisMediaObjectKey", thisMediaObjectKey, userHandMediaObjectIDArray);
+
+        const animatorGroupID = AppContextValue.createAnimatorGroup(newAnimatorGroupSpecies);
+        AppContextValue.linkAnimatorGroup(thisMediaObjectKey, animatorGroupID);
+
+        AppContextValue.operationAnimatorGroup(animatorGroupID, newAnimatorGroupSpecies);
+      }
+
+      AppContextValue.updateDOM();
+    };
 
     const settingItemsDataAnimatorGroupFormat: ToolConfigContext.settingItemsData = {
       settingTitle: "追加するAnimatorGroupを選択してください",
       settingMessage: "選択してください",
       thisConfigSettingGUI: ToolConfigContext.configSettingGUI[3],
       exposeValue: animatorGroupFormat.getAnimatorGroupFormatListKey(),
-      configItem: configItemAnimatorGroupFormat,
+      configItem: configItemAnimatorGroupFormatSpecies,
     };
 
     settingItemsTemp.push(settingItemsDataAnimatorGroupFormat);

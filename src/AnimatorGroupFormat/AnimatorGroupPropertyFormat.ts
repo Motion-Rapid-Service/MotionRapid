@@ -1,12 +1,12 @@
 import { textJoinAnimatorGroup } from "./AnimatorGroupAuxiliaryFunction";
 
-export type PropertyFormatType = {
+export type PropertyFormatSpecies = {
   cssPropertyName: string;
-  cssValueArray: { [name: string]: string };
+  cssValueList: { [name: string]: string };
   cssWriteFunction: Function;
 };
 
-export const propertyTypeList: Array<string> = ["not", "number", "rgb", "rgba", "text"]; //ここで設定画面の方式を決定
+export const propertySpeciesList: Array<string> = ["not", "number", "rgb", "rgba", "text"]; //ここで設定画面の方式を決定
 export const valueUnit: { [name: string]: Array<string> } = {
   number: ["px", "vw", "vh", "%"],
   rgb: [],
@@ -14,23 +14,23 @@ export const valueUnit: { [name: string]: Array<string> } = {
   text: [],
 };
 
-export const PropertyFormat_margin: PropertyFormatType = {
+export const PropertyFormat_margin: PropertyFormatSpecies = {
   cssPropertyName: "margin",
-  cssValueArray: {
-    top: propertyTypeList[1],
-    right: propertyTypeList[1],
-    bottom: propertyTypeList[1],
-    left: propertyTypeList[1],
+  cssValueList: {
+    top: propertySpeciesList[1],
+    right: propertySpeciesList[1],
+    bottom: propertySpeciesList[1],
+    left: propertySpeciesList[1],
   },
 
-  cssWriteFunction: (send_propertyName: string, send_cssValueArray: { [name: string]: string }) => {
+  cssWriteFunction: (send_propertyName: string, send_cssValueList: { [name: string]: string }) => {
     const rtext = textJoinAnimatorGroup([
       send_propertyName,
       ":",
-      send_cssValueArray["top"],
-      send_cssValueArray["right"],
-      send_cssValueArray["bottom"],
-      send_cssValueArray["left"],
+      send_cssValueList["top"],
+      send_cssValueList["right"],
+      send_cssValueList["bottom"],
+      send_cssValueList["left"],
       ";",
     ]);
     return rtext;

@@ -9,8 +9,11 @@ import { SetupEditorContext } from "./SetupEditorContext";
 //ここを画面結合専用層にする予定
 //ここから ツールバー処理用のクラス
 
-class UserHandMediaObjectOperation {
-  mouseDownFlag: number; //0:押していない , 1:左側 , 2:右側 , 3:動作
+export class UserHandMediaObjectOperation {
+  mouseDownFlag: number;
+  //0:押していない(番号として登録しているが、実際は0番登録するようなコードを書いてはいけない) ,
+  //1:左側 , 2:右側 , 3:動作 4:単純選択(自発的な座標の移動はできない)
+
   mousePushPos: number; //マウスが押された時のマウス座標
   mouseDownStaStyle: number; //マウスが押された時のメディアオブジェクト開始地点
   mouseDownEndStyle: number; //マウスが押された時のメディアオブジェクト終了地点
@@ -31,27 +34,33 @@ const Editor = () => {
   useEffect(() => {}, [choiceComposite]);
   useEffect(() => {}, [playHeadTime]);
 
-  const insertUserHandMediaObjectList = (mediaObjectUUID: string, stateUserHand: number, mousePushPos: number, staStylePos: number, endStylePos: number) => {
+  const insertUserHandMediaObject = (mediaObjectUUID: string, stateUserHand: number, mousePushPos: number, staStylePos: number, endStylePos: number) => {
     //const CopyUserHandMediaObjectList = AppContextValue.deepCopyDict(UserHandMediaObjectList);
     UserHandMediaObjectList[mediaObjectUUID] = new UserHandMediaObjectOperation(stateUserHand, mousePushPos, staStylePos, endStylePos);
     //UserHandMediaObjectListSetState(CopyUserHandMediaObjectList);
     //animationOpenUpdateDOM();
   };
-  const deleteUserHandMediaObjectList = (mediaObjectUUID: string) => {
+  const deleteUserHandMediaObject = (mediaObjectUUID: string) => {
     //const CopyUserHandMediaObjectList = AppContextValue.deepCopyDict(UserHandMediaObjectList);
     delete UserHandMediaObjectList[mediaObjectUUID];
     //UserHandMediaObjectListSetState(CopyUserHandMediaObjectList);
     //animationOpenUpdateDOM();
   };
-  const hasUserHandMediaObjectList = (mediaObjectUUID: string) => {
+  const hasUserHandMediaObject = (mediaObjectUUID: string) => {
     const hasHand = mediaObjectUUID in UserHandMediaObjectList;
     return hasHand;
   };
-  const getUserHandMediaObjectList = (mediaObjectUUID: string) => {
+  const getUserHandMediaObject = (mediaObjectUUID: string) => {
     const getHand = UserHandMediaObjectList[mediaObjectUUID];
     return getHand;
   };
-  const alldeleteUserHandMediaObjectList = () => {
+
+  const getUserHandMediaObjectIDArray = () => {
+    const getIDArray = Object.keys(UserHandMediaObjectList);
+    return getIDArray;
+  };
+
+  const alldeleteUserHandMediaObject = () => {
     // UserHandMediaObjectListSetState({})
     for (let key in UserHandMediaObjectList) {
       delete UserHandMediaObjectList[key];
@@ -67,11 +76,12 @@ const Editor = () => {
         playHeadTime: playHeadTime,
         playHeadTimeSetState: playHeadTimeSetState,
 
-        insertUserHandMediaObjectList: insertUserHandMediaObjectList,
-        deleteUserHandMediaObjectList: deleteUserHandMediaObjectList,
-        hasUserHandMediaObjectList: hasUserHandMediaObjectList,
-        getUserHandMediaObjectList: getUserHandMediaObjectList,
-        alldeleteUserHandMediaObjectList: alldeleteUserHandMediaObjectList,
+        insertUserHandMediaObject: insertUserHandMediaObject,
+        deleteUserHandMediaObject: deleteUserHandMediaObject,
+        hasUserHandMediaObject: hasUserHandMediaObject,
+        getUserHandMediaObject: getUserHandMediaObject,
+        getUserHandMediaObjectIDArray: getUserHandMediaObjectIDArray,
+        alldeleteUserHandMediaObject: alldeleteUserHandMediaObject,
       }}
     >
       <SetupConfig />
