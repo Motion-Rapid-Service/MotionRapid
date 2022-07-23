@@ -2,6 +2,8 @@ import * as React from "react";
 const { useState, useRef, useEffect, useContext, useReducer, createContext, useImperativeHandle, forwardRef } = React;
 import { MediaObjectContext, TimelineAreaDivContext, TimelineAreaRightContext, LayerPanelContext, LayerDurationContext } from "./timelineContext";
 
+import { SetupEditorContext } from "./../SetupEditor/SetupEditorContext";
+
 const UserHandTolerance = 5;
 
 import UUID from "uuidjs";
@@ -21,6 +23,8 @@ export const MediaObjectScrollComponent = () => {
   const MediaObjectContextValue = useContext(MediaObjectContext);
   const TimelineAreaDivContextValue = useContext(TimelineAreaDivContext);
   const LayerDurationContextValue = useContext(LayerDurationContext);
+
+  const SetupEditorContextValue = useContext(SetupEditorContext);
 
   const [MouseSelected, MouseSelectedSetState] = useState<string>("auto");
   const [MouseUnselected, MouseUnselectedSetState] = useState<string>("auto");
@@ -70,12 +74,12 @@ export const MediaObjectScrollComponent = () => {
     }
 
     mediaObjectColorSetState(defaultColor);
-    if (!TimelineAreaDivContextValue.hasUserHandMediaObjectList(mediaObjectUUID)) {
+    if (!SetupEditorContextValue.hasUserHandMediaObjectList(mediaObjectUUID)) {
       return;
     }
     mediaObjectColorSetState(selectColor);
 
-    const userHandMediaObject = TimelineAreaDivContextValue.getUserHandMediaObjectList(mediaObjectUUID);
+    const userHandMediaObject = SetupEditorContextValue.getUserHandMediaObjectList(mediaObjectUUID);
     const mouseMoveX = mouseX - userHandMediaObject.mousePushPos;
 
     switch (userHandMediaObject.mouseDownFlag) {
@@ -116,20 +120,20 @@ export const MediaObjectScrollComponent = () => {
       return;
     }
 
-    TimelineAreaDivContextValue.alldeleteUserHandMediaObjectList();
+    SetupEditorContextValue.alldeleteUserHandMediaObjectList();
 
-    TimelineAreaDivContextValue.insertUserHandMediaObjectList(mediaObjectUUID, stateUserHand, mousePushPos, staStylePos, endStylePos);
+    SetupEditorContextValue.insertUserHandMediaObjectList(mediaObjectUUID, stateUserHand, mousePushPos, staStylePos, endStylePos);
   };
   const MouseRelease = (event: any) => {
     MouseSelectedSetState("auto");
 
     mediaObjectColorSetState(defaultColor);
 
-    if (!TimelineAreaDivContextValue.hasUserHandMediaObjectList(mediaObjectUUID)) {
+    if (!SetupEditorContextValue.hasUserHandMediaObjectList(mediaObjectUUID)) {
       return;
     }
     mediaObjectColorSetState(selectColor);
-    TimelineAreaDivContextValue.insertUserHandMediaObjectList(mediaObjectUUID, 4, null, null, null);
+    SetupEditorContextValue.insertUserHandMediaObjectList(mediaObjectUUID, 4, null, null, null);
 
     // TimelineAreaDivContextValue.deleteUserHandMediaObjectList(mediaObjectUUID);
   };
@@ -140,7 +144,7 @@ export const MediaObjectScrollComponent = () => {
 
     mediaObjectColorSetState(selectColor);
 
-    if (!TimelineAreaDivContextValue.hasUserHandMediaObjectList(mediaObjectUUID)) {
+    if (!SetupEditorContextValue.hasUserHandMediaObjectList(mediaObjectUUID)) {
       mediaObjectColorSetState(defaultColor);
     }
 

@@ -210,6 +210,8 @@ const App = () => {
           updateDOM: updateDOM,
           operationMediaObjectTime: middleDataOperation.operationMediaObjectTime,
           operationKeyframeTime: middleDataOperation.operationKeyframeTime,
+          operationAnimatorGroup: middleDataOperation.operationAnimatorGroup,
+
           getMediaObjectTime: middleDataOperation.getMediaObjectTime,
           getMediaObjectSourceSpecies: middleDataOperation.getMediaObjectSourceSpecies,
           getKeyframeTime: middleDataOperation.getKeyframeTime,

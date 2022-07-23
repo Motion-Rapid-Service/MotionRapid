@@ -13,6 +13,8 @@ type AppContextValue = {
   updateDOM: Function;
   operationMediaObjectTime: Function;
   operationKeyframeTime: Function;
+  operationAnimatorGroup: Function;
+
   getMediaObjectTime: Function;
   getMediaObjectSourceSpecies: Function;
   getKeyframeTime: Function;

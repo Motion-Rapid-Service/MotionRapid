@@ -5,8 +5,9 @@ import UUID from "uuidjs";
 import htmlBuildMain from "../BuildSite/buildHTML/buildHtmlMain";
 import CSSBuildMain from "../BuildSite/buildCSS/buildCSSMain";
 
-import * as buildSourceSpecies from "../BuildSite/buildHTML/buildSourceSpecies";
-import * as animatorGroupFormat from "./../AnimatorGroupFormat/AnimatorGroupFormat";
+import * as BuildSourceSpecies from "../BuildSite/buildHTML/buildSourceSpecies";
+import * as AnimatorGroupFormat from "./../AnimatorGroupFormat/AnimatorGroupFormat";
+import * as AnimatorGroupPropertyFormat from "./../AnimatorGroupFormat/AnimatorGroupPropertyFormat";
 
 const getUUID = () => {
   return String(UUID.generate());
@@ -47,7 +48,7 @@ export default class MiddleDataOperation {
     return newID;
   };
 
-  createMediaObject = (sourceType: buildSourceSpecies.SourceSpeciesClass) => {
+  createMediaObject = (sourceType: BuildSourceSpecies.SourceSpeciesClass) => {
     const newID = "MediaObject_" + getUUID();
     const newObj = new middleDataClass.MediaObject(newID, sourceType);
     this.DataCentral.OwnedClass_MediaObject[newID] = newObj;
@@ -79,7 +80,14 @@ export default class MiddleDataOperation {
     //animatorgroupに新しい要素を適用したときに、アニメーターの追加も同時にする関数
     // const animatorGroupID = this.createAnimatorGroup(newAnimatorGroupType); これはいらない
 
-    const newAnimatorGroupSpeciesPropertyClass = animatorGroupFormat.getAnimatorGroupFormatList(newAnimatorGroupSpeciesPropertyName);
+    const newAnimatorGroupSpeciesPropertyClass: AnimatorGroupPropertyFormat.PropertyFormatType =
+      AnimatorGroupFormat.getAnimatorGroupFormatList(newAnimatorGroupSpeciesPropertyName);
+
+    for (let key in newAnimatorGroupSpeciesPropertyClass.cssValueArray) {
+      const value = newAnimatorGroupSpeciesPropertyClass.cssValueArray[key];
+
+      this.createAnimator();
+    }
   };
 
   // linkComposite = (compositeID: string) => {

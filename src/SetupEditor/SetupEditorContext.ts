@@ -6,8 +6,12 @@ type SetupEditorContextValue = {
   choiceCompositeSetState: Function;
   playHeadTime: number;
   playHeadTimeSetState: Function;
+
+  insertUserHandMediaObjectList: Function;
+  deleteUserHandMediaObjectList: Function;
+  hasUserHandMediaObjectList: Function;
+  getUserHandMediaObjectList: Function;
+  alldeleteUserHandMediaObjectList: Function;
 };
 
-export const SetupEditorContext = createContext<SetupEditorContextValue>(
-  {} as SetupEditorContextValue
-);
+export const SetupEditorContext = createContext<SetupEditorContextValue>({} as SetupEditorContextValue);

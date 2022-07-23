@@ -11,24 +11,9 @@ import { SetupEditorContext } from "./../SetupEditor/SetupEditorContext";
 import { SetupToolbarContext } from "./../SetupEditor/SetupToolbarContext";
 import * as timelineMousePosition from "./timeLineMousePosition";
 
-class UserHandMediaObjectOperation {
-  mouseDownFlag: number; //0:押していない , 1:左側 , 2:右側 , 3:動作
-  mousePushPos: number; //マウスが押された時のマウス座標
-  mouseDownStaStyle: number; //マウスが押された時のメディアオブジェクト開始地点
-  mouseDownEndStyle: number; //マウスが押された時のメディアオブジェクト終了地点
-  constructor(send_mouseDownFlag: number, send_mousePushPos: number, send_mouseDownStaStyle: number, send_mouseDownEndStyle: number) {
-    this.mouseDownFlag = send_mouseDownFlag;
-    this.mousePushPos = send_mousePushPos;
-    this.mouseDownStaStyle = send_mouseDownStaStyle;
-    this.mouseDownEndStyle = send_mouseDownEndStyle;
-  }
-}
-
 // const [UserHandMediaObjectList, UserHandMediaObjectListSetState] = useState<{
 //   [name: string]: UserHandMediaObjectOperation;
 // }>({});
-
-const UserHandMediaObjectList:{[name: string]: UserHandMediaObjectOperation} = {} //0番 無操作 1番左 2番右 3番移動 4番選択
 
 const TimelineComponent = () => {
   // ここでhooksを使える
@@ -69,42 +54,11 @@ const TimelineComponent = () => {
   const [elementLayerPanelWidth, elementLayerPanelWidthSetState] = useState<number>(0);
   const [elementLayerDurationWidth, elementLayerDurationWidthSetState] = useState<number>(0);
 
-  
   const [focusMediaObjectSpace, focusMediaObjectSpaceSetState] = useState<number>(-1);
-
 
   // useEffect(() => {
   //   console.log("UserHandMediaObjectList",UserHandMediaObjectList);
   // }, [UserHandMediaObjectList]);
-
-
-  const insertUserHandMediaObjectList = (mediaObjectUUID: string, stateUserHand: number, mousePushPos: number, staStylePos: number, endStylePos: number) => {
-    //const CopyUserHandMediaObjectList = AppContextValue.deepCopyDict(UserHandMediaObjectList);
-    UserHandMediaObjectList[mediaObjectUUID] = new UserHandMediaObjectOperation(stateUserHand, mousePushPos, staStylePos, endStylePos);
-    //UserHandMediaObjectListSetState(CopyUserHandMediaObjectList);
-    animationOpenUpdateDOM()
-  };
-  const deleteUserHandMediaObjectList = (mediaObjectUUID: string) => {
-    //const CopyUserHandMediaObjectList = AppContextValue.deepCopyDict(UserHandMediaObjectList);
-    delete UserHandMediaObjectList[mediaObjectUUID];
-    //UserHandMediaObjectListSetState(CopyUserHandMediaObjectList);
-    animationOpenUpdateDOM()
-  };
-  const hasUserHandMediaObjectList = (mediaObjectUUID: string) => {
-    const hasHand = mediaObjectUUID in UserHandMediaObjectList;
-    return hasHand;
-  };
-  const getUserHandMediaObjectList = (mediaObjectUUID: string) => {
-    const getHand = UserHandMediaObjectList[mediaObjectUUID];
-    return getHand;
-  };
-  const alldeleteUserHandMediaObjectList = () => {
-    // UserHandMediaObjectListSetState({})
-    for(let key in UserHandMediaObjectList){
-      delete UserHandMediaObjectList[key];
-    }
-    animationOpenUpdateDOM()
-  }
 
   const [mediaObejctDivHeight, mediaObejctDivHeightSetState] = useState<{
     [name: number]: Array<number>;
@@ -227,11 +181,6 @@ const TimelineComponent = () => {
         >
           <TimelineAreaDivContext.Provider
             value={{
-              insertUserHandMediaObjectList: insertUserHandMediaObjectList,
-              deleteUserHandMediaObjectList: deleteUserHandMediaObjectList,
-              hasUserHandMediaObjectList: hasUserHandMediaObjectList,
-              getUserHandMediaObjectList: getUserHandMediaObjectList,
-              alldeleteUserHandMediaObjectList:alldeleteUserHandMediaObjectList,
               timelineAreaElement: timelineAreaElement,
               timelineScrollElement: timelineScrollElement,
 

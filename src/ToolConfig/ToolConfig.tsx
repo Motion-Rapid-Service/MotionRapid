@@ -138,7 +138,7 @@ const SwitchConfigMode = (props: any) => {
       settingTitle: "追加するAnimatorGroupを選択してください",
       settingMessage: "選択してください",
       thisConfigSettingGUI: ToolConfigContext.configSettingGUI[3],
-      exposeValue: Object.keys(animatorGroupFormat.animatorGroupFormatList),
+      exposeValue: animatorGroupFormat.getAnimatorGroupFormatListKey(),
       configItem: configItemAnimatorGroupFormat,
     };
 
