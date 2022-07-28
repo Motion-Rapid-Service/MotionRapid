@@ -142,13 +142,13 @@ const componentConvertAnimatorArea = (send_MediaObjectID: string) => {
 
     const AnimatorIDArray = middleDataOperation.getOwnedID_Animator(AnimatorGroupID);
     middleDataAnimatorTemp.push({
-      entity_species: "AnimatorGroup",
+      entity_type: "AnimatorGroup",
       Animator_ID: AnimatorGroupID,
     });
 
     for (let i = 0; i < AnimatorIDArray.length; i++) {
       middleDataAnimatorTemp.push({
-        entity_species: "Animator",
+        entity_type: "Animator",
         Animator_ID: AnimatorIDArray[i],
       });
     }

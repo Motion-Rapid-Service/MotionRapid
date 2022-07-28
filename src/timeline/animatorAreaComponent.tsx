@@ -1,6 +1,5 @@
 import * as React from "react";
-const { useState, useRef, useEffect, useContext, useReducer, createContext } =
-  React;
+const { useState, useRef, useEffect, useContext, useReducer, createContext } = React;
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import * as timelineMousePosition from "./timeLineMousePosition";
@@ -26,11 +25,9 @@ export const KeyFrameComponent = (props: any) => {
   const [keyframeStylePos, KeyframePosSetState] = useState<number>(AppContextValue.getKeyframeTime(keyframeUUID));
 
   const MediaObjectContextValue = useContext(MediaObjectContext);
-  const mediaObjectAreaElement =
-    MediaObjectContextValue.mediaObjectAreaElement as any;
+  const mediaObjectAreaElement = MediaObjectContextValue.mediaObjectAreaElement as any;
   const animatorOpen = MediaObjectContextValue.animatorOpen as boolean;
   const LayerDurationContextValue = useContext(LayerDurationContext);
-
 
   const keyframeMouseMoveAction = (event: any) => {
     if (!(keyframeUUID in UserHandKeyframeList)) {
@@ -50,20 +47,14 @@ export const KeyFrameComponent = (props: any) => {
   };
 
   const MouseDown = (event: any) => {
-    const mousePushPos = timelineMousePosition.mediaObjectMousePosition(
-      event,
-      LayerDurationContextValue.timelineAreaLayerDurationElement
-    )[0];
+    const mousePushPos = timelineMousePosition.mediaObjectMousePosition(event, LayerDurationContextValue.timelineAreaLayerDurationElement)[0];
 
-    UserHandKeyframeList[keyframeUUID] = new UserHandKeyframeOperation(
-      mousePushPos,
-      keyframeStylePos
-    );
+    UserHandKeyframeList[keyframeUUID] = new UserHandKeyframeOperation(mousePushPos, keyframeStylePos);
   };
 
   useEffect(() => {
     if (!keyframeStylePos) {
-      return
+      return;
     }
 
     AppContextValue.operationKeyframeTime({
@@ -89,11 +80,7 @@ export const KeyFrameComponent = (props: any) => {
   // if (animatorOpen) {
   return (
     <div className="keyframe-area" onMouseDown={MouseDown}>
-      <div
-        className="keyframe-entity"
-        draggable="false"
-        style={{ left: keyframeStylePos }}
-      ></div>
+      <div className="keyframe-entity" draggable="false" style={{ left: keyframeStylePos }}></div>
     </div>
   );
   // } else {
@@ -106,28 +93,22 @@ const AnimatorAreaEntity = (props: any) => {
 
   const AppContextValue = useContext(AppContext);
 
-  const entityType = props.DownstreamMiddleDataAnimator["entity_type"]
+  const entityType = props.DownstreamMiddleDataAnimator["entity_type"];
 
   if (entityType === "AnimatorGroup") {
-    return (
-      <div className="animator_area-entity animator_area-entity-group" ref={animatorAreaEntityElement}>
-      </div>
-    );
-  }
-  if (entityType === "Animator") {
+    return <div className="animator_area-entity animator_area-entity-group" ref={animatorAreaEntityElement}></div>;
+  } else if (entityType === "Animator") {
     return (
       <div className="animator_area-entity" ref={animatorAreaEntityElement}>
-        {AppContextValue.componentConvertKeyframeArea(
-          props.DownstreamMiddleDataAnimator["Animator_ID"]
-        ).map((output: any, index: number) => (
+        {AppContextValue.componentConvertKeyframeArea(props.DownstreamMiddleDataAnimator["Animator_ID"]).map((output: any, index: number) => (
           // <>{fruit}</> //SurfaceControlIndividualを追加するmap (list_surface_controlに入っている)
           <KeyFrameComponent DownstreamMiddleDataKeyframe={output} key={index} />
         ))}
       </div>
     );
-  }
-  else { //ほぼおまじない
-    return (<></>)
+  } else {
+    //ほぼおまじない
+    return <></>;
   }
   // const keyfrmaeSize = animatorOpen ? 20 : 0;
 
@@ -140,7 +121,6 @@ const AnimatorAreaEntity = (props: any) => {
   //     keyfrmaeSize + "px"
   //   );
   // }, [animatorOpen]);
-
 };
 
 const AnimatorAreaComponent = () => {
@@ -148,9 +128,7 @@ const AnimatorAreaComponent = () => {
   const MediaObjectContextValue = useContext(MediaObjectContext);
   return (
     <div className="animator_area">
-      {AppContextValue.componentConvertAnimatorArea(
-        MediaObjectContextValue.mediaObjectUUID
-      ).map((output: any, index: number) => (
+      {AppContextValue.componentConvertAnimatorArea(MediaObjectContextValue.mediaObjectUUID).map((output: any, index: number) => (
         // <>{fruit}</> //SurfaceControlIndividualを追加するmap (list_surface_controlに入っている)
         <AnimatorAreaEntity DownstreamMiddleDataAnimator={output} key={index} />
       ))}
