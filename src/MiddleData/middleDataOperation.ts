@@ -62,9 +62,9 @@ export default class MiddleDataOperation {
     return newID;
   };
 
-  createAnimator = () => {
+  createAnimator = (propertySpecies: string) => {
     const newID = "Animator_" + getUUID();
-    const newObj = new middleDataClass.Animator(newID);
+    const newObj = new middleDataClass.Animator(newID, propertySpecies);
     this.DataCentral.OwnedClass_Animator[newID] = newObj;
     return newID;
   };
@@ -83,11 +83,11 @@ export default class MiddleDataOperation {
     const newAnimatorGroupSpeciesPropertyFormat: AnimatorGroupPropertyFormat.PropertyFormatSpecies =
       AnimatorGroupFormat.getAnimatorGroupFormatList(newAnimatorGroupSpeciesPropertySpecies);
 
-    for (let clk in newAnimatorGroupSpeciesPropertyFormat.cssValueList) {
-      //clk : cssValueListKey ( 混同しないようにあえてやくしてます )
-      const cssValue = newAnimatorGroupSpeciesPropertyFormat.cssValueList[clk];
+    for (let clk in newAnimatorGroupSpeciesPropertyFormat.cssPropertySpeciesList) {
+      //clk : cssPropertySpeciesListKey ( 混同しないようにあえてやくしてます )
+      const cssPropertySpecies = newAnimatorGroupSpeciesPropertyFormat.cssPropertySpeciesList[clk];
 
-      const newAnimatorID = this.createAnimator();
+      const newAnimatorID = this.createAnimator(clk);
       this.linkAnimator(animatorGroupID, newAnimatorID);
     }
   };

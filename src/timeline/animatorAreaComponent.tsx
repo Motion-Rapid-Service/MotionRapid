@@ -93,11 +93,11 @@ const AnimatorAreaEntity = (props: any) => {
 
   const AppContextValue = useContext(AppContext);
 
-  const entityType = props.DownstreamMiddleDataAnimator["entity_type"];
+  const entitySpecies = props.DownstreamMiddleDataAnimator["entitySpecies"];
 
-  if (entityType === "AnimatorGroup") {
+  if (entitySpecies === "AnimatorGroup") {
     return <div className="animator_area-entity animator_area-entity-group" ref={animatorAreaEntityElement}></div>;
-  } else if (entityType === "Animator") {
+  } else if (entitySpecies === "Animator") {
     return (
       <div className="animator_area-entity" ref={animatorAreaEntityElement}>
         {AppContextValue.componentConvertKeyframeArea(props.DownstreamMiddleDataAnimator["Animator_ID"]).map((output: any, index: number) => (

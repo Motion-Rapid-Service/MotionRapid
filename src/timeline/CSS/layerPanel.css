@@ -13,7 +13,8 @@
   font-size: 5px;
 }
 
-.layer_panel-animator .layer_panel-animator-entity {
+.layer_panel-animator .layer_panel-animator-entity,
+.layer_panel-animator .layer_panel-animator_group-entity {
   height: var(--animator-height);
   margin-left: 20%;
 }

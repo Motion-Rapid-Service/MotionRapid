@@ -43,3 +43,16 @@ type AppContextValue = {
 };
 
 export const AppContext = createContext<AppContextValue>({} as AppContextValue);
+
+export type ComponentConvertAnimatorGroupType = {
+  entitySpecies: string;
+  AnimatorGroup_ID: string;
+  AnimatorGroup_Species: string;
+};
+
+export type ComponentConvertAnimatorType = {
+  entitySpecies: string;
+  Animator_ID: string;
+  propertySpecies: string;
+};
+export type ComponentConvertAnimatorAreaType = ComponentConvertAnimatorType | ComponentConvertAnimatorGroupType;

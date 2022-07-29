@@ -201,7 +201,7 @@ const TimelineComponent = () => {
             }}
           >
             <>
-              <MediaObjectAreaSpaceComponent.switchMediaObjectAreaSpace spaceIndex={0} />
+              <MediaObjectAreaSpaceComponent.SwitchMediaObjectAreaSpace spaceIndex={0} />
 
               {/* {componentGenerateMediaObjectAreaSpace(-1)} */}
               {AppContextValue.componentConvertMediaObjectArea(SetupEditorContextValue.choiceComposite).map((output: any, index: number) => (

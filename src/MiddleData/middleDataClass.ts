@@ -52,10 +52,11 @@ export class MediaObject {
     this.MediaObject_StartTime = 500;
     this.MediaObject_EndTime = 750;
     this.MediaObject_LayerNumber = 0;
+    this.MediaObject_Color = [50, 150, 50];
+
     this.OwnedID_AnimatorGroup = [];
     this.animatorOpen = true;
     this.sourceSpecies = send_sourceSpecies;
-    this.MediaObject_Color = [50, 150, 50];
   }
 }
 
@@ -73,7 +74,9 @@ export class AnimatorGroup {
 export class Animator {
   Animator_ID: string;
   OwnedID_Keyframe: Array<string>;
-  constructor(send_Animator_ID: string) {
+  propertySpecies: string;
+  constructor(send_Animator_ID: string, send_propertySpecies: string) {
+    this.propertySpecies = send_propertySpecies;
     this.Animator_ID = send_Animator_ID;
     this.OwnedID_Keyframe = [];
   }

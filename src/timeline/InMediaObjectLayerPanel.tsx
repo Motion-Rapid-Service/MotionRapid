@@ -1,17 +1,10 @@
 import * as React from "react";
-const { useState, useRef, useEffect, useContext, useReducer, createContext } =
-  React;
+const { useState, useRef, useEffect, useContext, useReducer, createContext } = React;
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import { AppContext } from "../AppContext";
-import {
-  MediaObjectContext,
-  TimelineAreaDivContext,
-  LayerPanelContext,
-  LayerDurationContext,
-} from "./timelineContext";
+import { AppContext, ComponentConvertAnimatorAreaType, ComponentConvertAnimatorGroupType, ComponentConvertAnimatorType } from "../AppContext";
+import { MediaObjectContext, TimelineAreaDivContext, LayerPanelContext, LayerDurationContext } from "./timelineContext";
 import { SetupEditorContext } from "./../SetupEditor/SetupEditorContext";
-
 
 // import { timelineMousePosition ,timelineLayerPanelPostion} from "./timeLineMousePosition";
 import * as timelineMousePosition from "./timeLineMousePosition";
@@ -21,7 +14,6 @@ class UserHandLayerPanelOperation {
   //mouseDownKeyframeStyle: number; //マウスが押された時のメディアオブジェクト開始地点
   constructor(send_mousePushPos: number) {
     this.mousePushPos = send_mousePushPos;
-
   }
 }
 const UserHandLayerPanelList: {
@@ -36,37 +28,27 @@ const SwitchTimelineAreaLayerPanelComponent = (props: any) => {
   const animatorOpen = MediaObjectContextValue.animatorOpen as boolean;
 
   useEffect(() => {
-
-
     const positon = timelineMousePosition.mediaObjectTimelinePostion(
       TimelineAreaDivContextValue.timelineScrollElement,
       LayerPanelContextValue.timelineAreaLayerPanelElement
     );
 
-    const size = timelineMousePosition.elementSize(
-      LayerPanelContextValue.timelineAreaLayerPanelElement
-    );
+    const size = timelineMousePosition.elementSize(LayerPanelContextValue.timelineAreaLayerPanelElement);
 
     const yPosHeight = [positon[1], positon[1] + size[1]];
 
-    TimelineAreaDivContextValue.mediaObejctDivHeightSetStateValue(
-      MediaObjectContextValue.mediaObejctIndex,
-      yPosHeight
-    );
-  }, [MediaObjectContextValue.mediaObjectUUID, animatorOpen,,TimelineAreaDivContextValue.animationOpenUpdate]);
+    TimelineAreaDivContextValue.mediaObejctDivHeightSetStateValue(MediaObjectContextValue.mediaObejctIndex, yPosHeight);
+  }, [MediaObjectContextValue.mediaObjectUUID, animatorOpen, , TimelineAreaDivContextValue.animationOpenUpdate]);
 
   if (animatorOpen) {
     return (
       <div className="layer_panel-animator">
-        {AppContextValue.componentConvertAnimatorArea(
-          MediaObjectContextValue.mediaObjectUUID
-        ).map((output: any, index: number) => (
-          // <>{fruit}</> //SurfaceControlIndividualを追加するmap (list_surface_controlに入っている)
-          <LayerPanelAnimaterComponent
-            DownstreamMiddleDataAnimator={output}
-            key={index}
-          />
-        ))}
+        {AppContextValue.componentConvertAnimatorArea(MediaObjectContextValue.mediaObjectUUID).map(
+          (output: ComponentConvertAnimatorAreaType, index: number) => (
+            // <>{fruit}</> //SurfaceControlIndividualを追加するmap (list_surface_controlに入っている)
+            <SwitchLayerPanelAnimaterGroupComponent DownstreamMiddleDataAnimator={output} key={index} />
+          )
+        )}
       </div>
     );
   } else {
@@ -79,7 +61,7 @@ export const TimelineAreaLayerPanelComponent = (props: any) => {
   const MediaObjectContextValue = useContext(MediaObjectContext);
   const TimelineAreaDivContextValue = useContext(TimelineAreaDivContext);
   const timelineAreaLayerPanelElement = useRef(null);
-  const SetupEditorContextValue = useContext(SetupEditorContext)
+  const SetupEditorContextValue = useContext(SetupEditorContext);
   const animatorOpen = MediaObjectContextValue.animatorOpen as boolean;
 
   const mouseUp = (event: any) => {
@@ -87,60 +69,40 @@ export const TimelineAreaLayerPanelComponent = (props: any) => {
       return;
     }
 
-    const thenY = timelineMousePosition.timelineMousePostion(
-      event,
-      TimelineAreaDivContextValue.timelineScrollElement
-    )[1];
+    const thenY = timelineMousePosition.timelineMousePostion(event, TimelineAreaDivContextValue.timelineScrollElement)[1];
 
-    const staY = Object.values(UserHandLayerPanelList)[0].mousePushPos
+    const staY = Object.values(UserHandLayerPanelList)[0].mousePushPos;
 
-    const spaceNumber = TimelineAreaDivContextValue.mediaObjectSwopInsertionDestination(
-      staY, thenY
-    )
+    const spaceNumber = TimelineAreaDivContextValue.mediaObjectSwopInsertionDestination(staY, thenY);
 
     if (spaceNumber < 0) {
-      return
+      return;
     }
 
-    AppContextValue.swopMediaObject(SetupEditorContextValue.choiceComposite, MediaObjectContextValue.mediaObejctIndex, spaceNumber)
+    AppContextValue.swopMediaObject(SetupEditorContextValue.choiceComposite, MediaObjectContextValue.mediaObejctIndex, spaceNumber);
 
-    delete UserHandLayerPanelList[MediaObjectContextValue.mediaObjectUUID]
+    delete UserHandLayerPanelList[MediaObjectContextValue.mediaObjectUUID];
 
-    TimelineAreaDivContextValue.focusMediaObjectSpaceSetState(-1)
+    TimelineAreaDivContextValue.focusMediaObjectSpaceSetState(-1);
     AppContextValue.updateDOM();
-
   };
   const mouseMove = (event: any) => {
     if (!(MediaObjectContextValue.mediaObjectUUID in UserHandLayerPanelList)) {
       return;
     }
 
-    const thenY = timelineMousePosition.timelineMousePostion(
-      event,
-      TimelineAreaDivContextValue.timelineScrollElement
-    )[1];
+    const thenY = timelineMousePosition.timelineMousePostion(event, TimelineAreaDivContextValue.timelineScrollElement)[1];
 
-    const staY = Object.values(UserHandLayerPanelList)[0].mousePushPos
+    const staY = Object.values(UserHandLayerPanelList)[0].mousePushPos;
 
-    const spaceNumber = TimelineAreaDivContextValue.mediaObjectSwopInsertionDestination(
-      staY, thenY
-    )
+    const spaceNumber = TimelineAreaDivContextValue.mediaObjectSwopInsertionDestination(staY, thenY);
 
-
-    TimelineAreaDivContextValue.focusMediaObjectSpaceSetState(spaceNumber)
-
+    TimelineAreaDivContextValue.focusMediaObjectSpaceSetState(spaceNumber);
   };
   const mouseDown = (event: any) => {
-    const mousePushPosY = timelineMousePosition.timelineMousePostion(
-      event,
-      TimelineAreaDivContextValue.timelineScrollElement
-    )[1];
+    const mousePushPosY = timelineMousePosition.timelineMousePostion(event, TimelineAreaDivContextValue.timelineScrollElement)[1];
 
-    UserHandLayerPanelList[MediaObjectContextValue.mediaObjectUUID] = new UserHandLayerPanelOperation(
-      mousePushPosY
-    );
-
-
+    UserHandLayerPanelList[MediaObjectContextValue.mediaObjectUUID] = new UserHandLayerPanelOperation(mousePushPosY);
   };
 
   useEffect(() => {
@@ -152,18 +114,14 @@ export const TimelineAreaLayerPanelComponent = (props: any) => {
     };
   }, [MediaObjectContextValue.mediaObjectUUID, animatorOpen]);
 
-  
-
   return (
     <div
       className="media_object-area-layer_panel"
       ref={timelineAreaLayerPanelElement}
       onMouseDown={mouseDown}
-      style={{ "width": TimelineAreaDivContextValue.elementLayerPanelWidth + "px" }}
+      style={{ width: TimelineAreaDivContextValue.elementLayerPanelWidth + "px" }}
     >
-      <LayerPanelContext.Provider
-        value={{ timelineAreaLayerPanelElement: timelineAreaLayerPanelElement }}
-      >
+      <LayerPanelContext.Provider value={{ timelineAreaLayerPanelElement: timelineAreaLayerPanelElement }}>
         <LayerPanelMediaObjectComponent />
         <SwitchTimelineAreaLayerPanelComponent />
       </LayerPanelContext.Provider>
@@ -182,10 +140,38 @@ export const LayerPanelMediaObjectComponent = (props: any) => {
     </div>
   );
 };
+
+export const SwitchLayerPanelAnimaterGroupComponent = (props: any) => {
+  const entitySpecies = props.DownstreamMiddleDataAnimator["entitySpecies"];
+
+  if (entitySpecies === "AnimatorGroup") {
+    return <LayerPanelAnimaterGroupComponent DownstreamMiddleDataAnimator={props.DownstreamMiddleDataAnimator} />;
+  } else if (entitySpecies === "Animator") {
+    return <LayerPanelAnimaterComponent DownstreamMiddleDataAnimator={props.DownstreamMiddleDataAnimator} />;
+  }
+};
+
+export const LayerPanelAnimaterGroupComponent = (props: any) => {
+  // const AppContextValue = useContext(AppContext);
+
+  const DownstreamMiddleDataAnimator: ComponentConvertAnimatorGroupType = props.DownstreamMiddleDataAnimator;
+  const AnimatorGroup_ID: string = DownstreamMiddleDataAnimator.AnimatorGroup_ID;
+  const AnimatorGroup_Species: string = DownstreamMiddleDataAnimator.AnimatorGroup_Species;
+
+  return (
+    <div className="layer_panel-animator_group-entity">
+      <p>{AnimatorGroup_Species}</p>
+    </div>
+  );
+};
+
 export const LayerPanelAnimaterComponent = (props: any) => {
+  const DownstreamMiddleDataAnimator: ComponentConvertAnimatorType = props.DownstreamMiddleDataAnimator;
+  const Animator_ID: string = DownstreamMiddleDataAnimator.Animator_ID;
+  const propertySpecies: string = DownstreamMiddleDataAnimator.propertySpecies;
   return (
     <div className="layer_panel-animator-entity">
-      <p>test-animater</p>
+      <p>{propertySpecies}</p>
     </div>
   );
 };

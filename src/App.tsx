@@ -19,9 +19,11 @@ import * as buildSourceType from "./BuildSite/buildHTML/buildSourceSpecies";
 
 import SetupEditor from "./SetupEditor/SetupEditor";
 
-import { AppContext } from "./AppContext";
+import { AppContext, ComponentConvertAnimatorAreaType, ComponentConvertAnimatorGroupType, ComponentConvertAnimatorType } from "./AppContext";
 
 import MiddleDataOperationClass from "./MiddleData/middleDataOperation";
+import * as MiddleDataClass from "./MiddleData/middleDataClass";
+
 import UUID from "uuidjs";
 
 const getUUID = () => {
@@ -134,23 +136,30 @@ const componentConvertMediaObjectArea = (send_CompositeID: string) => {
 const componentConvertAnimatorArea = (send_MediaObjectID: string) => {
   const AnimatorGroupIDArray = middleDataOperation.getOwnedID_AnimatorGroup(send_MediaObjectID);
 
-  const middleDataAnimatorTemp = [];
+  const middleDataAnimatorTemp: Array<ComponentConvertAnimatorAreaType> = [];
 
   for (let gi = 0; gi < AnimatorGroupIDArray.length; gi++) {
     const AnimatorGroupID = AnimatorGroupIDArray[gi];
-    const AnimatorGroupClass = middleDataOperation.getOwnedClassAnimatorGroup(AnimatorGroupID);
-
+    const AnimatorGroupClass: MiddleDataClass.AnimatorGroup = middleDataOperation.getOwnedClassAnimatorGroup(AnimatorGroupID);
     const AnimatorIDArray = middleDataOperation.getOwnedID_Animator(AnimatorGroupID);
-    middleDataAnimatorTemp.push({
-      entity_type: "AnimatorGroup",
-      Animator_ID: AnimatorGroupID,
-    });
+
+    const pushAnimatorGroup: ComponentConvertAnimatorGroupType = {
+      entitySpecies: "AnimatorGroup",
+      AnimatorGroup_ID: AnimatorGroupID,
+      AnimatorGroup_Species: AnimatorGroupClass.AnimatorGroup_Species,
+    };
+    middleDataAnimatorTemp.push(pushAnimatorGroup);
 
     for (let i = 0; i < AnimatorIDArray.length; i++) {
-      middleDataAnimatorTemp.push({
-        entity_type: "Animator",
-        Animator_ID: AnimatorIDArray[i],
-      });
+      const AnimatorID = AnimatorIDArray[i];
+      const AnimatorClass: MiddleDataClass.Animator = middleDataOperation.getOwnedClassAnimator(AnimatorID);
+
+      const pushAnimator: ComponentConvertAnimatorType = {
+        entitySpecies: "Animator",
+        Animator_ID: AnimatorID,
+        propertySpecies: AnimatorClass.propertySpecies,
+      };
+      middleDataAnimatorTemp.push(pushAnimator);
     }
   }
 

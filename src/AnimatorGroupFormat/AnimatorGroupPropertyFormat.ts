@@ -2,7 +2,7 @@ import { textJoinAnimatorGroup } from "./AnimatorGroupAuxiliaryFunction";
 
 export type PropertyFormatSpecies = {
   cssPropertyName: string;
-  cssValueList: { [name: string]: string };
+  cssPropertySpeciesList: { [name: string]: string };
   cssWriteFunction: Function;
 };
 
@@ -16,21 +16,21 @@ export const valueUnit: { [name: string]: Array<string> } = {
 
 export const PropertyFormat_margin: PropertyFormatSpecies = {
   cssPropertyName: "margin",
-  cssValueList: {
+  cssPropertySpeciesList: {
     top: propertySpeciesList[1],
     right: propertySpeciesList[1],
     bottom: propertySpeciesList[1],
     left: propertySpeciesList[1],
   },
 
-  cssWriteFunction: (send_propertyName: string, send_cssValueList: { [name: string]: string }) => {
+  cssWriteFunction: (send_propertyName: string, send_cssPropertySpeciesList: { [name: string]: string }) => {
     const rtext = textJoinAnimatorGroup([
       send_propertyName,
       ":",
-      send_cssValueList["top"],
-      send_cssValueList["right"],
-      send_cssValueList["bottom"],
-      send_cssValueList["left"],
+      send_cssPropertySpeciesList["top"],
+      send_cssPropertySpeciesList["right"],
+      send_cssPropertySpeciesList["bottom"],
+      send_cssPropertySpeciesList["left"],
       ";",
     ]);
     return rtext;

@@ -1,13 +1,12 @@
 import * as React from "react";
-const { useState, useRef, useEffect, useContext, useReducer, createContext } =
-  React;
+const { useState, useRef, useEffect, useContext, useReducer, createContext } = React;
 
 import * as InMediaObjectArea from "./InMediaObjectArea";
 
 import UUID from "uuidjs";
 
 import { AppContext } from "../AppContext";
-import { MediaObjectContext ,TimelineAreaDivContext} from "./timelineContext";
+import { MediaObjectContext, TimelineAreaDivContext } from "./timelineContext";
 import * as InMediaObjectLayerPanel from "./InMediaObjectLayerPanel";
 import * as MediaObjectAreaSpaceComponent from "./MediaObjectSpace";
 // {componentGenerateMediaObjectAreaSpace(index)}
@@ -15,25 +14,20 @@ import * as MediaObjectAreaSpaceComponent from "./MediaObjectSpace";
 export const MediaObjectAreaComponent = (props: any) => {
   const mediaObjectAreaElement = useRef<HTMLDivElement>(null);
 
-  const MediaObject_ID =
-    props.DownstreamMiddleDataMediaObject["MediaObject_ID"];
+  const MediaObject_ID = props.DownstreamMiddleDataMediaObject["MediaObject_ID"];
 
   const AppContextValue = useContext(AppContext);
   const TimelineAreaDivContextValue = useContext(TimelineAreaDivContext);
-  
-  const [animatorOpen, animatorOpenSetState] = useState<boolean>(
-    AppContextValue.getMediaObejctAnimatorOpen(MediaObject_ID)
-  );
+
+  const [animatorOpen, animatorOpenSetState] = useState<boolean>(AppContextValue.getMediaObejctAnimatorOpen(MediaObject_ID));
   const [staStylePos, StaSetState] = useState<number>(null);
   const [endStylePos, EndSetState] = useState<number>(null);
-
 
   useEffect(() => {
     // const ElementBoundingClientRect =
     // mediaObjectAreaElement.current.getBoundingClientRect();
     // const ElementLeft = ElementBoundingClientRect.left;
     // const ElementTop = ElementBoundingClientRect.top;
-
   }, []);
 
   useEffect(() => {
@@ -49,14 +43,13 @@ export const MediaObjectAreaComponent = (props: any) => {
   }, [staStylePos, endStylePos]);
 
   useEffect(() => {
-    AppContextValue.rewriteMediaObejctAnimatorOpen(MediaObject_ID,animatorOpen)
-    TimelineAreaDivContextValue.animationOpenUpdateDOM()
+    AppContextValue.rewriteMediaObejctAnimatorOpen(MediaObject_ID, animatorOpen);
+    TimelineAreaDivContextValue.animationOpenUpdateDOM();
   }, [animatorOpen]);
   useEffect(() => {
-    const openTemp = AppContextValue.getMediaObejctAnimatorOpen(MediaObject_ID)
-    animatorOpenSetState(openTemp)
+    const openTemp = AppContextValue.getMediaObejctAnimatorOpen(MediaObject_ID);
+    animatorOpenSetState(openTemp);
   }, [MediaObject_ID]);
-
 
   return (
     <>
@@ -82,9 +75,7 @@ export const MediaObjectAreaComponent = (props: any) => {
         </MediaObjectContext.Provider>
       </div>
 
-      <MediaObjectAreaSpaceComponent.switchMediaObjectAreaSpace
-        spaceIndex={props.indexMediaObejct + 1}
-      />
+      <MediaObjectAreaSpaceComponent.SwitchMediaObjectAreaSpace spaceIndex={props.indexMediaObejct + 1} />
     </>
   );
 };
