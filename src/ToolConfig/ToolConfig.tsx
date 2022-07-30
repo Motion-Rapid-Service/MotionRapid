@@ -248,8 +248,6 @@ const ToolConfigPopup = () => {
 
   const configMode = SetupConfigContextValue.configMode;
 
-  const [cssLeft, cssLeftSetState] = useState<number>(10);
-  const [cssTop, cssTopSetState] = useState<number>(10);
   // const [popupMoveFlag, popupMoveFlagSetState] = useState<boolean>(false);
 
   const mouseDown = (event: any) => {
@@ -258,7 +256,7 @@ const ToolConfigPopup = () => {
     const sX = event.clientX;
     const sY = event.clientY;
     toolConfigPopupClickStartPos = [sX, sY];
-    toolConfigPopupLeftTopStartPos = [cssLeft, cssTop];
+    toolConfigPopupLeftTopStartPos = [SetupConfigContextValue.cssLeft, SetupConfigContextValue.cssTop];
 
     console.log(sX, sY, toolConfigPopupClickStartPos, toolConfigPopupLeftTopStartPos);
   };
@@ -278,8 +276,8 @@ const ToolConfigPopup = () => {
 
     console.log(moveX, moveY);
 
-    cssLeftSetState(moveX);
-    cssTopSetState(moveY);
+    SetupConfigContextValue.cssLeftSetState(moveX);
+    SetupConfigContextValue.cssTopSetState(moveY);
   };
   const mouseUp = () => {
     // popupMoveFlagSetState(false);
@@ -300,8 +298,8 @@ const ToolConfigPopup = () => {
       <div
         className="tool_config-popup"
         style={{
-          left: cssLeft + "px",
-          top: cssTop + "px",
+          left: SetupConfigContextValue.cssLeft + "px",
+          top: SetupConfigContextValue.cssTop + "px",
         }}
       >
         <div className="tool_config-area-title" onMouseDown={mouseDown}>

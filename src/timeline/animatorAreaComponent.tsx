@@ -5,6 +5,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import * as timelineMousePosition from "./timeLineMousePosition";
 import { AppContext } from "./../AppContext";
 import { MediaObjectContext, LayerPanelContext, LayerDurationContext } from "./timelineContext";
+import { SetupConfigContext } from "../SetupEditor/SetupConfigContext";
 
 import * as MiddleDataOperationType from "./../MiddleData/middleDataOperationType";
 
@@ -30,6 +31,8 @@ export const KeyFrameComponent = (props: any) => {
   const mediaObjectAreaElement = MediaObjectContextValue.mediaObjectAreaElement as any;
   const animatorOpen = MediaObjectContextValue.animatorOpen as boolean;
   const LayerDurationContextValue = useContext(LayerDurationContext);
+
+  const SetupConfigContextValue = useContext(SetupConfigContext);
 
   const keyframeMouseMoveAction = (event: any) => {
     if (!(keyframeUUID in UserHandKeyframeList)) {
@@ -81,10 +84,21 @@ export const KeyFrameComponent = (props: any) => {
     };
   }, [keyframeUUID]);
 
+  const mouseDoubleClick = (event: any) => {
+    const clientX = event.clientX;
+    const clientY = event.clientY;
+
+    SetupConfigContextValue.cssLeftSetState(clientX + 10);
+    SetupConfigContextValue.cssTopSetState(clientY + 10);
+
+    SetupConfigContextValue.configModeSetState(SetupConfigContextValue.configModeList[2]);
+    SetupConfigContextValue.configSwitchGUISetState(SetupConfigContextValue.configSwitchGUIList[2]);
+  };
+
   // if (animatorOpen) {
   return (
     <div className="keyframe-area" onMouseDown={MouseDown}>
-      <div className="keyframe-entity" draggable="false" style={{ left: keyframeStylePos }}></div>
+      <div className="keyframe-entity" draggable="false" onDoubleClick={mouseDoubleClick} style={{ left: keyframeStylePos }}></div>
     </div>
   );
   // } else {

@@ -16,6 +16,9 @@ const SetupConfig = () => {
   const configSwitchGUIList = ["not", "large", "popup"];
   const [configSwitchGUI, configSwitchGUISetState] = useState<string>(configSwitchGUIList[0]);
 
+  const [cssLeft, cssLeftSetState] = useState<number>(10);
+  const [cssTop, cssTopSetState] = useState<number>(10);
+
   useEffect(() => {
     console.log("configSwitchGUI", configSwitchGUI);
   }, [configSwitchGUI]);
@@ -32,6 +35,11 @@ const SetupConfig = () => {
         configSwitchGUI: configSwitchGUI,
         configSwitchGUISetState: configSwitchGUISetState,
         configSwitchGUIList: configSwitchGUIList,
+
+        cssLeft: cssLeft,
+        cssLeftSetState: cssLeftSetState,
+        cssTop: cssTop,
+        cssTopSetState: cssTopSetState,
       }}
     >
       <SetupToolbar />
