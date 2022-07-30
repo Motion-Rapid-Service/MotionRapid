@@ -3,7 +3,7 @@ const { useContext, useReducer, createContext, useEffect, useState } = React;
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import { AppContext } from "../AppContext";
-import { SetupConfigContext  } from "./../SetupEditor/SetupConfigContext";
+import { SetupConfigContext } from "./../SetupEditor/SetupConfigContext";
 import * as ToolConfigContext from "./ToolConfigContext";
 
 const ConfigSelectOption = (props: any) => {
@@ -13,16 +13,16 @@ const ConfigSelectOption = (props: any) => {
 export const ConfigSelect = () => {
   const SwitchConfigSettingItemsCompositeContextValue = useContext(ToolConfigContext.SwitchConfigSettingItemsCompositeContext);
 
-  const onChange = (event:any) => {
+  const onChange = (event: any) => {
     const selectValue = Number(event.target.value);
-    const thisExposeValue = SwitchConfigSettingItemsCompositeContextValue.exposeValue[selectValue]
+    const thisExposeValue = SwitchConfigSettingItemsCompositeContextValue.exposeValue[selectValue];
     SwitchConfigSettingItemsCompositeContextValue.configInputSetState(thisExposeValue);
-  }
+  };
 
   return (
     <select onChange={onChange}>
       {SwitchConfigSettingItemsCompositeContextValue.exposeValue.map((output, index) => (
-        <ConfigSelectOption output={output} index={index} key={index}/>
+        <ConfigSelectOption output={output} index={index} key={index} />
       ))}
     </select>
   );
@@ -49,11 +49,11 @@ export const ConfigButton = (props: any) => {
     //マウスがクリックされたとき
     SetupConfigContextValue.configModeSetState(SetupConfigContextValue.configModeList[0]);
     props.buttonOperationFunc();
-    ConfigModeContextValue.configContentInit()
+    ConfigModeContextValue.configContentInit();
   };
 
   return (
-    <div className="tool_config-area-button" onMouseDown={mouseDown}>
+    <div className="config_parts-button" onMouseDown={mouseDown}>
       <p>{props.text}</p>
     </div>
   );

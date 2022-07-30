@@ -92,7 +92,7 @@ const ConfigButtonBottm = (props: any) => {
   );
 };
 
-const SwitchConfigMode = (props: any) => {
+const ComponentOptionConvertConfigMode = (props: any) => {
   //設定項目を画面上に反映させるための場所 必要な情報を引き継いで配列に挿入する
   const configMode: string = props.configMode;
   const configModeList: Array<string> = props.configModeList;
@@ -103,6 +103,7 @@ const SwitchConfigMode = (props: any) => {
   let settingItemsTemp: Array<ToolConfigContext.settingItemsData> = [];
   let buttonOperationFunc: Function = () => {}; //これは上書きされる
 
+  //コンポジットの設定
   if (configMode === configModeList[1]) {
     const configItemCompositeName: string = ToolConfigContext.ConfigItemNewComposite[0];
     const configItemCompositeMode: string = ToolConfigContext.ConfigItemNewComposite[2];
@@ -131,6 +132,7 @@ const SwitchConfigMode = (props: any) => {
     settingItemsTemp.push(settingItemsDataCompositeName2);
   }
 
+  //アニメータグループの追加
   if (configMode == configModeList[2]) {
     const configItemAnimatorGroupFormatSpecies: string = ToolConfigContext.ConfigItemNewAnimatorGroup[0];
 
@@ -163,6 +165,8 @@ const SwitchConfigMode = (props: any) => {
     settingItemsTemp.push(settingItemsDataAnimatorGroupFormat);
   }
 
+  const cssMinHeight = "calc((" + props.cssAreaViewHeight + " - 60px))";
+
   return (
     <>
       <ToolConfigContext.ConfigModeContext.Provider
@@ -174,7 +178,12 @@ const SwitchConfigMode = (props: any) => {
           buttonOperationFunc: buttonOperationFunc,
         }}
       >
-        <div className="tool_config-area-switch_config">
+        <div
+          className="tool_config-area-switch_config"
+          style={{
+            minHeight: cssMinHeight,
+          }}
+        >
           <ConfigSettingItemsComposite />
         </div>
 
@@ -184,7 +193,7 @@ const SwitchConfigMode = (props: any) => {
   );
 };
 
-const ToolConfigAreaLarge = () => {
+const ToolConfigArea = (props: any) => {
   const SetupConfigContextValue = useContext(SetupConfigContext);
 
   const configMode = SetupConfigContextValue.configMode;
@@ -193,18 +202,117 @@ const ToolConfigAreaLarge = () => {
   const configSwitchGUI = SetupConfigContextValue.configSwitchGUI;
   const configSwitchGUIList = SetupConfigContextValue.configSwitchGUIList;
 
+  const cssAreaViewHeight: string = props.cssAreaViewHeight;
+
   return (
     <>
-      <div className="tool_config-area-title">
-        <div className="text">
-          <p>config mode {configMode}</p>
-        </div>
-      </div>
-
-      <div className="tool_config-area-view">
-        <SwitchConfigMode configMode={configMode} configModeList={configModeList} />
+      <div
+        className="tool_config-area-view"
+        style={{
+          height: cssAreaViewHeight,
+        }}
+      >
+        <ComponentOptionConvertConfigMode configMode={configMode} configModeList={configModeList} cssAreaViewHeight={cssAreaViewHeight} />
       </div>
     </>
+  );
+};
+
+const ToolConfigLarge = () => {
+  const SetupConfigContextValue = useContext(SetupConfigContext);
+
+  const configMode = SetupConfigContextValue.configMode;
+
+  return (
+    <div className="tool_config-large-background">
+      <div className="tool_config-large">
+        <div className="tool_config-area-title">
+          <div className="text">
+            <p>config mode {configMode}</p>
+          </div>
+        </div>
+
+        <ToolConfigArea cssAreaViewHeight="80vh" />
+      </div>
+    </div>
+  );
+};
+
+let toolConfigPopupClickStartPos: Array<number> = [null, null];
+let toolConfigPopupLeftTopStartPos: Array<number> = [null, null];
+
+let popupMoveFlag: boolean = false;
+
+const ToolConfigPopup = () => {
+  const SetupConfigContextValue = useContext(SetupConfigContext);
+
+  const configMode = SetupConfigContextValue.configMode;
+
+  const [cssLeft, cssLeftSetState] = useState<number>(10);
+  const [cssTop, cssTopSetState] = useState<number>(10);
+  // const [popupMoveFlag, popupMoveFlagSetState] = useState<boolean>(false);
+
+  const mouseDown = (event: any) => {
+    // popupMoveFlagSetState(true);
+    popupMoveFlag = true;
+    const sX = event.clientX;
+    const sY = event.clientY;
+    toolConfigPopupClickStartPos = [sX, sY];
+    toolConfigPopupLeftTopStartPos = [cssLeft, cssTop];
+
+    console.log(sX, sY, toolConfigPopupClickStartPos, toolConfigPopupLeftTopStartPos);
+  };
+
+  const mouseMove = (event: any) => {
+    if (!popupMoveFlag) {
+      return;
+    }
+
+    console.log("mouseMoveB");
+
+    const clientX = event.clientX;
+    const clientY = event.clientY;
+
+    const moveX = clientX - toolConfigPopupClickStartPos[0] + toolConfigPopupLeftTopStartPos[0];
+    const moveY = clientY - toolConfigPopupClickStartPos[1] + toolConfigPopupLeftTopStartPos[1];
+
+    console.log(moveX, moveY);
+
+    cssLeftSetState(moveX);
+    cssTopSetState(moveY);
+  };
+  const mouseUp = () => {
+    // popupMoveFlagSetState(false);
+    popupMoveFlag = false;
+  };
+
+  useEffect(() => {
+    window.addEventListener("mousemove", mouseMove);
+    window.addEventListener("mouseup", mouseUp);
+    return () => {
+      window.removeEventListener("mousemove", mouseMove);
+      window.removeEventListener("mouseup", mouseUp);
+    };
+  }, []);
+
+  return (
+    <div className="tool_config-popup-background">
+      <div
+        className="tool_config-popup"
+        style={{
+          left: cssLeft + "px",
+          top: cssTop + "px",
+        }}
+      >
+        <div className="tool_config-area-title" onMouseDown={mouseDown}>
+          <div className="text">
+            <p>config mode {configMode}</p>
+          </div>
+        </div>
+
+        <ToolConfigArea cssAreaViewHeight="200px" />
+      </div>
+    </div>
   );
 };
 
@@ -226,23 +334,11 @@ const SwitchConfigBackGrounde = () => {
   }
 
   if (configSwitchGUI === configSwitchGUIList[1]) {
-    return (
-      <div className="tool_config-large-background">
-        <div className="tool_config-large">
-          <ToolConfigAreaLarge />
-        </div>
-      </div>
-    );
+    return <ToolConfigLarge />;
   }
 
   if (configSwitchGUI === configSwitchGUIList[2]) {
-    return (
-      <div className="tool_config-popup-background">
-        <div className="tool_config-popup">
-          <ToolConfigAreaLarge />
-        </div>
-      </div>
-    );
+    return <ToolConfigPopup />;
   }
 };
 

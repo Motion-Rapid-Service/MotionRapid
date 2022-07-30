@@ -7,3 +7,26 @@
   background-color: rgb(60, 60, 60);
   color: rgb(255, 255, 255);
 }
+
+.config_parts-button {
+  /* position: relative; */
+  border-radius: 20px;
+  margin-right: 10px;
+  min-width: 160px;
+  padding-left: 10px;
+  padding-right: 10px;
+  height: 30px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 2px solid;
+
+  border-color: rgb(255, 255, 255);
+}
+.config_parts-button p {
+  color: rgb(255, 255, 255);
+  /* position: absolute; */
+  margin: 0px;
+}

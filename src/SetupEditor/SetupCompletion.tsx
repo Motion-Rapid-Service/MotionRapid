@@ -23,10 +23,11 @@ const SetupCompletion = () => {
   const [configStyle, configStyleSetState] = useState<React.CSSProperties>({});
 
   useEffect(() => {
-    if (configMode === configModeList[0]) {
+    //configSwitchGUIによる、ほかのdiv要素内への影響について設定をする
+    if (configMode === configSwitchGUIList[0]) {
       const styleTemp: React.CSSProperties = {};
       configStyleSetState(styleTemp);
-    } else if (configSwitchGUI === configSwitchGUIList[0]) {
+    } else if (configSwitchGUI === configSwitchGUIList[1]) {
       const styleTemp: React.CSSProperties = {
         position: "fixed",
       };
@@ -42,7 +43,9 @@ const SetupCompletion = () => {
         <CompositeEditorComponent />
         <TimelineComponent />
       </div>
-      <ToolConfigComponent />
+      <div>
+        <ToolConfigComponent />
+      </div>
     </>
   );
 };
