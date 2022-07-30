@@ -165,6 +165,19 @@ const ComponentOptionConvertConfigMode = (props: any) => {
     settingItemsTemp.push(settingItemsDataAnimatorGroupFormat);
   }
 
+  //キーフレームの設定
+  if (configMode == configModeList[3]) {
+    buttonOperationFunc = () => {};
+
+    const settingItemsDataKeyframeTime: ToolConfigContext.settingItemsData = {
+      settingTitle: "時間を",
+      settingMessage: "入力してください",
+      thenConfigSettingGUIparts: ToolConfigContext.configSettingGUIparts[1],
+      exposeValue: [100],
+      configItem: "明日ここやる",
+    };
+  }
+
   const cssMinHeight = "calc((" + props.cssAreaViewHeight + " - 60px))";
 
   return (

@@ -10,7 +10,7 @@ import { SetupConfigContext } from "./SetupConfigContext";
 //ここから ツールバー処理用のクラス
 
 const SetupConfig = () => {
-  const configModeList = ["not", "newComposite", "newAnimatorGroup"];
+  const configModeList = ["not", "newComposite", "newAnimatorGroup", "operationKeyframe"];
   const [configMode, configModeSetState] = useState<string>(configModeList[0]);
 
   const configSwitchGUIList = ["not", "large", "popup"];
