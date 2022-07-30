@@ -17,7 +17,7 @@ import * as animatorGroupFormat from "./../AnimatorGroupFormat/AnimatorGroupForm
 //     return ()
 // }
 
-const configContent: { [name: string]: string | number | boolean } = {};
+const configContent: { [name: string]: string | number | boolean } = {}; //画面で設定されている、設定項目と現在選択されている要素が入っている
 
 const configContentInit = () => {
   for (let key in configContent) {
@@ -26,17 +26,19 @@ const configContentInit = () => {
 };
 
 const SwitchConfigSettingItemsComposite = (props: any) => {
+  //GUIpartsを切り替える
   const settingItemsData: ToolConfigContext.settingItemsData = props.settingItemsData;
 
-  if (settingItemsData.thisConfigSettingGUI == ToolConfigContext.configSettingGUI[1]) {
+  if (settingItemsData.thenConfigSettingGUIparts == ToolConfigContext.configSettingGUIparts[1]) {
     return <ToolConfigParts.ConfigTextBox />;
   }
-  if (settingItemsData.thisConfigSettingGUI == ToolConfigContext.configSettingGUI[3]) {
+  if (settingItemsData.thenConfigSettingGUIparts == ToolConfigContext.configSettingGUIparts[3]) {
     return <ToolConfigParts.ConfigSelect />;
   }
 };
 
 const ConfigSettingItemsCompositeEntity = (props: any) => {
+  //設定項目ごとに分けているコンポーネント
   const settingItemsData = props.output;
   const [configInput, configInputSetState] = useState<string | number | boolean>(settingItemsData.exposeValue[0]);
   const ConfigModeContextValue = useContext(ToolConfigContext.ConfigModeContext);
@@ -65,6 +67,7 @@ const ConfigSettingItemsCompositeEntity = (props: any) => {
 };
 
 const ConfigSettingItemsComposite = () => {
+  //設定項目をすべて生成するコンポーネント
   const ConfigModeContextValue = useContext(ToolConfigContext.ConfigModeContext);
 
   return (
@@ -78,6 +81,7 @@ const ConfigSettingItemsComposite = () => {
 };
 
 const ConfigButtonBottm = (props: any) => {
+  //右下の決定button
   const ConfigModeContextValue = useContext(ToolConfigContext.ConfigModeContext);
 
   return (
@@ -89,24 +93,16 @@ const ConfigButtonBottm = (props: any) => {
 };
 
 const SwitchConfigMode = (props: any) => {
+  //設定項目を画面上に反映させるための場所 必要な情報を引き継いで配列に挿入する
   const configMode: string = props.configMode;
   const configModeList: Array<string> = props.configModeList;
   const AppContextValue = useContext(AppContext);
 
   const SetupEditorContextValue = useContext(SetupEditorContext);
 
-  // const [configContent, configContentSetState] = useState<{
-  //   [name: string]: string | number | boolean;
-  // }>({});
-
-  // const configContentSetStateValue = (send_key: string, send_value: string | number | boolean) => {
-  //   const CopyConfigContent = JSON.parse(JSON.stringify(configContent)); //深いコピーをしなければならない
-
-  //   configContentSetState(CopyConfigContent);
-  // };
-
   let settingItemsTemp: Array<ToolConfigContext.settingItemsData> = [];
   let buttonOperationFunc: Function = () => {}; //これは上書きされる
+
   if (configMode === configModeList[1]) {
     const configItemCompositeName: string = ToolConfigContext.ConfigItemNewComposite[0];
     const configItemCompositeMode: string = ToolConfigContext.ConfigItemNewComposite[2];
@@ -119,7 +115,7 @@ const SwitchConfigMode = (props: any) => {
     const settingItemsDataCompositeName: ToolConfigContext.settingItemsData = {
       settingTitle: "コンポジット名",
       settingMessage: "入力してください",
-      thisConfigSettingGUI: ToolConfigContext.configSettingGUI[1],
+      thenConfigSettingGUIparts: ToolConfigContext.configSettingGUIparts[1],
       exposeValue: ["newComposite"],
       configItem: configItemCompositeName,
     };
@@ -127,7 +123,7 @@ const SwitchConfigMode = (props: any) => {
     const settingItemsDataCompositeName2: ToolConfigContext.settingItemsData = {
       settingTitle: "コンポジット名",
       settingMessage: "選択してください",
-      thisConfigSettingGUI: ToolConfigContext.configSettingGUI[3],
+      thenConfigSettingGUIparts: ToolConfigContext.configSettingGUIparts[3],
       exposeValue: Object.assign(middleDataClass.Composite_Mode),
       configItem: configItemCompositeMode,
     };
@@ -144,11 +140,11 @@ const SwitchConfigMode = (props: any) => {
       const newAnimatorGroupSpecies = configContent[configItemAnimatorGroupFormatSpecies]; //どのanimatorgroupを追加するか 一般の動画編集ソフトでエフェクトに当たる
 
       for (let i = 0; i < userHandMediaObjectIDArray.length; i++) {
-        const thisMediaObjectKey = userHandMediaObjectIDArray[i];
-        console.log("thisMediaObjectKey", thisMediaObjectKey, userHandMediaObjectIDArray);
+        const thenMediaObjectKey = userHandMediaObjectIDArray[i];
+        console.log("thenMediaObjectKey", thenMediaObjectKey, userHandMediaObjectIDArray);
 
         const animatorGroupID = AppContextValue.createAnimatorGroup(newAnimatorGroupSpecies);
-        AppContextValue.linkAnimatorGroup(thisMediaObjectKey, animatorGroupID);
+        AppContextValue.linkAnimatorGroup(thenMediaObjectKey, animatorGroupID);
 
         AppContextValue.operationAnimatorGroup(animatorGroupID, newAnimatorGroupSpecies);
       }
@@ -159,7 +155,7 @@ const SwitchConfigMode = (props: any) => {
     const settingItemsDataAnimatorGroupFormat: ToolConfigContext.settingItemsData = {
       settingTitle: "追加するAnimatorGroupを選択してください",
       settingMessage: "選択してください",
-      thisConfigSettingGUI: ToolConfigContext.configSettingGUI[3],
+      thenConfigSettingGUIparts: ToolConfigContext.configSettingGUIparts[3],
       exposeValue: animatorGroupFormat.getAnimatorGroupFormatListKey(),
       configItem: configItemAnimatorGroupFormatSpecies,
     };
@@ -188,30 +184,66 @@ const SwitchConfigMode = (props: any) => {
   );
 };
 
-const SwitchConfigBackGrounde = () => {
+const ToolConfigAreaLarge = () => {
   const SetupConfigContextValue = useContext(SetupConfigContext);
+
   const configMode = SetupConfigContextValue.configMode;
   const configModeList = SetupConfigContextValue.configModeList;
+
+  const configSwitchGUI = SetupConfigContextValue.configSwitchGUI;
+  const configSwitchGUIList = SetupConfigContextValue.configSwitchGUIList;
+
+  return (
+    <>
+      <div className="tool_config-area-title">
+        <div className="text">
+          <p>config mode {configMode}</p>
+        </div>
+      </div>
+
+      <div className="tool_config-area-view">
+        <SwitchConfigMode configMode={configMode} configModeList={configModeList} />
+      </div>
+    </>
+  );
+};
+
+const SwitchConfigBackGrounde = () => {
+  const SetupConfigContextValue = useContext(SetupConfigContext);
+
+  const configMode = SetupConfigContextValue.configMode;
+  const configModeList = SetupConfigContextValue.configModeList;
+
+  const configSwitchGUI = SetupConfigContextValue.configSwitchGUI;
+  const configSwitchGUIList = SetupConfigContextValue.configSwitchGUIList;
 
   if (configMode === configModeList[0]) {
     return <></>;
   }
 
-  return (
-    <div className="tool_config-area-background">
-      <div className="tool_config-area">
-        <div className="tool_config-area-title">
-          <div className="text">
-            <p>config mode {configMode}</p>
-          </div>
-        </div>
+  if (configSwitchGUI === configSwitchGUIList[0]) {
+    return <p>configSwitchGUIが設定されていません</p>;
+  }
 
-        <div className="tool_config-area-view">
-          <SwitchConfigMode configMode={configMode} configModeList={configModeList} />
+  if (configSwitchGUI === configSwitchGUIList[1]) {
+    return (
+      <div className="tool_config-large-background">
+        <div className="tool_config-large">
+          <ToolConfigAreaLarge />
         </div>
       </div>
-    </div>
-  );
+    );
+  }
+
+  if (configSwitchGUI === configSwitchGUIList[2]) {
+    return (
+      <div className="tool_config-popup-background">
+        <div className="tool_config-popup">
+          <ToolConfigAreaLarge />
+        </div>
+      </div>
+    );
+  }
 };
 
 const ToolConfigComponent = () => {

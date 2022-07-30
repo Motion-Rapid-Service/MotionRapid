@@ -88,6 +88,7 @@ const toolBarComponent = (props: any) => {
 
   const toolBarCreateComposite = (funcdata: { [name: string]: any }) => {
     SetupConfigContextValue.configModeSetState(SetupConfigContextValue.configModeList[1]);
+    SetupConfigContextValue.configSwitchGUISetState(SetupConfigContextValue.configSwitchGUIList[1]);
   };
 
   const toolBarCreateMediaObjectText = (funcdata: { [name: string]: any }) => {
@@ -98,6 +99,7 @@ const toolBarComponent = (props: any) => {
 
   const toolBarCreateAnimatorGroup = (funcdata: { [name: string]: any }) => {
     SetupConfigContextValue.configModeSetState(SetupConfigContextValue.configModeList[2]);
+    SetupConfigContextValue.configSwitchGUISetState(SetupConfigContextValue.configSwitchGUIList[1]);
   };
 
   useEffect(() => {

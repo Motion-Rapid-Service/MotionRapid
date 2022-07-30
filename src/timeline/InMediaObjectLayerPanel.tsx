@@ -9,6 +9,8 @@ import { SetupEditorContext } from "./../SetupEditor/SetupEditorContext";
 // import { timelineMousePosition ,timelineLayerPanelPostion} from "./timeLineMousePosition";
 import * as timelineMousePosition from "./timeLineMousePosition";
 
+import * as MiddleDataOperationType from "./../MiddleData/middleDataOperationType";
+
 class UserHandLayerPanelOperation {
   mousePushPos: number; //マウスが押された時のマウス座標
   //mouseDownKeyframeStyle: number; //マウスが押された時のメディアオブジェクト開始地点
@@ -38,7 +40,7 @@ const SwitchTimelineAreaLayerPanelComponent = (props: any) => {
     const yPosHeight = [positon[1], positon[1] + size[1]];
 
     TimelineAreaDivContextValue.mediaObejctDivHeightSetStateValue(MediaObjectContextValue.mediaObejctIndex, yPosHeight);
-  }, [MediaObjectContextValue.mediaObjectUUID, animatorOpen, , TimelineAreaDivContextValue.animationOpenUpdate]);
+  }, [AppContextValue.update, MediaObjectContextValue.mediaObjectUUID, animatorOpen, TimelineAreaDivContextValue.animationOpenUpdate]);
 
   if (animatorOpen) {
     return (
@@ -171,7 +173,24 @@ export const LayerPanelAnimaterComponent = (props: any) => {
   const propertySpecies: string = DownstreamMiddleDataAnimator.propertySpecies;
   return (
     <div className="layer_panel-animator-entity">
+      <AnimaterInsertKeyframeButton Animator_ID={Animator_ID} />
       <p>{propertySpecies}</p>
     </div>
   );
+};
+
+export const AnimaterInsertKeyframeButton = (props: any) => {
+  const AppContextValue = useContext(AppContext);
+
+  const mouseDown = () => {
+    const Animator_ID = props.Animator_ID;
+    const keyframeID: string = AppContextValue.createKeyframe();
+    AppContextValue.linkKeyframe(Animator_ID, keyframeID);
+
+    const temp: MiddleDataOperationType.OperationKeyframeTimeType = { KeyframeID: keyframeID, time: 100 };
+
+    AppContextValue.operationKeyframeTime(temp);
+    AppContextValue.updateDOM();
+  };
+  return <div className="layer_panel-animator-entity-insert_keyframe_button" onMouseDown={mouseDown}></div>;
 };

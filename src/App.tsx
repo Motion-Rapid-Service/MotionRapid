@@ -74,11 +74,11 @@ middleDataOperation.createDataCentral();
 
 //   for (let j = 1; j <= i; j++) {
 //     let addClass;
-//     if (i !== 1 && j === 1) {
-//       addClass = new buildSourceType.SourceTypeCompositeClass(old_CompositeID);
+//     if (i !== 1 && j === 1) {\
+//       addClass = new buildSourceType.SourceSpeciesCompositeClass(old_CompositeID);
 //       console.log(i, j, old_CompositeID);
 //     } else {
-//       addClass = new buildSourceType.SourceTypeTextClass("( 'ω')" + i + " " + j, 10, "font");
+//       addClass = new buildSourceType.SourceSpeciesTextClass("( 'ω')" + i + " " + j, 10, "font");
 //     }
 //     const t_MediaObjectID = middleDataOperation.createMediaObject(addClass);
 //     middleDataOperation.linkMediaObject(t_CompositeID, t_MediaObjectID);
@@ -109,10 +109,10 @@ const componentConvertCompositeChoiceArea = () => {
   const middleDataCompositeTemp = [];
 
   for (let i = 0; i < compositeIDArray.length; i++) {
-    const thisCompositeClass = middleDataOperation.getOwnedClassComposite(compositeIDArray[i]);
+    const thenCompositeClass = middleDataOperation.getOwnedClassComposite(compositeIDArray[i]);
     middleDataCompositeTemp.push({
       Composite_ID: compositeIDArray[i],
-      Composite_Name: thisCompositeClass.Composite_Name,
+      Composite_Name: thenCompositeClass.Composite_Name,
     });
   }
 
@@ -184,9 +184,9 @@ const deepCopyDict = (ary: { [name: string | number]: any }) => {
   const aryValues = Object.values(ary);
   let temp: { [name: string | number]: any } = {};
   for (let i = 0; i < aryKeys.length; i++) {
-    const thisKey: string | number = aryKeys[i];
-    const thisValue = aryValues[i];
-    temp[thisKey] = thisValue;
+    const thenKey: string | number = aryKeys[i];
+    const thenValue = aryValues[i];
+    temp[thenKey] = thenValue;
   }
   return temp;
 };
@@ -216,6 +216,7 @@ const App = () => {
           componentConvertAnimatorArea: componentConvertAnimatorArea,
           componentConvertKeyframeArea: componentConvertKeyframeArea,
 
+          update: update,
           updateDOM: updateDOM,
           operationMediaObjectTime: middleDataOperation.operationMediaObjectTime,
           operationKeyframeTime: middleDataOperation.operationKeyframeTime,
@@ -224,6 +225,7 @@ const App = () => {
           getMediaObjectTime: middleDataOperation.getMediaObjectTime,
           getMediaObjectSourceSpecies: middleDataOperation.getMediaObjectSourceSpecies,
           getKeyframeTime: middleDataOperation.getKeyframeTime,
+
           fileExportDataCentral: middleDataOperation.fileExportDataCentral,
           fileExportComposite: middleDataOperation.fileExportComposite,
           // htmlBuildMain:htmlBuildMain

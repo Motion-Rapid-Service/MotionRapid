@@ -10,8 +10,15 @@ import { SetupConfigContext } from "./SetupConfigContext";
 //ここから ツールバー処理用のクラス
 
 const SetupConfig = () => {
-  const configModeList = ["not", "newComposite","newAnimatorGroup"];
+  const configModeList = ["not", "newComposite", "newAnimatorGroup"];
   const [configMode, configModeSetState] = useState<string>(configModeList[0]);
+
+  const configSwitchGUIList = ["not", "large", "popup"];
+  const [configSwitchGUI, configSwitchGUISetState] = useState<string>(configSwitchGUIList[0]);
+
+  useEffect(() => {
+    console.log("configSwitchGUI", configSwitchGUI);
+  }, [configSwitchGUI]);
 
   useEffect(() => {}, [configMode]);
 
@@ -21,6 +28,10 @@ const SetupConfig = () => {
         configMode: configMode,
         configModeSetState: configModeSetState,
         configModeList: configModeList,
+
+        configSwitchGUI: configSwitchGUI,
+        configSwitchGUISetState: configSwitchGUISetState,
+        configSwitchGUIList: configSwitchGUIList,
       }}
     >
       <SetupToolbar />

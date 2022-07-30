@@ -6,6 +6,8 @@ import * as timelineMousePosition from "./timeLineMousePosition";
 import { AppContext } from "./../AppContext";
 import { MediaObjectContext, LayerPanelContext, LayerDurationContext } from "./timelineContext";
 
+import * as MiddleDataOperationType from "./../MiddleData/middleDataOperationType";
+
 class UserHandKeyframeOperation {
   mousePushPos: number; //マウスが押された時のマウス座標
   mouseDownKeyframeStyle: number; //マウスが押された時のメディアオブジェクト開始地点
@@ -57,10 +59,12 @@ export const KeyFrameComponent = (props: any) => {
       return;
     }
 
-    AppContextValue.operationKeyframeTime({
+    const temp: MiddleDataOperationType.OperationKeyframeTimeType = {
       KeyframeID: keyframeUUID,
       time: keyframeStylePos,
-    });
+    };
+
+    AppContextValue.operationKeyframeTime(temp);
   }, [keyframeStylePos]);
 
   useEffect(() => {

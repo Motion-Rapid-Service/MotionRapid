@@ -10,6 +10,7 @@ type AppContextValue = {
   componentConvertAnimatorArea: Function;
   componentConvertKeyframeArea: Function;
 
+  update: boolean;
   updateDOM: Function;
   operationMediaObjectTime: Function;
   operationKeyframeTime: Function;

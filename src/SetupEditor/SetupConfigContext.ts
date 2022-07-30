@@ -2,9 +2,13 @@ import * as React from "react";
 const { createContext } = React;
 
 type SetupConfigContextValue = {
-    configMode:string
-    configModeSetState:Function
-    configModeList:Array<string>
+  configMode: string;
+  configModeSetState: Function;
+  configModeList: Array<string>;
+
+  configSwitchGUI: string;
+  configSwitchGUISetState: Function;
+  configSwitchGUIList: Array<string>;
 };
 
 export const SetupConfigContext = createContext<SetupConfigContextValue>({} as SetupConfigContextValue);

@@ -30,6 +30,9 @@
   --keyfrmae-size: 20;
   /* キーフレームレイヤーの高さ */
 
+  --animator-button-height: 18px;
+  /* レイヤーパネルにある、アニメーターのbuttonなどの高さ */
+
   display: flex;
 }
 

@@ -2,7 +2,7 @@ import * as React from "react";
 const { useContext, useReducer, createContext, useEffect, useState } = React;
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-export const configSettingGUI: Array<string> = ["not", "textbox", "textboxNumber", "listBox", "checkBox", "radiobutton"];
+export const configSettingGUIparts: Array<string> = ["not", "textbox", "textboxNumber", "listBox", "checkBox", "radiobutton"];
 
 type SwitchConfigSettingItemsCompositeContextValue = {
   configInput: string;
@@ -19,7 +19,7 @@ export type settingItemsData = {
   settingTitle: string;
   settingMessage: string;
   //   buttonFunc: Function;
-  thisConfigSettingGUI: string;
+  thenConfigSettingGUIparts: string;
   exposeValue: Array<string> | Array<number> | Array<boolean>; //exposeは公開という意味があるけど、正しいのか
   configItem: string;
 };
@@ -43,6 +43,7 @@ export type ConfigItemType = {
 export const ConfigItemNewComposite: Array<string> = ["compositeName", "compositeTime", "compositeMode"];
 export const ConfigItemNewAnimatorGroup: Array<string> = ["animatorGroupFormatSpecies"];
 
+export const ConfigSettingDisplay: Array<string> = [""];
 // export type ConfigItemNewComposite = {
 //   compositeName: "";
 //   compositeTime: "";

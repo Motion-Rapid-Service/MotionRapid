@@ -13,8 +13,12 @@ import { SetupConfigContext } from "./SetupConfigContext";
 
 const SetupCompletion = () => {
   const SetupConfigContextValue = useContext(SetupConfigContext);
+
   const configMode = SetupConfigContextValue.configMode;
   const configModeList = SetupConfigContextValue.configModeList;
+
+  const configSwitchGUI = SetupConfigContextValue.configSwitchGUI;
+  const configSwitchGUIList = SetupConfigContextValue.configSwitchGUIList;
 
   const [configStyle, configStyleSetState] = useState<React.CSSProperties>({});
 
@@ -22,7 +26,7 @@ const SetupCompletion = () => {
     if (configMode === configModeList[0]) {
       const styleTemp: React.CSSProperties = {};
       configStyleSetState(styleTemp);
-    } else {
+    } else if (configSwitchGUI === configSwitchGUIList[0]) {
       const styleTemp: React.CSSProperties = {
         position: "fixed",
       };

@@ -1,5 +1,4 @@
 .media_object-area-layer_panel {
-  /* position: absolute; */
 }
 
 .media_object-area-layer_panel .layer_panel-entity {
@@ -11,6 +10,10 @@
 .media_object-area-layer_panel p {
   margin: 0px;
   font-size: 5px;
+  height: var(--animator-height);
+
+  display: flex;
+  align-items: center;
 }
 
 .layer_panel-animator .layer_panel-animator-entity,
@@ -21,3 +24,16 @@
 /* media_object-area media_object-area-layer_panel */
 /*   layer_panel-media_object */
 /*   layer_panel-animator layer_panel-animator-entity*/
+
+.layer_panel-animator .layer_panel-animator-entity {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.layer_panel-animator-entity .layer_panel-animator-entity-insert_keyframe_button {
+  width: 20px;
+  height: var(--animator-button-height);
+  background-color: rgb(100, 100, 200);
+  margin-right: 3px;
+}
