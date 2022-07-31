@@ -7,19 +7,9 @@ import { AppContext } from "./../AppContext";
 import { MediaObjectContext, LayerPanelContext, LayerDurationContext } from "./timelineContext";
 import { SetupConfigContext } from "../SetupEditor/SetupConfigContext";
 
-import * as MiddleDataOperationType from "./../MiddleData/middleDataOperationType";
+import { SetupEditorContext } from "./../SetupEditor/SetupEditorContext";
 
-class UserHandKeyframeOperation {
-  mousePushPos: number; //マウスが押された時のマウス座標
-  mouseDownKeyframeStyle: number; //マウスが押された時のメディアオブジェクト開始地点
-  constructor(send_mousePushPos: number, send_mouseDownKeyframeStyle: number) {
-    this.mousePushPos = send_mousePushPos;
-    this.mouseDownKeyframeStyle = send_mouseDownKeyframeStyle;
-  }
-}
-const UserHandKeyframeList: {
-  [name: string]: UserHandKeyframeOperation;
-} = {};
+import * as MiddleDataOperationType from "./../MiddleData/middleDataOperationType";
 
 export const KeyFrameComponent = (props: any) => {
   const keyframeUUID = props.DownstreamMiddleDataKeyframe["Keyframe_ID"];
@@ -33,28 +23,40 @@ export const KeyFrameComponent = (props: any) => {
   const LayerDurationContextValue = useContext(LayerDurationContext);
 
   const SetupConfigContextValue = useContext(SetupConfigContext);
+  const SetupEditorContextValue = useContext(SetupEditorContext);
 
   const keyframeMouseMoveAction = (event: any) => {
-    if (!(keyframeUUID in UserHandKeyframeList)) {
+    if (!SetupEditorContextValue.hasUserHandKeyframe(keyframeUUID)) {
       return;
     }
 
-    const UserHandKeyframe = UserHandKeyframeList[keyframeUUID];
+    const userHandKeyframe = SetupEditorContextValue.getUserHandKeyframe(keyframeUUID);
 
-    const mouseX = timelineMousePosition.mediaObjectMousePosition(event, LayerDurationContextValue.timelineAreaLayerDurationElement)[0];
-    const mouseMoveX = mouseX - UserHandKeyframe.mousePushPos;
-    KeyframePosSetState(mouseMoveX + UserHandKeyframe.mouseDownKeyframeStyle);
+    switch (userHandKeyframe.mouseDownFlag) {
+      case 1:
+        const mouseX = timelineMousePosition.mediaObjectMousePosition(event, LayerDurationContextValue.timelineAreaLayerDurationElement)[0];
+        const mouseMoveX = mouseX - userHandKeyframe.mousePushPos;
+        KeyframePosSetState(mouseMoveX + userHandKeyframe.mouseDownKeyframeStyle);
+      case 2:
+        break;
+    }
   };
 
   const MouseRelease = (event: any) => {
-    const mouseEndPos = timelineMousePosition.mediaObjectMousePosition(event, LayerDurationContextValue.timelineAreaLayerDurationElement)[0];
-    delete UserHandKeyframeList[keyframeUUID];
+    if (!SetupEditorContextValue.hasUserHandKeyframe(keyframeUUID)) {
+      return;
+    }
+    // const mouseEndPos = timelineMousePosition.mediaObjectMousePosition(event, LayerDurationContextValue.timelineAreaLayerDurationElement)[0];
+    SetupEditorContextValue.insertUserHandKeyframe(keyframeUUID, 2, null, null);
   };
 
   const MouseDown = (event: any) => {
     const mousePushPos = timelineMousePosition.mediaObjectMousePosition(event, LayerDurationContextValue.timelineAreaLayerDurationElement)[0];
 
-    UserHandKeyframeList[keyframeUUID] = new UserHandKeyframeOperation(mousePushPos, keyframeStylePos);
+    SetupEditorContextValue.alldeleteUserHandKeyframe();
+
+    // UserHandKeyframeList[keyframeUUID] = new UserHandKeyframeOperation(mousePushPos, keyframeStylePos);
+    SetupEditorContextValue.insertUserHandKeyframe(keyframeUUID, 1, mousePushPos, keyframeStylePos);
   };
 
   useEffect(() => {
@@ -82,7 +84,7 @@ export const KeyFrameComponent = (props: any) => {
       window.removeEventListener("mousemove", keyframeMouseMoveAction);
       window.removeEventListener("mouseup", MouseRelease);
     };
-  }, [keyframeUUID]);
+  }, [keyframeUUID, AppContextValue.update]);
 
   const mouseDoubleClick = (event: any) => {
     const clientX = event.clientX;
@@ -91,6 +93,7 @@ export const KeyFrameComponent = (props: any) => {
     SetupConfigContextValue.cssLeftSetState(clientX + 10);
     SetupConfigContextValue.cssTopSetState(clientY + 10);
 
+    SetupConfigContextValue.setConfigModeArgsOption({ Keyframe_ID: keyframeUUID });
     SetupConfigContextValue.configModeSetState(SetupConfigContextValue.configModeList[3]);
     SetupConfigContextValue.configSwitchGUISetState(SetupConfigContextValue.configSwitchGUIList[2]);
   };

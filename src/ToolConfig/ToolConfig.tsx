@@ -101,6 +101,7 @@ const ComponentOptionConvertConfigMode = (props: any) => {
   const AppContextValue = useContext(AppContext);
 
   const SetupEditorContextValue = useContext(SetupEditorContext);
+  const SetupConfigContextValue = useContext(SetupConfigContext);
 
   let settingItemsTemp: Array<ToolConfigContext.settingItemsData> = [];
   let buttonOperationFunc: Function = () => {}; //これは上書きされる
@@ -172,18 +173,28 @@ const ComponentOptionConvertConfigMode = (props: any) => {
     const ConfigItemOperationKeyframeTime: string = ToolConfigContext.ConfigItemOperationKeyframe[0];
 
     buttonOperationFunc = () => {
-      const temp: MiddleDataOperationType.OperationKeyframeTimeType = {
-        KeyframeID: "",
-        time: 3,
-      };
-      AppContextValue.operationKeyframeTime(temp);
+      const userHandKeyframeIDArray: Array<string> = SetupEditorContextValue.getUserHandKeyframeIDArray();
+
+      for (let i = 0; i < userHandKeyframeIDArray.length; i++) {
+        const thenUserHandKeyframeID = userHandKeyframeIDArray[i];
+        const temp: MiddleDataOperationType.OperationKeyframeTimeType = {
+          KeyframeID: thenUserHandKeyframeID,
+          time: Number(configContent[ConfigItemOperationKeyframeTime]),
+        };
+        console.log("keyframe temp", temp);
+        AppContextValue.operationKeyframeTime(temp);
+      }
+      AppContextValue.updateDOM();
     };
+
+    const configModeArgsOption = SetupConfigContextValue.getConfigModeArgsOption();
+    const keyframeID = configModeArgsOption["Keyframe_ID"];
 
     const settingItemsDataKeyframeTime: ToolConfigContext.settingItemsData = {
       settingTitle: "配置時間",
       settingMessage: "入力してください",
       thenConfigSettingGUIparts: ToolConfigContext.configSettingGUIparts[1],
-      exposeValue: [100],
+      exposeValue: [AppContextValue.getKeyframeTime(keyframeID)],
       configItem: ConfigItemOperationKeyframeTime,
     };
 

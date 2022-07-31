@@ -14,6 +14,9 @@ type SetupConfigContextValue = {
   cssLeftSetState: Function;
   cssTop: number;
   cssTopSetState: Function;
+
+  getConfigModeArgsOption: Function;
+  setConfigModeArgsOption: Function;
 };
 
 export const SetupConfigContext = createContext<SetupConfigContextValue>({} as SetupConfigContextValue);

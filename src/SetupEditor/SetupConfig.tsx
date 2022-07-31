@@ -9,6 +9,15 @@ import { SetupConfigContext } from "./SetupConfigContext";
 //ここを画面結合専用層にする予定
 //ここから ツールバー処理用のクラス
 
+let configModeArgsOption: { [name: string]: string | number | boolean } = {};
+const setConfigModeArgsOption = (args: { [name: string]: string | number | boolean }) => {
+  configModeArgsOption = args;
+};
+
+const getConfigModeArgsOption = () => {
+  return configModeArgsOption;
+};
+
 const SetupConfig = () => {
   const configModeList = ["not", "newComposite", "newAnimatorGroup", "operationKeyframe"];
   const [configMode, configModeSetState] = useState<string>(configModeList[0]);
@@ -40,6 +49,9 @@ const SetupConfig = () => {
         cssLeftSetState: cssLeftSetState,
         cssTop: cssTop,
         cssTopSetState: cssTopSetState,
+
+        getConfigModeArgsOption: getConfigModeArgsOption,
+        setConfigModeArgsOption: setConfigModeArgsOption,
       }}
     >
       <SetupToolbar />

@@ -13,6 +13,13 @@ type SetupEditorContextValue = {
   getUserHandMediaObject: Function;
   getUserHandMediaObjectIDArray: Function;
   alldeleteUserHandMediaObject: Function;
+
+  insertUserHandKeyframe: Function;
+  deleteUserHandKeyframe: Function;
+  hasUserHandKeyframe: Function;
+  getUserHandKeyframe: Function;
+  getUserHandKeyframeIDArray: Function;
+  alldeleteUserHandKeyframe: Function;
 };
 
 export const SetupEditorContext = createContext<SetupEditorContextValue>({} as SetupEditorContextValue);
