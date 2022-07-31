@@ -91,7 +91,7 @@ export const KeyFrameComponent = (props: any) => {
     SetupConfigContextValue.cssLeftSetState(clientX + 10);
     SetupConfigContextValue.cssTopSetState(clientY + 10);
 
-    SetupConfigContextValue.configModeSetState(SetupConfigContextValue.configModeList[2]);
+    SetupConfigContextValue.configModeSetState(SetupConfigContextValue.configModeList[3]);
     SetupConfigContextValue.configSwitchGUISetState(SetupConfigContextValue.configSwitchGUIList[2]);
   };
 

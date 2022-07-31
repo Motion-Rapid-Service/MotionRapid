@@ -13,6 +13,8 @@ import * as ToolConfigParts from "./ToolConfigParts";
 import * as middleDataClass from "./../MiddleData/middleDataClass";
 import * as animatorGroupFormat from "./../AnimatorGroupFormat/AnimatorGroupFormat";
 
+import * as MiddleDataOperationType from "./../MiddleData/middleDataOperationType";
+
 // const ConfigBackGround = () => {
 //     return ()
 // }
@@ -167,15 +169,25 @@ const ComponentOptionConvertConfigMode = (props: any) => {
 
   //キーフレームの設定
   if (configMode == configModeList[3]) {
-    buttonOperationFunc = () => {};
+    const ConfigItemOperationKeyframeTime: string = ToolConfigContext.ConfigItemOperationKeyframe[0];
+
+    buttonOperationFunc = () => {
+      const temp: MiddleDataOperationType.OperationKeyframeTimeType = {
+        KeyframeID: "",
+        time: 3,
+      };
+      AppContextValue.operationKeyframeTime(temp);
+    };
 
     const settingItemsDataKeyframeTime: ToolConfigContext.settingItemsData = {
-      settingTitle: "時間を",
+      settingTitle: "配置時間",
       settingMessage: "入力してください",
       thenConfigSettingGUIparts: ToolConfigContext.configSettingGUIparts[1],
       exposeValue: [100],
-      configItem: "明日ここやる",
+      configItem: ConfigItemOperationKeyframeTime,
     };
+
+    settingItemsTemp.push(settingItemsDataKeyframeTime);
   }
 
   const cssMinHeight = "calc((" + props.cssAreaViewHeight + " - 60px))";

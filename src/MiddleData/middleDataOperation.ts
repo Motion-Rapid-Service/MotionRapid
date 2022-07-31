@@ -9,6 +9,8 @@ import * as BuildSourceSpecies from "../BuildSite/buildHTML/buildSourceSpecies";
 import * as AnimatorGroupFormat from "./../AnimatorGroupFormat/AnimatorGroupFormat";
 import * as AnimatorGroupPropertyFormat from "./../AnimatorGroupFormat/AnimatorGroupPropertyFormat";
 
+import * as MiddleDataOperationType from "./middleDataOperationType";
+
 const getUUID = () => {
   return String(UUID.generate());
 };
@@ -150,7 +152,7 @@ export default class MiddleDataOperation {
       this.DataCentral.OwnedClass_MediaObject[mediaObjectID].MediaObject_EndTime = sendData["end"];
     }
   };
-  operationKeyframeTime = (sendData: any) => {
+  operationKeyframeTime = (sendData: MiddleDataOperationType.OperationKeyframeTimeType) => {
     const KeyframeID = sendData["KeyframeID"];
 
     if (!hasKeyFound("KeyframeID", sendData)) {
