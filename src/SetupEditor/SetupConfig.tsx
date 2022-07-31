@@ -19,7 +19,13 @@ const getConfigModeArgsOption = () => {
 };
 
 const SetupConfig = () => {
-  const configModeList = ["not", "newComposite", "newAnimatorGroup", "operationKeyframe"];
+  const configModeList = [
+    "not",
+    "newComposite", //新しいコンポジットの設定
+    "newAnimatorGroup", //新しいAnimatorGroupの設定
+    "operationKeyframe", //keyframeをダブルクリックした時の設定
+    "operationlayerPanelCSSproperty", //operationKeyframeのレイヤーパネルにあるやつ
+  ];
   const [configMode, configModeSetState] = useState<string>(configModeList[0]);
 
   const configSwitchGUIList = ["not", "large", "popup"];

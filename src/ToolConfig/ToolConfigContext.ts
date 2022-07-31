@@ -42,8 +42,8 @@ export type ConfigItemType = {
 
 export const ConfigItemNewComposite: Array<string> = ["compositeName", "compositeTime", "compositeMode"];
 export const ConfigItemNewAnimatorGroup: Array<string> = ["animatorGroupFormatSpecies"];
-export const ConfigItemOperationKeyframe: Array<string> = ["time", "unit", "value"];
-
+export const ConfigItemOperationKeyframe: Array<string> = ["time", "value", "unit"];
+export const ConfigItemOperationlayerPanelCSSproperty: Array<string> = ["value", "unit"];
 // export type ConfigItemNewComposite = {
 //   compositeName: "";
 //   compositeTime: "";

@@ -13,6 +13,7 @@ import * as MiddleDataOperationType from "./../MiddleData/middleDataOperationTyp
 
 export const KeyFrameComponent = (props: any) => {
   const keyframeUUID = props.DownstreamMiddleDataKeyframe["Keyframe_ID"];
+  const Animator_propertySpecies = props.DownstreamMiddleDataKeyframe["Animator_propertySpecies"];
 
   const AppContextValue = useContext(AppContext);
   const [keyframeStylePos, KeyframePosSetState] = useState<number>(AppContextValue.getKeyframeTime(keyframeUUID));
@@ -93,7 +94,13 @@ export const KeyFrameComponent = (props: any) => {
     SetupConfigContextValue.cssLeftSetState(clientX + 10);
     SetupConfigContextValue.cssTopSetState(clientY + 10);
 
-    SetupConfigContextValue.setConfigModeArgsOption({ Keyframe_ID: keyframeUUID });
+    const AnimatorGroup_Species = props.DownstreamMiddleDataAnimator["AnimatorGroup_Species"];
+
+    SetupConfigContextValue.setConfigModeArgsOption({
+      AnimatorGroup_Species: AnimatorGroup_Species,
+      Animator_propertySpecies: Animator_propertySpecies,
+      Keyframe_ID: keyframeUUID,
+    });
     SetupConfigContextValue.configModeSetState(SetupConfigContextValue.configModeList[3]);
     SetupConfigContextValue.configSwitchGUISetState(SetupConfigContextValue.configSwitchGUIList[2]);
   };
@@ -119,11 +126,12 @@ const AnimatorAreaEntity = (props: any) => {
   if (entitySpecies === "AnimatorGroup") {
     return <div className="animator_area-entity animator_area-entity-group" ref={animatorAreaEntityElement}></div>;
   } else if (entitySpecies === "Animator") {
+    const Animator_ID = props.DownstreamMiddleDataAnimator["Animator_ID"];
     return (
       <div className="animator_area-entity" ref={animatorAreaEntityElement}>
-        {AppContextValue.componentConvertKeyframeArea(props.DownstreamMiddleDataAnimator["Animator_ID"]).map((output: any, index: number) => (
+        {AppContextValue.componentConvertKeyframeArea(Animator_ID).map((output: any, index: number) => (
           // <>{fruit}</> //SurfaceControlIndividualを追加するmap (list_surface_controlに入っている)
-          <KeyFrameComponent DownstreamMiddleDataKeyframe={output} key={index} />
+          <KeyFrameComponent DownstreamMiddleDataAnimator={props.DownstreamMiddleDataAnimator} DownstreamMiddleDataKeyframe={output} key={index} />
         ))}
       </div>
     );

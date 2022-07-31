@@ -45,6 +45,9 @@ body{
   --keyfrmae-size: 20;
   /* キーフレームレイヤーの高さ */
 
+  --animator-button-height: 18px;
+  /* レイヤーパネルにある、アニメーターのbuttonなどの高さ */
+
   display: flex;
 }
 
@@ -115,7 +118,6 @@ body{
 }
 
 .media_object-area-layer_panel {
-  /* position: absolute; */
 }
 
 .media_object-area-layer_panel .layer_panel-entity {
@@ -127,15 +129,33 @@ body{
 .media_object-area-layer_panel p {
   margin: 0px;
   font-size: 5px;
+  height: var(--animator-height);
+
+  display: flex;
+  align-items: center;
 }
 
-.layer_panel-animator .layer_panel-animator-entity {
+.layer_panel-animator .layer_panel-animator-entity,
+.layer_panel-animator .layer_panel-animator_group-entity {
   height: var(--animator-height);
   margin-left: 20%;
 }
 /* media_object-area media_object-area-layer_panel */
 /*   layer_panel-media_object */
 /*   layer_panel-animator layer_panel-animator-entity*/
+
+.layer_panel-animator .layer_panel-animator-entity {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.layer_panel-animator-entity .layer_panel-animator-entity-insert_keyframe_button {
+  width: 20px;
+  height: var(--animator-button-height);
+  background-color: rgb(100, 100, 200);
+  margin-right: 3px;
+}
 
 .playhead {
   width: 2px;
@@ -244,7 +264,7 @@ body{
   background-color: var(--background-B);
 }
 
-.tool_config-area-background {
+.tool_config-large-background {
   background-color: rgba(20, 20, 20, 0.9);
   /* width: 100%;
   height: 100%;
@@ -259,11 +279,37 @@ body{
   display: flex;
   align-items: center;
   justify-content: center;
+
+  z-index: 900;
 }
 
-.tool_config-area {
+.tool_config-large {
   background-color: rgb(60, 60, 60);
   width: 70vw;
+}
+
+/* *********************************************************** */
+
+.tool_config-popup-background {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+
+  z-index: 900;
+}
+
+.tool_config-popup {
+  width: 500px;
+  background-color: rgb(60, 60, 60);
+  position: relative;
+}
+
+/* *********************************************************** */
+
+.tool_config-area-title * {
+  user-select: none;
 }
 
 .tool_config-area-title {
@@ -283,15 +329,32 @@ body{
 }
 .tool_config-area-title p {
 }
+
+/* *********************************************************** */
+
 .tool_config-area-view {
   overflow-y: scroll;
-  height: 80vh;
+  /* height: 80vh; */
 }
 
 .tool_config-area-switch_config {
   width: 100%;
-  min-height: calc((80vh - 70px));
+
   /* position: relative; */
+}
+
+.tool_config-area-setting-items {
+  margin: 2px 0px 2px 10px;
+}
+
+.tool_config-area-setting-items h3 {
+  color: rgb(255, 255, 255);
+  margin: 0px;
+}
+
+.tool_config-area-setting-items p {
+  color: rgb(255, 255, 255);
+  margin: 0px;
 }
 
 .tool_config-area-bottom-area * {
@@ -310,7 +373,17 @@ body{
   right: 10px; */
 }
 
-.tool_config-area-button {
+.config_parts-textbox input {
+  font-size: 16px; /*フォントサイズ*/
+  border: 1px solid #999999; /*ボーダー*/
+  padding: 2px; /*パディング*/
+  border-radius: 3px; /*角丸にする*/
+  box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.1) inset; /*影を付ける*/
+  background-color: rgb(60, 60, 60);
+  color: rgb(255, 255, 255);
+}
+
+.config_parts-button {
   /* position: relative; */
   border-radius: 20px;
   margin-right: 10px;
@@ -327,33 +400,9 @@ body{
 
   border-color: rgb(255, 255, 255);
 }
-.tool_config-area-button p {
+.config_parts-button p {
   color: rgb(255, 255, 255);
   /* position: absolute; */
   margin: 0px;
-}
-
-.tool_config-area-setting-items {
-  margin: 2px 0px 2px 10px;
-}
-
-.tool_config-area-setting-items h3 {
-  color: rgb(255, 255, 255);
-  margin: 0px;
-}
-
-.tool_config-area-setting-items p {
-  color: rgb(255, 255, 255);
-  margin: 0px;
-}
-
-.config_parts-textbox input {
-  font-size: 16px; /*フォントサイズ*/
-  border: 1px solid #999999; /*ボーダー*/
-  padding: 2px; /*パディング*/
-  border-radius: 3px; /*角丸にする*/
-  box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.1) inset; /*影を付ける*/
-  background-color: rgb(60, 60, 60);
-  color: rgb(255, 255, 255);
 }
 

@@ -11,7 +11,8 @@ import * as ToolConfigContext from "./ToolConfigContext";
 import * as ToolConfigParts from "./ToolConfigParts";
 
 import * as middleDataClass from "./../MiddleData/middleDataClass";
-import * as animatorGroupFormat from "./../AnimatorGroupFormat/AnimatorGroupFormat";
+import * as AnimatorGroupFormat from "./../AnimatorGroupFormat/AnimatorGroupFormat";
+import * as AnimatorGroupPropertyFormat from "./../AnimatorGroupFormat/AnimatorGroupPropertyFormat";
 
 import * as MiddleDataOperationType from "./../MiddleData/middleDataOperationType";
 
@@ -125,7 +126,7 @@ const ComponentOptionConvertConfigMode = (props: any) => {
     };
 
     const settingItemsDataCompositeName2: ToolConfigContext.settingItemsData = {
-      settingTitle: "コンポジット名",
+      settingTitle: "コンポジット横軸",
       settingMessage: "選択してください",
       thenConfigSettingGUIparts: ToolConfigContext.configSettingGUIparts[3],
       exposeValue: Object.assign(middleDataClass.Composite_Mode),
@@ -151,7 +152,7 @@ const ComponentOptionConvertConfigMode = (props: any) => {
         const animatorGroupID = AppContextValue.createAnimatorGroup(newAnimatorGroupSpecies);
         AppContextValue.linkAnimatorGroup(thenMediaObjectKey, animatorGroupID);
 
-        AppContextValue.operationAnimatorGroup(animatorGroupID, newAnimatorGroupSpecies);
+        AppContextValue.operationCreateAnimatorGroup(animatorGroupID, newAnimatorGroupSpecies);
       }
 
       AppContextValue.updateDOM();
@@ -161,7 +162,7 @@ const ComponentOptionConvertConfigMode = (props: any) => {
       settingTitle: "追加するAnimatorGroupを選択してください",
       settingMessage: "選択してください",
       thenConfigSettingGUIparts: ToolConfigContext.configSettingGUIparts[3],
-      exposeValue: animatorGroupFormat.getAnimatorGroupFormatListKey(),
+      exposeValue: AnimatorGroupFormat.getAnimatorGroupFormatListKey(),
       configItem: configItemAnimatorGroupFormatSpecies,
     };
 
@@ -171,6 +172,21 @@ const ComponentOptionConvertConfigMode = (props: any) => {
   //キーフレームの設定
   if (configMode == configModeList[3]) {
     const ConfigItemOperationKeyframeTime: string = ToolConfigContext.ConfigItemOperationKeyframe[0];
+    const ConfigItemOperationKeyframeValue: string = ToolConfigContext.ConfigItemOperationKeyframe[1];
+
+    const ConfigItemOperationKeyframeUnit: string = ToolConfigContext.ConfigItemOperationKeyframe[2];
+
+    const configModeArgsOption = SetupConfigContextValue.getConfigModeArgsOption();
+    const keyframeID = configModeArgsOption["Keyframe_ID"];
+    const AnimatorGroup_Species = configModeArgsOption["AnimatorGroup_Species"];
+    const Animator_propertySpecies = configModeArgsOption["Animator_propertySpecies"];
+
+    console.log("configModeArgsOption", configModeArgsOption);
+
+    const animatorGroupFormat: AnimatorGroupPropertyFormat.PropertyFormatSpecies = AnimatorGroupFormat.getAnimatorGroupFormatList(AnimatorGroup_Species);
+
+    const cssPropertySpeciesList = animatorGroupFormat.cssPropertySpeciesList;
+    const cssPropertySpecies = cssPropertySpeciesList[Animator_propertySpecies];
 
     buttonOperationFunc = () => {
       const userHandKeyframeIDArray: Array<string> = SetupEditorContextValue.getUserHandKeyframeIDArray();
@@ -187,9 +203,6 @@ const ComponentOptionConvertConfigMode = (props: any) => {
       AppContextValue.updateDOM();
     };
 
-    const configModeArgsOption = SetupConfigContextValue.getConfigModeArgsOption();
-    const keyframeID = configModeArgsOption["Keyframe_ID"];
-
     const settingItemsDataKeyframeTime: ToolConfigContext.settingItemsData = {
       settingTitle: "配置時間",
       settingMessage: "入力してください",
@@ -197,8 +210,87 @@ const ComponentOptionConvertConfigMode = (props: any) => {
       exposeValue: [AppContextValue.getKeyframeTime(keyframeID)],
       configItem: ConfigItemOperationKeyframeTime,
     };
+    const settingItemsDataKeyframeValue: ToolConfigContext.settingItemsData = {
+      settingTitle: "配置数値",
+      settingMessage: "入力してください",
+      thenConfigSettingGUIparts: ToolConfigContext.configSettingGUIparts[1],
+      exposeValue: [0],
+      configItem: ConfigItemOperationKeyframeValue,
+    };
 
     settingItemsTemp.push(settingItemsDataKeyframeTime);
+    settingItemsTemp.push(settingItemsDataKeyframeValue);
+
+    const exposeValueCssValueUnitList = Object.assign(AnimatorGroupPropertyFormat.cssValueUnit[cssPropertySpecies]);
+
+    if (exposeValueCssValueUnitList.length !== 0) {
+      const settingItemsDataKeyframeUnit: ToolConfigContext.settingItemsData = {
+        settingTitle: "配置単位",
+        settingMessage: "選択してください 親要素はコンポジットとなります",
+        thenConfigSettingGUIparts: ToolConfigContext.configSettingGUIparts[3],
+        exposeValue: exposeValueCssValueUnitList,
+        configItem: ConfigItemOperationKeyframeUnit,
+      };
+
+      settingItemsTemp.push(settingItemsDataKeyframeUnit);
+    }
+  }
+
+  //レイヤーパネル付属のpropertyの設定
+  if (configMode == configModeList[4]) {
+    const ConfigItemOperationlayerPanelCSSpropertyValue: string = ToolConfigContext.ConfigItemOperationlayerPanelCSSproperty[0];
+    const ConfigItemOperationlayerPanelCSSpropertyUnit: string = ToolConfigContext.ConfigItemOperationlayerPanelCSSproperty[1];
+
+    const configModeArgsOption = SetupConfigContextValue.getConfigModeArgsOption();
+
+    const cssPropertyID = configModeArgsOption["CSSPropertyID"];
+    const AnimatorGroup_Species = configModeArgsOption["AnimatorGroup_Species"];
+    const Animator_propertySpecies = configModeArgsOption["Animator_propertySpecies"];
+
+    const animatorGroupFormat: AnimatorGroupPropertyFormat.PropertyFormatSpecies = AnimatorGroupFormat.getAnimatorGroupFormatList(AnimatorGroup_Species);
+
+    const cssPropertySpeciesList = animatorGroupFormat.cssPropertySpeciesList;
+    const cssPropertySpecies = cssPropertySpeciesList[Animator_propertySpecies];
+
+    buttonOperationFunc = () => {
+      const sendValue: MiddleDataOperationType.OoperationCSSPropertyValueType = {
+        CSSPropertyID: cssPropertyID,
+        CSSPropertyValue: Number(configContent[ConfigItemOperationlayerPanelCSSpropertyValue]),
+      };
+      AppContextValue.operationCSSPropertyValue(sendValue);
+
+      const sendUnit: MiddleDataOperationType.OoperationCSSPropertyUnitType = {
+        CSSPropertyID: cssPropertyID,
+        CSSPropertyUnit: String(configContent[ConfigItemOperationlayerPanelCSSpropertyUnit]),
+      };
+      AppContextValue.operationCSSPropertyUnit(sendUnit);
+
+      AppContextValue.updateDOM();
+    };
+
+    const settingItemsDataKeyframeValue: ToolConfigContext.settingItemsData = {
+      settingTitle: "配置数値",
+      settingMessage: "入力してください ",
+      thenConfigSettingGUIparts: ToolConfigContext.configSettingGUIparts[1],
+      exposeValue: [0],
+      configItem: ConfigItemOperationlayerPanelCSSpropertyValue,
+    };
+
+    settingItemsTemp.push(settingItemsDataKeyframeValue);
+
+    const exposeValueCssValueUnitList = Object.assign(AnimatorGroupPropertyFormat.cssValueUnit[cssPropertySpecies]);
+
+    if (exposeValueCssValueUnitList.length !== 0) {
+      const settingItemsDataKeyframeUnit: ToolConfigContext.settingItemsData = {
+        settingTitle: "配置単位",
+        settingMessage: "選択してください 親要素はコンポジットとなります",
+        thenConfigSettingGUIparts: ToolConfigContext.configSettingGUIparts[3],
+        exposeValue: exposeValueCssValueUnitList,
+        configItem: ConfigItemOperationlayerPanelCSSpropertyUnit,
+      };
+
+      settingItemsTemp.push(settingItemsDataKeyframeUnit);
+    }
   }
 
   const cssMinHeight = "calc((" + props.cssAreaViewHeight + " - 60px))";

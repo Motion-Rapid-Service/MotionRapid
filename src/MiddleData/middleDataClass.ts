@@ -8,6 +8,7 @@ export class DataCentral {
   OwnedClass_AnimatorGroup: { [name: string]: AnimatorGroup };
   OwnedClass_Animator: { [name: string]: Animator };
   OwnedClass_Keyframe: { [name: string]: Keyframe };
+  OwnedClass_CSSProperty: { [name: string]: CSSProperty };
   projectName: string;
 
   constructor(send_projectName: string) {
@@ -19,6 +20,7 @@ export class DataCentral {
     this.OwnedClass_AnimatorGroup = {};
     this.OwnedClass_Animator = {};
     this.OwnedClass_Keyframe = {};
+    this.OwnedClass_CSSProperty = {};
   }
 }
 
@@ -67,16 +69,17 @@ export class AnimatorGroup {
   constructor(send_Animator_ID: string, send_AnimatorGroup_Species: string) {
     this.AnimatorGroup_ID = send_Animator_ID;
     this.OwnedID_Animator = [];
-    this.AnimatorGroup_Species = send_AnimatorGroup_Species;
+    this.AnimatorGroup_Species = send_AnimatorGroup_Species; //marginとかそういうのが入る
   }
 }
 
 export class Animator {
   Animator_ID: string;
+  Animator_propertySpecies: string;
   OwnedID_Keyframe: Array<string>;
-  propertySpecies: string;
+  OwnedID_cssPropertyValue: string;
   constructor(send_Animator_ID: string, send_propertySpecies: string) {
-    this.propertySpecies = send_propertySpecies;
+    this.Animator_propertySpecies = send_propertySpecies; //left とか backgroundとかcssのpropertyが入る
     this.Animator_ID = send_Animator_ID;
     this.OwnedID_Keyframe = [];
   }
@@ -85,8 +88,20 @@ export class Animator {
 export class Keyframe {
   Keyframe_ID: string;
   Keyframe_AbsoluteTime: number;
+  OwnedID_cssPropertyValue: string;
   constructor(send_Keyframe_ID: string) {
     this.Keyframe_ID = send_Keyframe_ID;
-    this.Keyframe_AbsoluteTime = 500;
+    this.Keyframe_AbsoluteTime = null;
+  }
+}
+
+export class CSSProperty {
+  CSSProperty_ID: string;
+  CSSProperty_Value: string | number;
+  CSSProperty_Unit: string;
+  constructor(send_CSSProperty_ID: string) {
+    this.CSSProperty_ID = send_CSSProperty_ID;
+    this.CSSProperty_Value = null;
+    this.CSSProperty_Unit = null;
   }
 }

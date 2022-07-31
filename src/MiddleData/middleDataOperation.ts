@@ -78,7 +78,14 @@ export default class MiddleDataOperation {
     return newID;
   };
 
-  operationAnimatorGroup = (animatorGroupID: string, newAnimatorGroupSpeciesPropertySpecies: string) => {
+  createCSSProperty = () => {
+    const newID = "CSSProperty_" + getUUID();
+    const newObj = new middleDataClass.CSSProperty(newID);
+    this.DataCentral.OwnedClass_CSSProperty[newID] = newObj;
+    return newID;
+  };
+
+  operationCreateAnimatorGroup = (animatorGroupID: string, newAnimatorGroupSpeciesPropertySpecies: string) => {
     //animatorgroupに新しい要素を適用したときに、アニメーターの追加も同時にする関数
     // const animatorGroupID = this.createAnimatorGroup(newAnimatorGroupSpecies); これはいらない
 
@@ -94,11 +101,22 @@ export default class MiddleDataOperation {
     }
   };
 
-  // linkComposite = (compositeID: string) => {
-  //   this.DataCentral.OwnedClass_Composite.push(
-  //     compositeID
-  //   );
-  // };
+  operationCreateAnimator = (propertySpecies: string) => {
+    const aniID = this.createAnimator(propertySpecies);
+    const cssID = this.createCSSProperty();
+    this.linkCSSPropertyAnimator(aniID, cssID);
+
+    return aniID;
+  };
+
+  operationCreateKeyframe = () => {
+    const keyID = this.createKeyframe();
+    const cssID = this.createCSSProperty();
+    this.linkCSSPropertyKeyframe(keyID, cssID);
+
+    return keyID;
+  };
+
   linkMediaObject = (compositeID: string, mediaObjectID: string) => {
     this.DataCentral.OwnedClass_Composite[compositeID].OwnedID_MediaObject.push(mediaObjectID);
   };
@@ -112,7 +130,12 @@ export default class MiddleDataOperation {
   linkKeyframe = (animatorID: string, keyframeID: string) => {
     this.DataCentral.OwnedClass_Animator[animatorID].OwnedID_Keyframe.push(keyframeID);
   };
-
+  linkCSSPropertyAnimator = (animatorID: string, CSSPropertySpeciesValueID: string) => {
+    this.DataCentral.OwnedClass_Animator[animatorID].OwnedID_cssPropertyValue = CSSPropertySpeciesValueID;
+  };
+  linkCSSPropertyKeyframe = (keyframeID: string, CSSPropertySpeciesValueID: string) => {
+    this.DataCentral.OwnedClass_Keyframe[keyframeID].OwnedID_cssPropertyValue = CSSPropertySpeciesValueID;
+  };
   swopMediaObject = (compositeID: string, swopSubject: number, swopInsertion: number) => {
     //compositeID : 対象コンポジットID
     //swopSubject : スワップ対象
@@ -155,12 +178,14 @@ export default class MiddleDataOperation {
   operationKeyframeTime = (sendData: MiddleDataOperationType.OperationKeyframeTimeType) => {
     const KeyframeID = sendData["KeyframeID"];
 
-    if (!hasKeyFound("KeyframeID", sendData)) {
-      return;
-    }
-    if (hasKeyFound("time", sendData)) {
-      this.DataCentral.OwnedClass_Keyframe[KeyframeID].Keyframe_AbsoluteTime = sendData["time"];
-    }
+    this.DataCentral.OwnedClass_Keyframe[KeyframeID].Keyframe_AbsoluteTime = sendData["time"];
+  };
+
+  operationCSSPropertyValue = (sendData: MiddleDataOperationType.OoperationCSSPropertyValueType) => {
+    this.DataCentral.OwnedClass_CSSProperty[sendData.CSSPropertyID].CSSProperty_Value = sendData.CSSPropertyValue;
+  };
+  operationCSSPropertyUnit = (sendData: MiddleDataOperationType.OoperationCSSPropertyUnitType) => {
+    this.DataCentral.OwnedClass_CSSProperty[sendData.CSSPropertyID].CSSProperty_Unit = sendData.CSSPropertyUnit;
   };
 
   getOwnedID_Composite = () => {
@@ -202,6 +227,10 @@ export default class MiddleDataOperation {
   };
   getOwnedClassKeyframe = (keyframeID: string) => {
     return Object.assign(this.DataCentral.OwnedClass_Keyframe[keyframeID]);
+  };
+
+  getOwnedClassCSSPropertySpecies = (CSSPropertySpeciesID: string) => {
+    return Object.assign(this.DataCentral.OwnedClass_CSSProperty[CSSPropertySpeciesID]);
   };
 
   getCompositeName = (compositeID: string) => {

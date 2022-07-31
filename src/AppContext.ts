@@ -14,7 +14,13 @@ type AppContextValue = {
   updateDOM: Function;
   operationMediaObjectTime: Function;
   operationKeyframeTime: Function;
-  operationAnimatorGroup: Function;
+  operationCreateAnimatorGroup: Function;
+
+  operationCreateAnimator: Function;
+  operationCreateKeyframe: Function;
+
+  operationCSSPropertyValue: Function;
+  operationCSSPropertyUnit: Function;
 
   getMediaObjectTime: Function;
   getMediaObjectSourceSpecies: Function;
@@ -36,11 +42,14 @@ type AppContextValue = {
   createAnimatorGroup: Function;
   createAnimator: Function;
   createKeyframe: Function;
-
+  createCSSProperty: Function;
   linkMediaObject: Function;
   linkAnimatorGroup: Function;
   linkAnimator: Function;
   linkKeyframe: Function;
+
+  linkCSSPropertyAnimator: Function;
+  linkCSSPropertyKeyframe: Function;
 };
 
 export const AppContext = createContext<AppContextValue>({} as AppContextValue);
@@ -54,6 +63,7 @@ export type ComponentConvertAnimatorGroupType = {
 export type ComponentConvertAnimatorType = {
   entitySpecies: string;
   Animator_ID: string;
-  propertySpecies: string;
+  AnimatorGroup_Species: string;
+  Animator_propertySpecies: string;
 };
 export type ComponentConvertAnimatorAreaType = ComponentConvertAnimatorType | ComponentConvertAnimatorGroupType;

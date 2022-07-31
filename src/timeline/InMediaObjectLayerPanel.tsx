@@ -170,11 +170,11 @@ export const LayerPanelAnimaterGroupComponent = (props: any) => {
 export const LayerPanelAnimaterComponent = (props: any) => {
   const DownstreamMiddleDataAnimator: ComponentConvertAnimatorType = props.DownstreamMiddleDataAnimator;
   const Animator_ID: string = DownstreamMiddleDataAnimator.Animator_ID;
-  const propertySpecies: string = DownstreamMiddleDataAnimator.propertySpecies;
+  const Animator_propertySpecies: string = DownstreamMiddleDataAnimator.Animator_propertySpecies;
   return (
     <div className="layer_panel-animator-entity">
       <AnimaterInsertKeyframeButton Animator_ID={Animator_ID} />
-      <p>{propertySpecies}</p>
+      <p>{Animator_propertySpecies}</p>
     </div>
   );
 };
@@ -184,7 +184,7 @@ export const AnimaterInsertKeyframeButton = (props: any) => {
 
   const mouseDown = () => {
     const Animator_ID = props.Animator_ID;
-    const keyframeID: string = AppContextValue.createKeyframe();
+    const keyframeID: string = AppContextValue.operationCreateKeyframe();
     AppContextValue.linkKeyframe(Animator_ID, keyframeID);
 
     const temp: MiddleDataOperationType.OperationKeyframeTimeType = { KeyframeID: keyframeID, time: 100 };

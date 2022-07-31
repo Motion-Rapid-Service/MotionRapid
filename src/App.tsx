@@ -157,7 +157,8 @@ const componentConvertAnimatorArea = (send_MediaObjectID: string) => {
       const pushAnimator: ComponentConvertAnimatorType = {
         entitySpecies: "Animator",
         Animator_ID: AnimatorID,
-        propertySpecies: AnimatorClass.propertySpecies,
+        AnimatorGroup_Species: AnimatorGroupClass.AnimatorGroup_Species,
+        Animator_propertySpecies: AnimatorClass.Animator_propertySpecies,
       };
       middleDataAnimatorTemp.push(pushAnimator);
     }
@@ -168,11 +169,14 @@ const componentConvertAnimatorArea = (send_MediaObjectID: string) => {
 
 const componentConvertKeyframeArea = (send_AnimatorID: string) => {
   const KeyframeIDArray = middleDataOperation.getOwnedID_Keyframe(send_AnimatorID);
+  const AnimatorClass: MiddleDataClass.Animator = middleDataOperation.getOwnedClassAnimator(send_AnimatorID);
+  const Animator_propertySpecies = AnimatorClass.Animator_propertySpecies;
 
   const middleDataKeyframeTemp = [];
 
   for (let i = 0; i < KeyframeIDArray.length; i++) {
     middleDataKeyframeTemp.push({
+      Animator_propertySpecies: Animator_propertySpecies,
       Keyframe_ID: KeyframeIDArray[i],
     });
   }
@@ -220,7 +224,12 @@ const App = () => {
           updateDOM: updateDOM,
           operationMediaObjectTime: middleDataOperation.operationMediaObjectTime,
           operationKeyframeTime: middleDataOperation.operationKeyframeTime,
-          operationAnimatorGroup: middleDataOperation.operationAnimatorGroup,
+          operationCreateAnimatorGroup: middleDataOperation.operationCreateAnimatorGroup,
+          operationCreateAnimator: middleDataOperation.operationCreateAnimator,
+          operationCreateKeyframe: middleDataOperation.operationCreateKeyframe,
+
+          operationCSSPropertyValue: middleDataOperation.operationCSSPropertyValue,
+          operationCSSPropertyUnit: middleDataOperation.operationCSSPropertyUnit,
 
           getMediaObjectTime: middleDataOperation.getMediaObjectTime,
           getMediaObjectSourceSpecies: middleDataOperation.getMediaObjectSourceSpecies,
@@ -243,11 +252,15 @@ const App = () => {
           createAnimatorGroup: middleDataOperation.createAnimatorGroup,
           createAnimator: middleDataOperation.createAnimator,
           createKeyframe: middleDataOperation.createKeyframe,
+          createCSSProperty: middleDataOperation.createCSSProperty,
 
           linkMediaObject: middleDataOperation.linkMediaObject,
           linkAnimatorGroup: middleDataOperation.linkAnimatorGroup,
           linkAnimator: middleDataOperation.linkAnimator,
           linkKeyframe: middleDataOperation.linkKeyframe,
+
+          linkCSSPropertyAnimator: middleDataOperation.linkCSSPropertyAnimator,
+          linkCSSPropertyKeyframe: middleDataOperation.linkCSSPropertyKeyframe,
         }}
       >
         <SetupEditor />
