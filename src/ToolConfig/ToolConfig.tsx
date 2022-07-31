@@ -221,76 +221,19 @@ const ComponentOptionConvertConfigMode = (props: any) => {
     settingItemsTemp.push(settingItemsDataKeyframeTime);
     settingItemsTemp.push(settingItemsDataKeyframeValue);
 
-    const exposeValueCssValueUnitList = Object.assign(AnimatorGroupPropertyFormat.cssValueUnit[cssPropertySpecies]);
+    //   const exposeValueCssValueUnitList = Object.assign(AnimatorGroupPropertyFormat.cssValueUnit[cssPropertySpecies]);
 
-    if (exposeValueCssValueUnitList.length !== 0) {
-      const settingItemsDataKeyframeUnit: ToolConfigContext.settingItemsData = {
-        settingTitle: "配置単位",
-        settingMessage: "選択してください 親要素はコンポジットとなります",
-        thenConfigSettingGUIparts: ToolConfigContext.configSettingGUIparts[3],
-        exposeValue: exposeValueCssValueUnitList,
-        configItem: ConfigItemOperationKeyframeUnit,
-      };
+    //   if (exposeValueCssValueUnitList.length !== 0) {
+    //     const settingItemsDataKeyframeUnit: ToolConfigContext.settingItemsData = {
+    //       settingTitle: "配置単位",
+    //       settingMessage: "選択してください 親要素はコンポジットとなります",
+    //       thenConfigSettingGUIparts: ToolConfigContext.configSettingGUIparts[3],
+    //       exposeValue: exposeValueCssValueUnitList,
+    //       configItem: ConfigItemOperationKeyframeUnit,
+    //     };
 
-      settingItemsTemp.push(settingItemsDataKeyframeUnit);
-    }
-  }
-
-  //レイヤーパネル付属のpropertyの設定
-  if (configMode == configModeList[4]) {
-    const ConfigItemOperationlayerPanelCSSpropertyValue: string = ToolConfigContext.ConfigItemOperationlayerPanelCSSproperty[0];
-    const ConfigItemOperationlayerPanelCSSpropertyUnit: string = ToolConfigContext.ConfigItemOperationlayerPanelCSSproperty[1];
-
-    const configModeArgsOption = SetupConfigContextValue.getConfigModeArgsOption();
-
-    const cssPropertyID = configModeArgsOption["CSSPropertyID"];
-    const AnimatorGroup_Species = configModeArgsOption["AnimatorGroup_Species"];
-    const Animator_propertySpecies = configModeArgsOption["Animator_propertySpecies"];
-
-    const animatorGroupFormat: AnimatorGroupPropertyFormat.PropertyFormatSpecies = AnimatorGroupFormat.getAnimatorGroupFormatList(AnimatorGroup_Species);
-
-    const cssPropertySpeciesList = animatorGroupFormat.cssPropertySpeciesList;
-    const cssPropertySpecies = cssPropertySpeciesList[Animator_propertySpecies];
-
-    buttonOperationFunc = () => {
-      const sendValue: MiddleDataOperationType.OoperationCSSPropertyValueType = {
-        CSSPropertyID: cssPropertyID,
-        CSSPropertyValue: Number(configContent[ConfigItemOperationlayerPanelCSSpropertyValue]),
-      };
-      AppContextValue.operationCSSPropertyValue(sendValue);
-
-      const sendUnit: MiddleDataOperationType.OoperationCSSPropertyUnitType = {
-        CSSPropertyID: cssPropertyID,
-        CSSPropertyUnit: String(configContent[ConfigItemOperationlayerPanelCSSpropertyUnit]),
-      };
-      AppContextValue.operationCSSPropertyUnit(sendUnit);
-
-      AppContextValue.updateDOM();
-    };
-
-    const settingItemsDataKeyframeValue: ToolConfigContext.settingItemsData = {
-      settingTitle: "配置数値",
-      settingMessage: "入力してください ",
-      thenConfigSettingGUIparts: ToolConfigContext.configSettingGUIparts[1],
-      exposeValue: [0],
-      configItem: ConfigItemOperationlayerPanelCSSpropertyValue,
-    };
-
-    settingItemsTemp.push(settingItemsDataKeyframeValue);
-
-    const exposeValueCssValueUnitList = Object.assign(AnimatorGroupPropertyFormat.cssValueUnit[cssPropertySpecies]);
-
-    if (exposeValueCssValueUnitList.length !== 0) {
-      const settingItemsDataKeyframeUnit: ToolConfigContext.settingItemsData = {
-        settingTitle: "配置単位",
-        settingMessage: "選択してください 親要素はコンポジットとなります",
-        thenConfigSettingGUIparts: ToolConfigContext.configSettingGUIparts[3],
-        exposeValue: exposeValueCssValueUnitList,
-        configItem: ConfigItemOperationlayerPanelCSSpropertyUnit,
-      };
-
-      settingItemsTemp.push(settingItemsDataKeyframeUnit);
-    }
+    //     settingItemsTemp.push(settingItemsDataKeyframeUnit);
+    //   }
   }
 
   const cssMinHeight = "calc((" + props.cssAreaViewHeight + " - 60px))";

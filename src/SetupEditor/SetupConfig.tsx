@@ -24,7 +24,6 @@ const SetupConfig = () => {
     "newComposite", //新しいコンポジットの設定
     "newAnimatorGroup", //新しいAnimatorGroupの設定
     "operationKeyframe", //keyframeをダブルクリックした時の設定
-    "operationlayerPanelCSSproperty", //operationKeyframeのレイヤーパネルにあるやつ
   ];
   const [configMode, configModeSetState] = useState<string>(configModeList[0]);
 
