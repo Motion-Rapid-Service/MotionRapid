@@ -4,6 +4,19 @@ import { testJoin, textReplace } from "./buildAuxiliaryFunction";
 import * as buildSourceSpecies from "./buildSourceSpecies";
 import CSSBuildMain from "../buildCSS/buildCSSMain";
 
+const buildCodes: { [name: string]: string } = {};
+const getBuildCodes = (codeName: string) => {
+  return buildCodes[codeName];
+};
+const insertBuildCodes = (codeName: string, sourceCode: string) => {
+  buildCodes[codeName] = sourceCode;
+};
+const initBuildCodes = () => {
+  for (let key in buildCodes) {
+    delete buildCodes[key];
+  }
+};
+
 const htmlBuildMain = (jsonDataCentral: any, compositeID: string) => {
   const htmlText = String(require("./../buildFormat/htmlFormat.html")["default"]);
 
@@ -15,28 +28,10 @@ const htmlBuildMain = (jsonDataCentral: any, compositeID: string) => {
   function getJsonDataCentral() {
     return jsonDataCentral;
   }
+  insertBuildCodes("main", htmlText);
+  insertBuildCodes("rootEdit");
 
-  let indentHTML: number = 3; //root等を考慮した値
-
-  let cssText: string = "";
-  // console.log("cssText", cssText);
-
-  const writeCSS = (send_AddCssText: string) => {
-    cssText += "\n";
-    cssText += send_AddCssText;
-    cssText += "\n";
-  };
-
-  const rootText = "\n" + parseComposite(getJsonDataCentral, compositeID, indentHTML, writeCSS) + buildSourceSpecies.writeIndentHTML(indentHTML - 1);
-  const replaceData = {
-    "%rootEdit%": rootText,
-    "%title%": "MotionRapidTest",
-    "%style%": testJoin(["<style type='text/css'>", "\n", cssText, "\n", "</style>"]),
-  };
-
-  // const jsonSyntaxCSS = CSSBuildMain(jsonData, CompositeID);
-
-  const htmlTextReplace = textReplace(htmlText, replaceData);
+  initBuildCodes();
 
   return htmlTextReplace;
 };
@@ -75,17 +70,6 @@ const parseMediaObject = (
   indentHTML: number,
   writeCSS: Function
 ) => {
-  const OwnedClass_Composite = getJsonDataCentral()["OwnedClass_Composite"];
-  const OwnedClass_MediaObject = getJsonDataCentral()["OwnedClass_MediaObject"];
-  const tag = "div";
-
-  const thenMediaObject = OwnedClass_MediaObject[mediaObjectID];
-  const thenSourceSpeciesClass = thenMediaObject["sourceSpecies"];
-  const thenSourceSpecies = String(thenSourceSpeciesClass.sourceSpecies);
-
-  //console.log("sourceSpeciesClass",thenSsourceSpeciesClass)
-  //console.log("thenSourceSpecies",thenSourceSpecies)
-
   let rtextC;
   if (thenSourceSpecies === buildSourceSpecies.sourceSpeciesList[0]) {
     //default
@@ -99,15 +83,5 @@ const parseMediaObject = (
     rtextC = buildSourceSpecies.sourceSpeciesFunctionComposite(getJsonDataCentral, thenSourceSpeciesClass, parseComposite, indentHTML + 1, writeCSS);
   }
 
-  const thisIndentStr = buildSourceSpecies.writeIndentHTML(indentHTML);
-
-  const rtextS = testJoin([thisIndentStr, "<", tag, " ", "class=", mediaObjectID, ">", "\n"]);
-  const rtextE = testJoin([thisIndentStr, "</", tag, ">", "\n"]);
-
-  const addCSSText = CSSBuildMain(getJsonDataCentral(), compositeID, mediaObjectID);
-  writeCSS(addCSSText);
-
-  const addText = rtextS + rtextC + "\n" + rtextE;
-  //console.log("addText", addText);
   return addText;
 };
