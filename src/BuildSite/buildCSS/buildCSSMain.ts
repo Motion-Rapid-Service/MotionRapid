@@ -4,6 +4,14 @@ import * as AnimatorGroupFormat from "./../../AnimatorGroupFormat/AnimatorGroupF
 import * as AnimatorGroupPropertyFormat from "./../../AnimatorGroupFormat/AnimatorGroupPropertyFormat";
 
 import * as middleDataClass from "./../../MiddleData/middleDataClass";
+
+const joinValueUnit = (value: string | number, unit: string) => {
+  if (!unit) {
+    return String(value);
+  }
+  return String(value) + String(unit);
+};
+
 const CSSBuildMain = (jsonDataCentral: any, compositeID: string, mediaObjectID: string) => {
   //   const htmlText = String(require("./../buildFormat/htmlFormat.html")["default"]);
 
@@ -63,13 +71,15 @@ const CSSBuildMain = (jsonDataCentral: any, compositeID: string, mediaObjectID: 
         const OwnedID_cssPropertyValue = thenAnimatorClass.OwnedID_cssPropertyValue;
         const thenCSSPropertyClass: middleDataClass.CSSProperty = OwnedClass_CSSProperty[OwnedID_cssPropertyValue];
 
-        cssPropertySpeciesList[thenAnimatorClass.Animator_propertySpecies] =
-          String(thenCSSPropertyClass.CSSProperty_Value) + String(thenCSSPropertyClass.CSSProperty_Unit);
+        cssPropertySpeciesList[thenAnimatorClass.Animator_propertySpecies] = joinValueUnit(
+          thenCSSPropertyClass.CSSProperty_Value,
+          thenCSSPropertyClass.CSSProperty_Unit
+        );
       }
 
       console.log("cssPropertySpeciesList", cssPropertySpeciesList);
 
-      const cssText = animatorGroupFormat.cssWriteFunction(thenAnimatorGroupClass.AnimatorGroup_Species, cssPropertySpeciesList);
+      const cssText = animatorGroupFormat.cssWriteFunction(animatorGroupFormat.cssPropertyName, cssPropertySpeciesList);
       CSSTextReplace += cssText;
       CSSTextReplace += "}";
       CSSTextReplace += "\n";

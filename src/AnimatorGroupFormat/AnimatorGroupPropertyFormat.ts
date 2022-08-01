@@ -49,7 +49,7 @@ export const PropertyFormat_backgroundColor: PropertyFormatSpecies = {
   cssWriteFunction: (send_propertyName: string, send_cssPropertySpeciesList: { [name: string]: string }) => {
     const rtext = textJoinAnimatorGroup([
       send_propertyName,
-      ":(",
+      ":rgba(",
       send_cssPropertySpeciesList["r"],
       ",",
       send_cssPropertySpeciesList["g"],
