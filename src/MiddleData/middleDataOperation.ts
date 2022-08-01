@@ -85,7 +85,7 @@ export default class MiddleDataOperation {
     return newID;
   };
 
-  operationCreateAnimatorGroup = (animatorGroupID: string, newAnimatorGroupSpeciesPropertySpecies: string) => {
+  operationLinkAnimatorGroup = (animatorGroupID: string, newAnimatorGroupSpeciesPropertySpecies: string) => {
     //animatorgroupに新しい要素を適用したときに、アニメーターの追加も同時にする関数
     // const animatorGroupID = this.createAnimatorGroup(newAnimatorGroupSpecies); これはいらない
 

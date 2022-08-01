@@ -224,7 +224,7 @@ const App = () => {
           updateDOM: updateDOM,
           operationMediaObjectTime: middleDataOperation.operationMediaObjectTime,
           operationKeyframeTime: middleDataOperation.operationKeyframeTime,
-          operationCreateAnimatorGroup: middleDataOperation.operationCreateAnimatorGroup,
+          operationLinkAnimatorGroup: middleDataOperation.operationLinkAnimatorGroup,
           operationCreateAnimator: middleDataOperation.operationCreateAnimator,
           operationCreateKeyframe: middleDataOperation.operationCreateKeyframe,
 

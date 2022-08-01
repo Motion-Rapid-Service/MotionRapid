@@ -151,7 +151,7 @@ const ComponentOptionConvertConfigMode = (props: any) => {
         const animatorGroupID = AppContextValue.createAnimatorGroup(newAnimatorGroupSpecies);
         AppContextValue.linkAnimatorGroup(thenMediaObjectKey, animatorGroupID);
 
-        AppContextValue.operationCreateAnimatorGroup(animatorGroupID, newAnimatorGroupSpecies);
+        AppContextValue.operationLinkAnimatorGroup(animatorGroupID, newAnimatorGroupSpecies);
       }
 
       AppContextValue.updateDOM();
@@ -192,15 +192,28 @@ const ComponentOptionConvertConfigMode = (props: any) => {
 
       for (let i = 0; i < userHandKeyframeIDArray.length; i++) {
         const thenUserHandKeyframeID = userHandKeyframeIDArray[i];
-        const temp: MiddleDataOperationType.OperationKeyframeTimeType = {
+        const tempTime: MiddleDataOperationType.OperationKeyframeTimeType = {
           KeyframeID: thenUserHandKeyframeID,
           time: Number(configContent[ConfigItemOperationKeyframeTime]),
         };
-        console.log("keyframe temp", temp);
-        AppContextValue.operationKeyframeTime(temp);
+        console.log("keyframe temp", tempTime);
+        AppContextValue.operationKeyframeTime(tempTime);
+
+        const thenCSSPropertySpecie_ID = AppContextValue.getOwnedID_CSSPropertySpeciesHasKeyframe(thenUserHandKeyframeID);
+        const tempValue: MiddleDataOperationType.OoperationCSSPropertyValueType = {
+          CSSPropertyID: thenCSSPropertySpecie_ID,
+          CSSPropertyValue: Number(configContent[ConfigItemOperationKeyframeValue]),
+        };
+
+        console.log("tempValue", tempValue);
+
+        AppContextValue.operationCSSPropertyValue(tempValue);
       }
       AppContextValue.updateDOM();
     };
+
+    const CSSPropertySpecie_ID = AppContextValue.getOwnedID_CSSPropertySpeciesHasKeyframe(keyframeID);
+    const CSSPropertyValue = AppContextValue.getCSSPropertyValue(CSSPropertySpecie_ID);
 
     const settingItemsDataKeyframeTime: ToolConfigContext.settingItemsData = {
       settingTitle: "配置時間",
@@ -209,11 +222,12 @@ const ComponentOptionConvertConfigMode = (props: any) => {
       exposeValue: [AppContextValue.getKeyframeTime(keyframeID)],
       configItem: ConfigItemOperationKeyframeTime,
     };
+
     const settingItemsDataKeyframeValue: ToolConfigContext.settingItemsData = {
       settingTitle: "配置数値",
       settingMessage: "入力してください",
       thenConfigSettingGUIparts: ToolConfigContext.configSettingGUIparts[1],
-      exposeValue: [0],
+      exposeValue: [CSSPropertyValue],
       configItem: ConfigItemOperationKeyframeValue,
     };
 

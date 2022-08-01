@@ -212,9 +212,17 @@ const AnimaterCSSproperty = (props: any) => {
   const CSSPropertyValue: string = AppContextValue.getCSSPropertyValue(CSSPropertyID);
   const CSSPropertyUnit: string = AppContextValue.getCSSPropertyUnit(CSSPropertyID);
 
-  console.log("CSSPropertyUnit", CSSPropertyUnit);
+  const [animaterCSSpropertyValue, animaterCSSpropertyValueSetState] = useState<string>(CSSPropertyValue);
   const [animaterCSSpropertyUnit, animaterCSSpropertyUnitSetState] = useState<string>(CSSPropertyUnit);
 
+  useEffect(() => {
+    const unitSendData: MiddleDataOperationType.OoperationCSSPropertyValueType = {
+      CSSPropertyID: CSSPropertyID,
+      CSSPropertyValue: animaterCSSpropertyValue,
+    };
+
+    AppContextValue.operationCSSPropertyValue(unitSendData);
+  }, [animaterCSSpropertyValue]);
   useEffect(() => {
     const unitSendData: MiddleDataOperationType.OoperationCSSPropertyUnitType = {
       CSSPropertyID: CSSPropertyID,
@@ -222,20 +230,26 @@ const AnimaterCSSproperty = (props: any) => {
     };
 
     AppContextValue.operationCSSPropertyUnit(unitSendData);
-    console.log("unitSendData", unitSendData);
   }, [animaterCSSpropertyUnit]);
 
   return (
     <div className="layer_panel-animator-entity-css_property">
-      <AnimaterCSSpropertyValue />
+      <AnimaterCSSpropertyValue animaterCSSpropertyValue={animaterCSSpropertyValue} animaterCSSpropertyValueSetState={animaterCSSpropertyValueSetState} />
       <AnimaterCSSpropertyUnit animaterCSSpropertyUnit={animaterCSSpropertyUnit} animaterCSSpropertyUnitSetState={animaterCSSpropertyUnitSetState} />
     </div>
   );
 };
 
 const AnimaterCSSpropertyValue = (props: any) => {
-  return <></>;
+  const LayerPanelAnimaterContextValue = useContext(LayerPanelAnimaterContext);
+
+  const onChange = (event: any) => {
+    const text = event.target.value;
+    props.animaterCSSpropertyValueSetState(String(text));
+  };
+  return <input type="text" value={props.animaterCSSpropertyValue} onChange={onChange} />;
 };
+
 const AnimaterCSSpropertyUnit = (props: any) => {
   const LayerPanelAnimaterContextValue = useContext(LayerPanelAnimaterContext);
 
@@ -251,6 +265,10 @@ const AnimaterCSSpropertyUnit = (props: any) => {
     const selectValue = Number(event.target.value);
     props.animaterCSSpropertyUnitSetState(cssValueUnitList[selectValue]);
   };
+
+  if (cssValueUnitList.length === 0) {
+    return <></>;
+  }
 
   return (
     <select onChange={onChange}>
