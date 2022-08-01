@@ -31,9 +31,20 @@
   align-items: center;
 }
 
+.layer_panel-animator .layer_panel-animator-entity p {
+  width: 40px;
+}
+
 .layer_panel-animator-entity .layer_panel-animator-entity-insert_keyframe_button {
   width: 20px;
   height: var(--animator-button-height);
   background-color: rgb(100, 100, 200);
   margin-right: 3px;
+}
+
+.layer_panel-animator-entity .layer_panel-animator-entity-css_property {
+  height: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
 }

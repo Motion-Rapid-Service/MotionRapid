@@ -22,6 +22,12 @@ type AppContextValue = {
   operationCSSPropertyValue: Function;
   operationCSSPropertyUnit: Function;
 
+  getCSSPropertyValue: Function;
+  getCSSPropertyUnit: Function;
+
+  getOwnedID_CSSPropertySpeciesHasAnimator: Function;
+  getOwnedID_CSSPropertySpeciesHasKeyframe: Function;
+
   getMediaObjectTime: Function;
   getMediaObjectSourceSpecies: Function;
   getKeyframeTime: Function;
@@ -48,8 +54,8 @@ type AppContextValue = {
   linkAnimator: Function;
   linkKeyframe: Function;
 
-  linkCSSPropertyAnimator: Function;
-  linkCSSPropertyKeyframe: Function;
+  linkCSSPropertyHasAnimator: Function;
+  linkCSSPropertyHasKeyframe: Function;
 };
 
 export const AppContext = createContext<AppContextValue>({} as AppContextValue);

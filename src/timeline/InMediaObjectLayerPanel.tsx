@@ -3,12 +3,15 @@ const { useState, useRef, useEffect, useContext, useReducer, createContext } = R
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import { AppContext, ComponentConvertAnimatorAreaType, ComponentConvertAnimatorGroupType, ComponentConvertAnimatorType } from "../AppContext";
-import { MediaObjectContext, TimelineAreaDivContext, LayerPanelContext, LayerDurationContext } from "./timelineContext";
+import { MediaObjectContext, TimelineAreaDivContext, LayerPanelContext, LayerDurationContext, LayerPanelAnimaterContext } from "./timelineContext";
 import { SetupEditorContext } from "./../SetupEditor/SetupEditorContext";
 
 // import { timelineMousePosition ,timelineLayerPanelPostion} from "./timeLineMousePosition";
 import * as timelineMousePosition from "./timeLineMousePosition";
 
+import * as middleDataClass from "./../MiddleData/middleDataClass";
+import * as AnimatorGroupFormat from "./../AnimatorGroupFormat/AnimatorGroupFormat";
+import * as AnimatorGroupPropertyFormat from "./../AnimatorGroupFormat/AnimatorGroupPropertyFormat";
 import * as MiddleDataOperationType from "./../MiddleData/middleDataOperationType";
 
 class UserHandLayerPanelOperation {
@@ -171,15 +174,21 @@ export const LayerPanelAnimaterComponent = (props: any) => {
   const DownstreamMiddleDataAnimator: ComponentConvertAnimatorType = props.DownstreamMiddleDataAnimator;
   const Animator_ID: string = DownstreamMiddleDataAnimator.Animator_ID;
   const Animator_propertySpecies: string = DownstreamMiddleDataAnimator.Animator_propertySpecies;
+  const AnimatorGroup_Species: string = DownstreamMiddleDataAnimator.AnimatorGroup_Species;
   return (
-    <div className="layer_panel-animator-entity">
-      <AnimaterInsertKeyframeButton Animator_ID={Animator_ID} />
-      <p>{Animator_propertySpecies}</p>
-    </div>
+    <LayerPanelAnimaterContext.Provider
+      value={{ Animator_ID: Animator_ID, Animator_propertySpecies: Animator_propertySpecies, AnimatorGroup_Species: AnimatorGroup_Species }}
+    >
+      <div className="layer_panel-animator-entity">
+        <AnimaterInsertKeyframeButton Animator_ID={Animator_ID} />
+        <p>{Animator_propertySpecies}</p>
+        <AnimaterCSSproperty Animator_ID={Animator_ID} />
+      </div>
+    </LayerPanelAnimaterContext.Provider>
   );
 };
 
-export const AnimaterInsertKeyframeButton = (props: any) => {
+const AnimaterInsertKeyframeButton = (props: any) => {
   const AppContextValue = useContext(AppContext);
 
   const mouseDown = () => {
@@ -193,4 +202,72 @@ export const AnimaterInsertKeyframeButton = (props: any) => {
     AppContextValue.updateDOM();
   };
   return <div className="layer_panel-animator-entity-insert_keyframe_button" onMouseDown={mouseDown}></div>;
+};
+
+const AnimaterCSSproperty = (props: any) => {
+  const AppContextValue = useContext(AppContext);
+  const LayerPanelAnimaterContextValue = useContext(LayerPanelAnimaterContext);
+
+  const CSSPropertyID = AppContextValue.getOwnedID_CSSPropertySpeciesHasAnimator(LayerPanelAnimaterContextValue.Animator_ID);
+  const CSSPropertyValue: string = AppContextValue.getCSSPropertyValue(CSSPropertyID);
+  const CSSPropertyUnit: string = AppContextValue.getCSSPropertyUnit(CSSPropertyID);
+
+  console.log("CSSPropertyUnit", CSSPropertyUnit);
+  const [animaterCSSpropertyUnit, animaterCSSpropertyUnitSetState] = useState<string>(CSSPropertyUnit);
+
+  useEffect(() => {
+    const unitSendData: MiddleDataOperationType.OoperationCSSPropertyUnitType = {
+      CSSPropertyID: CSSPropertyID,
+      CSSPropertyUnit: animaterCSSpropertyUnit,
+    };
+
+    AppContextValue.operationCSSPropertyUnit(unitSendData);
+    console.log("unitSendData", unitSendData);
+  }, [animaterCSSpropertyUnit]);
+
+  return (
+    <div className="layer_panel-animator-entity-css_property">
+      <AnimaterCSSpropertyValue />
+      <AnimaterCSSpropertyUnit animaterCSSpropertyUnit={animaterCSSpropertyUnit} animaterCSSpropertyUnitSetState={animaterCSSpropertyUnitSetState} />
+    </div>
+  );
+};
+
+const AnimaterCSSpropertyValue = (props: any) => {
+  return <></>;
+};
+const AnimaterCSSpropertyUnit = (props: any) => {
+  const LayerPanelAnimaterContextValue = useContext(LayerPanelAnimaterContext);
+
+  const animatorGroupFormat: AnimatorGroupPropertyFormat.PropertyFormatSpecies = AnimatorGroupFormat.getAnimatorGroupFormatList(
+    LayerPanelAnimaterContextValue.AnimatorGroup_Species
+  ); //cssのpropertyによる
+
+  const cssPropertySpeciesList = animatorGroupFormat.cssPropertySpeciesList; //そのpropertyに指定できるvalue一覧
+  const cssPropertySpecies = cssPropertySpeciesList[LayerPanelAnimaterContextValue.Animator_propertySpecies]; //そのvalueはどのような指定方法をするか 文字列か数値か
+  const cssValueUnitList = Object.assign(AnimatorGroupPropertyFormat.cssValueUnit[cssPropertySpecies]); //そのcssのpropertyがどのような値をとりえるか
+
+  const onChange = (event: any) => {
+    const selectValue = Number(event.target.value);
+    props.animaterCSSpropertyUnitSetState(cssValueUnitList[selectValue]);
+  };
+
+  return (
+    <select onChange={onChange}>
+      {cssValueUnitList.map((output: string, index: number) => (
+        <AnimaterCSSpropertyUnitOption output={output} index={index} key={index} animaterCSSpropertyUnit={props.animaterCSSpropertyUnit} />
+      ))}
+    </select>
+  );
+};
+const AnimaterCSSpropertyUnitOption = (props: any) => {
+  if (props.output === props.animaterCSSpropertyUnit) {
+    return (
+      <option value={props.index} selected>
+        {props.output}
+      </option>
+    );
+  } else {
+    return <option value={props.index}>{props.output}</option>;
+  }
 };

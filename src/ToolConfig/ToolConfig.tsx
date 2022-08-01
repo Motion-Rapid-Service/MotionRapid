@@ -13,7 +13,6 @@ import * as ToolConfigParts from "./ToolConfigParts";
 import * as middleDataClass from "./../MiddleData/middleDataClass";
 import * as AnimatorGroupFormat from "./../AnimatorGroupFormat/AnimatorGroupFormat";
 import * as AnimatorGroupPropertyFormat from "./../AnimatorGroupFormat/AnimatorGroupPropertyFormat";
-
 import * as MiddleDataOperationType from "./../MiddleData/middleDataOperationType";
 
 // const ConfigBackGround = () => {
@@ -174,7 +173,7 @@ const ComponentOptionConvertConfigMode = (props: any) => {
     const ConfigItemOperationKeyframeTime: string = ToolConfigContext.ConfigItemOperationKeyframe[0];
     const ConfigItemOperationKeyframeValue: string = ToolConfigContext.ConfigItemOperationKeyframe[1];
 
-    const ConfigItemOperationKeyframeUnit: string = ToolConfigContext.ConfigItemOperationKeyframe[2];
+    // const ConfigItemOperationKeyframeUnit: string = ToolConfigContext.ConfigItemOperationKeyframe[2];
 
     const configModeArgsOption = SetupConfigContextValue.getConfigModeArgsOption();
     const keyframeID = configModeArgsOption["Keyframe_ID"];

@@ -231,9 +231,15 @@ const App = () => {
           operationCSSPropertyValue: middleDataOperation.operationCSSPropertyValue,
           operationCSSPropertyUnit: middleDataOperation.operationCSSPropertyUnit,
 
+          getCSSPropertyValue: middleDataOperation.getCSSPropertyValue,
+          getCSSPropertyUnit: middleDataOperation.getCSSPropertyUnit,
+
           getMediaObjectTime: middleDataOperation.getMediaObjectTime,
           getMediaObjectSourceSpecies: middleDataOperation.getMediaObjectSourceSpecies,
           getKeyframeTime: middleDataOperation.getKeyframeTime,
+
+          getOwnedID_CSSPropertySpeciesHasAnimator: middleDataOperation.getOwnedID_CSSPropertySpeciesHasAnimator,
+          getOwnedID_CSSPropertySpeciesHasKeyframe: middleDataOperation.getOwnedID_CSSPropertySpeciesHasKeyframe,
 
           fileExportDataCentral: middleDataOperation.fileExportDataCentral,
           fileExportComposite: middleDataOperation.fileExportComposite,
@@ -259,8 +265,8 @@ const App = () => {
           linkAnimator: middleDataOperation.linkAnimator,
           linkKeyframe: middleDataOperation.linkKeyframe,
 
-          linkCSSPropertyAnimator: middleDataOperation.linkCSSPropertyAnimator,
-          linkCSSPropertyKeyframe: middleDataOperation.linkCSSPropertyKeyframe,
+          linkCSSPropertyHasAnimator: middleDataOperation.linkCSSPropertyHasAnimator,
+          linkCSSPropertyHasKeyframe: middleDataOperation.linkCSSPropertyHasKeyframe,
         }}
       >
         <SetupEditor />

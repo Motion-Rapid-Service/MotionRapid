@@ -96,7 +96,7 @@ export default class MiddleDataOperation {
       //clk : cssPropertySpeciesListKey ( 混同しないようにあえてやくしてます )
       const cssPropertySpecies = newAnimatorGroupSpeciesPropertyFormat.cssPropertySpeciesList[clk];
 
-      const newAnimatorID = this.createAnimator(clk);
+      const newAnimatorID = this.operationCreateAnimator(clk);
       this.linkAnimator(animatorGroupID, newAnimatorID);
     }
   };
@@ -104,7 +104,7 @@ export default class MiddleDataOperation {
   operationCreateAnimator = (propertySpecies: string) => {
     const aniID = this.createAnimator(propertySpecies);
     const cssID = this.createCSSProperty();
-    this.linkCSSPropertyAnimator(aniID, cssID);
+    this.linkCSSPropertyHasAnimator(aniID, cssID);
 
     return aniID;
   };
@@ -112,7 +112,7 @@ export default class MiddleDataOperation {
   operationCreateKeyframe = () => {
     const keyID = this.createKeyframe();
     const cssID = this.createCSSProperty();
-    this.linkCSSPropertyKeyframe(keyID, cssID);
+    this.linkCSSPropertyHasKeyframe(keyID, cssID);
 
     return keyID;
   };
@@ -130,10 +130,10 @@ export default class MiddleDataOperation {
   linkKeyframe = (animatorID: string, keyframeID: string) => {
     this.DataCentral.OwnedClass_Animator[animatorID].OwnedID_Keyframe.push(keyframeID);
   };
-  linkCSSPropertyAnimator = (animatorID: string, CSSPropertySpeciesValueID: string) => {
+  linkCSSPropertyHasAnimator = (animatorID: string, CSSPropertySpeciesValueID: string) => {
     this.DataCentral.OwnedClass_Animator[animatorID].OwnedID_cssPropertyValue = CSSPropertySpeciesValueID;
   };
-  linkCSSPropertyKeyframe = (keyframeID: string, CSSPropertySpeciesValueID: string) => {
+  linkCSSPropertyHasKeyframe = (keyframeID: string, CSSPropertySpeciesValueID: string) => {
     this.DataCentral.OwnedClass_Keyframe[keyframeID].OwnedID_cssPropertyValue = CSSPropertySpeciesValueID;
   };
   swopMediaObject = (compositeID: string, swopSubject: number, swopInsertion: number) => {
@@ -151,15 +151,9 @@ export default class MiddleDataOperation {
     for (let i = 0; i < swopOwnedID_MediaObject.length; i++) {
       if (swopOwnedID_MediaObject[i] == "not") {
         const beforeSwopOwnedID_MediaObject = swopOwnedID_MediaObject.splice(i, 1);
-
         continue;
       }
     }
-
-    // const swopID = this.DataCentral.OwnedClass_Composite[compositeID].OwnedID_MediaObject[swopSubject]
-    // this.DataCentral.OwnedClass_Composite[compositeID].OwnedID_MediaObject[swopSubject] = null
-
-    // arr.splice(2, 0, 'AAA', 'BBB', 'CCC');
   };
 
   operationMediaObjectTime = (sendData: any) => {
@@ -188,6 +182,15 @@ export default class MiddleDataOperation {
     this.DataCentral.OwnedClass_CSSProperty[sendData.CSSPropertyID].CSSProperty_Unit = sendData.CSSPropertyUnit;
   };
 
+  getCSSPropertyValue = (CSSPropertyID: string) => {
+    console.log("getCSSPropertyValue", this.DataCentral.OwnedClass_CSSProperty, CSSPropertyID);
+    return this.DataCentral.OwnedClass_CSSProperty[CSSPropertyID].CSSProperty_Value;
+  };
+  getCSSPropertyUnit = (CSSPropertyID: string) => {
+    console.log("getCSSPropertyUnit", this.DataCentral.OwnedClass_CSSProperty, CSSPropertyID);
+    return this.DataCentral.OwnedClass_CSSProperty[CSSPropertyID].CSSProperty_Unit;
+  };
+
   getOwnedID_Composite = () => {
     return Object.assign(Object.keys(this.DataCentral.OwnedClass_Composite));
   };
@@ -210,6 +213,16 @@ export default class MiddleDataOperation {
 
   getOwnedID_Keyframe = (animatorID: string) => {
     return Object.assign(this.DataCentral.OwnedClass_Animator[animatorID].OwnedID_Keyframe);
+  };
+
+  getOwnedID_CSSPropertySpeciesHasAnimator = (animatorID: string) => {
+    const thenAnimator: middleDataClass.Animator = Object.assign(this.DataCentral.OwnedClass_Animator[animatorID]);
+    return thenAnimator.OwnedID_cssPropertyValue;
+  };
+
+  getOwnedID_CSSPropertySpeciesHasKeyframe = (keyframeID: string) => {
+    const thenKeyframe: middleDataClass.Keyframe = Object.assign(this.DataCentral.OwnedClass_Keyframe[keyframeID]);
+    return thenKeyframe.OwnedID_cssPropertyValue;
   };
 
   getOwnedClassComposite = (compositeID: string) => {

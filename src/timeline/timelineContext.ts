@@ -60,3 +60,10 @@ type LayerDurationContextValue = {
 };
 
 export const LayerDurationContext = createContext<LayerDurationContextValue>({} as LayerDurationContextValue);
+
+type LayerPanelAnimaterContextValue = {
+  Animator_ID: string;
+  Animator_propertySpecies: string;
+  AnimatorGroup_Species: string;
+};
+export const LayerPanelAnimaterContext = createContext<LayerPanelAnimaterContextValue>({} as LayerPanelAnimaterContextValue);
