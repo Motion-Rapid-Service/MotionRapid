@@ -9,8 +9,10 @@ const htmlBuildMain = (jsonDataCentral: any, compositeID: string) => {
 
   const OwnedClass_Composite = jsonDataCentral["OwnedClass_Composite"];
   const OwnedClass_MediaObject = jsonDataCentral["OwnedClass_MediaObject"];
+  const OwnedClass_AnimatorGroup = jsonDataCentral["OwnedClass_AnimatorGroup"];
   const OwnedClass_Animator = jsonDataCentral["OwnedClass_Animator"];
   const OwnedClass_Keyframe = jsonDataCentral["OwnedClass_Keyframe"];
+  const OwnedClass_CSSProperty = jsonDataCentral["OwnedClass_CSSProperty"];
 
   function getJsonDataCentral() {
     return jsonDataCentral;
@@ -77,6 +79,11 @@ const parseMediaObject = (
 ) => {
   const OwnedClass_Composite = getJsonDataCentral()["OwnedClass_Composite"];
   const OwnedClass_MediaObject = getJsonDataCentral()["OwnedClass_MediaObject"];
+  const OwnedClass_AnimatorGroup = getJsonDataCentral()["OwnedClass_AnimatorGroup"];
+  const OwnedClass_Animator = getJsonDataCentral()["OwnedClass_Animator"];
+  const OwnedClass_Keyframe = getJsonDataCentral()["OwnedClass_Keyframe"];
+  const OwnedClass_CSSProperty = getJsonDataCentral()["OwnedClass_CSSProperty"];
+
   const tag = "div";
 
   const thenMediaObject = OwnedClass_MediaObject[mediaObjectID];

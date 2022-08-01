@@ -101,7 +101,7 @@ export class CSSProperty {
   CSSProperty_Unit: string;
   constructor(send_CSSProperty_ID: string) {
     this.CSSProperty_ID = send_CSSProperty_ID;
-    this.CSSProperty_Value = null;
-    this.CSSProperty_Unit = null;
+    this.CSSProperty_Value = 0;
+    this.CSSProperty_Unit = "";
   }
 }

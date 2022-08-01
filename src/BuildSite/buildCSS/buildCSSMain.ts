@@ -1,6 +1,9 @@
 // import { testJoin, textReplace } from "./buildAuxiliaryFunction";
 // import * as buildSourceType from "./buildSourceType";
+import * as AnimatorGroupFormat from "./../../AnimatorGroupFormat/AnimatorGroupFormat";
+import * as AnimatorGroupPropertyFormat from "./../../AnimatorGroupFormat/AnimatorGroupPropertyFormat";
 
+import * as middleDataClass from "./../../MiddleData/middleDataClass";
 const CSSBuildMain = (jsonDataCentral: any, compositeID: string, mediaObjectID: string) => {
   //   const htmlText = String(require("./../buildFormat/htmlFormat.html")["default"]);
 
@@ -9,6 +12,7 @@ const CSSBuildMain = (jsonDataCentral: any, compositeID: string, mediaObjectID: 
   const OwnedClass_AnimatorGroup = jsonDataCentral["OwnedClass_AnimatorGroup"];
   const OwnedClass_Animator = jsonDataCentral["OwnedClass_Animator"];
   const OwnedClass_Keyframe = jsonDataCentral["OwnedClass_Keyframe"];
+  const OwnedClass_CSSProperty: { [name: string]: middleDataClass.CSSProperty } = jsonDataCentral["OwnedClass_CSSProperty"];
 
   const thenCompositeClass = OwnedClass_Composite[compositeID];
   const Composite_Duration = thenCompositeClass["Composite_Duration"];
@@ -25,15 +29,58 @@ const CSSBuildMain = (jsonDataCentral: any, compositeID: string, mediaObjectID: 
   for (let agi = 0; agi < OwnedID_AnimatorGroup.length; agi++) {
     //アニメーターグループ
     const thenAnimatorGroupID = OwnedID_AnimatorGroup[agi];
-    const thenAnimatorGroupClass = OwnedClass_AnimatorGroup[thenAnimatorGroupID];
-    const OwnedID_Animator = thenAnimatorGroupClass["OwnedID_Animator"];
+    const thenAnimatorGroupClass: middleDataClass.AnimatorGroup = OwnedClass_AnimatorGroup[thenAnimatorGroupID];
+    const OwnedID_Animator: Array<string> = thenAnimatorGroupClass.OwnedID_Animator;
 
+    let hasKeyframe: boolean = false;
     for (let ani = 0; ani < OwnedID_Animator.length; ani++) {
+      const thenAnimatorID: string = OwnedID_Animator[agi];
+      const thenAnimatorClass: middleDataClass.Animator = OwnedClass_Animator[thenAnimatorID];
+      const OwnedID_Keyframe: Array<string> = thenAnimatorClass.OwnedID_Keyframe;
+
+      if (OwnedID_Keyframe.length !== 0) {
+        hasKeyframe = true;
+        break;
+      }
+    }
+
+    console.log("hasKeyframe", hasKeyframe);
+
+    if (!hasKeyframe) {
+      CSSTextReplace += ".";
+      CSSTextReplace += mediaObjectID;
+      CSSTextReplace += " { \n";
+
+      const animatorGroupFormat: AnimatorGroupPropertyFormat.PropertyFormatSpecies = AnimatorGroupFormat.getAnimatorGroupFormatList(
+        thenAnimatorGroupClass.AnimatorGroup_Species
+      );
+
+      let cssPropertySpeciesList: { [name: string]: string } = {};
+
+      for (let anj = 0; anj < OwnedID_Animator.length; anj++) {
+        const thenAnimatorID: string = OwnedID_Animator[anj];
+        const thenAnimatorClass: middleDataClass.Animator = OwnedClass_Animator[thenAnimatorID];
+        const OwnedID_cssPropertyValue = thenAnimatorClass.OwnedID_cssPropertyValue;
+        const thenCSSPropertyClass: middleDataClass.CSSProperty = OwnedClass_CSSProperty[OwnedID_cssPropertyValue];
+
+        cssPropertySpeciesList[thenAnimatorClass.Animator_propertySpecies] =
+          String(thenCSSPropertyClass.CSSProperty_Value) + String(thenCSSPropertyClass.CSSProperty_Unit);
+      }
+
+      console.log("cssPropertySpeciesList", cssPropertySpeciesList);
+
+      const cssText = animatorGroupFormat.cssWriteFunction(thenAnimatorGroupClass.AnimatorGroup_Species, cssPropertySpeciesList);
+      CSSTextReplace += cssText;
+      CSSTextReplace += "}";
+      CSSTextReplace += "\n";
+    }
+
+    for (let ank = 0; ank < OwnedID_Animator.length; ank++) {
       CSSTextReplace += "\n";
       //アニメーター
-      const thenAnimatorID = OwnedID_Animator[agi];
-      const thenAnimatorClass = OwnedClass_Animator[thenAnimatorID];
-      const OwnedID_Keyframe = thenAnimatorClass["OwnedID_Keyframe"];
+      const thenAnimatorID: string = OwnedID_Animator[ank];
+      const thenAnimatorClass: middleDataClass.Animator = OwnedClass_Animator[thenAnimatorID];
+      const OwnedID_Keyframe: Array<string> = thenAnimatorClass.OwnedID_Keyframe;
 
       CSSTextReplace += "@keyframe ";
       CSSTextReplace += thenAnimatorID;
@@ -42,8 +89,8 @@ const CSSBuildMain = (jsonDataCentral: any, compositeID: string, mediaObjectID: 
       for (let ki = 0; ki < OwnedID_Keyframe.length; ki++) {
         //キーフレーム
         const thenkeyframeID = OwnedID_Keyframe[ki];
-        const thenkeyframeClass = OwnedClass_Keyframe[thenkeyframeID];
-        const Keyframe_AbsoluteTime = thenkeyframeClass["Keyframe_AbsoluteTime"];
+        const thenkeyframeClass: middleDataClass.Keyframe = OwnedClass_Keyframe[thenkeyframeID];
+        const Keyframe_AbsoluteTime = thenkeyframeClass.Keyframe_AbsoluteTime;
         console.log("最深部", compositeID, mediaObjectID, thenAnimatorGroupID, thenAnimatorID, thenkeyframeID);
         console.log(OwnedID_AnimatorGroup.length, OwnedID_Animator.length, OwnedID_Keyframe.length);
 

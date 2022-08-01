@@ -94,10 +94,20 @@ export default class MiddleDataOperation {
 
     for (let clk in newAnimatorGroupSpeciesPropertyFormat.cssPropertySpeciesList) {
       //clk : cssPropertySpeciesListKey ( 混同しないようにあえてやくしてます )
-      const cssPropertySpecies = newAnimatorGroupSpeciesPropertyFormat.cssPropertySpeciesList[clk];
+      const cssPropertySpecies = newAnimatorGroupSpeciesPropertyFormat.cssPropertySpeciesList[clk]; //そのpropertyがどのようなものを求めているか
+      const units: Array<string> = AnimatorGroupPropertyFormat.cssValueUnit[cssPropertySpecies];
 
       const newAnimatorID = this.operationCreateAnimator(clk);
       this.linkAnimator(animatorGroupID, newAnimatorID);
+
+      const CSSProperty_ID = this.getOwnedID_CSSPropertySpeciesHasAnimator(newAnimatorID);
+
+      const unitSendData: MiddleDataOperationType.OoperationCSSPropertyUnitType = {
+        CSSPropertyID: CSSProperty_ID,
+        CSSPropertyUnit: units[0],
+      };
+
+      this.operationCSSPropertyUnit(unitSendData);
     }
   };
 
