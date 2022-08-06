@@ -1,4 +1,5 @@
 import { testJoin } from "./buildAuxiliaryFunction";
+import * as buildQue from "../buildQue";
 
 export const sourceSpeciesList = [
   "default", //何もない状態(nullオブジェクトと同等)
@@ -20,23 +21,25 @@ export const sourceSpeciesFunctionDefault = () => {};
 
 export const sourceSpeciesFunctionText = (
   jsonDataCentral: Function,
+  downParentID: string,
   SourceSpeciesTextClass: SourceSpeciesTextClass,
-  indentHTML: number,
   writeCSS: Function
 ) => {
-  const reTemp = testJoin([writeIndentHTML(indentHTML), "<p>", SourceSpeciesTextClass.text, "</p>"]);
-  return reTemp;
+  // const reTemp = testJoin([writeIndentHTML(indentHTML), "<p>", SourceSpeciesTextClass.text, "</p>"]);
+  const newParentID = buildQue.pushHtmlElementQue(new buildQue.htmlElementBlockClass("p", downParentID));
+  buildQue.pushHtmlElementQue(new buildQue.htmlElementSubstanceClass(SourceSpeciesTextClass.text, newParentID));
+  return;
 };
 
 export const sourceSpeciesFunctionComposite = (
   jsonDataCentral: Function,
+  downParentID: string,
   sourceSpeciesCompositeClass: SourceSpeciesCompositeClass,
   parseComposite: Function,
-  indentHTML: number,
   writeCSS: Function
 ) => {
-  const reTemp = parseComposite(jsonDataCentral, sourceSpeciesCompositeClass.compositeID, indentHTML + 1, writeCSS);
-  return writeIndentHTML(indentHTML) + reTemp;
+  parseComposite(jsonDataCentral, sourceSpeciesCompositeClass.compositeID, writeCSS);
+  return;
 };
 
 export abstract class SourceSpeciesClass {

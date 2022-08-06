@@ -12,14 +12,14 @@ const joinValueUnit = (value: string | number, unit: string) => {
   return String(value) + String(unit);
 };
 
-const CSSBuildMain = (jsonDataCentral: any, compositeID: string, mediaObjectID: string) => {
+const CSSBuildMain = (jsonDataCentral: middleDataClass.DataCentral, compositeID: string, mediaObjectID: string) => {
   //   const htmlText = String(require("./../buildFormat/htmlFormat.html")["default"]);
 
-  const OwnedClass_Composite = jsonDataCentral["OwnedClass_Composite"];
-  const OwnedClass_MediaObject = jsonDataCentral["OwnedClass_MediaObject"];
-  const OwnedClass_AnimatorGroup = jsonDataCentral["OwnedClass_AnimatorGroup"];
-  const OwnedClass_Animator = jsonDataCentral["OwnedClass_Animator"];
-  const OwnedClass_Keyframe = jsonDataCentral["OwnedClass_Keyframe"];
+  const OwnedClass_Composite: { [name: string]: middleDataClass.Composite } = jsonDataCentral.OwnedClass_Composite;
+  const OwnedClass_MediaObject: { [name: string]: middleDataClass.MediaObject } = jsonDataCentral.OwnedClass_MediaObject;
+  const OwnedClass_AnimatorGroup: { [name: string]: middleDataClass.AnimatorGroup } = jsonDataCentral.OwnedClass_AnimatorGroup;
+  const OwnedClass_Animator: { [name: string]: middleDataClass.Animator } = jsonDataCentral.OwnedClass_Animator;
+  const OwnedClass_Keyframe: { [name: string]: middleDataClass.Keyframe } = jsonDataCentral.OwnedClass_Keyframe;
   const OwnedClass_CSSProperty: { [name: string]: middleDataClass.CSSProperty } = jsonDataCentral["OwnedClass_CSSProperty"];
 
   const thenCompositeClass = OwnedClass_Composite[compositeID];
