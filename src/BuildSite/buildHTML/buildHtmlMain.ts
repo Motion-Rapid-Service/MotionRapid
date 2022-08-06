@@ -4,6 +4,36 @@ import { testJoin, textReplace } from "./buildAuxiliaryFunction";
 import * as buildSourceSpecies from "./buildSourceSpecies";
 import CSSBuildMain from "../buildCSS/buildCSSMain";
 
+const htmlElementTypeList = ["not", "BlockClass"];
+
+class htmlElement {
+  species: string;
+  getText: Function;
+}
+
+class htmlElementBlockClass extends htmlElement {
+  indent: boolean; //trueならindentを下げる falseならあげる
+  htmlTag: string;
+  mediaObjectID: string;
+  constructor(send_mediaObjectID: string, send_indent: boolean = true, send_tag: string = "") {
+    super();
+    this.species = htmlElementTypeList[1];
+    this.indent = send_indent;
+    this.htmlTag = send_tag;
+    this.mediaObjectID = send_mediaObjectID;
+  }
+
+  getText = () => {
+    if (this.indent) {
+      return testJoin(["<", this.htmlTag, " ", "class=", this.mediaObjectID, ">", "\n"]);
+    } else {
+      return testJoin(["</", this.htmlTag, ">", "\n"]);
+    }
+  };
+}
+
+let htmlElementQue: Array<htmlElement> = [];
+
 const htmlBuildMain = (jsonDataCentral: any, compositeID: string) => {
   const htmlText = String(require("./../buildFormat/htmlFormat.html")["default"]);
 
@@ -90,31 +120,28 @@ const parseMediaObject = (
   const thenSourceSpeciesClass = thenMediaObject["sourceSpecies"];
   const thenSourceSpecies = String(thenSourceSpeciesClass.sourceSpecies);
 
-  //console.log("sourceSpeciesClass",thenSsourceSpeciesClass)
-  //console.log("thenSourceSpecies",thenSourceSpecies)
+  htmlElementQue.push();
 
-  let rtextC;
   if (thenSourceSpecies === buildSourceSpecies.sourceSpeciesList[0]) {
     //default
   }
   if (thenSourceSpecies === buildSourceSpecies.sourceSpeciesList[1]) {
     //text
-    rtextC = buildSourceSpecies.sourceSpeciesFunctionText(getJsonDataCentral, thenSourceSpeciesClass, indentHTML + 1, writeCSS);
+    const rtextC = buildSourceSpecies.sourceSpeciesFunctionText(getJsonDataCentral, thenSourceSpeciesClass, indentHTML + 1, writeCSS);
   }
   if (thenSourceSpecies === buildSourceSpecies.sourceSpeciesList[2]) {
     //Composite
-    rtextC = buildSourceSpecies.sourceSpeciesFunctionComposite(getJsonDataCentral, thenSourceSpeciesClass, parseComposite, indentHTML + 1, writeCSS);
+    const rtextC = buildSourceSpecies.sourceSpeciesFunctionComposite(getJsonDataCentral, thenSourceSpeciesClass, parseComposite, indentHTML + 1, writeCSS);
   }
 
-  const thisIndentStr = buildSourceSpecies.writeIndentHTML(indentHTML);
+  // const thisIndentStr = buildSourceSpecies.writeIndentHTML(indentHTML);
 
-  const rtextS = testJoin([thisIndentStr, "<", tag, " ", "class=", mediaObjectID, ">", "\n"]);
-  const rtextE = testJoin([thisIndentStr, "</", tag, ">", "\n"]);
+  // const rtextS = testJoin([thisIndentStr, "<", tag, " ", "class=", mediaObjectID, ">", "\n"]);
+  // const rtextE = testJoin([thisIndentStr, "</", tag, ">", "\n"]);
 
   const addCSSText = CSSBuildMain(getJsonDataCentral(), compositeID, mediaObjectID);
   writeCSS(addCSSText);
 
-  const addText = rtextS + rtextC + "\n" + rtextE;
   //console.log("addText", addText);
-  return addText;
+  return;
 };
