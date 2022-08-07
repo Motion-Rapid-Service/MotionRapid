@@ -19,15 +19,10 @@ export const writeIndentHTML = (indentHTML: number) => {
 
 export const sourceSpeciesFunctionDefault = () => {};
 
-export const sourceSpeciesFunctionText = (
-  jsonDataCentral: Function,
-  downParentID: string,
-  SourceSpeciesTextClass: SourceSpeciesTextClass,
-  writeCSS: Function
-) => {
+export const sourceSpeciesFunctionText = (jsonDataCentral: Function, downParentID: string, SourceSpeciesTextClass: SourceSpeciesTextClass) => {
   // const reTemp = testJoin([writeIndentHTML(indentHTML), "<p>", SourceSpeciesTextClass.text, "</p>"]);
-  const newParentID = buildQue.pushHtmlElementQue(new buildQue.htmlElementBlockClass("p", downParentID));
-  buildQue.pushHtmlElementQue(new buildQue.htmlElementSubstanceClass(SourceSpeciesTextClass.text, newParentID));
+  const newParentID = buildQue.pushHtmlElementQue(new buildQue.htmlElementBlockClass("p"), downParentID);
+  buildQue.pushHtmlElementQue(new buildQue.htmlElementSubstanceClass(SourceSpeciesTextClass.text), newParentID);
   return;
 };
 
@@ -35,10 +30,9 @@ export const sourceSpeciesFunctionComposite = (
   jsonDataCentral: Function,
   downParentID: string,
   sourceSpeciesCompositeClass: SourceSpeciesCompositeClass,
-  parseComposite: Function,
-  writeCSS: Function
+  parseComposite: Function
 ) => {
-  parseComposite(jsonDataCentral, sourceSpeciesCompositeClass.compositeID, writeCSS);
+  parseComposite(jsonDataCentral, sourceSpeciesCompositeClass.compositeID);
   return;
 };
 

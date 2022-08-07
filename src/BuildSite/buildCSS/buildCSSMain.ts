@@ -4,6 +4,7 @@ import * as AnimatorGroupFormat from "./../../AnimatorGroupFormat/AnimatorGroupF
 import * as AnimatorGroupPropertyFormat from "./../../AnimatorGroupFormat/AnimatorGroupPropertyFormat";
 
 import * as middleDataClass from "./../../MiddleData/middleDataClass";
+import * as buildQue from "../buildQue";
 
 const joinValueUnit = (value: string | number, unit: string) => {
   if (!unit) {
@@ -12,7 +13,7 @@ const joinValueUnit = (value: string | number, unit: string) => {
   return String(value) + String(unit);
 };
 
-const CSSBuildMain = (jsonDataCentral: middleDataClass.DataCentral, compositeID: string, mediaObjectID: string) => {
+const CSSBuildMain = (jsonDataCentral: middleDataClass.DataCentral, htmlDownParentID: string, compositeID: string, mediaObjectID: string) => {
   //   const htmlText = String(require("./../buildFormat/htmlFormat.html")["default"]);
 
   const OwnedClass_Composite: { [name: string]: middleDataClass.Composite } = jsonDataCentral.OwnedClass_Composite;
@@ -55,9 +56,9 @@ const CSSBuildMain = (jsonDataCentral: middleDataClass.DataCentral, compositeID:
     console.log("hasKeyframe", hasKeyframe);
 
     if (!hasKeyframe) {
-      CSSTextReplace += ".";
-      CSSTextReplace += mediaObjectID;
-      CSSTextReplace += " { \n";
+      // CSSTextReplace += ".";
+      // CSSTextReplace += mediaObjectID;
+      // CSSTextReplace += " { \n";
 
       const animatorGroupFormat: AnimatorGroupPropertyFormat.PropertyFormatSpecies = AnimatorGroupFormat.getAnimatorGroupFormatList(
         thenAnimatorGroupClass.AnimatorGroup_Species
@@ -80,9 +81,11 @@ const CSSBuildMain = (jsonDataCentral: middleDataClass.DataCentral, compositeID:
       console.log("cssPropertySpeciesList", cssPropertySpeciesList);
 
       const cssText = animatorGroupFormat.cssWriteFunction(animatorGroupFormat.cssPropertyName, cssPropertySpeciesList);
-      CSSTextReplace += cssText;
-      CSSTextReplace += "}";
-      CSSTextReplace += "\n";
+
+      buildQue.pushCSSElementQue(new buildQue.cssElementDefault(CSSTextReplace), htmlDownParentID);
+      // CSSTextReplace += cssText;
+      // CSSTextReplace += "}";
+      // CSSTextReplace += "\n";
     }
 
     for (let ank = 0; ank < OwnedID_Animator.length; ank++) {
@@ -116,8 +119,6 @@ const CSSBuildMain = (jsonDataCentral: middleDataClass.DataCentral, compositeID:
       CSSTextReplace += "\n";
     }
   }
-
-  return CSSTextReplace;
 };
 
 export default CSSBuildMain;
