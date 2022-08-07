@@ -8,14 +8,14 @@ export const testJoin = (textArray: Array<string>) => {
   return text;
 };
 
-export const textReplace = (htmlText: string, replaceData: Array<Array<string>>) => {
+export const textReplace = (htmlText: string, replaceData: { [name: string]: string }) => {
   let htmlTextTemp = htmlText;
 
-  // const replaceDataKeys = Object.keys(replaceData);
-  // const replaceDataValue = Object.values(replaceData);
+  const replaceDataKeys = Object.keys(replaceData);
+  const replaceDataValue = Object.values(replaceData);
 
-  for (let i = 0; i < replaceData.length; i++) {
-    htmlTextTemp = htmlTextTemp.replace(replaceData[i][0], replaceData[i][1]);
+  for (let i = 0; i < replaceDataKeys.length; i++) {
+    htmlTextTemp = htmlTextTemp.replace(replaceDataKeys[i], replaceDataValue[i]);
   }
 
   return htmlTextTemp;

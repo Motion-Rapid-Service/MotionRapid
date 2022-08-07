@@ -13,6 +13,7 @@ const rootTitleDowmParentName = "rootTitle";
 
 const htmlBuildMain = (jsonDataCentral: any, compositeID: string) => {
   buildQue.alldeleteHtmlElementQue();
+  buildQue.alldeleteCSSElementQue();
 
   const htmlText = String(require("./../buildFormat/htmlFormat.html")["default"]);
 
@@ -38,53 +39,73 @@ const htmlBuildMain = (jsonDataCentral: any, compositeID: string) => {
   //   cssText += "\n";
   // };
 
-  const roothtmlID = buildQue.pushHtmlElementQue(new buildQue.htmlElementTopClass());
+  const rootHtmlID = buildQue.pushHtmlElementQue(new buildQue.htmlElementTopClass());
   const rootStyleID = buildQue.pushHtmlElementQue(new buildQue.htmlElementTopClass());
   const rootTitleID = buildQue.pushHtmlElementQue(new buildQue.htmlElementTopClass());
 
   const cssAttribute: { [name: string]: string } = { type: "text/css" };
 
   buildQue.pushHtmlElementQue(new buildQue.htmlElementBlockClass("style", cssAttribute), rootStyleID);
-  parseComposite(getJsonDataCentral, roothtmlID, compositeID);
+  parseComposite(getJsonDataCentral, rootHtmlID, compositeID);
 
+  const htmlElement: buildQue.htmlElement = buildQue.getHtmlElementQue(rootHtmlID);
+  const newHtmlText = "";
+  const outputHtml = recursiveHtml(rootHtmlID);
+
+  console.log("outputHtml", outputHtml);
   console.log(buildQue.htmlElementQue);
   console.log(buildQue.cssElementQue);
 
-  const htmlElementQueKey = Object.keys(buildQue.htmlElementQue);
-
-  console.log("htmlElementQueKey", htmlElementQueKey);
-
-  let htmlTextReplace = htmlText;
-
-  for (let i = 0; i < htmlElementQueKey.length; i++) {
-    const htmlClass: buildQue.htmlElement = buildQue.getHtmlElementQue(htmlElementQueKey[i]);
-    // console.log("htmlClass", htmlClass);
-
-    const returnText = htmlClass.getText();
-
-    console.log("returnText", returnText);
-
-    // console.log("returnText[0]", returnText[0]);
-    // const parentName: string = "%" + returnText[1] + "%";
-
-    const replaceData = [returnText];
-
-    htmlTextReplace = textReplace(htmlTextReplace, replaceData);
-  }
-
-  console.log("htmlTextReplace", htmlTextReplace);
-
-  // const replaceData = {
-  //   "%rootEdit%": "a",
-  //   "%rootTitle%": "TestMotionRapid",
-  //   "%rootStyle%": "c",
-  // };
-  // const htmlTextReplace = textReplace(htmlText, replaceData);
+  const replaceData = {
+    "%rootEdit%": outputHtml,
+    "%rootTitle%": "TestMotionRapid",
+    "%rootStyle%": "c",
+  };
+  const htmlTextReplace = textReplace(htmlText, replaceData);
 
   return htmlTextReplace;
 };
 
 export default htmlBuildMain;
+
+const recursiveHtml = (htmlID: string) => {
+  const htmlElement: buildQue.htmlElement = buildQue.getHtmlElementQue(htmlID);
+  const newTextArray: Array<string> = htmlElement.getText();
+  const childIDArray: Array<string> = htmlElement.childID;
+
+  // console.log("recursiveHtml", htmlID);
+
+  let recursiveText = "";
+
+  if (htmlElement.species === buildQue.htmlElementSpeciesList[1]) {
+    console.log("recursiveHtmlAs", htmlID);
+    recursiveText += "\n";
+    recursiveText += newTextArray[0];
+
+    for (let i = 0; i < childIDArray.length; i++) {
+      const returnText = "\n" + recursiveHtml(childIDArray[i]) + "\n";
+      recursiveText += returnText;
+    }
+
+    recursiveText += newTextArray[1];
+    recursiveText += "\n";
+    console.log("recursiveHtmlAe", htmlID);
+  }
+  if (htmlElement.species === buildQue.htmlElementSpeciesList[2]) {
+    console.log("recursiveHtmlBs", htmlID);
+    recursiveText += newTextArray[0];
+    console.log("recursiveHtmlBe", htmlID);
+  }
+  if (htmlElement.species === buildQue.htmlElementSpeciesList[3]) {
+    console.log("recursiveHtmlCs", htmlID);
+    for (let i = 0; i < childIDArray.length; i++) {
+      const returnText = "\n" + recursiveHtml(childIDArray[i]) + "\n";
+      recursiveText += returnText;
+    }
+    console.log("recursiveHtmlCe", htmlID);
+  }
+  return recursiveText;
+};
 
 const parseComposite = (
   // htmlRoot: string,

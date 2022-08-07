@@ -6,8 +6,8 @@ const getUUID = () => {
 
 import { testJoin, textReplace } from "./buildHTML/buildAuxiliaryFunction";
 
-const htmlElementSpeciesList = ["not", "BlockClass", "SubstanceClass", "TopClass"];
-const cssElementSpeciesList = ["not", "Default", "SubstanceCSS", "Keyframe"];
+export const htmlElementSpeciesList = ["not", "BlockClass", "SubstanceClass", "TopClass"];
+export const cssElementSpeciesList = ["not", "Default", "SubstanceCSS", "Keyframe"];
 
 export let htmlElementQue: { [name: string]: htmlElement } = {};
 export const pushHtmlElementQue = (pushData: htmlElement, parentID: string = null) => {
@@ -58,7 +58,7 @@ export class htmlElementSubstanceClass extends htmlElement {
     this.substanc = send_substanc;
   }
   getText = () => {
-    return [this.substanc, this.childID];
+    return [this.substanc];
   };
 }
 
@@ -79,21 +79,17 @@ export class htmlElementBlockClass extends htmlElement {
   }
 
   getText = () => {
-    let returnText = "";
+    let staText = "";
 
     // let tempArray: Array<string> = [];
-    returnText += testJoin(["<", this.htmlTag, " "]);
+    staText += testJoin(["<", this.htmlTag, " "]);
     for (let attributeKey in this.attribute) {
-      returnText += testJoin([attributeKey, "=", this.attribute[attributeKey]]);
+      staText += testJoin([attributeKey, "=", this.attribute[attributeKey]]);
     }
-    returnText += testJoin([">", "\n"]);
+    staText += testJoin([">", "\n"]);
 
-    // console.log("tempArray", tempArray);
-
-    // returnText += testJoin(tempArray);
-    returnText += testJoin(["%%%", "\n"]);
-    returnText += testJoin(["</", this.htmlTag, ">", "\n"]);
-    return returnText;
+    const endText = testJoin(["</", this.htmlTag, ">", "\n"]);
+    return [staText, endText];
   };
 }
 
@@ -116,6 +112,7 @@ export let cssElementQue: { [name: string]: cssElement } = {};
 export const pushCSSElementQue = (pushData: cssElement, parentID: string) => {
   cssElementQue[pushData.elementID] = pushData;
 
+  console.log("parentID", cssElementQue, parentID);
   if (parentID) {
     cssElementQue[parentID].childID.push(pushData.elementID);
   }
