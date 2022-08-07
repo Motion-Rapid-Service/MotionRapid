@@ -3,7 +3,9 @@
   <head>
     <meta charset="utf-8" />
     <title>%rootTitle%</title>
-    %rootStyle%
+    <style>
+      %rootStyle%
+    </style>
   </head>
   <body>
     <div id="root">%rootEdit%</div>

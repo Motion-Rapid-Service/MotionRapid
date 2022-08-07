@@ -11,15 +11,17 @@ const rootHtmlDownParentName = "rootEdit";
 const rootStyleDowmParentName = "rootStyle";
 const rootTitleDowmParentName = "rootTitle";
 
-let rootHtmlID: string;
-let rootStyleID: string;
-let rootTitleID: string;
+let rootHtmlTopID: string;
+let rootStyleTopID: string;
+let rootTitleTopID: string;
+
+let rootStyleCSSID: string;
 
 const htmlBuildMain = (jsonDataCentral: any, compositeID: string) => {
   buildQue.alldeleteHtmlElementQue();
   buildQue.alldeleteCSSElementQue();
 
-  const htmlText = String(require("./../buildFormat/htmlFormat.html")["default"]);
+  const htmlText = String(require("./../buildFormat/htmlFormat.txt")["default"]);
 
   const OwnedClass_Composite: { [name: string]: middleDataClass.Composite } = jsonDataCentral.OwnedClass_Composite;
   const OwnedClass_MediaObject: { [name: string]: middleDataClass.MediaObject } = jsonDataCentral.OwnedClass_MediaObject;
@@ -43,17 +45,18 @@ const htmlBuildMain = (jsonDataCentral: any, compositeID: string) => {
   //   cssText += "\n";
   // };
 
-  rootHtmlID = buildQue.pushHtmlElementQue(new buildQue.htmlElementTopClass());
-  rootStyleID = buildQue.pushHtmlElementQue(new buildQue.htmlElementTopClass());
-  rootTitleID = buildQue.pushHtmlElementQue(new buildQue.htmlElementTopClass());
+  rootHtmlTopID = buildQue.pushHtmlElementQue(new buildQue.htmlElementTopClass());
+  // rootStyleTopID = buildQue.pushHtmlElementQue(new buildQue.htmlElementTopClass());
+  rootTitleTopID = buildQue.pushHtmlElementQue(new buildQue.htmlElementTopClass());
 
-  const cssAttribute: { [name: string]: string } = { type: "text/css" };
+  rootStyleCSSID = buildQue.pushCSSElementQue(new buildQue.cssElementTopClass());
 
-  buildQue.pushHtmlElementQue(new buildQue.htmlElementBlockClass("style", cssAttribute), rootStyleID);
-  parseComposite(getJsonDataCentral, rootHtmlID, compositeID);
+  // const cssAttribute: { [name: string]: string } = { type: "text/css" };
+  // buildQue.pushHtmlElementQue(new buildQue.htmlElementBlockClass("style", cssAttribute), rootStyleCSSID);
+  parseComposite(getJsonDataCentral, rootHtmlTopID, compositeID);
 
-  const outputHtml = recursiveHtml(rootHtmlID);
-  const outputStyle = recursiveCSS(rootStyleID);
+  const outputHtml = recursiveHtml(rootHtmlTopID);
+  const outputStyle = recursiveCSS(rootStyleCSSID);
 
   console.log("outputHtml", outputHtml);
   console.log(buildQue.htmlElementQue);
@@ -97,12 +100,10 @@ const recursiveCSS = (cssID: string) => {
   }
 
   if (cssElement.species === buildQue.cssElementSpeciesList[3]) {
-    recursiveText += newTextArray[0];
     for (let i = 0; i < childIDArray.length; i++) {
       const returnText = "\n" + recursiveCSS(childIDArray[i]) + "\n";
       recursiveText += returnText;
     }
-    recursiveText += newTextArray[1];
   }
 
   return recursiveText;
@@ -202,7 +203,7 @@ const parseMediaObject = (
     );
   }
 
-  CSSBuildMain(getJsonDataCentral(), rootStyleID, compositeID, mediaObjectID);
+  CSSBuildMain(getJsonDataCentral(), rootStyleCSSID, compositeID, mediaObjectID);
 
   // buildQue.pushHtmlElementQue(new buildQue.htmlElementBlockClass(tag, -1));
 

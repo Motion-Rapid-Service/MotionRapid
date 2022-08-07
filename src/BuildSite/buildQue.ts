@@ -7,7 +7,7 @@ const getUUID = () => {
 import { testJoin, textReplace } from "./buildHTML/buildAuxiliaryFunction";
 
 export const htmlElementSpeciesList = ["not", "BlockClass", "SubstanceClass", "TopClass"];
-export const cssElementSpeciesList = ["not", "Default", "SubstanceCSS", "Keyframe"];
+export const cssElementSpeciesList = ["not", "Default", "SubstanceCSS", "TopClass", "Keyframe"];
 
 export let htmlElementQue: { [name: string]: htmlElement } = {};
 export const pushHtmlElementQue = (pushData: htmlElement, parentID: string = null) => {
@@ -127,6 +127,16 @@ export const alldeleteCSSElementQue = () => {
 export const getCSSElementQue = (CSSID: string) => {
   return cssElementQue[CSSID];
 };
+
+export class cssElementTopClass extends cssElement {
+  species = htmlElementSpeciesList[3];
+  elementID = "cssID_" + getUUID();
+  getText = () => {};
+
+  constructor() {
+    super();
+  }
+}
 
 export class cssElementDefault extends cssElement {
   species = cssElementSpeciesList[1];

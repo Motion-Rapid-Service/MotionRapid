@@ -13,7 +13,7 @@ const joinValueUnit = (value: string | number, unit: string) => {
   return String(value) + String(unit);
 };
 
-const CSSBuildMain = (jsonDataCentral: middleDataClass.DataCentral, htmlDownParentID: string, compositeID: string, mediaObjectID: string) => {
+const CSSBuildMain = (jsonDataCentral: middleDataClass.DataCentral, cssDownParentID: string, compositeID: string, mediaObjectID: string) => {
   //   const htmlText = String(require("./../buildFormat/htmlFormat.html")["default"]);
 
   const OwnedClass_Composite: { [name: string]: middleDataClass.Composite } = jsonDataCentral.OwnedClass_Composite;
@@ -82,7 +82,8 @@ const CSSBuildMain = (jsonDataCentral: middleDataClass.DataCentral, htmlDownPare
 
       const cssText = animatorGroupFormat.cssWriteFunction(animatorGroupFormat.cssPropertyName, cssPropertySpeciesList);
 
-      buildQue.pushCSSElementQue(new buildQue.cssElementDefault(CSSTextReplace), htmlDownParentID);
+      const newID = buildQue.pushCSSElementQue(new buildQue.cssElementDefault(mediaObjectID), cssDownParentID);
+      buildQue.pushCSSElementQue(new buildQue.cssElementSubstance(cssText), newID);
       // CSSTextReplace += cssText;
       // CSSTextReplace += "}";
       // CSSTextReplace += "\n";
