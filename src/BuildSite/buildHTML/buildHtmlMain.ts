@@ -11,6 +11,10 @@ const rootHtmlDownParentName = "rootEdit";
 const rootStyleDowmParentName = "rootStyle";
 const rootTitleDowmParentName = "rootTitle";
 
+let rootHtmlID: string;
+let rootStyleID: string;
+let rootTitleID: string;
+
 const htmlBuildMain = (jsonDataCentral: any, compositeID: string) => {
   buildQue.alldeleteHtmlElementQue();
   buildQue.alldeleteCSSElementQue();
@@ -39,18 +43,17 @@ const htmlBuildMain = (jsonDataCentral: any, compositeID: string) => {
   //   cssText += "\n";
   // };
 
-  const rootHtmlID = buildQue.pushHtmlElementQue(new buildQue.htmlElementTopClass());
-  const rootStyleID = buildQue.pushHtmlElementQue(new buildQue.htmlElementTopClass());
-  const rootTitleID = buildQue.pushHtmlElementQue(new buildQue.htmlElementTopClass());
+  rootHtmlID = buildQue.pushHtmlElementQue(new buildQue.htmlElementTopClass());
+  rootStyleID = buildQue.pushHtmlElementQue(new buildQue.htmlElementTopClass());
+  rootTitleID = buildQue.pushHtmlElementQue(new buildQue.htmlElementTopClass());
 
   const cssAttribute: { [name: string]: string } = { type: "text/css" };
 
   buildQue.pushHtmlElementQue(new buildQue.htmlElementBlockClass("style", cssAttribute), rootStyleID);
   parseComposite(getJsonDataCentral, rootHtmlID, compositeID);
 
-  const htmlElement: buildQue.htmlElement = buildQue.getHtmlElementQue(rootHtmlID);
-  const newHtmlText = "";
   const outputHtml = recursiveHtml(rootHtmlID);
+  const outputStyle = recursiveCSS(rootStyleID);
 
   console.log("outputHtml", outputHtml);
   console.log(buildQue.htmlElementQue);
@@ -59,7 +62,7 @@ const htmlBuildMain = (jsonDataCentral: any, compositeID: string) => {
   const replaceData = {
     "%rootEdit%": outputHtml,
     "%rootTitle%": "TestMotionRapid",
-    "%rootStyle%": "c",
+    "%rootStyle%": outputStyle,
   };
   const htmlTextReplace = textReplace(htmlText, replaceData);
 
@@ -68,17 +71,51 @@ const htmlBuildMain = (jsonDataCentral: any, compositeID: string) => {
 
 export default htmlBuildMain;
 
+const recursiveCSS = (cssID: string) => {
+  const cssElement: buildQue.cssElement = buildQue.getCSSElementQue(cssID);
+
+  if (!cssElement) {
+    return "";
+  }
+
+  const newTextArray: Array<string> = cssElement.getText();
+  const childIDArray: Array<string> = cssElement.childID;
+
+  let recursiveText = "";
+
+  if (cssElement.species === buildQue.cssElementSpeciesList[1]) {
+    recursiveText += newTextArray[0];
+    for (let i = 0; i < childIDArray.length; i++) {
+      const returnText = "\n" + recursiveCSS(childIDArray[i]) + "\n";
+      recursiveText += returnText;
+    }
+    recursiveText += newTextArray[1];
+  }
+
+  if (cssElement.species === buildQue.cssElementSpeciesList[2]) {
+    recursiveText += newTextArray[0];
+  }
+
+  if (cssElement.species === buildQue.cssElementSpeciesList[3]) {
+    recursiveText += newTextArray[0];
+    for (let i = 0; i < childIDArray.length; i++) {
+      const returnText = "\n" + recursiveCSS(childIDArray[i]) + "\n";
+      recursiveText += returnText;
+    }
+    recursiveText += newTextArray[1];
+  }
+
+  return recursiveText;
+};
+
 const recursiveHtml = (htmlID: string) => {
   const htmlElement: buildQue.htmlElement = buildQue.getHtmlElementQue(htmlID);
   const newTextArray: Array<string> = htmlElement.getText();
   const childIDArray: Array<string> = htmlElement.childID;
 
-  // console.log("recursiveHtml", htmlID);
-
   let recursiveText = "";
 
   if (htmlElement.species === buildQue.htmlElementSpeciesList[1]) {
-    console.log("recursiveHtmlAs", htmlID);
     recursiveText += "\n";
     recursiveText += newTextArray[0];
 
@@ -86,23 +123,17 @@ const recursiveHtml = (htmlID: string) => {
       const returnText = "\n" + recursiveHtml(childIDArray[i]) + "\n";
       recursiveText += returnText;
     }
-
     recursiveText += newTextArray[1];
     recursiveText += "\n";
-    console.log("recursiveHtmlAe", htmlID);
   }
   if (htmlElement.species === buildQue.htmlElementSpeciesList[2]) {
-    console.log("recursiveHtmlBs", htmlID);
     recursiveText += newTextArray[0];
-    console.log("recursiveHtmlBe", htmlID);
   }
   if (htmlElement.species === buildQue.htmlElementSpeciesList[3]) {
-    console.log("recursiveHtmlCs", htmlID);
     for (let i = 0; i < childIDArray.length; i++) {
       const returnText = "\n" + recursiveHtml(childIDArray[i]) + "\n";
       recursiveText += returnText;
     }
-    console.log("recursiveHtmlCe", htmlID);
   }
   return recursiveText;
 };
@@ -171,7 +202,7 @@ const parseMediaObject = (
     );
   }
 
-  CSSBuildMain(getJsonDataCentral(), rootHtmlDownParentName, compositeID, mediaObjectID);
+  CSSBuildMain(getJsonDataCentral(), rootStyleID, compositeID, mediaObjectID);
 
   // buildQue.pushHtmlElementQue(new buildQue.htmlElementBlockClass(tag, -1));
 

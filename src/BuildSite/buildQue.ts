@@ -97,7 +97,7 @@ export class htmlElementBlockClass extends htmlElement {
 // *********************************************************************************
 //ここからCSS
 
-abstract class cssElement {
+export abstract class cssElement {
   abstract species: string;
   abstract elementID: string;
   abstract getText: Function;
@@ -109,7 +109,7 @@ abstract class cssElement {
 }
 
 export let cssElementQue: { [name: string]: cssElement } = {};
-export const pushCSSElementQue = (pushData: cssElement, parentID: string) => {
+export const pushCSSElementQue = (pushData: cssElement, parentID: string = null) => {
   cssElementQue[pushData.elementID] = pushData;
 
   console.log("parentID", cssElementQue, parentID);
@@ -142,12 +142,9 @@ export class cssElementDefault extends cssElement {
   }
 
   getText = () => {
-    let returnText = "";
-
-    returnText += testJoin([".", this.selectorName, "{", "\n"]);
-    returnText += testJoin(["%%%"]);
-    returnText += testJoin(["}"]);
-    return returnText;
+    const rsta = testJoin([".", this.selectorName, "{", "\n"]);
+    const rend = testJoin(["}"]);
+    return [rsta, rend];
   };
 }
 
@@ -164,7 +161,7 @@ export class cssElementSubstance extends cssElement {
   getText = () => {
     let returnText = "";
     returnText += this.substance;
-    return returnText;
+    return [returnText];
   };
 }
 
