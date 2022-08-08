@@ -2,9 +2,16 @@
 // import * as buildSourceType from "./buildSourceType";
 import * as AnimatorGroupFormat from "./../../AnimatorGroupFormat/AnimatorGroupFormat";
 import * as AnimatorGroupPropertyFormat from "./../../AnimatorGroupFormat/AnimatorGroupPropertyFormat";
-
+import { testJoin, textReplace, sortNumber } from "./../buildHTML/buildAuxiliaryFunction";
 import * as middleDataClass from "./../../MiddleData/middleDataClass";
 import * as buildQue from "../buildQue";
+
+import UUID from "uuidjs";
+
+const getUUIDCSSProperty = () => {
+  const baseID = textReplace(String(UUID.generate()), { "-": "" });
+  return [baseID, "--CSS" + baseID];
+};
 
 const joinValueUnit = (value: string | number, unit: string) => {
   if (!unit) {
@@ -13,7 +20,13 @@ const joinValueUnit = (value: string | number, unit: string) => {
   return String(value) + String(unit);
 };
 
-const CSSBuildMain = (jsonDataCentral: middleDataClass.DataCentral, cssDownParentID: string, compositeID: string, mediaObjectID: string) => {
+const CSSBuildMain = (
+  jsonDataCentral: middleDataClass.DataCentral,
+  cssDownParentID: string,
+  jsDownParentID: string,
+  compositeID: string,
+  mediaObjectID: string
+) => {
   //   const htmlText = String(require("./../buildFormat/htmlFormat.html")["default"]);
 
   const OwnedClass_Composite: { [name: string]: middleDataClass.Composite } = jsonDataCentral.OwnedClass_Composite;
@@ -24,14 +37,14 @@ const CSSBuildMain = (jsonDataCentral: middleDataClass.DataCentral, cssDownParen
   const OwnedClass_CSSProperty: { [name: string]: middleDataClass.CSSProperty } = jsonDataCentral["OwnedClass_CSSProperty"];
 
   const thenCompositeClass = OwnedClass_Composite[compositeID];
-  const Composite_Duration = thenCompositeClass["Composite_Duration"];
+  const Composite_Duration = thenCompositeClass.Composite_Duration;
 
   function getJsonDataCentral() {
     return jsonDataCentral;
   }
 
   const thenMediaObjectClass = OwnedClass_MediaObject[mediaObjectID];
-  const OwnedID_AnimatorGroup = thenMediaObjectClass["OwnedID_AnimatorGroup"];
+  const OwnedID_AnimatorGroup = thenMediaObjectClass.OwnedID_AnimatorGroup;
 
   let CSSTextReplace: string = "";
 
@@ -82,43 +95,131 @@ const CSSBuildMain = (jsonDataCentral: middleDataClass.DataCentral, cssDownParen
 
       const cssText = animatorGroupFormat.cssWriteFunction(animatorGroupFormat.cssPropertyName, cssPropertySpeciesList);
 
-      const newID = buildQue.pushCSSElementQue(new buildQue.cssElementDefault(mediaObjectID), cssDownParentID);
+      const newID = buildQue.pushCSSElementQue(new buildQue.cssElementDefault(mediaObjectID, "#"), cssDownParentID);
       buildQue.pushCSSElementQue(new buildQue.cssElementSubstance(cssText), newID);
-      // CSSTextReplace += cssText;
-      // CSSTextReplace += "}";
-      // CSSTextReplace += "\n";
-    }
+    } else if (thenCompositeClass.Composite_Mode === middleDataClass.Composite_Mode[1]) {
+      const cssRootID = buildQue.pushCSSElementQue(new buildQue.cssElementDefault("root", ":"), cssDownParentID);
 
-    for (let ank = 0; ank < OwnedID_Animator.length; ank++) {
-      CSSTextReplace += "\n";
-      //アニメーター
-      const thenAnimatorID: string = OwnedID_Animator[ank];
-      const thenAnimatorClass: middleDataClass.Animator = OwnedClass_Animator[thenAnimatorID];
-      const OwnedID_Keyframe: Array<string> = thenAnimatorClass.OwnedID_Keyframe;
+      console.log("parallax mode");
+      //parallax mode
+      const animatorGroupFormat: AnimatorGroupPropertyFormat.PropertyFormatSpecies = AnimatorGroupFormat.getAnimatorGroupFormatList(
+        thenAnimatorGroupClass.AnimatorGroup_Species
+      );
 
-      CSSTextReplace += "@keyframe ";
-      CSSTextReplace += thenAnimatorID;
-      CSSTextReplace += " { \n";
+      let cssPropertySpeciesList: { [name: string]: string } = {};
 
-      for (let ki = 0; ki < OwnedID_Keyframe.length; ki++) {
-        //キーフレーム
-        const thenkeyframeID = OwnedID_Keyframe[ki];
-        const thenkeyframeClass: middleDataClass.Keyframe = OwnedClass_Keyframe[thenkeyframeID];
-        const Keyframe_AbsoluteTime = thenkeyframeClass.Keyframe_AbsoluteTime;
-        console.log("最深部", compositeID, mediaObjectID, thenAnimatorGroupID, thenAnimatorID, thenkeyframeID);
-        console.log(OwnedID_AnimatorGroup.length, OwnedID_Animator.length, OwnedID_Keyframe.length);
+      for (let anj = 0; anj < OwnedID_Animator.length; anj++) {
+        const thenAnimatorID: string = OwnedID_Animator[anj];
+        const thenAnimatorClass: middleDataClass.Animator = OwnedClass_Animator[thenAnimatorID];
+        const OwnedID_cssPropertyValue = thenAnimatorClass.OwnedID_cssPropertyValue;
+        const thenCSSPropertyClass: middleDataClass.CSSProperty = OwnedClass_CSSProperty[OwnedID_cssPropertyValue];
+        const OwnedID_Keyframe: Array<string> = thenAnimatorClass.OwnedID_Keyframe;
 
-        console.log("Keyframe_AbsoluteTime", Keyframe_AbsoluteTime);
-        const percent = (Keyframe_AbsoluteTime / Composite_Duration) * 100;
+        const valueIDArray = getUUIDCSSProperty();
 
-        CSSTextReplace += String(percent);
-        CSSTextReplace += "% { \n";
-        CSSTextReplace += "/* css出力テストです */";
-        CSSTextReplace += "} \n";
+        cssPropertySpeciesList[thenAnimatorClass.Animator_propertySpecies] = "var(" + valueIDArray[1] + ")";
+
+        let tempTimeValue: { [name: number]: string | number } = {};
+
+        for (let ki = 0; ki < OwnedID_Keyframe.length; ki++) {
+          //キーフレーム
+          const thenkeyframeID = OwnedID_Keyframe[ki];
+          const thenkeyframeClass: middleDataClass.Keyframe = OwnedClass_Keyframe[thenkeyframeID];
+          const Keyframe_AbsoluteTime = thenkeyframeClass.Keyframe_AbsoluteTime;
+          console.log("最深部", compositeID, mediaObjectID, thenAnimatorGroupID, thenAnimatorID, thenkeyframeID);
+          console.log(OwnedID_AnimatorGroup.length, OwnedID_Animator.length, OwnedID_Keyframe.length);
+
+          let thenCSSPropertyID: string = thenkeyframeClass.OwnedID_cssPropertyValue;
+          let thenCSSPropertyClass: middleDataClass.CSSProperty = OwnedClass_CSSProperty[thenCSSPropertyID];
+
+          tempTimeValue[Keyframe_AbsoluteTime] = thenCSSPropertyClass.CSSProperty_Value;
+          // pointTime += Keyframe_AbsoluteTime;
+          // pointValue += thenCSSPropertyClass.CSSProperty_Value;
+
+          // if (ki !== OwnedID_Keyframe.length - 1) {
+          //   pointTime += ",";
+          //   pointValue += ",";
+          // }
+        }
+
+        console.log("tempTimeValue", tempTimeValue);
+
+        const tempSortTimeValue = sortNumber(Object.keys(tempTimeValue), false);
+
+        console.log("tempSortTimeValue", tempSortTimeValue);
+
+        let pointTime = "[";
+        let pointValue = "[";
+
+        for (let kki = 0; kki < tempSortTimeValue.length; kki++) {
+          const thenTime: number = Number(tempSortTimeValue[kki]);
+
+          pointTime += thenTime;
+          pointValue += tempTimeValue[thenTime];
+          if (kki !== tempSortTimeValue.length - 1) {
+            pointTime += ",";
+            pointValue += ",";
+          }
+        }
+
+        pointTime += "]";
+        pointValue += "]";
+
+        const windowScrollFormat = String(require("./../buildFormat/windowScroll.txt")["default"]);
+
+        const textReplaceData: { [name: string]: string } = {
+          "%POINTTIME%": pointTime,
+          "%POINTVALUE%": pointValue,
+          "%UNIT%": "'" + thenCSSPropertyClass.CSSProperty_Unit + "'",
+          "%SETPROPERTYNAME%": "'" + valueIDArray[1] + "'",
+          "%SCROLLFUNCTIONNAME%": "f" + valueIDArray[0],
+        };
+
+        console.log("textReplaceData", textReplaceData);
+
+        const cssRootSubstance = valueIDArray[1] + ": 0";
+        buildQue.pushCSSElementQue(new buildQue.cssElementSubstance(cssRootSubstance), cssRootID);
+        const newjsID = buildQue.pushJavaScriptElementQue(new buildQue.javascriptElementSourceCodeClass(windowScrollFormat, textReplaceData), jsDownParentID);
       }
-      CSSTextReplace += "}";
-      CSSTextReplace += "\n";
+
+      console.log("cssPropertySpeciesList", cssPropertySpeciesList);
+
+      const cssText = animatorGroupFormat.cssWriteFunction(animatorGroupFormat.cssPropertyName, cssPropertySpeciesList);
+
+      const newID = buildQue.pushCSSElementQue(new buildQue.cssElementDefault(mediaObjectID, "#"), cssDownParentID);
+      buildQue.pushCSSElementQue(new buildQue.cssElementSubstance(cssText), newID);
     }
+
+    // for (let ank = 0; ank < OwnedID_Animator.length; ank++) {
+    //   CSSTextReplace += "\n";
+    //   //アニメーター
+    //   const thenAnimatorID: string = OwnedID_Animator[ank];
+    //   const thenAnimatorClass: middleDataClass.Animator = OwnedClass_Animator[thenAnimatorID];
+    //   const OwnedID_Keyframe: Array<string> = thenAnimatorClass.OwnedID_Keyframe;
+
+    //   CSSTextReplace += "@keyframe ";
+    //   CSSTextReplace += thenAnimatorID;
+    //   CSSTextReplace += " { \n";
+
+    //   for (let ki = 0; ki < OwnedID_Keyframe.length; ki++) {
+    //     //キーフレーム
+    //     const thenkeyframeID = OwnedID_Keyframe[ki];
+    //     const thenkeyframeClass: middleDataClass.Keyframe = OwnedClass_Keyframe[thenkeyframeID];
+    //     const Keyframe_AbsoluteTime = thenkeyframeClass.Keyframe_AbsoluteTime;
+    //     console.log("最深部", compositeID, mediaObjectID, thenAnimatorGroupID, thenAnimatorID, thenkeyframeID);
+    //     console.log(OwnedID_AnimatorGroup.length, OwnedID_Animator.length, OwnedID_Keyframe.length);
+
+    //     console.log("Keyframe_AbsoluteTime", Keyframe_AbsoluteTime);
+    //     const percent = (Keyframe_AbsoluteTime / Composite_Duration) * 100;
+
+    //     CSSTextReplace += String(percent);
+    //     CSSTextReplace += "% { \n";
+    //     CSSTextReplace += "/* css出力テストです */";
+    //     CSSTextReplace += "} \n";
+    //   }
+    //   CSSTextReplace += "}";
+    //   CSSTextReplace += "\n";
+    // }
   }
 };
 

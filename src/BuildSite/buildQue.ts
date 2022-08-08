@@ -8,6 +8,7 @@ import { testJoin, textReplace } from "./buildHTML/buildAuxiliaryFunction";
 
 export const htmlElementSpeciesList = ["not", "BlockClass", "SubstanceClass", "TopClass"];
 export const cssElementSpeciesList = ["not", "Default", "SubstanceCSS", "TopClass", "Keyframe"];
+export const javascriptElementSpeciesList = ["not", "SourceCode", "SubstanceClass"];
 
 export let htmlElementQue: { [name: string]: htmlElement } = {};
 export const pushHtmlElementQue = (pushData: htmlElement, parentID: string = null) => {
@@ -143,16 +144,18 @@ export class cssElementDefault extends cssElement {
 
   elementID = "cssID_" + getUUID();
   selectorName: string;
+  selectorSymbol: string;
   // substanc: string;
 
-  constructor(send_selectorName: string) {
+  constructor(send_selectorName: string, send_selectorSymbol: string = "") {
     super();
     this.selectorName = send_selectorName;
+    this.selectorSymbol = send_selectorSymbol;
     // this.substanc = send_substanc;
   }
 
   getText = () => {
-    const rsta = testJoin([".", this.selectorName, "{", "\n"]);
+    const rsta = testJoin([this.selectorSymbol, this.selectorName, "{", "\n"]);
     const rend = testJoin(["}"]);
     return [rsta, rend];
   };
@@ -169,17 +172,66 @@ export class cssElementSubstance extends cssElement {
   }
 
   getText = () => {
-    let returnText = "";
-    returnText += this.substance;
-    return [returnText];
+    return [this.substance];
   };
 }
 
-// export class cssElementDefaultClass extends cssElement {
-//   selector: string;
-//   property: string;
+//ここまでCSS
+// *********************************************************************************
+//ここからJavaScript
 
-//   constructor() {
-//     super();
-//   }
-// }
+export abstract class javascriptElement {
+  abstract species: string;
+  abstract elementID: string;
+  abstract getText: Function;
+  childID: Array<string> = [];
+}
+
+export let javascriptElementQue: { [name: string]: javascriptElement } = {};
+export const pushJavaScriptElementQue = (pushData: javascriptElement, parentID: string = null) => {
+  javascriptElementQue[pushData.elementID] = pushData;
+
+  console.log("parentID", javascriptElementQue, parentID);
+  if (parentID) {
+    javascriptElementQue[parentID].childID.push(pushData.elementID);
+  }
+
+  return pushData.elementID;
+};
+
+export const alldeleteJavaScriptElementQue = () => {
+  javascriptElementQue = {};
+};
+
+export const getJavaScriptElementQue = (JavaScriptID: string) => {
+  return javascriptElementQue[JavaScriptID];
+};
+
+export class javascriptElementTopClass extends javascriptElement {
+  species = javascriptElementSpeciesList[2];
+  elementID = "jsID_" + getUUID();
+  getText = () => {};
+
+  constructor() {
+    super();
+  }
+}
+
+export class javascriptElementSourceCodeClass extends javascriptElement {
+  species = javascriptElementSpeciesList[1];
+  elementID = "jsID_" + getUUID();
+  substance: string;
+
+  replaceFormat: { [name: string]: string };
+
+  constructor(send_substance: string, send_replaceFormat: { [name: string]: string } = null) {
+    super();
+    this.substance = send_substance;
+    this.replaceFormat = send_replaceFormat;
+  }
+
+  getText = () => {
+    const substanceReplace = textReplace(this.substance, this.replaceFormat);
+    return [substanceReplace];
+  };
+}

@@ -7,19 +7,14 @@ import * as buildQue from "../buildQue";
 
 import * as middleDataClass from "./../../MiddleData/middleDataClass";
 
-const rootHtmlDownParentName = "rootEdit";
-const rootStyleDowmParentName = "rootStyle";
-const rootTitleDowmParentName = "rootTitle";
-
-let rootHtmlTopID: string;
-let rootStyleTopID: string;
-let rootTitleTopID: string;
-
-let rootStyleCSSID: string;
+let rootHtmlID: string;
+let rootStyleID: string;
+let rootScriptID: string;
 
 const htmlBuildMain = (jsonDataCentral: any, compositeID: string) => {
   buildQue.alldeleteHtmlElementQue();
   buildQue.alldeleteCSSElementQue();
+  buildQue.alldeleteJavaScriptElementQue();
 
   const htmlText = String(require("./../buildFormat/htmlFormat.txt")["default"]);
 
@@ -45,27 +40,28 @@ const htmlBuildMain = (jsonDataCentral: any, compositeID: string) => {
   //   cssText += "\n";
   // };
 
-  rootHtmlTopID = buildQue.pushHtmlElementQue(new buildQue.htmlElementTopClass());
-  // rootStyleTopID = buildQue.pushHtmlElementQue(new buildQue.htmlElementTopClass());
-  rootTitleTopID = buildQue.pushHtmlElementQue(new buildQue.htmlElementTopClass());
-
-  rootStyleCSSID = buildQue.pushCSSElementQue(new buildQue.cssElementTopClass());
+  rootHtmlID = buildQue.pushHtmlElementQue(new buildQue.htmlElementTopClass());
+  rootStyleID = buildQue.pushCSSElementQue(new buildQue.cssElementTopClass());
+  rootScriptID = buildQue.pushJavaScriptElementQue(new buildQue.javascriptElementTopClass());
 
   // const cssAttribute: { [name: string]: string } = { type: "text/css" };
-  // buildQue.pushHtmlElementQue(new buildQue.htmlElementBlockClass("style", cssAttribute), rootStyleCSSID);
-  parseComposite(getJsonDataCentral, rootHtmlTopID, compositeID);
+  // buildQue.pushHtmlElementQue(new buildQue.htmlElementBlockClass("style", cssAttribute), rootStyleID);
+  parseComposite(getJsonDataCentral, rootHtmlID, compositeID);
 
-  const outputHtml = recursiveHtml(rootHtmlTopID);
-  const outputStyle = recursiveCSS(rootStyleCSSID);
+  const outputHtml = recursiveHtml(rootHtmlID);
+  const outputStyle = recursiveCSS(rootStyleID);
+  const outputScript = recursiveScript(rootScriptID);
 
   console.log("outputHtml", outputHtml);
   console.log(buildQue.htmlElementQue);
   console.log(buildQue.cssElementQue);
+  console.log(buildQue.javascriptElementQue);
 
   const replaceData = {
     "%rootEdit%": outputHtml,
     "%rootTitle%": "TestMotionRapid",
     "%rootStyle%": outputStyle,
+    "%rootScript%": outputScript,
   };
   const htmlTextReplace = textReplace(htmlText, replaceData);
 
@@ -73,6 +69,36 @@ const htmlBuildMain = (jsonDataCentral: any, compositeID: string) => {
 };
 
 export default htmlBuildMain;
+
+const recursiveScript = (jsID: string) => {
+  const jsElement: buildQue.javascriptElement = buildQue.getJavaScriptElementQue(jsID);
+
+  console.log("recursiveScript", jsID, jsElement);
+
+  if (!jsElement) {
+    return "";
+  }
+
+  const newTextArray: Array<string> = jsElement.getText();
+  const childIDArray: Array<string> = jsElement.childID;
+
+  let recursiveText = "";
+
+  if (jsElement.species === buildQue.javascriptElementSpeciesList[1]) {
+    recursiveText += newTextArray[0];
+  }
+
+  if (jsElement.species === buildQue.javascriptElementSpeciesList[2]) {
+    for (let i = 0; i < childIDArray.length; i++) {
+      const returnText = "\n" + recursiveScript(childIDArray[i]) + "\n";
+      recursiveText += returnText;
+    }
+  }
+
+  console.log("recursiveScript", recursiveText);
+
+  return recursiveText;
+};
 
 const recursiveCSS = (cssID: string) => {
   const cssElement: buildQue.cssElement = buildQue.getCSSElementQue(cssID);
@@ -182,7 +208,7 @@ const parseMediaObject = (
   const thenSourceSpeciesClass: buildSourceSpecies.SourceSpeciesClass = thenMediaObject.sourceSpecies;
   const thenSourceSpecies = String(thenSourceSpeciesClass.sourceSpecies);
 
-  const htmlAttribute: { [name: string]: string } = { class: mediaObjectID };
+  const htmlAttribute: { [name: string]: string } = { id: mediaObjectID };
 
   const newHtmlID = buildQue.pushHtmlElementQue(new buildQue.htmlElementBlockClass(tag, htmlAttribute), parentID);
 
@@ -203,7 +229,7 @@ const parseMediaObject = (
     );
   }
 
-  CSSBuildMain(getJsonDataCentral(), rootStyleCSSID, compositeID, mediaObjectID);
+  CSSBuildMain(getJsonDataCentral(), rootStyleID, rootScriptID, compositeID, mediaObjectID);
 
   // buildQue.pushHtmlElementQue(new buildQue.htmlElementBlockClass(tag, -1));
 
