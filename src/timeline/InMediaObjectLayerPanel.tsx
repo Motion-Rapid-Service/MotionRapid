@@ -175,11 +175,19 @@ export const LayerPanelAnimaterComponent = (props: any) => {
   const Animator_ID: string = DownstreamMiddleDataAnimator.Animator_ID;
   const Animator_propertySpecies: string = DownstreamMiddleDataAnimator.Animator_propertySpecies;
   const AnimatorGroup_Species: string = DownstreamMiddleDataAnimator.AnimatorGroup_Species;
+  const AppContextValue = useContext(AppContext);
+  const TimelineAreaDivContextValue = useContext(TimelineAreaDivContext);
+  const onClick = () => {
+    console.log("LayerPanelAnimaterComponent Onclick");
+
+    TimelineAreaDivContextValue.focusMediaObjectSpaceSetState(-1);
+    AppContextValue.updateDOM();
+  };
   return (
     <LayerPanelAnimaterContext.Provider
       value={{ Animator_ID: Animator_ID, Animator_propertySpecies: Animator_propertySpecies, AnimatorGroup_Species: AnimatorGroup_Species }}
     >
-      <div className="layer_panel-animator-entity">
+      <div className="layer_panel-animator-entity" onClick={onClick}>
         <AnimaterInsertKeyframeButton Animator_ID={Animator_ID} />
         <p>{Animator_propertySpecies}</p>
         <AnimaterCSSproperty Animator_ID={Animator_ID} />
@@ -212,6 +220,8 @@ const AnimaterCSSproperty = (props: any) => {
   const CSSPropertyValue: string = AppContextValue.getCSSPropertyValue(CSSPropertyID);
   const CSSPropertyUnit: string = AppContextValue.getCSSPropertyUnit(CSSPropertyID);
 
+  console.log("AnimaterCSSproperty", CSSPropertyID, CSSPropertyValue, CSSPropertyUnit);
+
   const [animaterCSSpropertyValue, animaterCSSpropertyValueSetState] = useState<string>(CSSPropertyValue);
   const [animaterCSSpropertyUnit, animaterCSSpropertyUnitSetState] = useState<string>(CSSPropertyUnit);
 
@@ -229,13 +239,19 @@ const AnimaterCSSproperty = (props: any) => {
       CSSPropertyUnit: animaterCSSpropertyUnit,
     };
 
+    console.log("unitSendData", unitSendData);
+
     AppContextValue.operationCSSPropertyUnit(unitSendData);
   }, [animaterCSSpropertyUnit]);
 
   return (
     <div className="layer_panel-animator-entity-css_property">
       <AnimaterCSSpropertyValue animaterCSSpropertyValue={animaterCSSpropertyValue} animaterCSSpropertyValueSetState={animaterCSSpropertyValueSetState} />
-      <AnimaterCSSpropertyUnit animaterCSSpropertyUnit={animaterCSSpropertyUnit} animaterCSSpropertyUnitSetState={animaterCSSpropertyUnitSetState} />
+      <AnimaterCSSpropertyUnit
+        initCSSPropertyUnit={CSSPropertyUnit}
+        animaterCSSpropertyUnit={animaterCSSpropertyUnit}
+        animaterCSSpropertyUnitSetState={animaterCSSpropertyUnitSetState}
+      />
     </div>
   );
 };
@@ -273,13 +289,13 @@ const AnimaterCSSpropertyUnit = (props: any) => {
   return (
     <select onChange={onChange}>
       {cssValueUnitList.map((output: string, index: number) => (
-        <AnimaterCSSpropertyUnitOption output={output} index={index} key={index} />
+        <AnimaterCSSpropertyUnitOption output={output} index={index} key={index} initCSSPropertyUnit={props.initCSSPropertyUnit} />
       ))}
     </select>
   );
 };
 const AnimaterCSSpropertyUnitOption = (props: any) => {
-  if (props.output === props.animaterCSSpropertyUnit) {
+  if (props.output === props.initCSSPropertyUnit) {
     return (
       <option value={props.index} selected>
         {props.output}

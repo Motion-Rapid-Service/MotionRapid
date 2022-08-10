@@ -39,6 +39,8 @@ function %SCROLLFUNCTIONNAME%() {
 
   let cssValue = valueSectionRate + aPointValue;
 
+  console.log(aPointTime,bPointTime,aPointValue,bPointValue,timeSection,nowTimeSection,valueSection,timeRate,valueSectionRate,cssValue)
+
   document.getElementById("root").style.setProperty(SETPROPERTYNAME, String(cssValue) + UNIT);
 }
 
