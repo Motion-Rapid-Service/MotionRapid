@@ -62,3 +62,29 @@ export const PropertyFormat_backgroundColor: PropertyFormatSpecies = {
     return rtext;
   },
 };
+
+export const PropertyFormat_blockSize: PropertyFormatSpecies = {
+  cssPropertyName: "width",
+  cssPropertySpeciesList: {
+    r: propertySpeciesUnitList[3],
+    g: propertySpeciesUnitList[3],
+    b: propertySpeciesUnitList[3],
+    a: propertySpeciesUnitList[3],
+  },
+
+  cssWriteFunction: (send_propertyName: string, send_cssPropertySpeciesList: { [name: string]: string }) => {
+    const rtext = textJoinAnimatorGroup([
+      send_propertyName,
+      ":rgba(",
+      send_cssPropertySpeciesList["r"],
+      ",",
+      send_cssPropertySpeciesList["g"],
+      ",",
+      send_cssPropertySpeciesList["b"],
+      ",",
+      send_cssPropertySpeciesList["a"],
+      ");",
+    ]);
+    return rtext;
+  },
+};
