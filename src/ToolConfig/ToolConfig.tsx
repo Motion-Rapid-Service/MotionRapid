@@ -206,9 +206,10 @@ const ComponentOptionConvertConfigMode = (props: any) => {
         };
 
         console.log("tempValue", tempValue);
-
+        SetupEditorContextValue.insertUserHandKeyframe(thenUserHandKeyframeID, 2, null, null);
         AppContextValue.operationCSSPropertyValue(tempValue);
       }
+
       AppContextValue.updateDOM();
     };
 

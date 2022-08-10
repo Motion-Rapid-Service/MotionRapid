@@ -177,8 +177,11 @@ export const LayerPanelAnimaterComponent = (props: any) => {
   const AnimatorGroup_Species: string = DownstreamMiddleDataAnimator.AnimatorGroup_Species;
   const AppContextValue = useContext(AppContext);
   const TimelineAreaDivContextValue = useContext(TimelineAreaDivContext);
+  const MediaObjectContextValue = useContext(MediaObjectContext);
   const onClick = () => {
     console.log("LayerPanelAnimaterComponent Onclick");
+
+    delete UserHandLayerPanelList[MediaObjectContextValue.mediaObjectUUID];
 
     TimelineAreaDivContextValue.focusMediaObjectSpaceSetState(-1);
     AppContextValue.updateDOM();
@@ -238,9 +241,6 @@ const AnimaterCSSproperty = (props: any) => {
       CSSPropertyID: CSSPropertyID,
       CSSPropertyUnit: animaterCSSpropertyUnit,
     };
-
-    console.log("unitSendData", unitSendData);
-
     AppContextValue.operationCSSPropertyUnit(unitSendData);
   }, [animaterCSSpropertyUnit]);
 

@@ -5,47 +5,61 @@ function %SCROLLFUNCTIONNAME%() {
   let SETPROPERTYNAME = %SETPROPERTYNAME%;
 
   let scroll_y = window.scrollY;
-  let aPoint = 0;
-  let bPoint = 0;
 
-  if (scroll_y >= POINTTIME[0]) {
+  console.log("scroll_y",scroll_y)
+
+  let cssValue;
+
+  if (scroll_y <= POINTTIME[0]) {
     //最初のキーフレームの場所より手前だった時
-    aPoint = 0;
-    bPoint = 0;
+
+    let nPointValue = POINTVALUE[0];
+
+    cssValue = nPointValue
+
   } else if (POINTTIME[POINTTIME.length - 1] <= scroll_y) {
-    aPoint = POINTTIME.length - 1;
-    bPoint = POINTTIME.length - 1;
+
+    let nPoint = POINTTIME.length - 1;
+    let nPointValue = POINTVALUE[nPoint];
+
+    cssValue = nPointValue
+
   } else {
+    let aPoint = 0;
+    let bPoint = 0;
+
+
     for (let i = 0; i < POINTTIME.length; i++) {
-      if (scroll_y > POINTTIME[i]) {
+      if (POINTTIME[i] <= scroll_y) {
         aPoint = i;
         bPoint = i + 1;
         continue;
       }
     }
+
+    let aPointTime = POINTTIME[aPoint];
+    let bPointTime = POINTTIME[bPoint];
+    let aPointValue = POINTVALUE[aPoint];
+    let bPointValue = POINTVALUE[bPoint];
+
+    let timeSection = bPointTime - aPointTime;
+    let nowTimeSection = scroll_y - aPointTime;
+    let valueSection = bPointValue - aPointValue;
+
+    let timeRate = nowTimeSection / timeSection; //進行度を計算する
+    let valueSectionRate = valueSection * timeRate;
+
+    cssValue = valueSectionRate + aPointValue;
+
+    console.log(aPointTime,bPointTime,aPointValue,bPointValue,timeSection,nowTimeSection,valueSection,timeRate,valueSectionRate,cssValue)
+
   }
-
-  let aPointTime = POINTTIME[aPoint];
-  let bPointTime = POINTTIME[bPoint];
-  let aPointValue = POINTVALUE[aPoint];
-  let bPointValue = POINTVALUE[bPoint];
-
-  let timeSection = bPointTime - aPointTime;
-  let nowTimeSection = scroll_y - aPointTime;
-  let valueSection = bPointValue - aPointValue;
-
-  let timeRate = nowTimeSection / timeSection; //進行度を計算する
-  let valueSectionRate = valueSection * timeRate;
-
-  let cssValue = valueSectionRate + aPointValue;
-
-  console.log(aPointTime,bPointTime,aPointValue,bPointValue,timeSection,nowTimeSection,valueSection,timeRate,valueSectionRate,cssValue)
 
   document.getElementById("root").style.setProperty(SETPROPERTYNAME, String(cssValue) + UNIT);
 }
 
-window.addEventListener("%SCROLLFUNCTIONNAME%", function (event) {
-  console.log("スクロールされました");
+window.addEventListener("scroll", function (event) {
+  
   %SCROLLFUNCTIONNAME%();
 });
 %SCROLLFUNCTIONNAME%();

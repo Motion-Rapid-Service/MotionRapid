@@ -56,7 +56,7 @@ const CSSBuildMain = (
 
     let hasKeyframe: boolean = false;
     for (let ani = 0; ani < OwnedID_Animator.length; ani++) {
-      const thenAnimatorID: string = OwnedID_Animator[agi];
+      const thenAnimatorID: string = OwnedID_Animator[ani];
       const thenAnimatorClass: middleDataClass.Animator = OwnedClass_Animator[thenAnimatorID];
       const OwnedID_Keyframe: Array<string> = thenAnimatorClass.OwnedID_Keyframe;
 
@@ -120,26 +120,31 @@ const CSSBuildMain = (
         cssPropertySpeciesList[thenAnimatorClass.Animator_propertySpecies] = "var(" + valueIDArray[1] + ")";
 
         let tempTimeValue: { [name: number]: string | number } = {};
+        if (OwnedID_Keyframe.length === 0) {
+          const OwnedID_cssPropertyValue = thenAnimatorClass.OwnedID_cssPropertyValue;
+          const thenCSSPropertyClass: middleDataClass.CSSProperty = OwnedClass_CSSProperty[OwnedID_cssPropertyValue];
+          tempTimeValue[0] = thenCSSPropertyClass.CSSProperty_Value;
+        } else {
+          for (let ki = 0; ki < OwnedID_Keyframe.length; ki++) {
+            //キーフレーム
+            const thenkeyframeID = OwnedID_Keyframe[ki];
+            const thenkeyframeClass: middleDataClass.Keyframe = OwnedClass_Keyframe[thenkeyframeID];
+            const Keyframe_AbsoluteTime = thenkeyframeClass.Keyframe_AbsoluteTime;
+            console.log("最深部", compositeID, mediaObjectID, thenAnimatorGroupID, thenAnimatorID, thenkeyframeID);
+            console.log(OwnedID_AnimatorGroup.length, OwnedID_Animator.length, OwnedID_Keyframe.length);
 
-        for (let ki = 0; ki < OwnedID_Keyframe.length; ki++) {
-          //キーフレーム
-          const thenkeyframeID = OwnedID_Keyframe[ki];
-          const thenkeyframeClass: middleDataClass.Keyframe = OwnedClass_Keyframe[thenkeyframeID];
-          const Keyframe_AbsoluteTime = thenkeyframeClass.Keyframe_AbsoluteTime;
-          console.log("最深部", compositeID, mediaObjectID, thenAnimatorGroupID, thenAnimatorID, thenkeyframeID);
-          console.log(OwnedID_AnimatorGroup.length, OwnedID_Animator.length, OwnedID_Keyframe.length);
+            let thenCSSPropertyID: string = thenkeyframeClass.OwnedID_cssPropertyValue;
+            let thenCSSPropertyClass: middleDataClass.CSSProperty = OwnedClass_CSSProperty[thenCSSPropertyID];
 
-          let thenCSSPropertyID: string = thenkeyframeClass.OwnedID_cssPropertyValue;
-          let thenCSSPropertyClass: middleDataClass.CSSProperty = OwnedClass_CSSProperty[thenCSSPropertyID];
+            tempTimeValue[Keyframe_AbsoluteTime] = thenCSSPropertyClass.CSSProperty_Value;
+            // pointTime += Keyframe_AbsoluteTime;
+            // pointValue += thenCSSPropertyClass.CSSProperty_Value;
 
-          tempTimeValue[Keyframe_AbsoluteTime] = thenCSSPropertyClass.CSSProperty_Value;
-          // pointTime += Keyframe_AbsoluteTime;
-          // pointValue += thenCSSPropertyClass.CSSProperty_Value;
-
-          // if (ki !== OwnedID_Keyframe.length - 1) {
-          //   pointTime += ",";
-          //   pointValue += ",";
-          // }
+            // if (ki !== OwnedID_Keyframe.length - 1) {
+            //   pointTime += ",";
+            //   pointValue += ",";
+            // }
+          }
         }
 
         console.log("tempTimeValue", tempTimeValue);
