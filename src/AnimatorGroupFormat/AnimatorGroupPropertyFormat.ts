@@ -62,3 +62,16 @@ export const PropertyFormat_backgroundColor: PropertyFormatSpecies = {
     return rtext;
   },
 };
+
+export const PropertyFormat_blockSize: PropertyFormatSpecies = {
+  cssPropertyName: "width,height",
+  cssPropertySpeciesList: {
+    width: propertySpeciesUnitList[1],
+    height: propertySpeciesUnitList[1],
+  },
+
+  cssWriteFunction: (send_propertyName: string, send_cssPropertySpeciesList: { [name: string]: string }) => {
+    const rtext = textJoinAnimatorGroup(["width:", send_cssPropertySpeciesList["width"], ";", "height:", send_cssPropertySpeciesList["height"], ";"]);
+    return rtext;
+  },
+};

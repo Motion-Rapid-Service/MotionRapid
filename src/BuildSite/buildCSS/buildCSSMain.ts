@@ -172,10 +172,16 @@ const CSSBuildMain = (
 
         const windowScrollFormat = String(require("./../buildFormat/windowScroll.txt")["default"]);
 
+        let tempUnit = "''";
+
+        if (thenCSSPropertyClass.CSSProperty_Unit) {
+          tempUnit = "'" + thenCSSPropertyClass.CSSProperty_Unit + "'";
+        }
+
         const textReplaceData: { [name: string]: string } = {
           "%POINTTIME%": pointTime,
           "%POINTVALUE%": pointValue,
-          "%UNIT%": "'" + thenCSSPropertyClass.CSSProperty_Unit + "'",
+          "%UNIT%": tempUnit,
           "%SETPROPERTYNAME%": "'" + valueIDArray[1] + "'",
           "%SCROLLFUNCTIONNAME%": "f" + valueIDArray[0],
         };
