@@ -4,6 +4,8 @@ const animatorGroupFormatList: { [name: string]: PropertyFormat.PropertyFormatSp
   margin: PropertyFormat.PropertyFormat_margin,
   backgroundColor: PropertyFormat.PropertyFormat_backgroundColor,
   blockSize: PropertyFormat.PropertyFormat_blockSize,
+  boxShadow: PropertyFormat.PropertyFormat_blockBorderShadow,
+  blockBorder: PropertyFormat.PropertyFormat_blockBorder,
 };
 
 export const getAnimatorGroupFormatList = (animatorGroupFormatPropertyName: string) => {
