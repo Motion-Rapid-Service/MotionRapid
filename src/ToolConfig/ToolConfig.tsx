@@ -131,11 +131,11 @@ const ComponentOptionConvertConfigMode = (props: any) => {
     return settingItemsTemp;
   };
 
-  const buttonOperationFuncNewComposite = (configContent: { [name: string]: string | number | boolean }) => {
+  const buttonOperationFuncNewComposite = (sendConfigContent: { [name: string]: string | number | boolean }) => {
     const configItemCompositeName: string = ToolConfigContext.ConfigItemNewComposite[0];
     const configItemCompositeMode: string = ToolConfigContext.ConfigItemNewComposite[2];
-    AppContextValue.createComposite(configContent[configItemCompositeName], configContent[configItemCompositeMode]);
-    console.log("buttonOperationFunc", configContent);
+    AppContextValue.createComposite(sendConfigContent[configItemCompositeName], sendConfigContent[configItemCompositeMode]);
+    console.log("buttonOperationFunc", sendConfigContent);
   };
 
   const itemNewAnimatorGroup = () => {
@@ -155,12 +155,12 @@ const ComponentOptionConvertConfigMode = (props: any) => {
 
     return settingItemsTemp;
   };
-  const buttonOperationFuncNewAnimatorGroup = (configContent: { [name: string]: string | number | boolean }) => {
+  const buttonOperationFuncNewAnimatorGroup = (sendConfigContent: { [name: string]: string | number | boolean }) => {
     const configItemAnimatorGroupFormatSpecies: string = ToolConfigContext.ConfigItemNewAnimatorGroup[0];
 
     const userHandMediaObjectIDArray: Array<string> = UserHand.getUserHandMediaObjectIDArray();
 
-    const newAnimatorGroupSpecies = configContent[configItemAnimatorGroupFormatSpecies]; //どのanimatorgroupを追加するか 一般の動画編集ソフトでエフェクトに当たる
+    const newAnimatorGroupSpecies = sendConfigContent[configItemAnimatorGroupFormatSpecies]; //どのanimatorgroupを追加するか 一般の動画編集ソフトでエフェクトに当たる
 
     for (let i = 0; i < userHandMediaObjectIDArray.length; i++) {
       const thenMediaObjectKey = userHandMediaObjectIDArray[i];
@@ -222,7 +222,7 @@ const ComponentOptionConvertConfigMode = (props: any) => {
     return settingItemsTemp;
   };
 
-  const buttonOperationFuncOperationKeyframe = (configContent: { [name: string]: string | number | boolean }) => {
+  const buttonOperationFuncOperationKeyframe = (sendConfigContent: { [name: string]: string | number | boolean }) => {
     const ConfigItemOperationKeyframeTime: string = ToolConfigContext.ConfigItemOperationKeyframe[0];
     const ConfigItemOperationKeyframeValue: string = ToolConfigContext.ConfigItemOperationKeyframe[1];
 
@@ -232,7 +232,7 @@ const ComponentOptionConvertConfigMode = (props: any) => {
       const thenUserHandKeyframeID = userHandKeyframeIDArray[i];
       const tempTime: MiddleDataOperationType.OperationKeyframeTimeType = {
         KeyframeID: thenUserHandKeyframeID,
-        time: Number(configContent[ConfigItemOperationKeyframeTime]),
+        time: Number(sendConfigContent[ConfigItemOperationKeyframeTime]),
       };
       console.log("keyframe temp", tempTime);
       AppContextValue.operationKeyframeTime(tempTime);
@@ -240,7 +240,7 @@ const ComponentOptionConvertConfigMode = (props: any) => {
       const thenCSSPropertySpecie_ID = AppContextValue.getOwnedID_CSSPropertySpeciesHasKeyframe(thenUserHandKeyframeID);
       const tempValue: MiddleDataOperationType.OoperationCSSPropertyValueType = {
         CSSPropertyID: thenCSSPropertySpecie_ID,
-        CSSPropertyValue: Number(configContent[ConfigItemOperationKeyframeValue]),
+        CSSPropertyValue: Number(sendConfigContent[ConfigItemOperationKeyframeValue]),
       };
 
       console.log("tempValue", tempValue);
