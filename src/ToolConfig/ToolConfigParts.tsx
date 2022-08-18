@@ -48,7 +48,7 @@ export const ConfigButton = (props: any) => {
   const mouseDown = () => {
     //マウスがクリックされたとき
     SetupConfigContextValue.configModeSetState(SetupConfigContextValue.configModeList[0]);
-    props.buttonOperationFunc();
+    props.buttonOperationFunc(props.configContent);
     ConfigModeContextValue.configContentInit();
   };
 

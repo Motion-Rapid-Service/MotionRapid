@@ -10,6 +10,7 @@ import { SetupConfigContext } from "../SetupEditor/SetupConfigContext";
 import { SetupEditorContext } from "./../SetupEditor/SetupEditorContext";
 
 import * as MiddleDataOperationType from "./../MiddleData/middleDataOperationType";
+import * as UserHand from "./../UserHand";
 
 export const KeyFrameComponent = (props: any) => {
   const keyframeUUID = props.DownstreamMiddleDataKeyframe["Keyframe_ID"];
@@ -27,11 +28,11 @@ export const KeyFrameComponent = (props: any) => {
   const SetupEditorContextValue = useContext(SetupEditorContext);
 
   const keyframeMouseMoveAction = (event: any) => {
-    if (!SetupEditorContextValue.hasUserHandKeyframe(keyframeUUID)) {
+    if (!UserHand.hasUserHandKeyframe(keyframeUUID)) {
       return;
     }
 
-    const userHandKeyframe = SetupEditorContextValue.getUserHandKeyframe(keyframeUUID);
+    const userHandKeyframe = UserHand.getUserHandKeyframe(keyframeUUID);
 
     switch (userHandKeyframe.mouseDownFlag) {
       case 1:
@@ -45,20 +46,20 @@ export const KeyFrameComponent = (props: any) => {
   };
 
   const MouseRelease = (event: any) => {
-    if (!SetupEditorContextValue.hasUserHandKeyframe(keyframeUUID)) {
+    if (!UserHand.hasUserHandKeyframe(keyframeUUID)) {
       return;
     }
     // const mouseEndPos = timelineMousePosition.mediaObjectMousePosition(event, LayerDurationContextValue.timelineAreaLayerDurationElement)[0];
-    SetupEditorContextValue.insertUserHandKeyframe(keyframeUUID, 2, null, null);
+    UserHand.insertUserHandKeyframe(keyframeUUID, 2, null, null);
   };
 
   const MouseDown = (event: any) => {
     const mousePushPos = timelineMousePosition.mediaObjectMousePosition(event, LayerDurationContextValue.timelineAreaLayerDurationElement)[0];
 
-    SetupEditorContextValue.alldeleteUserHandKeyframe();
+    UserHand.alldeleteUserHandKeyframe();
 
     // UserHandKeyframeList[keyframeUUID] = new UserHandKeyframeOperation(mousePushPos, keyframeStylePos);
-    SetupEditorContextValue.insertUserHandKeyframe(keyframeUUID, 1, mousePushPos, keyframeStylePos);
+    UserHand.insertUserHandKeyframe(keyframeUUID, 1, mousePushPos, keyframeStylePos);
   };
 
   useEffect(() => {

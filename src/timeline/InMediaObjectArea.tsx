@@ -3,6 +3,7 @@ const { useState, useRef, useEffect, useContext, useReducer, createContext, useI
 import { MediaObjectContext, TimelineAreaDivContext, TimelineAreaRightContext, LayerPanelContext, LayerDurationContext } from "./timelineContext";
 
 import { SetupEditorContext } from "./../SetupEditor/SetupEditorContext";
+import * as UserHand from "./../UserHand";
 
 const UserHandTolerance = 5;
 
@@ -74,12 +75,12 @@ export const MediaObjectScrollComponent = () => {
     }
 
     mediaObjectColorSetState(defaultColor);
-    if (!SetupEditorContextValue.hasUserHandMediaObject(mediaObjectUUID)) {
+    if (!UserHand.hasUserHandMediaObject(mediaObjectUUID)) {
       return;
     }
     mediaObjectColorSetState(selectColor);
 
-    const userHandMediaObject = SetupEditorContextValue.getUserHandMediaObject(mediaObjectUUID);
+    const userHandMediaObject = UserHand.getUserHandMediaObject(mediaObjectUUID);
     const mouseMoveX = mouseX - userHandMediaObject.mousePushPos;
 
     switch (userHandMediaObject.mouseDownFlag) {
@@ -120,20 +121,20 @@ export const MediaObjectScrollComponent = () => {
       return;
     }
 
-    SetupEditorContextValue.alldeleteUserHandMediaObject();
+    UserHand.alldeleteUserHandMediaObject();
 
-    SetupEditorContextValue.insertUserHandMediaObject(mediaObjectUUID, stateUserHand, mousePushPos, staStylePos, endStylePos);
+    UserHand.insertUserHandMediaObject(mediaObjectUUID, stateUserHand, mousePushPos, staStylePos, endStylePos);
   };
   const MouseRelease = (event: any) => {
     MouseSelectedSetState("auto");
 
     mediaObjectColorSetState(defaultColor);
 
-    if (!SetupEditorContextValue.hasUserHandMediaObject(mediaObjectUUID)) {
+    if (!UserHand.hasUserHandMediaObject(mediaObjectUUID)) {
       return;
     }
     mediaObjectColorSetState(selectColor);
-    SetupEditorContextValue.insertUserHandMediaObject(mediaObjectUUID, 4, null, null, null);
+    UserHand.insertUserHandMediaObject(mediaObjectUUID, 4, null, null, null);
 
     // TimelineAreaDivContextValue.deleteUserHandMediaObjectList(mediaObjectUUID);
   };
@@ -144,7 +145,7 @@ export const MediaObjectScrollComponent = () => {
 
     mediaObjectColorSetState(selectColor);
 
-    if (!SetupEditorContextValue.hasUserHandMediaObject(mediaObjectUUID)) {
+    if (!UserHand.hasUserHandMediaObject(mediaObjectUUID)) {
       mediaObjectColorSetState(defaultColor);
     }
 
