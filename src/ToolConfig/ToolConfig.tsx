@@ -8,7 +8,6 @@ import { SetupEditorContext } from "./../SetupEditor/SetupEditorContext";
 import * as SetupEditor from "./../SetupEditor/SetupEditor";
 
 import * as ToolConfigContext from "./ToolConfigContext";
-import * as ToolConfigMode from "./ToolConfigMode";
 import * as ToolConfigParts from "./ToolConfigParts";
 
 import * as middleDataClass from "./../MiddleData/middleDataClass";
