@@ -38,6 +38,7 @@ export const KeyFrameComponent = (props: any) => {
         const mouseX = timelineMousePosition.mediaObjectMousePosition(event, LayerDurationContextValue.timelineAreaLayerDurationElement)[0];
         const mouseMoveX = mouseX - userHandKeyframe.mousePushPos;
         KeyframePosSetState(mouseMoveX + userHandKeyframe.mouseDownKeyframeStyle);
+        break;
       case 2:
         break;
     }
