@@ -29,9 +29,9 @@ type TimelineAreaDivContextValue = {
   focusMediaObjectSpace: number;
   focusMediaObjectSpaceSetState: Function;
 
-  elementTimelineWidth: number;
-  elementLayerPanelWidth: number;
-  elementLayerDurationWidth: number;
+  // elementTimelineWidth: number;
+  // elementLayerPanelWidth: number;
+  // elementLayerDurationWidth: number;
 };
 
 export const TimelineAreaDivContext = createContext<TimelineAreaDivContextValue>({} as TimelineAreaDivContextValue);

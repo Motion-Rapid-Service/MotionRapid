@@ -241,7 +241,7 @@ export const TimelineAreaLayerDurationComponent = () => {
       <div
         className="media_object-area-layer_duration"
         ref={timelineAreaLayerDurationElement}
-        style={{ width: TimelineAreaDivContextValue.elementLayerDurationWidth + "px" }}
+        // style={{ width: TimelineAreaDivContextValue.elementLayerDurationWidth + "px" }}
       >
         <SwitchTimelineAreaLayerDurationComponent />
       </div>

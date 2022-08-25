@@ -120,12 +120,7 @@ export const TimelineAreaLayerPanelComponent = (props: any) => {
   }, [MediaObjectContextValue.mediaObjectUUID, animatorOpen]);
 
   return (
-    <div
-      className="media_object-area-layer_panel"
-      ref={timelineAreaLayerPanelElement}
-      onMouseDown={mouseDown}
-      style={{ width: TimelineAreaDivContextValue.elementLayerPanelWidth + "px" }}
-    >
+    <div className="media_object-area-layer_panel" ref={timelineAreaLayerPanelElement} onMouseDown={mouseDown} style={{}}>
       <LayerPanelContext.Provider value={{ timelineAreaLayerPanelElement: timelineAreaLayerPanelElement }}>
         <LayerPanelMediaObjectComponent />
         <SwitchTimelineAreaLayerPanelComponent />

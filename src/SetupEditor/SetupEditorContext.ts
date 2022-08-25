@@ -4,8 +4,6 @@ const { createContext } = React;
 type SetupEditorContextValue = {
   choiceComposite: string;
   choiceCompositeSetState: Function;
-  playHeadTime: number;
-  playHeadTimeSetState: Function;
 
   // insertUserHandMediaObject: Function;
   // deleteUserHandMediaObject: Function;

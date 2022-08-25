@@ -1,0 +1,11 @@
+.timeNavigator-header {
+  display: flex;
+  height: 100px;
+}
+
+.timeNavigator-layer_panel {
+}
+
+.timeNavigator-layer_duration {
+  flex: 1;
+}

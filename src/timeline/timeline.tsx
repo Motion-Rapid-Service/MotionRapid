@@ -11,6 +11,11 @@ import { SetupEditorContext } from "./../SetupEditor/SetupEditorContext";
 import { SetupToolbarContext } from "./../SetupEditor/SetupToolbarContext";
 import * as timelineMousePosition from "./timeLineMousePosition";
 
+import TimeNavigatorHeader from "./TimeNavigator/Header";
+
+import { TimeNavigatorContext } from "./TimeNavigator/TimeNavigatorContext";
+
+import { TimeNavigatorPlayheadComponent, TimelinePlayheadComponent } from "./TimeNavigator/Playhead";
 // const [UserHandMediaObjectList, UserHandMediaObjectListSetState] = useState<{
 //   [name: string]: UserHandMediaObjectOperation;
 // }>({});
@@ -50,11 +55,12 @@ const TimelineComponent = () => {
   const SetupToolbarContextValue = useContext(SetupToolbarContext);
 
   //elementTimelineWidthSetState elementLayerPanelWidthSetState elementLayerDurationWidthSetState
-  const [elementTimelineWidth, elementTimelineWidthSetState] = useState<number>(0);
-  const [elementLayerPanelWidth, elementLayerPanelWidthSetState] = useState<number>(0);
-  const [elementLayerDurationWidth, elementLayerDurationWidthSetState] = useState<number>(0);
+  // const [elementTimelineWidth, elementTimelineWidthSetState] = useState<number>(0);
+  // const [elementLayerPanelWidth, elementLayerPanelWidthSetState] = useState<number>(400);
+  // const [elementLayerDurationWidth, elementLayerDurationWidthSetState] = useState<number>(0);
 
   const [focusMediaObjectSpace, focusMediaObjectSpaceSetState] = useState<number>(-1);
+  const [playheadTime, playheadTimeSetState] = useState<number>(100);
 
   // useEffect(() => {
   //   console.log("UserHandMediaObjectList",UserHandMediaObjectList);
@@ -145,17 +151,13 @@ const TimelineComponent = () => {
   //elementTimelineWidthSetState elementLayerPanelWidthSetState elementLayerDurationWidthSetState
   const windowSizeEvent = () => {
     const size = timelineMousePosition.elementSize(timelineAreaElement);
-
-    elementTimelineWidthSetState(size[0]);
   };
-
-  useEffect(() => {}, [elementTimelineWidth]);
 
   useEffect(() => {
     window.addEventListener("resize", windowSizeEvent);
     windowSizeEvent();
-    elementLayerPanelWidthSetState(400);
-    elementLayerDurationWidthSetState(4000);
+    // elementLayerPanelWidthSetState(400);
+    // elementLayerDurationWidthSetState(4000);
 
     return () => {
       window.removeEventListener("resize", windowSizeEvent);
@@ -169,50 +171,52 @@ const TimelineComponent = () => {
       <p>選択中のコンポジット</p>
       <p>Name : {AppContextValue.getCompositeName(SetupEditorContextValue.choiceComposite)}</p>
       <p>ID : {SetupEditorContextValue.choiceComposite}</p>
+      <TimeNavigatorContext.Provider value={{ playheadTime: playheadTime, playheadTimeSetState: playheadTimeSetState }}>
+        <div className="timeline-main">
+          <TimeNavigatorHeader />
 
-      <div className="timeline-area" draggable="false" ref={timelineAreaElement}>
-        <div
-          className="timeline-area-scroll"
-          ref={timelineScrollElement}
-          draggable="false"
-          style={{ width: elementLayerPanelWidth + elementLayerDurationWidth + "px" }}
+          <div className="timeline-area" draggable="false" ref={timelineAreaElement}>
+            <TimelinePlayheadComponent />
+            <div
+              className="timeline-area-scroll"
+              ref={timelineScrollElement}
+              draggable="false"
+              // style={{ width: elementLayerPanelWidth + elementLayerDurationWidth + "px" }}
 
-          // onScroll={TimeLineAreaMove}
-        >
-          <TimelineAreaDivContext.Provider
-            value={{
-              timelineAreaElement: timelineAreaElement,
-              timelineScrollElement: timelineScrollElement,
+              // onScroll={TimeLineAreaMove}
+            >
+              <TimelineAreaDivContext.Provider
+                value={{
+                  timelineAreaElement: timelineAreaElement,
+                  timelineScrollElement: timelineScrollElement,
 
-              timelineUpdateDOM: timelineUpdateDOM,
-              animationOpenUpdateDOM: animationOpenUpdateDOM,
-              animationOpenUpdate: animationOpenUpdate,
-              mediaObejctDivHeightSetStateValue: mediaObejctDivHeightSetStateValue,
-              // middleDataOperation: middleDataOperation,
-              // MouseSelectedSetValue: MouseSelectedSetValue,
-              // MouseUnselectedSetValue: MouseUnselectedSetValue,
-              mediaObjectSwopInsertionDestination: mediaObjectSwopInsertionDestination,
-              focusMediaObjectSpace: focusMediaObjectSpace,
-              focusMediaObjectSpaceSetState: focusMediaObjectSpaceSetState,
+                  timelineUpdateDOM: timelineUpdateDOM,
+                  animationOpenUpdateDOM: animationOpenUpdateDOM,
+                  animationOpenUpdate: animationOpenUpdate,
+                  mediaObejctDivHeightSetStateValue: mediaObejctDivHeightSetStateValue,
+                  // middleDataOperation: middleDataOperation,
+                  // MouseSelectedSetValue: MouseSelectedSetValue,
+                  // MouseUnselectedSetValue: MouseUnselectedSetValue,
+                  mediaObjectSwopInsertionDestination: mediaObjectSwopInsertionDestination,
+                  focusMediaObjectSpace: focusMediaObjectSpace,
+                  focusMediaObjectSpaceSetState: focusMediaObjectSpaceSetState,
+                }}
+              >
+                <>
+                  <MediaObjectAreaSpaceComponent.SwitchMediaObjectAreaSpace spaceIndex={0} />
 
-              elementTimelineWidth: elementTimelineWidth,
-              elementLayerPanelWidth: elementLayerPanelWidth,
-              elementLayerDurationWidth: elementLayerDurationWidth,
-            }}
-          >
-            <>
-              <MediaObjectAreaSpaceComponent.SwitchMediaObjectAreaSpace spaceIndex={0} />
+                  {/* {componentGenerateMediaObjectAreaSpace(-1)} */}
+                  {AppContextValue.componentConvertMediaObjectArea(SetupEditorContextValue.choiceComposite).map((output: any, index: number) => (
+                    // <>{fruit}</> //SurfaceControlIndividualを追加するmap (list_surface_controlに入っている)
 
-              {/* {componentGenerateMediaObjectAreaSpace(-1)} */}
-              {AppContextValue.componentConvertMediaObjectArea(SetupEditorContextValue.choiceComposite).map((output: any, index: number) => (
-                // <>{fruit}</> //SurfaceControlIndividualを追加するmap (list_surface_controlに入っている)
-
-                <MediaObjectAreaComponent DownstreamMiddleDataMediaObject={output} indexMediaObejct={index} key={index} />
-              ))}
-            </>
-          </TimelineAreaDivContext.Provider>
+                    <MediaObjectAreaComponent DownstreamMiddleDataMediaObject={output} indexMediaObejct={index} key={index} />
+                  ))}
+                </>
+              </TimelineAreaDivContext.Provider>
+            </div>
+          </div>
         </div>
-      </div>
+      </TimeNavigatorContext.Provider>
     </>
   );
 };

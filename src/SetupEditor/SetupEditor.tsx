@@ -11,10 +11,8 @@ import { SetupEditorContext } from "./SetupEditorContext";
 
 const Editor = () => {
   const [choiceComposite, choiceCompositeSetState] = useState<string>("not");
-  const [playHeadTime, playHeadTimeSetState] = useState<number>(0);
 
   useEffect(() => {}, [choiceComposite]);
-  useEffect(() => {}, [playHeadTime]);
 
   // **************************************************************
 
@@ -23,8 +21,6 @@ const Editor = () => {
       value={{
         choiceComposite: choiceComposite,
         choiceCompositeSetState: choiceCompositeSetState,
-        playHeadTime: playHeadTime,
-        playHeadTimeSetState: playHeadTimeSetState,
 
         // insertUserHandMediaObject: insertUserHandMediaObject,
         // deleteUserHandMediaObject: deleteUserHandMediaObject,

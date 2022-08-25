@@ -72,6 +72,8 @@ export const KeyFrameComponent = (props: any) => {
       time: keyframeStylePos,
     };
 
+    console.log("keyframeStylePos", keyframeStylePos);
+
     AppContextValue.operationKeyframeTime(temp);
   }, [keyframeStylePos]);
 
@@ -141,17 +143,6 @@ const AnimatorAreaEntity = (props: any) => {
     //ほぼおまじない
     return <></>;
   }
-  // const keyfrmaeSize = animatorOpen ? 20 : 0;
-
-  // useEffect(() => {
-  //   // const TimelineAreaDivContextValue = useContext(TimelineAreaDivContext);
-  //   // const timelineAreaElement = TimelineAreaDivContextValue.TimelineAreaDiv as any;
-
-  //   animatorAreaEntityElement.current.style.setProperty(
-  //     "--animator-height",
-  //     keyfrmaeSize + "px"
-  //   );
-  // }, [animatorOpen]);
 };
 
 const AnimatorAreaComponent = () => {

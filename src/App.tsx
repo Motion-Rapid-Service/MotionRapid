@@ -7,13 +7,18 @@ import "./timeline/CSS/timeline.css";
 import "./timeline/CSS/animator.css";
 import "./timeline/CSS/keyframe.css";
 import "./timeline/CSS/layerPanel.css";
-import "./timeline/CSS/playhead.css";
+
 import "./ToolBar/CSS/ToolBar.css";
 import "./ToolBar/CSS/ToolBarDetail.css";
 import "./CompositeChoice/CSS/CompositeChoice.css";
 
 import "./ToolConfig/CSS/ToolConfig.css";
 import "./ToolConfig/CSS/ToolConfigParts.css";
+
+import "./timeline/TimeNavigator/CSS/header.css";
+import "./timeline/TimeNavigator/CSS/playhead.css";
+import "./timeline/TimeNavigator/CSS/scrollbar.css";
+import "./timeline/TimeNavigator/CSS/timeaxis.css";
 
 import * as buildSourceType from "./BuildSite/buildHTML/buildSourceSpecies";
 

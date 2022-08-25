@@ -1,0 +1,12 @@
+.timeNavigator-playhead {
+}
+
+.timeline-playhead {
+  width: 5px;
+  height: 100%;
+  background-color: brown;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  z-index: 400;
+}

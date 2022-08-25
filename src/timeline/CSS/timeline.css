@@ -1,20 +1,33 @@
-.timeline-area {
+.timeline-main {
+  position: relative;
   background-color: rgb(50, 50, 50);
   width: auto;
   height: 90vh;
   margin: 0px 2px 200px 2px;
-  overflow: scroll;
 }
 
-.timeline-area * {
+.timeline-main * {
   user-select: none;
   z-index: 500;
+}
+
+.timeline-area {
+  position: absolute;
+
+  overflow-x: hidden;
+  overflow-y: scroll;
+
+  width: 100%;
+  height: 100%;
+  margin: 0px;
 }
 
 .timeline-area-scroll {
   /* background-color: rgb(200, 200, 200); */
   margin: 0px;
-  width: 3000px;
+  /* width: 3000px; */
+  left: 0px;
+  top: 0px;
 }
 
 .timeline-area-scroll .media_object-area {
@@ -53,7 +66,8 @@
 }
 
 .media_object-area .media_object-area-layer_panel {
-  /* width: 20vw; */
+  min-width: 400px;
+  width: 20vw;
   margin: 0px;
   background-color: rgb(100, 100, 100);
   /* height: var(--media_object-height); */
@@ -61,6 +75,6 @@
 
 .media_object-area .media_object-area-layer_duration {
   /* width: 70vw; */
-  margin: 0px;
-  overflow: hidden;
+  margin: 0;
+  flex: 1;
 }
