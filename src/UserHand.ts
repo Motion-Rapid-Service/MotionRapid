@@ -1,3 +1,5 @@
+console.log("UserHandInit");
+
 export class UserHandMediaObjectOperation {
   mouseDownFlag: number;
   //0:押していない(番号として登録しているが、実際は0番登録するようなコードを書いてはいけない) ,
@@ -83,4 +85,35 @@ export const alldeleteUserHandKeyframe = () => {
   for (let key in UserHandKeyframeList) {
     delete UserHandKeyframeList[key];
   }
+};
+
+// ***************************************************************
+
+class UserHandPlayheadOperation {
+  mouseDownFlag: number;
+  //0:押していない(番号として登録しているが、実際は0番登録するようなコードを書いてはいけない) ,
+  //1:動作
+
+  mousePushPos: number; //マウスが押された時のマウス座標
+  mouseDownPlayheadStyle: number; //マウスが押された時のキーフレーム地点
+  constructor(send_mouseDownFlag: number, send_mousePushPos: number, send_mouseDownPlayheadStyle: number) {
+    this.mouseDownFlag = send_mouseDownFlag;
+    this.mousePushPos = send_mousePushPos;
+    this.mouseDownPlayheadStyle = send_mouseDownPlayheadStyle;
+  }
+}
+const UserHandPlayhead: UserHandPlayheadOperation = new UserHandPlayheadOperation(0, 0, 0);
+export const insertUserHandPlayhead = (mousePushPos: number, mouseDownPlayheadStyle: number) => {
+  UserHandPlayhead.mouseDownFlag = 1;
+  UserHandPlayhead.mousePushPos = mousePushPos;
+  UserHandPlayhead.mouseDownPlayheadStyle = mouseDownPlayheadStyle;
+};
+export const deleteUserHandPlayhead = () => {
+  UserHandPlayhead.mouseDownFlag = 0;
+  UserHandPlayhead.mousePushPos = 0;
+  UserHandPlayhead.mouseDownPlayheadStyle = 0;
+};
+
+export const getUserHandPlayhead = () => {
+  return UserHandPlayhead;
 };

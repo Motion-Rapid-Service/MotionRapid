@@ -2,7 +2,7 @@
   position: relative;
   background-color: rgb(50, 50, 50);
   width: auto;
-  height: 90vh;
+
   margin: 0px 2px 200px 2px;
 }
 
@@ -12,17 +12,20 @@
 }
 
 .timeline-area {
-  position: absolute;
+  /* position: absolute; */
+
+  position: relative;
 
   overflow-x: hidden;
   overflow-y: scroll;
 
   width: 100%;
-  height: 100%;
+  height: 90vh;
   margin: 0px;
 }
 
 .timeline-area-scroll {
+  position: absolute;
   /* background-color: rgb(200, 200, 200); */
   margin: 0px;
   /* width: 3000px; */

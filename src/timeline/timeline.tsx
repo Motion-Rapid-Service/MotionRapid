@@ -47,6 +47,7 @@ const TimelineComponent = () => {
   //   AppContextValue.updateDOM();
   // }, []);
 
+  const timelineMainElement = useRef(null);
   const timelineAreaElement = useRef(null);
   const timelineScrollElement = useRef(null);
 
@@ -171,8 +172,11 @@ const TimelineComponent = () => {
       <p>選択中のコンポジット</p>
       <p>Name : {AppContextValue.getCompositeName(SetupEditorContextValue.choiceComposite)}</p>
       <p>ID : {SetupEditorContextValue.choiceComposite}</p>
-      <TimeNavigatorContext.Provider value={{ playheadTime: playheadTime, playheadTimeSetState: playheadTimeSetState }}>
-        <div className="timeline-main">
+
+      <div className="timeline-main" ref={timelineMainElement}>
+        <TimeNavigatorContext.Provider
+          value={{ timelineMainElement: timelineMainElement, playheadTime: playheadTime, playheadTimeSetState: playheadTimeSetState }}
+        >
           <TimeNavigatorHeader />
 
           <div className="timeline-area" draggable="false" ref={timelineAreaElement}>
@@ -187,6 +191,7 @@ const TimelineComponent = () => {
             >
               <TimelineAreaDivContext.Provider
                 value={{
+                  timelineMainElement: timelineMainElement,
                   timelineAreaElement: timelineAreaElement,
                   timelineScrollElement: timelineScrollElement,
 
@@ -215,8 +220,8 @@ const TimelineComponent = () => {
               </TimelineAreaDivContext.Provider>
             </div>
           </div>
-        </div>
-      </TimeNavigatorContext.Provider>
+        </TimeNavigatorContext.Provider>
+      </div>
     </>
   );
 };

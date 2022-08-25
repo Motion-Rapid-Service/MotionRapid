@@ -4,8 +4,10 @@
 }
 
 .timeNavigator-layer_panel {
+  width: 400px;
 }
 
 .timeNavigator-layer_duration {
+  position: relative;
   flex: 1;
 }

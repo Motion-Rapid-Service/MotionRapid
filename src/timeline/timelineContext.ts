@@ -19,6 +19,7 @@ type MediaObjectContextValue = {
 export const MediaObjectContext = createContext<MediaObjectContextValue>({} as MediaObjectContextValue);
 
 type TimelineAreaDivContextValue = {
+  timelineMainElement: any;
   timelineAreaElement: any;
   timelineScrollElement: any;
   timelineUpdateDOM: Function;
