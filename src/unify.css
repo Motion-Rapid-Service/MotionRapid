@@ -3,13 +3,15 @@
   /* 標準色 */
   --background-B: rgb(70, 70, 70);
   /* ちょっと薄い */
+
+  --background-C: rgb(170, 170, 170);
 }
 
 #root {
   margin: 5px;
 }
 
-body{
+body {
   padding: 0px;
   margin: 0px;
 }

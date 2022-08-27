@@ -55,17 +55,32 @@ const TimelineComponent = () => {
   const SetupEditorContextValue = useContext(SetupEditorContext);
   const SetupToolbarContextValue = useContext(SetupToolbarContext);
 
-  //elementTimelineWidthSetState elementLayerPanelWidthSetState elementLayerDurationWidthSetState
-  // const [elementTimelineWidth, elementTimelineWidthSetState] = useState<number>(0);
-  // const [elementLayerPanelWidth, elementLayerPanelWidthSetState] = useState<number>(400);
-  // const [elementLayerDurationWidth, elementLayerDurationWidthSetState] = useState<number>(0);
-
   const [focusMediaObjectSpace, focusMediaObjectSpaceSetState] = useState<number>(-1);
   const [playheadTime, playheadTimeSetState] = useState<number>(100);
+  const [staStyleViewPos, staStyleViewPosSetState] = useState<number>(0);
+  const [endStyleViewPos, endStyleViewPosSetState] = useState<number>(0);
 
-  // useEffect(() => {
-  //   console.log("UserHandMediaObjectList",UserHandMediaObjectList);
-  // }, [UserHandMediaObjectList]);
+  //ここから 描画域のState設定
+
+  useEffect(() => {
+    const compositeStyleViewPos: Array<number> = AppContextValue.getCompositeStyleViewPos(SetupEditorContextValue.choiceComposite);
+    if (!compositeStyleViewPos) {
+      return;
+    }
+    staStyleViewPosSetState(compositeStyleViewPos[0]);
+    endStyleViewPosSetState(compositeStyleViewPos[1]);
+    return () => {
+      AppContextValue.setCompositeStyleViewPos(SetupEditorContextValue.choiceComposite, [staStyleViewPos, endStyleViewPos]);
+    };
+  }, [SetupEditorContextValue.choiceComposite]);
+
+  useEffect(() => {
+    AppContextValue.setCompositeStyleViewPos(SetupEditorContextValue.choiceComposite, [staStyleViewPos, endStyleViewPos]);
+  }, [staStyleViewPos, endStyleViewPos]);
+
+  //ここから プレイヘッド数値の設定
+
+  // ************************************************
 
   const [mediaObejctDivHeight, mediaObejctDivHeightSetState] = useState<{
     [name: number]: Array<number>;
@@ -175,7 +190,15 @@ const TimelineComponent = () => {
 
       <div className="timeline-main" ref={timelineMainElement}>
         <TimeNavigatorContext.Provider
-          value={{ timelineMainElement: timelineMainElement, playheadTime: playheadTime, playheadTimeSetState: playheadTimeSetState }}
+          value={{
+            timelineMainElement: timelineMainElement,
+            playheadTime: playheadTime,
+            playheadTimeSetState: playheadTimeSetState,
+            staStyleViewPos: staStyleViewPos,
+            staStyleViewPosSetState: staStyleViewPosSetState,
+            endStyleViewPos: endStyleViewPos,
+            endStyleViewPosSetState: endStyleViewPosSetState,
+          }}
         >
           <TimeNavigatorHeader />
 

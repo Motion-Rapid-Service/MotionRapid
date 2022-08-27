@@ -1,6 +1,7 @@
 .timeNavigator-header {
   display: flex;
   height: 100px;
+  overflow: hidden;
 }
 
 .timeNavigator-layer_panel {

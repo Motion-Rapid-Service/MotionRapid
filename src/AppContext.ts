@@ -35,6 +35,8 @@ type AppContextValue = {
   setMediaObjectColor: Function;
   getMediaObjectColor: Function;
 
+  getCompositeDuration: Function;
+
   fileExportDataCentral: Function;
   fileExportComposite: Function;
   buildMiddleDataHtml: Function;
@@ -42,6 +44,9 @@ type AppContextValue = {
   rewriteMediaObejctAnimatorOpen: Function;
   getMediaObejctAnimatorOpen: Function;
   // htmlBuildMain:Function
+
+  setCompositeStyleViewPos: Function;
+  getCompositeStyleViewPos: Function;
 
   createComposite: Function;
   createMediaObject: Function;

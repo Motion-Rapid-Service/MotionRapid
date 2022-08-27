@@ -258,6 +258,11 @@ const App = () => {
           setMediaObjectColor: middleDataOperation.setMediaObjectColor,
           getMediaObjectColor: middleDataOperation.getMediaObjectColor,
 
+          getCompositeDuration: middleDataOperation.getCompositeDuration,
+
+          setCompositeStyleViewPos: middleDataOperation.setCompositeStyleViewPos,
+          getCompositeStyleViewPos: middleDataOperation.getCompositeStyleViewPos,
+
           createComposite: middleDataOperation.createComposite,
           createMediaObject: middleDataOperation.createMediaObject,
           createAnimatorGroup: middleDataOperation.createAnimatorGroup,

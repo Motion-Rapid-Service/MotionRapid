@@ -283,6 +283,30 @@ export default class MiddleDataOperation {
     this.DataCentral.OwnedClass_MediaObject[mediaObjectID].MediaObject_Color = color;
   };
 
+  getCompositeDuration = (compositeID: string) => {
+    return this.DataCentral.OwnedClass_Composite[compositeID].Composite_Duration;
+  };
+
+  setCompositeStyleViewPos = (compositeID: string, viewPos: Array<number>) => {
+    if (!hasKeyFound(compositeID, this.DataCentral.OwnedClass_Composite)) {
+      return;
+    }
+    this.DataCentral.OwnedClass_Composite[compositeID].staStyleViewPos = viewPos[0];
+    this.DataCentral.OwnedClass_Composite[compositeID].endStyleViewPos = viewPos[1];
+  };
+
+  getCompositeStyleViewPos = (compositeID: string) => {
+    if (!hasKeyFound(compositeID, this.DataCentral.OwnedClass_Composite)) {
+      return null;
+    }
+
+    const viewPos: Array<number> = [
+      this.DataCentral.OwnedClass_Composite[compositeID].staStyleViewPos,
+      this.DataCentral.OwnedClass_Composite[compositeID].endStyleViewPos,
+    ];
+    return viewPos;
+  };
+
   getKeyframeTime = (keyframeID: string) => {
     const Keyframe_AbsoluteTime = this.DataCentral.OwnedClass_Keyframe[keyframeID].Keyframe_AbsoluteTime;
 
