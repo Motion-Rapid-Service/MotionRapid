@@ -106,6 +106,19 @@ middleDataOperation.createDataCentral();
 
 //ここまでテスト用 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
+const conversionStyleToTime = (valStyle: number, sectionTimeSta: number, sectionTimeEnd: number, viewWidth: number) => {
+  const sectionTime = sectionTimeEnd - sectionTimeSta;
+  const conversionRate = sectionTime / viewWidth;
+  const valTime = valStyle * conversionRate + sectionTimeSta;
+  return valTime;
+};
+const conversionTimeToStyle = (valTime: number, sectionTimeSta: number, sectionTimeEnd: number, viewWidth: number) => {
+  const sectionTime = sectionTimeEnd - sectionTimeSta;
+  const conversionRate = viewWidth / sectionTime;
+  const valStyle = (valTime - sectionTimeSta) * conversionRate;
+  return valStyle;
+};
+
 const componentConvertCompositeChoiceArea = () => {
   const compositeIDArray = middleDataOperation.getOwnedID_Composite();
   const AppContextValue = useContext(AppContext);
@@ -224,6 +237,9 @@ const App = () => {
           componentConvertMediaObjectArea: componentConvertMediaObjectArea,
           componentConvertAnimatorArea: componentConvertAnimatorArea,
           componentConvertKeyframeArea: componentConvertKeyframeArea,
+
+          conversionStyleToTime: conversionStyleToTime,
+          conversionTimeToStyle: conversionTimeToStyle,
 
           update: update,
           updateDOM: updateDOM,

@@ -262,7 +262,7 @@ export default class MiddleDataOperation {
     }
 
     const thenComposite = this.DataCentral.OwnedClass_Composite[compositeID];
-    console.log("thenComposite", thenComposite);
+    //console.log("thenComposite", thenComposite);
     return thenComposite.Composite_Name;
   };
   getMediaObjectTime = (mediaObjectID: string) => {
@@ -284,6 +284,9 @@ export default class MiddleDataOperation {
   };
 
   getCompositeDuration = (compositeID: string) => {
+    if (!hasKeyFound(compositeID, this.DataCentral.OwnedClass_Composite)) {
+      return;
+    }
     return this.DataCentral.OwnedClass_Composite[compositeID].Composite_Duration;
   };
 

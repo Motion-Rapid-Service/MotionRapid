@@ -16,6 +16,8 @@ import { AppContext } from "../AppContext";
 
 import * as buildSourceSpecies from "../BuildSite/buildHTML/buildSourceSpecies";
 
+import { TimeNavigatorContext } from "./TimeNavigator/TimeNavigatorContext";
+
 const defaultColor = [50, 150, 50];
 const selectColor = [100, 200, 100];
 
@@ -24,6 +26,8 @@ export const MediaObjectScrollComponent = () => {
   const MediaObjectContextValue = useContext(MediaObjectContext);
   const TimelineAreaDivContextValue = useContext(TimelineAreaDivContext);
   const LayerDurationContextValue = useContext(LayerDurationContext);
+
+  const TimeNavigatorContextValue = useContext(TimeNavigatorContext);
 
   const SetupEditorContextValue = useContext(SetupEditorContext);
 
@@ -139,9 +143,36 @@ export const MediaObjectScrollComponent = () => {
     // TimelineAreaDivContextValue.deleteUserHandMediaObjectList(mediaObjectUUID);
   };
 
-  useEffect(() => {
+  const mediaObjectUpdate = () => {
+    const compositeDuration: number = AppContextValue.getCompositeDuration(SetupEditorContextValue.choiceComposite);
+    if (!compositeDuration) {
+      return;
+    }
+
     const mediaObjectTime = AppContextValue.getMediaObjectTime(mediaObjectUUID);
-    const mediaObjectSourceSpecies = AppContextValue.getMediaObjectSourceSpecies(mediaObjectUUID);
+
+    const styleStaTime = AppContextValue.conversionTimeToStyle(
+      mediaObjectTime[0],
+      TimeNavigatorContextValue.staStyleViewPos,
+      TimeNavigatorContextValue.endStyleViewPos,
+      compositeDuration
+    );
+    const styleEndTime = AppContextValue.conversionTimeToStyle(
+      mediaObjectTime[1],
+      TimeNavigatorContextValue.staStyleViewPos,
+      TimeNavigatorContextValue.endStyleViewPos,
+      compositeDuration
+    );
+    StaSetState(styleStaTime);
+    EndSetState(styleEndTime);
+
+    console.log("mediaObjectUpdate", styleStaTime, styleEndTime, mediaObjectTime);
+  };
+
+  useEffect(() => {
+    // const mediaObjectSourceSpecies = AppContextValue.getMediaObjectSourceSpecies(mediaObjectUUID);
+
+    mediaObjectUpdate();
 
     mediaObjectColorSetState(selectColor);
 
@@ -151,8 +182,6 @@ export const MediaObjectScrollComponent = () => {
 
     window.addEventListener("mousemove", timeLineMouseMoveAction);
     window.addEventListener("mouseup", MouseRelease);
-    StaSetState(mediaObjectTime[0]);
-    EndSetState(mediaObjectTime[1]);
 
     return () => {
       // イベントの設定解除
@@ -161,6 +190,10 @@ export const MediaObjectScrollComponent = () => {
       window.removeEventListener("mouseup", MouseRelease);
     };
   }, [mediaObjectUUID]);
+
+  useEffect(() => {
+    mediaObjectUpdate();
+  }, [TimelineAreaDivContextValue.timelineUpdate]);
 
   useEffect(() => {
     // if (!areaFocus){

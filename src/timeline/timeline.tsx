@@ -76,6 +76,8 @@ const TimelineComponent = () => {
 
   useEffect(() => {
     AppContextValue.setCompositeStyleViewPos(SetupEditorContextValue.choiceComposite, [staStyleViewPos, endStyleViewPos]);
+    //console.log("staStyleViewPos, endStyleViewPos", staStyleViewPos, endStyleViewPos);
+    timelineUpdateDOM();
   }, [staStyleViewPos, endStyleViewPos]);
 
   //ここから プレイヘッド数値の設定
@@ -217,7 +219,7 @@ const TimelineComponent = () => {
                   timelineMainElement: timelineMainElement,
                   timelineAreaElement: timelineAreaElement,
                   timelineScrollElement: timelineScrollElement,
-
+                  timelineUpdate: timelineUpdate,
                   timelineUpdateDOM: timelineUpdateDOM,
                   animationOpenUpdateDOM: animationOpenUpdateDOM,
                   animationOpenUpdate: animationOpenUpdate,

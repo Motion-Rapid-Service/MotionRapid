@@ -4,8 +4,12 @@ const { useState, useRef, useEffect, useContext, useReducer, createContext } = R
 import { AppContext } from "../../AppContext";
 import { SetupEditorContext } from "../../SetupEditor/SetupEditorContext";
 
+import { TimeNavigatorContext } from "./TimeNavigatorContext";
+
 const ScrollBarComponent = () => {
   const SetupEditorContextValue = useContext(SetupEditorContext);
+  const AppContextValue = useContext(AppContext);
+  const TimeNavigatorContextValue = useContext(TimeNavigatorContext);
 
   const [staRate, staRateSetState] = useState<number>(0);
   const [endRate, endRateSetState] = useState<number>(1);
@@ -49,7 +53,7 @@ const ScrollBarComponent = () => {
 
     const xRate = x / eWidth;
 
-    console.log("mousePostion", clientX, eLeft, x, eWidth, xRate);
+    //console.log("mousePostion", clientX, eLeft, x, eWidth, xRate);
 
     return xRate;
   };
@@ -79,7 +83,7 @@ const ScrollBarComponent = () => {
     mousePushRateEndSetState(endRateRef.current);
     mousePushPosSetState(thenMousePushPos);
 
-    console.log("ScrollBarComponent", stateUserHand, thenMousePushPos, mousePushPos);
+    //console.log("ScrollBarComponent", stateUserHand, thenMousePushPos, mousePushPos);
   };
 
   const mouseMove = (event: any) => {
@@ -114,6 +118,18 @@ const ScrollBarComponent = () => {
       window.removeEventListener("mouseup", MouseUp);
     };
   }, []);
+
+  useEffect(() => {
+    const compositeDuration: number = AppContextValue.getCompositeDuration(SetupEditorContextValue.choiceComposite);
+    if (!compositeDuration) {
+      return;
+    }
+
+    TimeNavigatorContextValue.staStyleViewPosSetState(compositeDuration * staRate);
+    TimeNavigatorContextValue.endStyleViewPosSetState(compositeDuration * endRate);
+
+    //console.log("staRate endRate");
+  }, [staRate, endRate]);
 
   const styleLeft = () => {
     return staRate * 100;

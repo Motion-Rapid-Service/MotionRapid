@@ -10,6 +10,9 @@ import { MediaObjectContext, TimelineAreaDivContext } from "./timelineContext";
 import * as InMediaObjectLayerPanel from "./InMediaObjectLayerPanel";
 import * as MediaObjectAreaSpaceComponent from "./MediaObjectSpace";
 // {componentGenerateMediaObjectAreaSpace(index)}
+import { SetupEditorContext } from "./../SetupEditor/SetupEditorContext";
+
+import { TimeNavigatorContext } from "./TimeNavigator/TimeNavigatorContext";
 
 export const MediaObjectAreaComponent = (props: any) => {
   const mediaObjectAreaElement = useRef<HTMLDivElement>(null);
@@ -23,6 +26,10 @@ export const MediaObjectAreaComponent = (props: any) => {
   const [staStylePos, StaSetState] = useState<number>(null);
   const [endStylePos, EndSetState] = useState<number>(null);
 
+  const TimeNavigatorContextValue = useContext(TimeNavigatorContext);
+
+  const SetupEditorContextValue = useContext(SetupEditorContext);
+
   useEffect(() => {
     // const ElementBoundingClientRect =
     // mediaObjectAreaElement.current.getBoundingClientRect();
@@ -35,10 +42,27 @@ export const MediaObjectAreaComponent = (props: any) => {
       return;
     }
 
+    const compositeDuration: number = AppContextValue.getCompositeDuration(SetupEditorContextValue.choiceComposite);
+    if (!compositeDuration) {
+      return;
+    }
+
+    const staTime = AppContextValue.conversionStyleToTime(
+      staStylePos,
+      TimeNavigatorContextValue.staStyleViewPos,
+      TimeNavigatorContextValue.endStyleViewPos,
+      compositeDuration
+    );
+    const endTime = AppContextValue.conversionStyleToTime(
+      endStylePos,
+      TimeNavigatorContextValue.staStyleViewPos,
+      TimeNavigatorContextValue.endStyleViewPos,
+      compositeDuration
+    );
     AppContextValue.operationMediaObjectTime({
       mediaObjectID: MediaObject_ID,
-      sta: staStylePos,
-      end: endStylePos,
+      sta: staTime,
+      end: endTime,
     });
   }, [staStylePos, endStylePos]);
 

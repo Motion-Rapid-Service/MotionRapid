@@ -22,6 +22,7 @@ type TimelineAreaDivContextValue = {
   timelineMainElement: any;
   timelineAreaElement: any;
   timelineScrollElement: any;
+  timelineUpdate: boolean;
   timelineUpdateDOM: Function;
   animationOpenUpdate: boolean;
   animationOpenUpdateDOM: Function;
