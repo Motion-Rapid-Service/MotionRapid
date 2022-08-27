@@ -21,3 +21,8 @@
   top: 0px;
   z-index: 400;
 }
+
+.timeNavigator-playhead-area {
+  width: 100%;
+  height: 70px;
+}

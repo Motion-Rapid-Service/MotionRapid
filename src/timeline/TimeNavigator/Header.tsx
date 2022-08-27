@@ -4,7 +4,7 @@ const { useState, useRef, useEffect, useContext, useReducer, createContext } = R
 import { AppContext } from "../../AppContext";
 import { SetupEditorContext } from "../../SetupEditor/SetupEditorContext";
 
-import { TimeNavigatorContext } from "./TimeNavigatorContext";
+import { TimeNavigatorContext, TimeNavigatorLayerDurationContext } from "./TimeNavigatorContext";
 
 import { TimeNavigatorPlayheadComponent, TimelinePlayheadComponent } from "./Playhead";
 import TimeNavigatorScrollBarComponent from "./ScrollBar";
@@ -12,14 +12,17 @@ import TimeNavigatorTimeAxisComponent from "./TimeAxis";
 
 const TimeNavigatorHeaderComponent = () => {
   const SetupEditorContextValue = useContext(SetupEditorContext);
-
+  const TimeNavigatorLayerDurationElement = useRef(null);
   return (
     <div className="timeNavigator-header">
       <div className="timeNavigator-layer_panel"></div>
-      <div className="timeNavigator-layer_duration">
-        <TimeNavigatorPlayheadComponent />
-        <TimeNavigatorScrollBarComponent />
-        <TimeNavigatorTimeAxisComponent />
+      <div className="timeNavigator-layer_duration" ref={TimeNavigatorLayerDurationElement}>
+        <TimeNavigatorLayerDurationContext.Provider value={{ TimeNavigatorLayerDurationElement: TimeNavigatorLayerDurationElement }}>
+          <TimeNavigatorScrollBarComponent />
+          <TimeNavigatorPlayheadComponent />
+
+          <TimeNavigatorTimeAxisComponent />
+        </TimeNavigatorLayerDurationContext.Provider>
       </div>
     </div>
   );

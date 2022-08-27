@@ -4,13 +4,15 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import * as timelineMousePosition from "./timeLineMousePosition";
 import { AppContext } from "./../AppContext";
-import { MediaObjectContext, LayerPanelContext, LayerDurationContext } from "./timelineContext";
+import { MediaObjectContext, LayerPanelContext, LayerDurationContext, TimelineAreaDivContext } from "./timelineContext";
 import { SetupConfigContext } from "../SetupEditor/SetupConfigContext";
 
 import { SetupEditorContext } from "./../SetupEditor/SetupEditorContext";
 
 import * as MiddleDataOperationType from "./../MiddleData/middleDataOperationType";
 import * as UserHand from "./../UserHand";
+
+import { TimeNavigatorContext } from "./TimeNavigator/TimeNavigatorContext";
 
 export const KeyFrameComponent = (props: any) => {
   const keyframeUUID = props.DownstreamMiddleDataKeyframe["Keyframe_ID"];
@@ -26,6 +28,9 @@ export const KeyFrameComponent = (props: any) => {
 
   const SetupConfigContextValue = useContext(SetupConfigContext);
   const SetupEditorContextValue = useContext(SetupEditorContext);
+
+  const TimeNavigatorContextValue = useContext(TimeNavigatorContext);
+  const TimelineAreaDivContextValue = useContext(TimelineAreaDivContext);
 
   const keyframeMouseMoveAction = (event: any) => {
     if (!UserHand.hasUserHandKeyframe(keyframeUUID)) {
@@ -67,9 +72,21 @@ export const KeyFrameComponent = (props: any) => {
       return;
     }
 
+    const compositeDuration: number = AppContextValue.getCompositeDuration(SetupEditorContextValue.choiceComposite);
+    if (!compositeDuration) {
+      return;
+    }
+
+    const tempKeyframeTime = AppContextValue.conversionStyleToTime(
+      keyframeStylePos,
+      TimeNavigatorContextValue.staStyleViewPos,
+      TimeNavigatorContextValue.endStyleViewPos,
+      compositeDuration
+    );
+
     const temp: MiddleDataOperationType.OperationKeyframeTimeType = {
       KeyframeID: keyframeUUID,
-      time: keyframeStylePos,
+      time: tempKeyframeTime,
     };
 
     console.log("keyframeStylePos", keyframeStylePos);
@@ -77,10 +94,26 @@ export const KeyFrameComponent = (props: any) => {
     AppContextValue.operationKeyframeTime(temp);
   }, [keyframeStylePos]);
 
-  useEffect(() => {
+  const keyframeUpdate = () => {
+    const compositeDuration: number = AppContextValue.getCompositeDuration(SetupEditorContextValue.choiceComposite);
+    if (!compositeDuration) {
+      return;
+    }
     const KeyframeTime = AppContextValue.getKeyframeTime(keyframeUUID);
-    KeyframePosSetState(KeyframeTime);
+    const tempKeyframeStylePos = AppContextValue.conversionTimeToStyle(
+      KeyframeTime,
+      TimeNavigatorContextValue.staStyleViewPos,
+      TimeNavigatorContextValue.endStyleViewPos,
+      compositeDuration
+    );
 
+    KeyframePosSetState(tempKeyframeStylePos);
+
+    return;
+  };
+
+  useEffect(() => {
+    keyframeUpdate();
     window.addEventListener("mousemove", keyframeMouseMoveAction);
     window.addEventListener("mouseup", MouseRelease);
 
@@ -90,6 +123,10 @@ export const KeyFrameComponent = (props: any) => {
       window.removeEventListener("mouseup", MouseRelease);
     };
   }, [keyframeUUID, AppContextValue.update]);
+
+  useEffect(() => {
+    keyframeUpdate();
+  }, [TimelineAreaDivContextValue.timelineUpdate]);
 
   const mouseDoubleClick = (event: any) => {
     const clientX = event.clientX;

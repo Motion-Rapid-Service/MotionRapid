@@ -3,14 +3,15 @@ const { useState, useRef, useEffect, useContext, useReducer, createContext } = R
 
 import { AppContext } from "../../AppContext";
 
-import { TimeNavigatorContext } from "./TimeNavigatorContext";
+import { TimeNavigatorContext, TimeNavigatorLayerDurationContext } from "./TimeNavigatorContext";
 
 import * as timelineMousePosition from "./../timeLineMousePosition";
 import * as UserHand from "./../../UserHand";
 export const TimeNavigatorPlayheadComponent = () => {
   const TimeNavigatorContextValue = useContext(TimeNavigatorContext);
+  const TimeNavigatorLayerDurationContextValue = useContext(TimeNavigatorLayerDurationContext);
   const playheadTime = TimeNavigatorContextValue.playheadTime;
-
+  const timeNavigatorPlayheadAreaElement = useRef(null);
   const MouseDown = (event: any) => {
     const mousePushPos = timelineMousePosition.timelineMousePostion(event, TimeNavigatorContextValue.timelineMainElement)[0];
     UserHand.insertUserHandPlayhead(mousePushPos, playheadTime);
@@ -29,21 +30,23 @@ export const TimeNavigatorPlayheadComponent = () => {
   };
 
   useEffect(() => {
-    window.addEventListener("mousedown", MouseDown);
+    timeNavigatorPlayheadAreaElement.current.addEventListener("mousedown", MouseDown);
     window.addEventListener("mousemove", MouseMove);
     window.addEventListener("mouseup", MouseRelease);
 
     return () => {
       //removeEventListener
-      window.removeEventListener("mousedown", MouseDown);
+      timeNavigatorPlayheadAreaElement.current.removeEventListener("mousedown", MouseDown);
       window.removeEventListener("mousemove", MouseMove);
       window.removeEventListener("mouseup", MouseRelease);
     };
   }, []);
 
   return (
-    <div className="timeNavigator-playhead" style={{ left: playheadTime - 15 }}>
-      <p>{playheadTime}</p>
+    <div className="timeNavigator-playhead-area" ref={timeNavigatorPlayheadAreaElement}>
+      <div className="timeNavigator-playhead" style={{ left: playheadTime - 15 }}>
+        <p>{playheadTime}</p>
+      </div>
     </div>
   );
 };
