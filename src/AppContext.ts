@@ -51,6 +51,9 @@ type AppContextValue = {
   setCompositeStyleViewPos: Function;
   getCompositeStyleViewPos: Function;
 
+  getCompositePlayheadTimePos: Function;
+  setCompositePlayheadTimePos: Function;
+
   createComposite: Function;
   createMediaObject: Function;
   createAnimatorGroup: Function;

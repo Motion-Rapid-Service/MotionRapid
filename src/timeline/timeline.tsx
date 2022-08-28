@@ -57,6 +57,8 @@ const TimelineComponent = () => {
   const SetupEditorContextValue = useContext(SetupEditorContext);
   const SetupToolbarContextValue = useContext(SetupToolbarContext);
 
+  //getCompositePlayheadTimePos
+
   const [focusMediaObjectSpace, focusMediaObjectSpaceSetState] = useState<number>(-1);
   const [playheadTime, playheadTimeSetState] = useState<number>(100);
   const [staStyleViewPos, staStyleViewPosSetState] = useState<number>(0);
@@ -80,9 +82,31 @@ const TimelineComponent = () => {
     AppContextValue.setCompositeStyleViewPos(SetupEditorContextValue.choiceComposite, [staStyleViewPos, endStyleViewPos]);
     //console.log("staStyleViewPos, endStyleViewPos", staStyleViewPos, endStyleViewPos);
     timelineUpdateDOM();
-  }, [staStyleViewPos, endStyleViewPos]);
+  }, [SetupEditorContextValue.choiceComposite, staStyleViewPos, endStyleViewPos]);
 
   //ここから プレイヘッド数値の設定
+
+  useEffect(() => {
+    const compositeDuration: number = AppContextValue.getCompositeDuration(SetupEditorContextValue.choiceComposite);
+    if (!compositeDuration) {
+      return;
+    }
+    const posTime = AppContextValue.getCompositePlayheadTimePos(SetupEditorContextValue.choiceComposite);
+    console.log("playheadTime A", playheadTime, staStyleViewPos, endStyleViewPos, compositeDuration, posTime);
+    const posStyle = AppContextValue.conversionTimeToStyle(posTime, staStyleViewPos, endStyleViewPos, compositeDuration);
+    playheadTimeSetState(posStyle);
+    timelineUpdateDOM();
+  }, [SetupEditorContextValue.choiceComposite, staStyleViewPos, endStyleViewPos]);
+
+  useEffect(() => {
+    const compositeDuration: number = AppContextValue.getCompositeDuration(SetupEditorContextValue.choiceComposite);
+    if (!compositeDuration) {
+      return;
+    }
+    console.log("playheadTime B", playheadTime, staStyleViewPos, endStyleViewPos, compositeDuration);
+    const posTime = AppContextValue.conversionStyleToTime(playheadTime, staStyleViewPos, endStyleViewPos, compositeDuration);
+    AppContextValue.setCompositePlayheadTimePos(SetupEditorContextValue.choiceComposite, posTime);
+  }, [playheadTime, SetupEditorContextValue.choiceComposite]);
 
   // ************************************************
 

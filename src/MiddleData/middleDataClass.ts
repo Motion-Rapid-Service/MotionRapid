@@ -32,6 +32,7 @@ export class Composite {
   Composite_Duration: number; //コンポジットの長さ
   staStyleViewPos: number;
   endStyleViewPos: number;
+  playheadTimePos: number;
   constructor(send_Composite_ID: string, send_Composite_Name: string, send_Composite_Mode: string) {
     this.Composite_ID = send_Composite_ID;
     this.Composite_Name = send_Composite_Name;
@@ -40,6 +41,7 @@ export class Composite {
     this.Composite_Duration = 3000;
     this.staStyleViewPos = 0;
     this.endStyleViewPos = this.Composite_Duration;
+    this.playheadTimePos = 0;
   }
 }
 

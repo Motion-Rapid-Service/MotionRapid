@@ -3,8 +3,8 @@ const { useState, useRef, useEffect, useContext, useReducer, createContext } = R
 
 import { AppContext } from "../../AppContext";
 
-import { TimeNavigatorContext, TimeNavigatorLayerDurationContext } from "./TimeNavigatorContext";
-
+import { TimeNavigatorContext, TimeNavigatorLayerDurationContext, TimeNavigatorTimelineLayerDurationContext } from "./TimeNavigatorContext";
+import { SetupEditorContext } from "./../../SetupEditor/SetupEditorContext";
 import * as timelineMousePosition from "./../timeLineMousePosition";
 import * as UserHand from "./../../UserHand";
 export const TimeNavigatorPlayheadComponent = () => {
@@ -12,16 +12,18 @@ export const TimeNavigatorPlayheadComponent = () => {
   const TimeNavigatorLayerDurationContextValue = useContext(TimeNavigatorLayerDurationContext);
   const playheadTime = TimeNavigatorContextValue.playheadTime;
   const timeNavigatorPlayheadAreaElement = useRef(null);
+  const AppContextValue = useContext(AppContext);
+  const SetupEditorContextValue = useContext(SetupEditorContext);
   const MouseDown = (event: any) => {
-    const mousePushPos = timelineMousePosition.timelineMousePostion(event, TimeNavigatorContextValue.timelineMainElement)[0];
+    const mousePushPos = timelineMousePosition.timelineMousePostion(event, TimeNavigatorLayerDurationContextValue.TimeNavigatorLayerDurationElement)[0];
     UserHand.insertUserHandPlayhead(mousePushPos, playheadTime);
+    TimeNavigatorContextValue.playheadTimeSetState(mousePushPos);
   };
   const MouseMove = (event: any) => {
     const userHandPlayhead = UserHand.getUserHandPlayhead();
 
     if (userHandPlayhead.mouseDownFlag === 1) {
-      const mouseX = timelineMousePosition.timelineMousePostion(event, TimeNavigatorContextValue.timelineMainElement)[0];
-      // const mouseMoveX = mouseX - userHandPlayhead.mousePushPos;
+      const mouseX = timelineMousePosition.timelineMousePostion(event, TimeNavigatorLayerDurationContextValue.TimeNavigatorLayerDurationElement)[0];
       TimeNavigatorContextValue.playheadTimeSetState(mouseX);
     }
   };
@@ -45,13 +47,14 @@ export const TimeNavigatorPlayheadComponent = () => {
   return (
     <div className="timeNavigator-playhead-area" ref={timeNavigatorPlayheadAreaElement}>
       <div className="timeNavigator-playhead" style={{ left: playheadTime - 15 }}>
-        <p>{playheadTime}</p>
+        <p>{AppContextValue.getCompositePlayheadTimePos(SetupEditorContextValue.choiceComposite)}</p>
       </div>
     </div>
   );
 };
 
 export const TimelinePlayheadComponent = () => {
+  const TimeNavigatorTimelineLayerDurationContextValue = useContext(TimeNavigatorTimelineLayerDurationContext);
   const TimeNavigatorContextValue = useContext(TimeNavigatorContext);
   const playheadTime = TimeNavigatorContextValue.playheadTime;
   return <div className="timeline-playhead" style={{ left: playheadTime }}></div>;

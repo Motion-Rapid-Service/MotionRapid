@@ -259,6 +259,9 @@ const App = () => {
           getMediaObjectSourceSpecies: middleDataOperation.getMediaObjectSourceSpecies,
           getKeyframeTime: middleDataOperation.getKeyframeTime,
 
+          getCompositePlayheadTimePos: middleDataOperation.getCompositePlayheadTimePos,
+          setCompositePlayheadTimePos: middleDataOperation.setCompositePlayheadTimePos,
+
           getOwnedID_CSSPropertySpeciesHasAnimator: middleDataOperation.getOwnedID_CSSPropertySpeciesHasAnimator,
           getOwnedID_CSSPropertySpeciesHasKeyframe: middleDataOperation.getOwnedID_CSSPropertySpeciesHasKeyframe,
 
