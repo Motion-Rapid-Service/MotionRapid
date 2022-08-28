@@ -1,0 +1,15 @@
+.timeNavigator-timeline {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.timeNavigator-timeline-layer_panel {
+  width: 400px;
+}
+
+.timeNavigator-timeline-layer_duration {
+  position: relative;
+  flex: 1;
+}

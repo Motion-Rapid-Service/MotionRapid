@@ -19,7 +19,7 @@ import "./timeline/TimeNavigator/CSS/header.css";
 import "./timeline/TimeNavigator/CSS/playhead.css";
 import "./timeline/TimeNavigator/CSS/scrollbar.css";
 import "./timeline/TimeNavigator/CSS/timeaxis.css";
-
+import "./timeline/TimeNavigator/CSS/timeNavigatorTimeline.css";
 import * as buildSourceType from "./BuildSite/buildHTML/buildSourceSpecies";
 
 import SetupEditor from "./SetupEditor/SetupEditor";

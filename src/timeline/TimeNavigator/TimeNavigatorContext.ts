@@ -19,3 +19,11 @@ type TimeNavigatorLayerDurationContextValue = {
 };
 
 export const TimeNavigatorLayerDurationContext = createContext<TimeNavigatorLayerDurationContextValue>({} as TimeNavigatorLayerDurationContextValue);
+
+type TimeNavigatorTimelineLayerDurationContextValue = {
+  TimeNavigatorTimelineLayerDurationElement: any;
+};
+
+export const TimeNavigatorTimelineLayerDurationContext = createContext<TimeNavigatorTimelineLayerDurationContextValue>(
+  {} as TimeNavigatorTimelineLayerDurationContextValue
+);

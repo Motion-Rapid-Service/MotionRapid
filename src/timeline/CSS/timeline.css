@@ -25,6 +25,7 @@
 
 .timeline-area-scroll {
   position: absolute;
+  width: 100%;
   /* background-color: rgb(200, 200, 200); */
   margin: 0px;
   /* width: 3000px; */

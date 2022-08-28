@@ -4,11 +4,11 @@
   overflow: hidden;
 }
 
-.timeNavigator-layer_panel {
+.timeNavigator-header-layer_panel {
   width: 400px;
 }
 
-.timeNavigator-layer_duration {
+.timeNavigator-header-layer_duration {
   position: relative;
   flex: 1;
 }

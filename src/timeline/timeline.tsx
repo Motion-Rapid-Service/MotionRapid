@@ -13,9 +13,11 @@ import * as timelineMousePosition from "./timeLineMousePosition";
 
 import TimeNavigatorHeader from "./TimeNavigator/Header";
 
+import TimeNavigatorTimeline from "./TimeNavigator/TimeNavigatorTimeline";
+
 import { TimeNavigatorContext } from "./TimeNavigator/TimeNavigatorContext";
 
-import { TimeNavigatorPlayheadComponent, TimelinePlayheadComponent } from "./TimeNavigator/Playhead";
+// import { TimeNavigatorPlayheadComponent, TimelinePlayheadComponent } from "./TimeNavigator/Playhead";
 // const [UserHandMediaObjectList, UserHandMediaObjectListSetState] = useState<{
 //   [name: string]: UserHandMediaObjectOperation;
 // }>({});
@@ -205,7 +207,7 @@ const TimelineComponent = () => {
           <TimeNavigatorHeader />
 
           <div className="timeline-area" draggable="false" ref={timelineAreaElement}>
-            <TimelinePlayheadComponent />
+            <TimeNavigatorTimeline />
             <div
               className="timeline-area-scroll"
               ref={timelineScrollElement}

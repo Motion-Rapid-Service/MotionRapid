@@ -15,8 +15,8 @@ const TimeNavigatorHeaderComponent = () => {
   const TimeNavigatorLayerDurationElement = useRef(null);
   return (
     <div className="timeNavigator-header">
-      <div className="timeNavigator-layer_panel"></div>
-      <div className="timeNavigator-layer_duration" ref={TimeNavigatorLayerDurationElement}>
+      <div className="timeNavigator-header-layer_panel"></div>
+      <div className="timeNavigator-header-layer_duration" ref={TimeNavigatorLayerDurationElement}>
         <TimeNavigatorLayerDurationContext.Provider value={{ TimeNavigatorLayerDurationElement: TimeNavigatorLayerDurationElement }}>
           <TimeNavigatorScrollBarComponent />
           <TimeNavigatorPlayheadComponent />
