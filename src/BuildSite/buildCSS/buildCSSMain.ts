@@ -25,7 +25,8 @@ const CSSBuildMain = (
   cssDownParentID: string,
   jsDownParentID: string,
   compositeID: string,
-  mediaObjectID: string
+  mediaObjectID: string,
+  compositePreviewFlag: boolean
 ) => {
   //   const htmlText = String(require("./../buildFormat/htmlFormat.html")["default"]);
 
@@ -73,9 +74,8 @@ const CSSBuildMain = (
       // CSSTextReplace += mediaObjectID;
       // CSSTextReplace += " { \n";
 
-      const animatorGroupFormat: AnimatorGroupPropertyFormat.PropertyFormatSpecies = AnimatorGroupFormat.getAnimatorGroupFormatList(
-        thenAnimatorGroupClass.AnimatorGroup_Species
-      );
+      const animatorGroupFormat: AnimatorGroupPropertyFormat.PropertyFormatSpecies =
+        AnimatorGroupFormat.getAnimatorGroupFormatList(thenAnimatorGroupClass.AnimatorGroup_Species);
 
       let cssPropertySpeciesList: { [name: string]: string } = {};
 
@@ -102,9 +102,8 @@ const CSSBuildMain = (
 
       console.log("parallax mode");
       //parallax mode
-      const animatorGroupFormat: AnimatorGroupPropertyFormat.PropertyFormatSpecies = AnimatorGroupFormat.getAnimatorGroupFormatList(
-        thenAnimatorGroupClass.AnimatorGroup_Species
-      );
+      const animatorGroupFormat: AnimatorGroupPropertyFormat.PropertyFormatSpecies =
+        AnimatorGroupFormat.getAnimatorGroupFormatList(thenAnimatorGroupClass.AnimatorGroup_Species);
 
       let cssPropertySpeciesList: { [name: string]: string } = {};
 
@@ -137,60 +136,55 @@ const CSSBuildMain = (
             let thenCSSPropertyClass: middleDataClass.CSSProperty = OwnedClass_CSSProperty[thenCSSPropertyID];
 
             tempTimeValue[Keyframe_AbsoluteTime] = thenCSSPropertyClass.CSSProperty_Value;
-            // pointTime += Keyframe_AbsoluteTime;
-            // pointValue += thenCSSPropertyClass.CSSProperty_Value;
-
-            // if (ki !== OwnedID_Keyframe.length - 1) {
-            //   pointTime += ",";
-            //   pointValue += ",";
-            // }
           }
         }
-
         console.log("tempTimeValue", tempTimeValue);
-
         const tempSortTimeValue = sortNumber(Object.keys(tempTimeValue), false);
-
         console.log("tempSortTimeValue", tempSortTimeValue);
 
-        let pointTime = "[";
-        let pointValue = "[";
+        if (compositePreviewFlag) {
+          //プレビューの時
+        } else {
+          //プレビューではないとき
 
-        for (let kki = 0; kki < tempSortTimeValue.length; kki++) {
-          const thenTime: number = Number(tempSortTimeValue[kki]);
+          let pointTime = "[";
+          let pointValue = "[";
+          for (let kki = 0; kki < tempSortTimeValue.length; kki++) {
+            const thenTime: number = Number(tempSortTimeValue[kki]);
 
-          pointTime += thenTime;
-          pointValue += tempTimeValue[thenTime];
-          if (kki !== tempSortTimeValue.length - 1) {
-            pointTime += ",";
-            pointValue += ",";
+            pointTime += thenTime;
+            pointValue += tempTimeValue[thenTime];
+            if (kki !== tempSortTimeValue.length - 1) {
+              pointTime += ",";
+              pointValue += ",";
+            }
           }
+
+          pointTime += "]";
+          pointValue += "]";
+
+          const windowScrollFormat = String(require("./../buildFormat/windowScroll.txt")["default"]);
+
+          let tempUnit = "''";
+          if (thenCSSPropertyClass.CSSProperty_Unit) {
+            tempUnit = "'" + thenCSSPropertyClass.CSSProperty_Unit + "'";
+          }
+          const textReplaceData: { [name: string]: string } = {
+            "%POINTTIME%": pointTime,
+            "%POINTVALUE%": pointValue,
+            "%UNIT%": tempUnit,
+            "%SETPROPERTYNAME%": "'" + valueIDArray[1] + "'",
+            "%SCROLLFUNCTIONNAME%": "f" + valueIDArray[0],
+          };
+          console.log("textReplaceData", textReplaceData);
+          const newjsID = buildQue.pushJavaScriptElementQue(
+            new buildQue.javascriptElementSourceCodeClass(windowScrollFormat, textReplaceData),
+            jsDownParentID
+          );
         }
-
-        pointTime += "]";
-        pointValue += "]";
-
-        const windowScrollFormat = String(require("./../buildFormat/windowScroll.txt")["default"]);
-
-        let tempUnit = "''";
-
-        if (thenCSSPropertyClass.CSSProperty_Unit) {
-          tempUnit = "'" + thenCSSPropertyClass.CSSProperty_Unit + "'";
-        }
-
-        const textReplaceData: { [name: string]: string } = {
-          "%POINTTIME%": pointTime,
-          "%POINTVALUE%": pointValue,
-          "%UNIT%": tempUnit,
-          "%SETPROPERTYNAME%": "'" + valueIDArray[1] + "'",
-          "%SCROLLFUNCTIONNAME%": "f" + valueIDArray[0],
-        };
-
-        console.log("textReplaceData", textReplaceData);
 
         const cssRootSubstance = valueIDArray[1] + ": 0";
         buildQue.pushCSSElementQue(new buildQue.cssElementSubstance(cssRootSubstance), cssRootID);
-        const newjsID = buildQue.pushJavaScriptElementQue(new buildQue.javascriptElementSourceCodeClass(windowScrollFormat, textReplaceData), jsDownParentID);
       }
 
       console.log("cssPropertySpeciesList", cssPropertySpeciesList);

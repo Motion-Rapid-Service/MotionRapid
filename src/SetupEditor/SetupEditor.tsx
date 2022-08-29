@@ -11,8 +11,17 @@ import { SetupEditorContext } from "./SetupEditorContext";
 
 const Editor = () => {
   const [choiceComposite, choiceCompositeSetState] = useState<string>("not");
-
   useEffect(() => {}, [choiceComposite]);
+
+
+  const [previewUpdate, previewSetUpdata] = useState<boolean>(false);
+  const previewUpdateDOM = () => {
+    //強制再レンダリング関数
+    previewSetUpdata(previewUpdate ? false : true);
+  };
+  useEffect(() => {
+    console.log("previewUpdate 再レンダリング");
+  }, [previewUpdate]);
 
   // **************************************************************
 
@@ -21,20 +30,8 @@ const Editor = () => {
       value={{
         choiceComposite: choiceComposite,
         choiceCompositeSetState: choiceCompositeSetState,
-
-        // insertUserHandMediaObject: insertUserHandMediaObject,
-        // deleteUserHandMediaObject: deleteUserHandMediaObject,
-        // hasUserHandMediaObject: hasUserHandMediaObject,
-        // getUserHandMediaObject: getUserHandMediaObject,
-        // getUserHandMediaObjectIDArray: getUserHandMediaObjectIDArray,
-        // alldeleteUserHandMediaObject: alldeleteUserHandMediaObject,
-
-        // insertUserHandKeyframe: insertUserHandKeyframe,
-        // deleteUserHandKeyframe: deleteUserHandKeyframe,
-        // hasUserHandKeyframe: hasUserHandKeyframe,
-        // getUserHandKeyframe: getUserHandKeyframe,
-        // getUserHandKeyframeIDArray: getUserHandKeyframeIDArray,
-        // alldeleteUserHandKeyframe: alldeleteUserHandKeyframe,
+        previewUpdate:previewUpdate,
+        previewUpdateDOM:previewUpdateDOM,
       }}
     >
       <SetupConfig />

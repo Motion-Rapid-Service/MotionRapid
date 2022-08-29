@@ -17,11 +17,6 @@ import TimeNavigatorTimeline from "./TimeNavigator/TimeNavigatorTimeline";
 
 import { TimeNavigatorContext } from "./TimeNavigator/TimeNavigatorContext";
 
-// import { TimeNavigatorPlayheadComponent, TimelinePlayheadComponent } from "./TimeNavigator/Playhead";
-// const [UserHandMediaObjectList, UserHandMediaObjectListSetState] = useState<{
-//   [name: string]: UserHandMediaObjectOperation;
-// }>({});
-
 const TimelineComponent = () => {
   // ここでhooksを使える
 
@@ -92,7 +87,7 @@ const TimelineComponent = () => {
       return;
     }
     const posTime = AppContextValue.getCompositePlayheadTimePos(SetupEditorContextValue.choiceComposite);
-    console.log("playheadTime A", playheadTime, staStyleViewPos, endStyleViewPos, compositeDuration, posTime);
+    //console.log("playheadTime A", playheadTime, staStyleViewPos, endStyleViewPos, compositeDuration, posTime);
     const posStyle = AppContextValue.conversionTimeToStyle(posTime, staStyleViewPos, endStyleViewPos, compositeDuration);
     playheadTimeSetState(posStyle);
     timelineUpdateDOM();
@@ -103,7 +98,7 @@ const TimelineComponent = () => {
     if (!compositeDuration) {
       return;
     }
-    console.log("playheadTime B", playheadTime, staStyleViewPos, endStyleViewPos, compositeDuration);
+    //console.log("playheadTime B", playheadTime, staStyleViewPos, endStyleViewPos, compositeDuration);
     const posTime = AppContextValue.conversionStyleToTime(playheadTime, staStyleViewPos, endStyleViewPos, compositeDuration);
     AppContextValue.setCompositePlayheadTimePos(SetupEditorContextValue.choiceComposite, posTime);
   }, [playheadTime, SetupEditorContextValue.choiceComposite]);

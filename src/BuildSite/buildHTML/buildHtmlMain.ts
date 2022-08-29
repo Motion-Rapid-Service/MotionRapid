@@ -10,11 +10,14 @@ import * as middleDataClass from "./../../MiddleData/middleDataClass";
 let rootHtmlID: string;
 let rootStyleID: string;
 let rootScriptID: string;
+let compositeTimeFlag:boolean;
 
-const htmlBuildMain = (jsonDataCentral: any, compositeID: string) => {
+const htmlBuildMain = (jsonDataCentral: any, compositeID: string, send_compositeTimeFlag:boolean = false) => {
   buildQue.alldeleteHtmlElementQue();
   buildQue.alldeleteCSSElementQue();
   buildQue.alldeleteJavaScriptElementQue();
+
+  compositeTimeFlag = send_compositeTimeFlag
 
   const htmlText = String(require("./../buildFormat/htmlFormat.txt")["default"]);
 
@@ -229,13 +232,7 @@ const parseMediaObject = (
     );
   }
 
-  CSSBuildMain(getJsonDataCentral(), rootStyleID, rootScriptID, compositeID, mediaObjectID);
+  CSSBuildMain(getJsonDataCentral(), rootStyleID, rootScriptID, compositeID, mediaObjectID,compositeTimeFlag);
 
-  // buildQue.pushHtmlElementQue(new buildQue.htmlElementBlockClass(tag, -1));
-
-  // const addCSSText = CSSBuildMain(getJsonDataCentral(), compositeID, mediaObjectID);
-  // writeCSS(addCSSText);
-
-  //console.log("addText", addText);
   return;
 };

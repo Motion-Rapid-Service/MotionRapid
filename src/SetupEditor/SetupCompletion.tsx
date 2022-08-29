@@ -6,6 +6,7 @@ import TimelineComponent from "./../timeline/timeline";
 import ToolBarComponent from "./../ToolBar/ToolBar";
 import ToolConfigComponent from "./../ToolConfig/ToolConfig";
 import CompositeEditorComponent from "./../CompositeChoice/CompositeChoice";
+import PreviewComponent from "./../Preview/Preview";
 
 import { SetupConfigContext } from "./SetupConfigContext";
 //ここを画面結合専用層にする予定
@@ -39,8 +40,10 @@ const SetupCompletion = () => {
     <>
       {" "}
       <div style={configStyle}>
+        
         <ToolBarComponent />
         <CompositeEditorComponent />
+        <PreviewComponent/>
         <TimelineComponent />
       </div>
       <div>
