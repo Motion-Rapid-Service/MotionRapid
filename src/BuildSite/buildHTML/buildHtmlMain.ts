@@ -19,7 +19,18 @@ const htmlBuildMain = (jsonDataCentral: any, compositeID: string, send_composite
 
   compositeTimeFlag = send_compositeTimeFlag
 
-  const htmlText = String(require("./../buildFormat/htmlFormat.txt")["default"]);
+  let htmlText;
+
+  if (send_compositeTimeFlag){
+    htmlText = String(require("./../buildFormat/htmlFormatPreview.txt")["default"]);
+  }
+  else{
+    htmlText = String(require("./../buildFormat/htmlFormat.txt")["default"]);
+  }
+  
+  
+
+  //htmlFormatPreview
 
   const OwnedClass_Composite: { [name: string]: middleDataClass.Composite } = jsonDataCentral.OwnedClass_Composite;
   const OwnedClass_MediaObject: { [name: string]: middleDataClass.MediaObject } = jsonDataCentral.OwnedClass_MediaObject;

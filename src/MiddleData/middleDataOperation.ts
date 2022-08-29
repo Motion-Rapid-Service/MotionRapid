@@ -382,7 +382,7 @@ export default class MiddleDataOperation {
   previewMiddleDataHtml = (CompositeID: string) => {
 
     if (!hasKeyFound(CompositeID, this.DataCentral.OwnedClass_Composite)) {
-      return;
+      return `<body> not html <body>`;
     }
 
     const jsonData = JSON.parse(JSON.stringify(this.DataCentral, null, "\t"));

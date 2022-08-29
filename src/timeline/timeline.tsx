@@ -101,6 +101,7 @@ const TimelineComponent = () => {
     //console.log("playheadTime B", playheadTime, staStyleViewPos, endStyleViewPos, compositeDuration);
     const posTime = AppContextValue.conversionStyleToTime(playheadTime, staStyleViewPos, endStyleViewPos, compositeDuration);
     AppContextValue.setCompositePlayheadTimePos(SetupEditorContextValue.choiceComposite, posTime);
+    SetupEditorContextValue.previewUpdateDOM()
   }, [playheadTime, SetupEditorContextValue.choiceComposite]);
 
   // ************************************************

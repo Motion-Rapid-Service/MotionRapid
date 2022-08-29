@@ -1,0 +1,14 @@
+
+<head>
+    <style>
+%rootStyle%
+    </style>
+
+</head>
+<body>
+    <div id="root">%rootEdit%</div>
+</body>
+<script type="text/javascript">
+%rootScript%
+</script>
+

@@ -166,14 +166,14 @@ const CSSBuildMain = (
           const aPointValue:number = Number(tempTimeValue[Number(aPointTime)])
           const bPointValue:number = Number(tempTimeValue[Number(bPointTime)])
 
-          let timeSection = Number(bPointTime) - Number(aPointTime);
-          let nowTimeSection = compositePlayheadTimePos - Number(aPointTime);
-          let valueSection = bPointValue - aPointValue;
-          let timeRate = nowTimeSection / timeSection; //進行度を計算する
-          let valueSectionRate = valueSection * timeRate;
-          let cssValue = valueSectionRate + aPointValue;
+          let timeSection:number = Number(bPointTime) - Number(aPointTime);
+          let nowTimeSection:number = compositePlayheadTimePos - Number(aPointTime);
+          let valueSection:number = bPointValue - aPointValue;
+          let timeRate:number = nowTimeSection / timeSection; //進行度を計算する
+          let valueSectionRate:number = valueSection * timeRate;
+          let cssValue:number = valueSectionRate + aPointValue;
       
-          const cssRootSubstance = valueIDArray[0] + ":" + cssValue + thenCSSPropertyClass.CSSProperty_Unit;
+          const cssRootSubstance = valueIDArray[1] + ":" + cssValue + thenCSSPropertyClass.CSSProperty_Unit;
           buildQue.pushCSSElementQue(new buildQue.cssElementSubstance(cssRootSubstance), cssRootID);
 
           //プレビューの時

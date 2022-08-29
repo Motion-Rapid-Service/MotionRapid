@@ -21,7 +21,7 @@ import "./timeline/TimeNavigator/CSS/scrollbar.css";
 import "./timeline/TimeNavigator/CSS/timeaxis.css";
 import "./timeline/TimeNavigator/CSS/timeNavigatorTimeline.css";
 
-import "./Preview/CSS/preview"
+import "./Preview/CSS/preview.css"
 import * as buildSourceType from "./BuildSite/buildHTML/buildSourceSpecies";
 
 import SetupEditor from "./SetupEditor/SetupEditor";

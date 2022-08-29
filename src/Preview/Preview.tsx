@@ -15,10 +15,15 @@ const PreviewComponent = () => {
     const SetupEditorContextValue = useContext(SetupEditorContext)
     useEffect(() => {
         const htmlStr = AppContextValue.previewMiddleDataHtml(SetupEditorContextValue.choiceComposite);
-        console.log("htmlStr",htmlStr)
+        
+        console.log(previewReplaceElement)
         const iframe = document.createElement("iframe");
-        iframe.srcdoc = htmlStr;
-        previewReplaceElement.current.replaceWith(iframe);
+
+        iframe.srcdoc = htmlStr
+
+        previewReplaceElement.current.replaceChild(iframe, previewReplaceElement.current.firstElementChild);
+
+        console.log("htmlStr",htmlStr,iframe)
 
       return () => {
       }
@@ -26,7 +31,7 @@ const PreviewComponent = () => {
     
 
     return(<div className="preview-main">
-        <div className="preview-replace" ref={previewReplaceElement}></div>
+        <div className="preview-replace" ref={previewReplaceElement}><p>html p</p></div>
     </div>)
 }
 
