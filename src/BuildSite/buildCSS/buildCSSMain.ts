@@ -97,6 +97,7 @@ const CSSBuildMain = (
 
       const newID = buildQue.pushCSSElementQue(new buildQue.cssElementDefault(mediaObjectID, "#"), cssDownParentID);
       buildQue.pushCSSElementQue(new buildQue.cssElementSubstance(cssText), newID);
+
     } else if (thenCompositeClass.Composite_Mode === middleDataClass.Composite_Mode[1]) {
       const cssRootID = buildQue.pushCSSElementQue(new buildQue.cssElementDefault("root", ":"), cssDownParentID);
 
@@ -139,21 +140,27 @@ const CSSBuildMain = (
           }
         }
         console.log("tempTimeValue", tempTimeValue);
-        const tempSortTimeValue = sortNumber(Object.keys(tempTimeValue), false)
+        const tempSortTimeValue = sortNumber(Object.keys(tempTimeValue), false);
         console.log("tempSortTimeValue", tempSortTimeValue);
 
         if (compositePreviewFlag) {
-          const compositePlayheadTimePos = thenCompositeClass.playheadTimePos
-          let aPointTime:string;
-          let bPointTime:string;
-          if (compositePlayheadTimePos >= Number(tempSortTimeValue[0])) {
+          let cssValue: number;
+          const compositePlayheadTimePos = thenCompositeClass.playheadTimePos;
+
+          if (compositePlayheadTimePos <= Number(tempSortTimeValue[0])) {
             //最初のキーフレームの場所より手前だった時
-            aPointTime = tempSortTimeValue[0];
-            bPointTime = tempSortTimeValue[0];
+            const pointTime = tempSortTimeValue[0];
+            cssValue = Number(tempTimeValue[Number(pointTime)]);
+
           } else if (Number(tempSortTimeValue[tempSortTimeValue.length - 1]) <= compositePlayheadTimePos) {
-            aPointTime = tempSortTimeValue[tempSortTimeValue.length - 1];
-            bPointTime = tempSortTimeValue[tempSortTimeValue.length - 1];
+            const pointTime = tempSortTimeValue[tempSortTimeValue.length - 1];
+            cssValue = Number(tempTimeValue[Number(pointTime)]);
+
           } else {
+
+            let aPointTime: string;
+            let bPointTime: string;
+
             for (let i = 0; i < tempSortTimeValue.length; i++) {
               if (compositePlayheadTimePos > Number(tempSortTimeValue[i])) {
                 aPointTime = tempSortTimeValue[i];
@@ -161,19 +168,19 @@ const CSSBuildMain = (
                 continue;
               }
             }
+
+            const aPointValue: number = Number(tempTimeValue[Number(aPointTime)]);
+            const bPointValue: number = Number(tempTimeValue[Number(bPointTime)]);
+
+            const timeSection: number = Number(bPointTime) - Number(aPointTime);
+            const nowTimeSection: number = compositePlayheadTimePos - Number(aPointTime);
+            const valueSection: number = bPointValue - aPointValue;
+            const timeRate: number = nowTimeSection / timeSection; //進行度を計算する
+            const valueSectionRate: number = valueSection * timeRate;
+            cssValue = valueSectionRate + aPointValue;
           }
 
-          const aPointValue:number = Number(tempTimeValue[Number(aPointTime)])
-          const bPointValue:number = Number(tempTimeValue[Number(bPointTime)])
-
-          let timeSection:number = Number(bPointTime) - Number(aPointTime);
-          let nowTimeSection:number = compositePlayheadTimePos - Number(aPointTime);
-          let valueSection:number = bPointValue - aPointValue;
-          let timeRate:number = nowTimeSection / timeSection; //進行度を計算する
-          let valueSectionRate:number = valueSection * timeRate;
-          let cssValue:number = valueSectionRate + aPointValue;
-      
-          const cssRootSubstance = valueIDArray[1] + ":" + cssValue + thenCSSPropertyClass.CSSProperty_Unit;
+          const cssRootSubstance = valueIDArray[1] + ":" + cssValue + thenCSSPropertyClass.CSSProperty_Unit + ";";
           buildQue.pushCSSElementQue(new buildQue.cssElementSubstance(cssRootSubstance), cssRootID);
 
           //プレビューの時
@@ -215,11 +222,9 @@ const CSSBuildMain = (
             jsDownParentID
           );
 
-
-        const cssRootSubstance = valueIDArray[1] + ": 0";
-        buildQue.pushCSSElementQue(new buildQue.cssElementSubstance(cssRootSubstance), cssRootID);
+          const cssRootSubstance = valueIDArray[1] + ": 0";
+          buildQue.pushCSSElementQue(new buildQue.cssElementSubstance(cssRootSubstance), cssRootID);
         }
-
       }
 
       console.log("cssPropertySpeciesList", cssPropertySpeciesList);

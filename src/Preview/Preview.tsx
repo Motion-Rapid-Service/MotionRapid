@@ -20,6 +20,7 @@ const PreviewComponent = () => {
         const iframe = document.createElement("iframe");
 
         iframe.srcdoc = htmlStr
+        iframe.className = "preview-replace-iframe"
 
         previewReplaceElement.current.replaceChild(iframe, previewReplaceElement.current.firstElementChild);
 
