@@ -139,10 +139,43 @@ const CSSBuildMain = (
           }
         }
         console.log("tempTimeValue", tempTimeValue);
-        const tempSortTimeValue = sortNumber(Object.keys(tempTimeValue), false);
+        const tempSortTimeValue = sortNumber(Object.keys(tempTimeValue), false)
         console.log("tempSortTimeValue", tempSortTimeValue);
 
         if (compositePreviewFlag) {
+          const compositePlayheadTimePos = thenCompositeClass.playheadTimePos
+          let aPointTime:string;
+          let bPointTime:string;
+          if (compositePlayheadTimePos >= Number(tempSortTimeValue[0])) {
+            //最初のキーフレームの場所より手前だった時
+            aPointTime = tempSortTimeValue[0];
+            bPointTime = tempSortTimeValue[0];
+          } else if (Number(tempSortTimeValue[tempSortTimeValue.length - 1]) <= compositePlayheadTimePos) {
+            aPointTime = tempSortTimeValue[tempSortTimeValue.length - 1];
+            bPointTime = tempSortTimeValue[tempSortTimeValue.length - 1];
+          } else {
+            for (let i = 0; i < tempSortTimeValue.length; i++) {
+              if (compositePlayheadTimePos > Number(tempSortTimeValue[i])) {
+                aPointTime = tempSortTimeValue[i];
+                bPointTime = tempSortTimeValue[i + 1];
+                continue;
+              }
+            }
+          }
+
+          const aPointValue:number = Number(tempTimeValue[Number(aPointTime)])
+          const bPointValue:number = Number(tempTimeValue[Number(bPointTime)])
+
+          let timeSection = Number(bPointTime) - Number(aPointTime);
+          let nowTimeSection = compositePlayheadTimePos - Number(aPointTime);
+          let valueSection = bPointValue - aPointValue;
+          let timeRate = nowTimeSection / timeSection; //進行度を計算する
+          let valueSectionRate = valueSection * timeRate;
+          let cssValue = valueSectionRate + aPointValue;
+      
+          const cssRootSubstance = valueIDArray[0] + ":" + cssValue + thenCSSPropertyClass.CSSProperty_Unit;
+          buildQue.pushCSSElementQue(new buildQue.cssElementSubstance(cssRootSubstance), cssRootID);
+
           //プレビューの時
         } else {
           //プレビューではないとき
@@ -181,10 +214,12 @@ const CSSBuildMain = (
             new buildQue.javascriptElementSourceCodeClass(windowScrollFormat, textReplaceData),
             jsDownParentID
           );
-        }
+
 
         const cssRootSubstance = valueIDArray[1] + ": 0";
         buildQue.pushCSSElementQue(new buildQue.cssElementSubstance(cssRootSubstance), cssRootID);
+        }
+
       }
 
       console.log("cssPropertySpeciesList", cssPropertySpeciesList);

@@ -43,6 +43,7 @@ type AppContextValue = {
   fileExportDataCentral: Function;
   fileExportComposite: Function;
   buildMiddleDataHtml: Function;
+  previewMiddleDataHtml:Function
   swopMediaObject: Function;
   rewriteMediaObejctAnimatorOpen: Function;
   getMediaObejctAnimatorOpen: Function;

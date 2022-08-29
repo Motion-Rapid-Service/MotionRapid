@@ -379,9 +379,15 @@ export default class MiddleDataOperation {
     this.fileExportCommon(jsonSyntaxHtml, CompositeID + "html", "text/html", "html");
   };
 
-  previewMiddleDataHtml = (CompositeID: string,CompositeTime:number) => {
+  previewMiddleDataHtml = (CompositeID: string) => {
+
+    if (!hasKeyFound(CompositeID, this.DataCentral.OwnedClass_Composite)) {
+      return;
+    }
+
     const jsonData = JSON.parse(JSON.stringify(this.DataCentral, null, "\t"));
     const jsonSyntaxHtml = htmlBuildMain(jsonData, CompositeID,true);
+    return jsonSyntaxHtml
   }
 
   rewriteMediaObejctAnimatorOpen = (mediaObjectID: string, openBool: boolean) => {
