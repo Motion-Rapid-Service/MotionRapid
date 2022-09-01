@@ -6,7 +6,7 @@ export type PropertyFormatSpecies = {
   cssWriteFunction: Function;
 };
 
-export const propertySpeciesUnitList: Array<string> = ["not", "number", "rgb", "rgba", "text"]; //ここで設定画面の方式を決定
+export const propertySpeciesUnitList: Array<string> = ["not", "number", "rgb", "rgba", "text", "image"]; //ここで設定画面の方式を決定
 export const cssValueUnit: { [name: string]: Array<string> } = {
   number: ["px", "vw", "vh", "%"],
   rgb: [],
@@ -137,3 +137,27 @@ export const PropertyFormat_blockBorder: PropertyFormatSpecies = {
     return rtext;
   },
 };
+export const PropertyFormat_Image: PropertyFormatSpecies = {
+  cssPropertyName: "image",
+  cssPropertySpeciesList: {
+    画像指定: propertySpeciesUnitList[5],
+    幅: propertySpeciesUnitList[1],
+    縦: propertySpeciesUnitList[1],
+  },
+
+  cssWriteFunction: (send_propertyName: string, send_cssPropertySpeciesList: { [name: string]: string }) => {
+    const rtext = textJoinAnimatorGroup([
+      "background url('",
+      send_cssPropertySpeciesList["画像指定"],
+      "')",
+      send_cssPropertySpeciesList["幅"],
+      ",",
+      send_cssPropertySpeciesList["縦"],
+      ");",
+    ]);
+    return rtext;
+  },
+};
+
+//https://nyanblog2222.com/programming/javascript/1132/
+//inputタグからfileRenaderを使って画面に表示する方法 div要素に出力する

@@ -6,6 +6,7 @@ const animatorGroupFormatList: { [name: string]: PropertyFormat.PropertyFormatSp
   blockSize: PropertyFormat.PropertyFormat_blockSize,
   boxShadow: PropertyFormat.PropertyFormat_blockBorderShadow,
   blockBorder: PropertyFormat.PropertyFormat_blockBorder,
+  image: PropertyFormat.PropertyFormat_Image,
 };
 
 export const getAnimatorGroupFormatList = (animatorGroupFormatPropertyName: string) => {
