@@ -237,6 +237,7 @@ const AnimaterCSSproperty = (props: any) => {
       CSSPropertyUnit: animaterCSSpropertyUnit,
     };
     AppContextValue.operationCSSPropertyUnit(unitSendData);
+    console.log("animaterCSSpropertyUnit", animaterCSSpropertyUnit);
   }, [animaterCSSpropertyUnit]);
 
   return (
@@ -270,11 +271,12 @@ const AnimaterCSSpropertyUnit = (props: any) => {
 
   const cssPropertySpeciesList = animatorGroupFormat.cssPropertySpeciesList; //そのpropertyに指定できるvalue一覧
   const cssPropertySpecies = cssPropertySpeciesList[LayerPanelAnimaterContextValue.Animator_propertySpecies]; //そのvalueはどのような指定方法をするか 文字列か数値か
-  const cssValueUnitList = Object.assign(AnimatorGroupPropertyFormat.cssValueUnit[cssPropertySpecies]); //そのcssのpropertyがどのような値をとりえるか
+  const cssValueUnitList: Array<string> = Object.assign(AnimatorGroupPropertyFormat.cssValueUnit[cssPropertySpecies]); //そのcssのpropertyがどのような値をとりえるか
 
   const onChange = (event: any) => {
     const selectValue = Number(event.target.value);
-    props.animaterCSSpropertyUnitSetState(cssValueUnitList[selectValue]);
+    console.log("selectValue", selectValue, event.target.value);
+    props.animaterCSSpropertyUnitSetState(event.target.value);
   };
 
   if (cssValueUnitList.length === 0) {
@@ -282,7 +284,7 @@ const AnimaterCSSpropertyUnit = (props: any) => {
   }
 
   return (
-    <select onChange={onChange}>
+    <select onChange={onChange} value={props.animaterCSSpropertyUnit}>
       {cssValueUnitList.map((output: string, index: number) => (
         <AnimaterCSSpropertyUnitOption output={output} index={index} key={index} initCSSPropertyUnit={props.initCSSPropertyUnit} />
       ))}
@@ -290,13 +292,23 @@ const AnimaterCSSpropertyUnit = (props: any) => {
   );
 };
 const AnimaterCSSpropertyUnitOption = (props: any) => {
-  if (props.output === props.initCSSPropertyUnit) {
-    return (
-      <option value={props.index} selected>
-        {props.output}
-      </option>
-    );
-  } else {
-    return <option value={props.index}>{props.output}</option>;
-  }
+  // if (props.output === props.initCSSPropertyUnit) {
+  //   return (
+  //     <option value={props.index} selected>
+  //       {props.output}
+  //     </option>
+  //   );
+  // } else {
+  const LayerPanelAnimaterContextValue = useContext(LayerPanelAnimaterContext);
+
+  const animatorGroupFormat: AnimatorGroupPropertyFormat.PropertyFormatSpecies = AnimatorGroupFormat.getAnimatorGroupFormatList(
+    LayerPanelAnimaterContextValue.AnimatorGroup_Species
+  ); //cssのpropertyによる
+
+  const cssPropertySpeciesList = animatorGroupFormat.cssPropertySpeciesList; //そのpropertyに指定できるvalue一覧
+  const cssPropertySpecies = cssPropertySpeciesList[LayerPanelAnimaterContextValue.Animator_propertySpecies]; //そのvalueはどのような指定方法をするか 文字列か数値か
+  const cssValueUnitList: Array<string> = Object.assign(AnimatorGroupPropertyFormat.cssValueUnit[cssPropertySpecies]); //そのcssのpropertyがどのような値をとりえるか
+
+  return <option value={props.output}>{props.output}</option>;
+  // }
 };

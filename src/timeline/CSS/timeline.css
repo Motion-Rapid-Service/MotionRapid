@@ -81,3 +81,7 @@
   margin: 0;
   flex: 1;
 }
+
+.media_object-area .media_object-area-layer_duration * {
+  /* overflow: hidden; */
+}
