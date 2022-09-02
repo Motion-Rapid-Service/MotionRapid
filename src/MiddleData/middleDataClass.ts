@@ -11,6 +11,8 @@ export class DataCentral {
   OwnedClass_CSSProperty: { [name: string]: CSSProperty };
   projectName: string;
 
+  DataCentral_MediaTable: { [name: string]: string };
+
   constructor(send_projectName: string) {
     // this.Composite = null;
     // this.MediaObject = null;
@@ -21,6 +23,7 @@ export class DataCentral {
     this.OwnedClass_Animator = {};
     this.OwnedClass_Keyframe = {};
     this.OwnedClass_CSSProperty = {};
+    this.DataCentral_MediaTable = {}; //uuidと、DOM上で表示するためのurlがセットになっている
   }
 }
 

@@ -15,6 +15,10 @@ type AppContextValue = {
 
   update: boolean;
   updateDOM: Function;
+
+  setDataCentralMediaTable: Function;
+  getDataCentralMediaTable: Function;
+
   operationMediaObjectTime: Function;
   operationKeyframeTime: Function;
   operationLinkAnimatorGroup: Function;
@@ -43,7 +47,7 @@ type AppContextValue = {
   fileExportDataCentral: Function;
   fileExportComposite: Function;
   buildMiddleDataHtml: Function;
-  previewMiddleDataHtml:Function
+  previewMiddleDataHtml: Function;
   swopMediaObject: Function;
   rewriteMediaObejctAnimatorOpen: Function;
   getMediaObejctAnimatorOpen: Function;

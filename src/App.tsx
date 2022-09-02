@@ -21,7 +21,7 @@ import "./timeline/TimeNavigator/CSS/scrollbar.css";
 import "./timeline/TimeNavigator/CSS/timeaxis.css";
 import "./timeline/TimeNavigator/CSS/timeNavigatorTimeline.css";
 
-import "./Preview/CSS/preview.css"
+import "./Preview/CSS/preview.css";
 import * as buildSourceType from "./BuildSite/buildHTML/buildSourceSpecies";
 
 import SetupEditor from "./SetupEditor/SetupEditor";
@@ -245,6 +245,10 @@ const App = () => {
 
           update: update,
           updateDOM: updateDOM,
+
+          setDataCentralMediaTable: middleDataOperation.setDataCentralMediaTable,
+          getDataCentralMediaTable: middleDataOperation.getDataCentralMediaTable,
+
           operationMediaObjectTime: middleDataOperation.operationMediaObjectTime,
           operationKeyframeTime: middleDataOperation.operationKeyframeTime,
           operationLinkAnimatorGroup: middleDataOperation.operationLinkAnimatorGroup,
@@ -271,7 +275,7 @@ const App = () => {
           fileExportComposite: middleDataOperation.fileExportComposite,
           // htmlBuildMain:htmlBuildMain
           buildMiddleDataHtml: middleDataOperation.buildMiddleDataHtml,
-          previewMiddleDataHtml:middleDataOperation.previewMiddleDataHtml,
+          previewMiddleDataHtml: middleDataOperation.previewMiddleDataHtml,
           swopMediaObject: middleDataOperation.swopMediaObject,
           rewriteMediaObejctAnimatorOpen: middleDataOperation.rewriteMediaObejctAnimatorOpen,
           getMediaObejctAnimatorOpen: middleDataOperation.getMediaObejctAnimatorOpen,

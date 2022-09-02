@@ -312,20 +312,3 @@ const AnimaterCSSpropertyUnitOption = (props: any) => {
   return <option value={props.output}>{props.output}</option>;
   // }
 };
-
-const AnimaterImageUpload = (props: any) => {
-  const AppContextValue = useContext(AppContext);
-  const onChange = (event: any) => {
-    const files = event.currentTarget.files;
-    if (!files || files?.length === 0) return; //選択されたファイルが存在しないとき
-    const file = files[0];
-    console.log("file:", file);
-  };
-  return (
-    <>
-      <input type="file" name="imageData" accept="image/*" onChange={onChange} />
-    </>
-  );
-};
-// Reactとtypescriptでのinput type=fileの取り扱いについて
-//https://qiita.com/FumioNonaka/items/4f0fc65975eed5b89c0c

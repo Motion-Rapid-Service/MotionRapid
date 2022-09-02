@@ -85,6 +85,15 @@ export default class MiddleDataOperation {
     return newID;
   };
 
+  setDataCentralMediaTable = (mediaID: string, mediaURL: string) => {
+    this.DataCentral.DataCentral_MediaTable[mediaID] = mediaURL;
+  };
+
+  getDataCentralMediaTable = (mediaID: string) => {
+    const mediaURL: string = this.DataCentral.DataCentral_MediaTable[mediaID];
+    return mediaURL;
+  };
+
   operationLinkAnimatorGroup = (animatorGroupID: string, newAnimatorGroupSpeciesPropertySpecies: string) => {
     //animatorgroupに新しい要素を適用したときに、アニメーターの追加も同時にする関数
     // const animatorGroupID = this.createAnimatorGroup(newAnimatorGroupSpecies); これはいらない
@@ -380,15 +389,14 @@ export default class MiddleDataOperation {
   };
 
   previewMiddleDataHtml = (CompositeID: string) => {
-
     if (!hasKeyFound(CompositeID, this.DataCentral.OwnedClass_Composite)) {
       return `<body> not html <body>`;
     }
 
     const jsonData = JSON.parse(JSON.stringify(this.DataCentral, null, "\t"));
-    const jsonSyntaxHtml = htmlBuildMain(jsonData, CompositeID,true);
-    return jsonSyntaxHtml
-  }
+    const jsonSyntaxHtml = htmlBuildMain(jsonData, CompositeID, true);
+    return jsonSyntaxHtml;
+  };
 
   rewriteMediaObejctAnimatorOpen = (mediaObjectID: string, openBool: boolean) => {
     this.DataCentral.OwnedClass_MediaObject[mediaObjectID].animatorOpen = openBool;

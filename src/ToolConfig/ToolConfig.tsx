@@ -39,6 +39,9 @@ const SwitchConfigSettingItemsComposite = (props: any) => {
   if (settingItemsData.thenConfigSettingGUIparts == ToolConfigContext.configSettingGUIparts[3]) {
     return <ToolConfigParts.ConfigSelect />;
   }
+  if (settingItemsData.thenConfigSettingGUIparts == ToolConfigContext.configSettingGUIparts[6]) {
+    return <ToolConfigParts.ConfigImageUpload />;
+  }
 };
 
 const ConfigSettingItemsCompositeEntity = (props: any) => {
@@ -251,6 +254,25 @@ const ComponentOptionConvertConfigMode = (props: any) => {
     AppContextValue.updateDOM();
   };
 
+  const itemMediaObjectImageMode = () => {
+    const configItemMediaObjextImageModeImage: string = ToolConfigContext.ConfigItemMediaObjextImageMode[0];
+    let settingItemsTemp: Array<ToolConfigContext.settingItemsData> = [];
+
+    const settingItemsDataImage: ToolConfigContext.settingItemsData = {
+      settingTitle: "画像",
+      settingMessage: "選択してください",
+      thenConfigSettingGUIparts: ToolConfigContext.configSettingGUIparts[6],
+      exposeValue: ["URL"],
+      configItem: configItemMediaObjextImageModeImage,
+    };
+
+    settingItemsTemp.push(settingItemsDataImage);
+
+    return settingItemsTemp;
+  };
+
+  const buttonOperationFuncMediaObjectImageMode = (sendConfigContent: { [name: string]: string | number | boolean }) => {};
+
   let settingItemsTemp: Array<ToolConfigContext.settingItemsData>; //上書きされる
   let buttonOperationFunc: Function; //上書きされる
 
@@ -265,6 +287,14 @@ const ComponentOptionConvertConfigMode = (props: any) => {
       break;
     case configModeList[3]: //キーフレームの設定
       settingItemsTemp = itemOperationKeyframe();
+      buttonOperationFunc = buttonOperationFuncOperationKeyframe;
+      break;
+    case configModeList[4]: //メディアオブジェクトテキストモードの設定
+      settingItemsTemp = itemOperationKeyframe();
+      buttonOperationFunc = buttonOperationFuncOperationKeyframe;
+      break;
+    case configModeList[5]: //メディアオブジェクト画像モードの設定
+      settingItemsTemp = itemMediaObjectImageMode();
       buttonOperationFunc = buttonOperationFuncOperationKeyframe;
       break;
     default:

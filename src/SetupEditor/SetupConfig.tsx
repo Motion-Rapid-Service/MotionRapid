@@ -24,6 +24,8 @@ const SetupConfig = () => {
     "newComposite", //新しいコンポジットの設定
     "newAnimatorGroup", //新しいAnimatorGroupの設定
     "operationKeyframe", //keyframeをダブルクリックした時の設定
+    "mediaObjectTextMode", //メディアオブジェクトがテキストモードの時の設定画面を呼び出すようにする
+    "mediaObjectImageMode", //メディアオブジェクトがイメージ設定モードの時の設定画面を呼び出すようにする
   ];
   const [configMode, configModeSetState] = useState<string>(configModeList[0]);
 
