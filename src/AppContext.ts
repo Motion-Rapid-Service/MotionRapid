@@ -15,6 +15,7 @@ type AppContextValue = {
 
   update: boolean;
   updateDOM: Function;
+  readerImage: Function;
 
   setDataCentralMediaTable: Function;
   getDataCentralMediaTable: Function;

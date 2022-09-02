@@ -108,6 +108,29 @@ middleDataOperation.createDataCentral();
 
 //ここまでテスト用 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
+const readerImage = (imageFileData: any, imageID: string = null) => {
+  let imageIDTemp: string;
+  if (!imageID) {
+    imageIDTemp = "image_" + getUUID();
+    console.log("id is null", imageIDTemp);
+  } else {
+    imageIDTemp = imageID;
+  }
+
+  const reader = new FileReader();
+  // 3. 読み込みクラスの準備が終わった後、画像の情報を設定
+  reader.onload = function () {
+    const imageURL: string = String(this.result);
+    console.log("imageURL", imageURL, imageID);
+
+    middleDataOperation.setDataCentralMediaTable(imageIDTemp, imageURL);
+  };
+  // 6. 読み込んだ画像ファイルをURLに変換
+  reader.readAsDataURL(imageFileData);
+  console.log("imageIDTemp", imageIDTemp);
+  return imageIDTemp;
+};
+
 const conversionStyleToTime = (valStyle: number, sectionTimeSta: number, sectionTimeEnd: number, viewWidth: number) => {
   const sectionTime = sectionTimeEnd - sectionTimeSta;
   const conversionRate = sectionTime / viewWidth;
@@ -235,6 +258,7 @@ const App = () => {
           getUUID: getUUID,
           sortNumber: sortNumber,
           deepCopyDict: deepCopyDict,
+          readerImage: readerImage,
           componentConvertCompositeChoiceArea: componentConvertCompositeChoiceArea,
           componentConvertMediaObjectArea: componentConvertMediaObjectArea,
           componentConvertAnimatorArea: componentConvertAnimatorArea,

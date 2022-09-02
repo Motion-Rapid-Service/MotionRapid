@@ -66,6 +66,8 @@ export const ConfigImageUpload = (props: any) => {
     if (!files || files?.length === 0) return; //選択されたファイルが存在しないとき
     const file = files[0];
     console.log("file:", file);
+    const imageID = AppContextValue.readerImage(file);
+    console.log("ConfigImageUpload", imageID);
   };
   return (
     <>

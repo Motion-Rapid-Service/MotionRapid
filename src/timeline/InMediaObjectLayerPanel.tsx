@@ -5,6 +5,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AppContext, ComponentConvertAnimatorAreaType, ComponentConvertAnimatorGroupType, ComponentConvertAnimatorType } from "../AppContext";
 import { MediaObjectContext, TimelineAreaDivContext, LayerPanelContext, LayerDurationContext, LayerPanelAnimaterContext } from "./timelineContext";
 import { SetupEditorContext } from "./../SetupEditor/SetupEditorContext";
+import { SetupConfigContext } from "../SetupEditor/SetupConfigContext";
 
 // import { timelineMousePosition ,timelineLayerPanelPostion} from "./timeLineMousePosition";
 import * as timelineMousePosition from "./timeLineMousePosition";
@@ -132,10 +133,20 @@ export const TimelineAreaLayerPanelComponent = (props: any) => {
 export const LayerPanelMediaObjectComponent = (props: any) => {
   const AppContextValue = useContext(AppContext);
   const MediaObjectContextValue = useContext(MediaObjectContext);
-
+  const SetupConfigContextValue = useContext(SetupConfigContext);
   // const MediaObjectContextValue = useContext(MediaObjectContext);
+  const mouseDoubleClick = (event: any) => {
+    const clientX = event.clientX;
+    const clientY = event.clientY;
+
+    SetupConfigContextValue.cssLeftSetState(clientX + 10);
+    SetupConfigContextValue.cssTopSetState(clientY + 10);
+    SetupConfigContextValue.setConfigModeArgsOption({});
+    SetupConfigContextValue.configModeSetState(SetupConfigContextValue.configModeList[5]);
+    SetupConfigContextValue.configSwitchGUISetState(SetupConfigContextValue.configSwitchGUIList[2]);
+  };
   return (
-    <div className="layer_panel-entity">
+    <div className="layer_panel-entity" onDoubleClick={mouseDoubleClick}>
       <p>{MediaObjectContextValue.mediaObjectUUID}</p>
     </div>
   );
@@ -174,10 +185,10 @@ export const LayerPanelAnimaterComponent = (props: any) => {
   const TimelineAreaDivContextValue = useContext(TimelineAreaDivContext);
   const MediaObjectContextValue = useContext(MediaObjectContext);
   const onClick = () => {
+    //イベント開放用
     console.log("LayerPanelAnimaterComponent Onclick");
 
     delete UserHandLayerPanelList[MediaObjectContextValue.mediaObjectUUID];
-
     TimelineAreaDivContextValue.focusMediaObjectSpaceSetState(-1);
     AppContextValue.updateDOM();
   };
