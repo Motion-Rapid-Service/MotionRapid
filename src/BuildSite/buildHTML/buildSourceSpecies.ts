@@ -1,6 +1,8 @@
 import { testJoin } from "./buildAuxiliaryFunction";
 import * as buildQue from "../buildQue";
 
+import * as middleDataClass from "./../../MiddleData/middleDataClass";
+
 export const sourceSpeciesList = [
   "default", //何もない状態(nullオブジェクトと同等)
   "text", //テキスト
@@ -37,12 +39,35 @@ export const sourceSpeciesFunctionComposite = (
   return;
 };
 
-// export const sourceSpeciesFunctionImage = (jsonDataCentral: Function, downParentID: string, SourceSpeciesImageClass: SourceSpeciesImageClass) => {
-//   buildQue.pushHtmlElementQue(new buildQue.htmlElementBlockClass(SourceSpeciesImageClass.mediaTableID), downParentID);
+export const sourceSpeciesFunctionImage = (
+  jsonDataCentral: Function,
+  downParentID: string,
+  SourceSpeciesImageClass: SourceSpeciesImageClass,
+  cssDownParentID: string,
+  mediaObjectID: string
+) => {
+  const dataCentral: middleDataClass.DataCentral = jsonDataCentral();
+  // const OwnedClass_Composite: { [name: string]: middleDataClass.Composite } = jsonDataCentral().OwnedClass_Composite;
+  // const OwnedClass_MediaObject: { [name: string]: middleDataClass.MediaObject } = jsonDataCentral().OwnedClass_MediaObject;
 
-//   const newID = buildQue.pushCSSElementQue(new buildQue.cssElementDefault(mediaObjectID, "#"), cssDownParentID);
-//   buildQue.pushCSSElementQue(new buildQue.cssElementSubstance(cssText), newID);
-// };
+  console.log("DataCentral_MediaTable", SourceSpeciesImageClass.mediaTableID, downParentID);
+
+  const imageURL = dataCentral.DataCentral_MediaTable[SourceSpeciesImageClass.mediaTableID];
+  if (!imageURL) {
+    console.log("image URL not");
+    return;
+  }
+
+  console.log("DataCentral_MediaTable imageURL", imageURL);
+
+  const cssText = "background : url(" + imageURL + ");";
+
+  const htmlAttribute: { [name: string]: string } = { id: SourceSpeciesImageClass.mediaTableID };
+
+  buildQue.pushHtmlElementQue(new buildQue.htmlElementBlockClass("div", htmlAttribute), downParentID);
+  const newCssID = buildQue.pushCSSElementQue(new buildQue.cssElementDefault(SourceSpeciesImageClass.mediaTableID, "#"), cssDownParentID);
+  buildQue.pushCSSElementQue(new buildQue.cssElementSubstance(cssText), newCssID);
+};
 
 export abstract class SourceSpeciesClass {
   constructor() {}

@@ -140,6 +140,7 @@ export class cssElementTopClass extends cssElement {
 }
 
 export class cssElementDefault extends cssElement {
+  // 上下ではさみこむタイプ
   species = cssElementSpeciesList[1];
 
   elementID = "cssID_" + getUUID();

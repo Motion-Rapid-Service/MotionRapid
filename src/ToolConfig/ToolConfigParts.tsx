@@ -61,6 +61,8 @@ export const ConfigButton = (props: any) => {
 
 export const ConfigImageUpload = (props: any) => {
   const AppContextValue = useContext(AppContext);
+  const SwitchConfigSettingItemsCompositeContextValue = useContext(ToolConfigContext.SwitchConfigSettingItemsCompositeContext);
+
   const onChange = (event: any) => {
     const files = event.currentTarget.files;
     if (!files || files?.length === 0) return; //選択されたファイルが存在しないとき
@@ -68,6 +70,9 @@ export const ConfigImageUpload = (props: any) => {
     console.log("file:", file);
     const imageID = AppContextValue.readerImage(file);
     console.log("ConfigImageUpload", imageID);
+
+    const text = event.target.value;
+    SwitchConfigSettingItemsCompositeContextValue.configInputSetState(String(imageID));
   };
   return (
     <>

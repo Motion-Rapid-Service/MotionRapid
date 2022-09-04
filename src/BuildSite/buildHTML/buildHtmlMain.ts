@@ -239,7 +239,16 @@ const parseMediaObject = (
       parseComposite
     );
   }
-
+  if (thenSourceSpecies === buildSourceSpecies.sourceSpeciesList[3]) {
+    //Composite
+    buildSourceSpecies.sourceSpeciesFunctionImage(
+      getJsonDataCentral,
+      newHtmlID,
+      thenSourceSpeciesClass as buildSourceSpecies.SourceSpeciesImageClass,
+      rootStyleID,
+      mediaObjectID
+    );
+  }
   CSSBuildMain(getJsonDataCentral(), rootStyleID, rootScriptID, compositeID, mediaObjectID, compositeTimeFlag);
 
   return;
