@@ -56,7 +56,7 @@ export class MediaObject {
   MediaObject_Color: Array<number>;
   OwnedID_AnimatorGroup: Array<string>;
   animatorOpen: boolean;
-  sourceSpecies: buildSourceSpecies.SourceSpeciesClass;
+  MediaObject_SourceSpecies: buildSourceSpecies.SourceSpeciesClass;
 
   constructor(send_MediaObject_ID: string, send_sourceSpecies: buildSourceSpecies.SourceSpeciesClass) {
     this.MediaObject_ID = send_MediaObject_ID;
@@ -67,7 +67,7 @@ export class MediaObject {
 
     this.OwnedID_AnimatorGroup = [];
     this.animatorOpen = true;
-    this.sourceSpecies = send_sourceSpecies;
+    this.MediaObject_SourceSpecies = send_sourceSpecies;
   }
 }
 

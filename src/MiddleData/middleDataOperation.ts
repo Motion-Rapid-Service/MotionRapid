@@ -282,7 +282,7 @@ export default class MiddleDataOperation {
   };
 
   getMediaObjectSourceSpecies = (mediaObjectID: string) => {
-    return this.DataCentral.OwnedClass_MediaObject[mediaObjectID].sourceSpecies;
+    return this.DataCentral.OwnedClass_MediaObject[mediaObjectID].MediaObject_SourceSpecies;
   };
 
   getMediaObjectColor = (mediaObjectID: string) => {

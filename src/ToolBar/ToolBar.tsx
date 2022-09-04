@@ -92,7 +92,13 @@ const toolBarComponent = (props: any) => {
   };
 
   const toolBarCreateMediaObjectText = (funcdata: { [name: string]: any }) => {
-    const addClass = new buildSourceSpecies.SourceSpeciesTextClass("( 'ω')", 10, "font");
+    const addClass = new buildSourceSpecies.SourceSpeciesTextClass("( 'ω')", "font");
+    const t_MediaObjectID = AppContextValue.createMediaObject(addClass);
+    AppContextValue.linkMediaObject(funcdata["choiceComposite"], t_MediaObjectID);
+  };
+
+  const toolBarCreateMediaObjectImage = (funcdata: { [name: string]: any }) => {
+    const addClass = new buildSourceSpecies.SourceSpeciesImageClass(null);
     const t_MediaObjectID = AppContextValue.createMediaObject(addClass);
     AppContextValue.linkMediaObject(funcdata["choiceComposite"], t_MediaObjectID);
   };
@@ -118,8 +124,9 @@ const toolBarComponent = (props: any) => {
 
     let toolBar4 = "mediaObjectEdit";
     insertToolBarClassificationArraySetStateValue(toolBar4, "メディアオブジェクト", false);
-    insertToolBarEditorDictSetStateValue(toolBar4, "4A", "新規作成", toolBarCreateMediaObjectText, false);
-    insertToolBarEditorDictSetStateValue(toolBar4, "4B", "エフェクトを追加する", toolBarCreateAnimatorGroup, false);
+    insertToolBarEditorDictSetStateValue(toolBar4, "4A", "テキスト挿入", toolBarCreateMediaObjectText, false);
+    insertToolBarEditorDictSetStateValue(toolBar4, "4B", "画像挿入", toolBarCreateMediaObjectImage, false);
+    insertToolBarEditorDictSetStateValue(toolBar4, "4C", "エフェクトを追加する", toolBarCreateAnimatorGroup, false);
 
     switchToolBarDetailSetState(toolBar1);
     AppContextValue.updateDOM();

@@ -43,6 +43,7 @@ export type ConfigItemType = {
 export const ConfigItemNewComposite: Array<string> = ["compositeName", "compositeTime", "compositeMode"];
 export const ConfigItemNewAnimatorGroup: Array<string> = ["animatorGroupFormatSpecies"];
 export const ConfigItemOperationKeyframe: Array<string> = ["time", "value"];
+export const ConfigItemMediaObjextTextMode: Array<string> = ["text"];
 export const ConfigItemMediaObjextImageMode: Array<string> = ["image"];
 // export type ConfigItemNewComposite = {
 //   compositeName: "";

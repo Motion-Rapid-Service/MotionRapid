@@ -254,6 +254,23 @@ const ComponentOptionConvertConfigMode = (props: any) => {
     AppContextValue.updateDOM();
   };
 
+  const itemMediaObjectImageText = () => {
+    const configItemMediaObjextTextModeText: string = ToolConfigContext.ConfigItemMediaObjextTextMode[0];
+    let settingItemsTemp: Array<ToolConfigContext.settingItemsData> = [];
+
+    const settingItemsDataImage: ToolConfigContext.settingItemsData = {
+      settingTitle: "表示するテキスト",
+      settingMessage: "入力してください",
+      thenConfigSettingGUIparts: ToolConfigContext.configSettingGUIparts[1],
+      exposeValue: ["（´・ω・｀）"],
+      configItem: configItemMediaObjextTextModeText,
+    };
+
+    settingItemsTemp.push(settingItemsDataImage);
+
+    return settingItemsTemp;
+  };
+
   const itemMediaObjectImageMode = () => {
     const configItemMediaObjextImageModeImage: string = ToolConfigContext.ConfigItemMediaObjextImageMode[0];
     let settingItemsTemp: Array<ToolConfigContext.settingItemsData> = [];
@@ -290,12 +307,12 @@ const ComponentOptionConvertConfigMode = (props: any) => {
       buttonOperationFunc = buttonOperationFuncOperationKeyframe;
       break;
     case configModeList[4]: //メディアオブジェクトテキストモードの設定
-      settingItemsTemp = itemOperationKeyframe();
-      buttonOperationFunc = buttonOperationFuncOperationKeyframe;
+      settingItemsTemp = itemMediaObjectImageText();
+      buttonOperationFunc = buttonOperationFuncMediaObjectImageMode;
       break;
     case configModeList[5]: //メディアオブジェクト画像モードの設定
       settingItemsTemp = itemMediaObjectImageMode();
-      buttonOperationFunc = buttonOperationFuncOperationKeyframe;
+      buttonOperationFunc = buttonOperationFuncMediaObjectImageMode;
       break;
     default:
       break;

@@ -6,7 +6,7 @@ import { AppContext, ComponentConvertAnimatorAreaType, ComponentConvertAnimatorG
 import { MediaObjectContext, TimelineAreaDivContext, LayerPanelContext, LayerDurationContext, LayerPanelAnimaterContext } from "./timelineContext";
 import { SetupEditorContext } from "./../SetupEditor/SetupEditorContext";
 import { SetupConfigContext } from "../SetupEditor/SetupConfigContext";
-
+import * as buildSourceSpecies from "./../BuildSite/buildHTML/buildSourceSpecies";
 // import { timelineMousePosition ,timelineLayerPanelPostion} from "./timeLineMousePosition";
 import * as timelineMousePosition from "./timeLineMousePosition";
 
@@ -141,8 +141,20 @@ export const LayerPanelMediaObjectComponent = (props: any) => {
 
     SetupConfigContextValue.cssLeftSetState(clientX + 10);
     SetupConfigContextValue.cssTopSetState(clientY + 10);
-    SetupConfigContextValue.setConfigModeArgsOption({});
-    SetupConfigContextValue.configModeSetState(SetupConfigContextValue.configModeList[5]);
+    const thenSourceSpeciesClass: buildSourceSpecies.SourceSpeciesClass = AppContextValue.getMediaObjectSourceSpecies(MediaObjectContextValue.mediaObjectUUID);
+
+    if (thenSourceSpeciesClass.sourceSpecies === buildSourceSpecies.sourceSpeciesList[1]) {
+      //テキストの時
+      SetupConfigContextValue.setConfigModeArgsOption({});
+      SetupConfigContextValue.configModeSetState(SetupConfigContextValue.configModeList[4]);
+    }
+
+    if (thenSourceSpeciesClass.sourceSpecies === buildSourceSpecies.sourceSpeciesList[3]) {
+      //画像の時
+      SetupConfigContextValue.setConfigModeArgsOption({});
+      SetupConfigContextValue.configModeSetState(SetupConfigContextValue.configModeList[5]);
+    }
+
     SetupConfigContextValue.configSwitchGUISetState(SetupConfigContextValue.configSwitchGUIList[2]);
   };
   return (

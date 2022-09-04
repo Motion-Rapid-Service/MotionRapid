@@ -4,7 +4,8 @@ import * as buildQue from "../buildQue";
 export const sourceSpeciesList = [
   "default", //何もない状態(nullオブジェクトと同等)
   "text", //テキスト
-  "composite", //他のコンポジットを呼びだす
+  "composite", //他のコンポジットを呼びだす,
+  "image", //画像をCSSに適用する
 ];
 
 export const writeIndentHTML = (indentHTML: number) => {
@@ -29,12 +30,19 @@ export const sourceSpeciesFunctionText = (jsonDataCentral: Function, downParentI
 export const sourceSpeciesFunctionComposite = (
   jsonDataCentral: Function,
   downParentID: string,
-  sourceSpeciesCompositeClass: SourceSpeciesCompositeClass,
+  sourceSpeciesCompositeClass: SourceSpeciesCompositeClass, //読み込み対象コンポジット
   parseComposite: Function
 ) => {
   parseComposite(jsonDataCentral, sourceSpeciesCompositeClass.compositeID);
   return;
 };
+
+// export const sourceSpeciesFunctionImage = (jsonDataCentral: Function, downParentID: string, SourceSpeciesImageClass: SourceSpeciesImageClass) => {
+//   buildQue.pushHtmlElementQue(new buildQue.htmlElementBlockClass(SourceSpeciesImageClass.mediaTableID), downParentID);
+
+//   const newID = buildQue.pushCSSElementQue(new buildQue.cssElementDefault(mediaObjectID, "#"), cssDownParentID);
+//   buildQue.pushCSSElementQue(new buildQue.cssElementSubstance(cssText), newID);
+// };
 
 export abstract class SourceSpeciesClass {
   constructor() {}
@@ -42,16 +50,15 @@ export abstract class SourceSpeciesClass {
 }
 
 export class SourceSpeciesTextClass extends SourceSpeciesClass {
+  //メディアオブジェクト固有でしかできないことをかけ、Animaterで設定できることはここでするな
   text: string;
-  fontSize: number;
-  fontFamily: string;
 
   sourceSpecies = sourceSpeciesList[1];
+  fontFamily: string;
 
-  constructor(send_text: string, send_fontSize: number, send_fontFamily: string) {
+  constructor(send_text: string, send_fontFamily: string) {
     super();
     this.text = send_text;
-    this.fontSize = send_fontSize;
     this.fontFamily = send_fontFamily;
   }
 }
@@ -63,5 +70,17 @@ export class SourceSpeciesCompositeClass extends SourceSpeciesClass {
   constructor(send_compositeID: string) {
     super();
     this.compositeID = send_compositeID;
+  }
+}
+
+export class SourceSpeciesImageClass extends SourceSpeciesClass {
+  sourceSpecies = sourceSpeciesList[3];
+
+  //DataCentral_MediaTableに入っているID
+  mediaTableID: string;
+
+  constructor(send_mediaTableID: string) {
+    super();
+    this.mediaTableID = send_mediaTableID;
   }
 }

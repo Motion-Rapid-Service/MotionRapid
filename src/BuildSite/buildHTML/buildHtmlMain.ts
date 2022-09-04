@@ -10,25 +10,22 @@ import * as middleDataClass from "./../../MiddleData/middleDataClass";
 let rootHtmlID: string;
 let rootStyleID: string;
 let rootScriptID: string;
-let compositeTimeFlag:boolean;
+let compositeTimeFlag: boolean;
 
-const htmlBuildMain = (jsonDataCentral: any, compositeID: string, send_compositeTimeFlag:boolean = false) => {
+const htmlBuildMain = (jsonDataCentral: any, compositeID: string, send_compositeTimeFlag: boolean = false) => {
   buildQue.alldeleteHtmlElementQue();
   buildQue.alldeleteCSSElementQue();
   buildQue.alldeleteJavaScriptElementQue();
 
-  compositeTimeFlag = send_compositeTimeFlag
+  compositeTimeFlag = send_compositeTimeFlag;
 
   let htmlText;
 
-  if (send_compositeTimeFlag){
+  if (send_compositeTimeFlag) {
     htmlText = String(require("./../buildFormat/htmlFormatPreview.txt")["default"]);
-  }
-  else{
+  } else {
     htmlText = String(require("./../buildFormat/htmlFormat.txt")["default"]);
   }
-  
-  
 
   //htmlFormatPreview
 
@@ -219,7 +216,7 @@ const parseMediaObject = (
   const tag = "div";
 
   const thenMediaObject: middleDataClass.MediaObject = OwnedClass_MediaObject[mediaObjectID];
-  const thenSourceSpeciesClass: buildSourceSpecies.SourceSpeciesClass = thenMediaObject.sourceSpecies;
+  const thenSourceSpeciesClass: buildSourceSpecies.SourceSpeciesClass = thenMediaObject.MediaObject_SourceSpecies;
   const thenSourceSpecies = String(thenSourceSpeciesClass.sourceSpecies);
 
   const htmlAttribute: { [name: string]: string } = { id: mediaObjectID };
@@ -243,7 +240,7 @@ const parseMediaObject = (
     );
   }
 
-  CSSBuildMain(getJsonDataCentral(), rootStyleID, rootScriptID, compositeID, mediaObjectID,compositeTimeFlag);
+  CSSBuildMain(getJsonDataCentral(), rootStyleID, rootScriptID, compositeID, mediaObjectID, compositeTimeFlag);
 
   return;
 };
