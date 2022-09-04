@@ -267,6 +267,8 @@ const App = () => {
           conversionStyleToTime: conversionStyleToTime,
           conversionTimeToStyle: conversionTimeToStyle,
 
+          operationMediaObjectSourceSpeciesClass: middleDataOperation.operationMediaObjectSourceSpeciesClass,
+
           update: update,
           updateDOM: updateDOM,
 

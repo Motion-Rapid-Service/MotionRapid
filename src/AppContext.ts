@@ -20,6 +20,8 @@ type AppContextValue = {
   setDataCentralMediaTable: Function;
   getDataCentralMediaTable: Function;
 
+  operationMediaObjectSourceSpeciesClass: Function;
+
   operationMediaObjectTime: Function;
   operationKeyframeTime: Function;
   operationLinkAnimatorGroup: Function;

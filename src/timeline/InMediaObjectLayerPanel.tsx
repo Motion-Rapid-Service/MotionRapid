@@ -145,13 +145,13 @@ export const LayerPanelMediaObjectComponent = (props: any) => {
 
     if (thenSourceSpeciesClass.sourceSpecies === buildSourceSpecies.sourceSpeciesList[1]) {
       //テキストの時
-      SetupConfigContextValue.setConfigModeArgsOption({});
+      SetupConfigContextValue.setConfigModeArgsOption({ MediaObject_ID: MediaObjectContextValue.mediaObjectUUID });
       SetupConfigContextValue.configModeSetState(SetupConfigContextValue.configModeList[4]);
     }
 
     if (thenSourceSpeciesClass.sourceSpecies === buildSourceSpecies.sourceSpeciesList[3]) {
       //画像の時
-      SetupConfigContextValue.setConfigModeArgsOption({});
+      SetupConfigContextValue.setConfigModeArgsOption({ MediaObject_ID: MediaObjectContextValue.mediaObjectUUID });
       SetupConfigContextValue.configModeSetState(SetupConfigContextValue.configModeList[5]);
     }
 

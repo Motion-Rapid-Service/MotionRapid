@@ -15,6 +15,8 @@ import * as AnimatorGroupFormat from "./../AnimatorGroupFormat/AnimatorGroupForm
 import * as AnimatorGroupPropertyFormat from "./../AnimatorGroupFormat/AnimatorGroupPropertyFormat";
 import * as MiddleDataOperationType from "./../MiddleData/middleDataOperationType";
 
+import * as buildSourceSpecies from "../BuildSite/buildHTML/buildSourceSpecies";
+
 import * as UserHand from "./../UserHand";
 
 // const ConfigBackGround = () => {
@@ -257,18 +259,29 @@ const ComponentOptionConvertConfigMode = (props: any) => {
   const itemMediaObjectImageText = () => {
     const configItemMediaObjextTextModeText: string = ToolConfigContext.ConfigItemMediaObjextTextMode[0];
     let settingItemsTemp: Array<ToolConfigContext.settingItemsData> = [];
+    const configModeArgsOption = SetupConfigContextValue.getConfigModeArgsOption();
+    const thenSourceSpeciesTextClass: buildSourceSpecies.SourceSpeciesTextClass = AppContextValue.getMediaObjectSourceSpecies(
+      configModeArgsOption.MediaObject_ID
+    );
 
     const settingItemsDataImage: ToolConfigContext.settingItemsData = {
       settingTitle: "表示するテキスト",
       settingMessage: "入力してください",
       thenConfigSettingGUIparts: ToolConfigContext.configSettingGUIparts[1],
-      exposeValue: ["（´・ω・｀）"],
+      exposeValue: [thenSourceSpeciesTextClass.text],
       configItem: configItemMediaObjextTextModeText,
     };
 
     settingItemsTemp.push(settingItemsDataImage);
 
     return settingItemsTemp;
+  };
+
+  const buttonOperationFuncMediaObjectTextMode = (sendConfigContent: { [name: string]: string | number | boolean }) => {
+    const configItemMediaObjextTextModeText: string = ToolConfigContext.ConfigItemMediaObjextTextMode[0];
+    const configModeArgsOption = SetupConfigContextValue.getConfigModeArgsOption();
+    const addClass = new buildSourceSpecies.SourceSpeciesTextClass(String(sendConfigContent[configItemMediaObjextTextModeText]), "font");
+    AppContextValue.operationMediaObjectSourceSpeciesClass(configModeArgsOption.MediaObject_ID, addClass);
   };
 
   const itemMediaObjectImageMode = () => {
@@ -288,7 +301,12 @@ const ComponentOptionConvertConfigMode = (props: any) => {
     return settingItemsTemp;
   };
 
-  const buttonOperationFuncMediaObjectImageMode = (sendConfigContent: { [name: string]: string | number | boolean }) => {};
+  const buttonOperationFuncMediaObjectImageMode = (sendConfigContent: { [name: string]: string | number | boolean }) => {
+    const configItemMediaObjextImageModeImage: string = ToolConfigContext.ConfigItemMediaObjextImageMode[0];
+    const configModeArgsOption = SetupConfigContextValue.getConfigModeArgsOption();
+    const addClass = new buildSourceSpecies.SourceSpeciesImageClass(String(sendConfigContent[configItemMediaObjextImageModeImage]));
+    AppContextValue.operationMediaObjectSourceSpeciesClass(configModeArgsOption.MediaObject_ID, addClass);
+  };
 
   let settingItemsTemp: Array<ToolConfigContext.settingItemsData>; //上書きされる
   let buttonOperationFunc: Function; //上書きされる
@@ -308,7 +326,7 @@ const ComponentOptionConvertConfigMode = (props: any) => {
       break;
     case configModeList[4]: //メディアオブジェクトテキストモードの設定
       settingItemsTemp = itemMediaObjectImageText();
-      buttonOperationFunc = buttonOperationFuncMediaObjectImageMode;
+      buttonOperationFunc = buttonOperationFuncMediaObjectTextMode;
       break;
     case configModeList[5]: //メディアオブジェクト画像モードの設定
       settingItemsTemp = itemMediaObjectImageMode();

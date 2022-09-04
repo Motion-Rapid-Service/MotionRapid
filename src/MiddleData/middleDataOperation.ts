@@ -50,9 +50,9 @@ export default class MiddleDataOperation {
     return newID;
   };
 
-  createMediaObject = (sourceType: BuildSourceSpecies.SourceSpeciesClass) => {
+  createMediaObject = (sourceSpeciesClass: BuildSourceSpecies.SourceSpeciesClass) => {
     const newID = "MediaObject_" + getUUID();
-    const newObj = new middleDataClass.MediaObject(newID, sourceType);
+    const newObj = new middleDataClass.MediaObject(newID, sourceSpeciesClass);
     this.DataCentral.OwnedClass_MediaObject[newID] = newObj;
     return newID;
   };
@@ -134,6 +134,10 @@ export default class MiddleDataOperation {
     this.linkCSSPropertyHasKeyframe(keyID, cssID);
 
     return keyID;
+  };
+
+  operationMediaObjectSourceSpeciesClass = (mediaObjectID: string, sourceSpeciesClass: BuildSourceSpecies.SourceSpeciesClass) => {
+    this.DataCentral.OwnedClass_MediaObject[mediaObjectID].MediaObject_SourceSpecies = sourceSpeciesClass;
   };
 
   linkMediaObject = (compositeID: string, mediaObjectID: string) => {
