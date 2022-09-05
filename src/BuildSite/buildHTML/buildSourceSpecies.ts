@@ -67,6 +67,11 @@ export const sourceSpeciesFunctionImage = (
   buildQue.pushHtmlElementQue(new buildQue.htmlElementBlockClass("div", htmlAttribute), downParentID);
   const newCssID = buildQue.pushCSSElementQue(new buildQue.cssElementDefault(SourceSpeciesImageClass.mediaTableID, "#"), cssDownParentID);
   buildQue.pushCSSElementQue(new buildQue.cssElementSubstance(cssText), newCssID);
+  buildQue.pushCSSElementQue(new buildQue.cssElementSubstance("width : 100%;"), newCssID);
+  buildQue.pushCSSElementQue(new buildQue.cssElementSubstance("height : 100%;"), newCssID);
+  buildQue.pushCSSElementQue(new buildQue.cssElementSubstance("background-color : #00000000;"), newCssID);
+  buildQue.pushCSSElementQue(new buildQue.cssElementSubstance("background-size:cover;"), newCssID);
+  buildQue.pushCSSElementQue(new buildQue.cssElementSubstance("background-repeat: no-repeat;"), newCssID);
 };
 
 export abstract class SourceSpeciesClass {
