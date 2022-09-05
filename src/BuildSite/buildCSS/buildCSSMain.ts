@@ -74,8 +74,9 @@ const CSSBuildMain = (
       // CSSTextReplace += mediaObjectID;
       // CSSTextReplace += " { \n";
 
-      const animatorGroupFormat: AnimatorGroupPropertyFormat.PropertyFormatSpecies =
-        AnimatorGroupFormat.getAnimatorGroupFormatList(thenAnimatorGroupClass.AnimatorGroup_Species);
+      const animatorGroupFormat: AnimatorGroupPropertyFormat.PropertyFormatSpecies = AnimatorGroupFormat.getAnimatorGroupFormatList(
+        thenAnimatorGroupClass.AnimatorGroup_Species
+      );
 
       let cssPropertySpeciesList: { [name: string]: string } = {};
 
@@ -97,14 +98,15 @@ const CSSBuildMain = (
 
       const newID = buildQue.pushCSSElementQue(new buildQue.cssElementDefault(mediaObjectID, "#"), cssDownParentID);
       buildQue.pushCSSElementQue(new buildQue.cssElementSubstance(cssText), newID);
-
     } else if (thenCompositeClass.Composite_Mode === middleDataClass.Composite_Mode[1]) {
+      //パララックスアニメーションモード
       const cssRootID = buildQue.pushCSSElementQue(new buildQue.cssElementDefault("root", ":"), cssDownParentID);
 
       console.log("parallax mode");
       //parallax mode
-      const animatorGroupFormat: AnimatorGroupPropertyFormat.PropertyFormatSpecies =
-        AnimatorGroupFormat.getAnimatorGroupFormatList(thenAnimatorGroupClass.AnimatorGroup_Species);
+      const animatorGroupFormat: AnimatorGroupPropertyFormat.PropertyFormatSpecies = AnimatorGroupFormat.getAnimatorGroupFormatList(
+        thenAnimatorGroupClass.AnimatorGroup_Species
+      );
 
       let cssPropertySpeciesList: { [name: string]: string } = {};
 
@@ -144,6 +146,7 @@ const CSSBuildMain = (
         console.log("tempSortTimeValue", tempSortTimeValue);
 
         if (compositePreviewFlag) {
+          //プレビューの時
           let cssValue: number;
           const compositePlayheadTimePos = thenCompositeClass.playheadTimePos;
 
@@ -151,13 +154,10 @@ const CSSBuildMain = (
             //最初のキーフレームの場所より手前だった時
             const pointTime = tempSortTimeValue[0];
             cssValue = Number(tempTimeValue[Number(pointTime)]);
-
           } else if (Number(tempSortTimeValue[tempSortTimeValue.length - 1]) <= compositePlayheadTimePos) {
             const pointTime = tempSortTimeValue[tempSortTimeValue.length - 1];
             cssValue = Number(tempTimeValue[Number(pointTime)]);
-
           } else {
-
             let aPointTime: string;
             let bPointTime: string;
 
@@ -182,8 +182,6 @@ const CSSBuildMain = (
 
           const cssRootSubstance = valueIDArray[1] + ":" + cssValue + thenCSSPropertyClass.CSSProperty_Unit + ";";
           buildQue.pushCSSElementQue(new buildQue.cssElementSubstance(cssRootSubstance), cssRootID);
-
-          //プレビューの時
         } else {
           //プレビューではないとき
 
@@ -217,10 +215,7 @@ const CSSBuildMain = (
             "%SCROLLFUNCTIONNAME%": "f" + valueIDArray[0],
           };
           console.log("textReplaceData", textReplaceData);
-          const newjsID = buildQue.pushJavaScriptElementQue(
-            new buildQue.javascriptElementSourceCodeClass(windowScrollFormat, textReplaceData),
-            jsDownParentID
-          );
+          const newjsID = buildQue.pushJavaScriptElementQue(new buildQue.javascriptElementSourceCodeClass(windowScrollFormat, textReplaceData), jsDownParentID);
 
           const cssRootSubstance = valueIDArray[1] + ": 0";
           buildQue.pushCSSElementQue(new buildQue.cssElementSubstance(cssRootSubstance), cssRootID);
