@@ -236,3 +236,12 @@ export class javascriptElementSourceCodeClass extends javascriptElement {
     return [substanceReplace];
   };
 }
+
+//必要と思われるモード
+
+//特定コンポジット系列
+  //固定コンポジットモード(position:fixed)
+
+//柔軟コンポジット系列
+  //文書系コンポーネント(position:static)
+  //
