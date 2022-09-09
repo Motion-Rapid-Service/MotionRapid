@@ -20,7 +20,7 @@ const getConfigModeArgsOption = () => {
 
 const SetupConfig = () => {
   const configModeList = [
-    "not",
+    "notExist",
     "newComposite", //新しいコンポジットの設定
     "newAnimatorGroup", //新しいAnimatorGroupの設定
     "operationKeyframe", //keyframeをダブルクリックした時の設定
@@ -29,7 +29,7 @@ const SetupConfig = () => {
   ];
   const [configMode, configModeSetState] = useState<string>(configModeList[0]);
 
-  const configSwitchGUIList = ["not", "large", "popup"];
+  const configSwitchGUIList = ["notExist", "large", "popup"];
   const [configSwitchGUI, configSwitchGUISetState] = useState<string>(configSwitchGUIList[0]);
 
   const [cssLeft, cssLeftSetState] = useState<number>(10);

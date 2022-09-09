@@ -8,7 +8,7 @@
     <div class="testMainA">
       <div class="testMainB">
         <div class="test"></div>
-        <div class="test2">test2</div>
+        <div class="test2"><div class="test3"></div></div>
       </div>
     </div>
   </body>
@@ -29,11 +29,17 @@
 
     .test2 {
       width: 50px;
-      height: 20px;
+      height: 50px;
       background-color: red;
-      position: absolute;
+      position: relative;
       left: 0px;
       top: 100px;
+    }
+
+    .test3 {
+      width: 20px;
+      position: relative;
+      height: 20px;
     }
   </style>
 </html>

@@ -2,7 +2,7 @@ import * as React from "react";
 const { useContext, useReducer, createContext, useEffect, useState } = React;
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-export const configSettingGUIparts: Array<string> = ["not", "textbox", "textboxNumber", "listBox", "checkBox", "radiobutton", "inputImage"];
+export const configSettingGUIparts: Array<string> = ["notExist", "textbox", "textboxNumber", "listBox", "checkBox", "radiobutton", "inputImage"];
 
 type SwitchConfigSettingItemsCompositeContextValue = {
   configInput: string;

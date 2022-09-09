@@ -54,7 +54,7 @@ export const sourceSpeciesFunctionImage = (
 
   const imageURL = dataCentral.DataCentral_MediaTable[SourceSpeciesImageClass.mediaTableID];
   if (!imageURL) {
-    console.log("image URL not");
+    console.log("image URL notExist");
     return;
   }
 

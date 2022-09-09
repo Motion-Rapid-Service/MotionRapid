@@ -6,9 +6,9 @@ const getUUID = () => {
 
 import { testJoin, textReplace } from "./buildHTML/buildAuxiliaryFunction";
 
-export const htmlElementSpeciesList = ["not", "BlockClass", "SubstanceClass", "TopClass"];
-export const cssElementSpeciesList = ["not", "Default", "SubstanceCSS", "TopClass", "Keyframe"];
-export const javascriptElementSpeciesList = ["not", "SourceCode", "SubstanceClass"];
+export const htmlElementSpeciesList = ["notExist", "BlockClass", "SubstanceClass", "TopClass"];
+export const cssElementSpeciesList = ["notExist", "Default", "SubstanceCSS", "TopClass", "Keyframe"];
+export const javascriptElementSpeciesList = ["notExist", "SourceCode", "SubstanceClass"];
 
 export let htmlElementQue: { [name: string]: htmlElement } = {};
 export const pushHtmlElementQue = (pushData: htmlElement, parentID: string = null) => {
@@ -240,8 +240,8 @@ export class javascriptElementSourceCodeClass extends javascriptElement {
 //必要と思われるモード
 
 //特定コンポジット系列
-  //固定コンポジットモード(position:fixed)
+//固定コンポジットモード(position:fixed)
 
 //柔軟コンポジット系列
-  //文書系コンポーネント(position:static)
-  //
+//文書系コンポーネント(position:static)
+//
