@@ -1,6 +1,6 @@
 //require('raw-loader!./input.txt');
 
-import { testJoin, textReplace } from "./buildAuxiliaryFunction";
+import { testJoin, textReplace, hasKeyFound } from "./buildAuxiliaryFunction";
 import * as buildSourceSpecies from "./buildSourceSpecies";
 import CSSBuildMain from "./../buildCSS/buildCSSMain";
 import * as buildQue from "../buildQue";
@@ -205,7 +205,7 @@ const parseMediaObject = (
   compositeID: string,
   mediaObjectID: string
 ) => {
-  const jsonDataCentral = getJsonDataCentral();
+  const jsonDataCentral: middleDataClass.DataCentral = getJsonDataCentral();
   const OwnedClass_Composite: { [name: string]: middleDataClass.Composite } = jsonDataCentral.OwnedClass_Composite;
   const OwnedClass_MediaObject: { [name: string]: middleDataClass.MediaObject } = jsonDataCentral.OwnedClass_MediaObject;
   const OwnedClass_AnimatorGroup: { [name: string]: middleDataClass.AnimatorGroup } = jsonDataCentral.OwnedClass_AnimatorGroup;
@@ -232,10 +232,15 @@ const parseMediaObject = (
   }
   if (thenSourceSpecies === buildSourceSpecies.sourceSpeciesList[2]) {
     //Composite
-    buildSourceSpecies.sourceSpeciesFunctionComposite(getJsonDataCentral, newHtmlID, thenSourceSpeciesClass as buildSourceSpecies.SourceSpeciesCompositeClass);
+
+    const thenSourceSpeciesCompositeClass = thenSourceSpeciesClass as buildSourceSpecies.SourceSpeciesCompositeClass;
+
+    if (hasKeyFound(thenSourceSpeciesCompositeClass.compositeID, OwnedClass_Composite)) {
+      buildSourceSpecies.sourceSpeciesFunctionComposite(getJsonDataCentral, newHtmlID, thenSourceSpeciesCompositeClass);
+    }
   }
   if (thenSourceSpecies === buildSourceSpecies.sourceSpeciesList[3]) {
-    //Composite
+    //Image
     buildSourceSpecies.sourceSpeciesFunctionImage(
       getJsonDataCentral,
       newHtmlID,

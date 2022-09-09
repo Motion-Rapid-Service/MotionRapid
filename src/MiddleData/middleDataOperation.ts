@@ -168,11 +168,11 @@ export default class MiddleDataOperation {
 
     const swopID = swopOwnedID_MediaObject[swopSubject];
 
-    swopOwnedID_MediaObject[swopSubject] = "not";
+    swopOwnedID_MediaObject[swopSubject] = "notExist";
     swopOwnedID_MediaObject.splice(swopInsertion, 0, swopID);
 
     for (let i = 0; i < swopOwnedID_MediaObject.length; i++) {
-      if (swopOwnedID_MediaObject[i] == "not") {
+      if (swopOwnedID_MediaObject[i] == "notExist") {
         const beforeSwopOwnedID_MediaObject = swopOwnedID_MediaObject.splice(i, 1);
         continue;
       }
@@ -394,7 +394,7 @@ export default class MiddleDataOperation {
 
   previewMiddleDataHtml = (CompositeID: string) => {
     if (!hasKeyFound(CompositeID, this.DataCentral.OwnedClass_Composite)) {
-      return `<body> not html <body>`;
+      return `<body> notExist html <body>`;
     }
 
     const jsonData = JSON.parse(JSON.stringify(this.DataCentral, null, "\t"));

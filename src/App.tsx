@@ -275,6 +275,8 @@ const App = () => {
           setDataCentralMediaTable: middleDataOperation.setDataCentralMediaTable,
           getDataCentralMediaTable: middleDataOperation.getDataCentralMediaTable,
 
+          getOwnedID_Composite: middleDataOperation.getOwnedID_Composite,
+
           operationMediaObjectTime: middleDataOperation.operationMediaObjectTime,
           operationKeyframeTime: middleDataOperation.operationKeyframeTime,
           operationLinkAnimatorGroup: middleDataOperation.operationLinkAnimatorGroup,

@@ -34,6 +34,8 @@ export const sourceSpeciesFunctionComposite = (
   downParentID: string,
   sourceSpeciesCompositeClass: SourceSpeciesCompositeClass //読み込み対象コンポジット
 ) => {
+  const dataCentral: middleDataClass.DataCentral = jsonDataCentral();
+
   const htmlAttribute: { [name: string]: string } = { id: sourceSpeciesCompositeClass.compositeID };
   const newHtmlID = buildQue.pushHtmlElementQue(new buildQue.htmlElementBlockClass("div", htmlAttribute), downParentID);
 

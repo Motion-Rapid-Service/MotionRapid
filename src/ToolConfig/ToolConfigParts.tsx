@@ -6,10 +6,6 @@ import { AppContext } from "../AppContext";
 import { SetupConfigContext } from "./../SetupEditor/SetupConfigContext";
 import * as ToolConfigContext from "./ToolConfigContext";
 
-const ConfigSelectOption = (props: any) => {
-  return <option value={props.index}>{props.output}</option>;
-};
-
 export const ConfigSelect = () => {
   const SwitchConfigSettingItemsCompositeContextValue = useContext(ToolConfigContext.SwitchConfigSettingItemsCompositeContext);
 
@@ -21,11 +17,15 @@ export const ConfigSelect = () => {
 
   return (
     <select onChange={onChange}>
-      {SwitchConfigSettingItemsCompositeContextValue.exposeValue.map((output, index) => (
-        <ConfigSelectOption output={output} index={index} key={index} />
+      {SwitchConfigSettingItemsCompositeContextValue.exposeValue.map((output, index: number) => (
+        <ConfigSelectOption output={output} index={Number(index)} key={index} />
       ))}
     </select>
   );
+};
+
+const ConfigSelectOption = (props: any) => {
+  return <option value={props.index}>{props.output}</option>;
 };
 
 export const ConfigTextBox = () => {

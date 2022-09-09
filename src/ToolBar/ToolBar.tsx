@@ -97,6 +97,12 @@ const toolBarComponent = (props: any) => {
     AppContextValue.linkMediaObject(funcdata["choiceComposite"], t_MediaObjectID);
   };
 
+  const toolBarCreateMediaObjectComposite = (funcdata: { [name: string]: any }) => {
+    const addClass = new buildSourceSpecies.SourceSpeciesCompositeClass("");
+    const t_MediaObjectID = AppContextValue.createMediaObject(addClass);
+    AppContextValue.linkMediaObject(funcdata["choiceComposite"], t_MediaObjectID);
+  };
+
   const toolBarCreateMediaObjectImage = (funcdata: { [name: string]: any }) => {
     const addClass = new buildSourceSpecies.SourceSpeciesImageClass(null);
     const t_MediaObjectID = AppContextValue.createMediaObject(addClass);
@@ -125,8 +131,9 @@ const toolBarComponent = (props: any) => {
     let toolBar4 = "mediaObjectEdit";
     insertToolBarClassificationArraySetStateValue(toolBar4, "メディアオブジェクト", false);
     insertToolBarEditorDictSetStateValue(toolBar4, "4A", "テキスト挿入", toolBarCreateMediaObjectText, false);
-    insertToolBarEditorDictSetStateValue(toolBar4, "4B", "画像挿入", toolBarCreateMediaObjectImage, false);
-    insertToolBarEditorDictSetStateValue(toolBar4, "4C", "エフェクトを追加する", toolBarCreateAnimatorGroup, false);
+    insertToolBarEditorDictSetStateValue(toolBar4, "4B", "コンポジット挿入", toolBarCreateMediaObjectComposite, false);
+    insertToolBarEditorDictSetStateValue(toolBar4, "4C", "画像挿入", toolBarCreateMediaObjectImage, false);
+    insertToolBarEditorDictSetStateValue(toolBar4, "4D", "エフェクトを追加する", toolBarCreateAnimatorGroup, false);
 
     switchToolBarDetailSetState(toolBar1);
     AppContextValue.updateDOM();

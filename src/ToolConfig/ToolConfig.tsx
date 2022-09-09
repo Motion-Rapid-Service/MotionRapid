@@ -256,7 +256,7 @@ const ComponentOptionConvertConfigMode = (props: any) => {
     AppContextValue.updateDOM();
   };
 
-  const itemMediaObjectImageText = () => {
+  const itemMediaObjectTextMode = () => {
     const configItemMediaObjextTextModeText: string = ToolConfigContext.ConfigItemMediaObjextTextMode[0];
     let settingItemsTemp: Array<ToolConfigContext.settingItemsData> = [];
     const configModeArgsOption = SetupConfigContextValue.getConfigModeArgsOption();
@@ -308,6 +308,32 @@ const ComponentOptionConvertConfigMode = (props: any) => {
     AppContextValue.operationMediaObjectSourceSpeciesClass(configModeArgsOption.MediaObject_ID, addClass);
   };
 
+  const itemMediaObjectCompositeMode = () => {
+    const configItemMediaObjextCompositeModeComposite: string = ToolConfigContext.ConfigItemMediaObjextCompositeMode[0];
+    let settingItemsTemp: Array<ToolConfigContext.settingItemsData> = [];
+
+    const OwnedID_Composite: Array<string> = AppContextValue.getOwnedID_Composite();
+
+    const settingItemsDataImage: ToolConfigContext.settingItemsData = {
+      settingTitle: "対象コンポジット",
+      settingMessage: "選択してください",
+      thenConfigSettingGUIparts: ToolConfigContext.configSettingGUIparts[3],
+      exposeValue: OwnedID_Composite,
+      configItem: configItemMediaObjextCompositeModeComposite,
+    };
+
+    settingItemsTemp.push(settingItemsDataImage);
+
+    return settingItemsTemp;
+  };
+
+  const buttonOperationFuncMediaObjectCompositeMode = (sendConfigContent: { [name: string]: string | number | boolean }) => {
+    const configItemMediaObjextCompositeModeComposite: string = ToolConfigContext.ConfigItemMediaObjextCompositeMode[0];
+    const configModeArgsOption = SetupConfigContextValue.getConfigModeArgsOption();
+    const addClass = new buildSourceSpecies.SourceSpeciesCompositeClass(String(sendConfigContent[configItemMediaObjextCompositeModeComposite]));
+    AppContextValue.operationMediaObjectSourceSpeciesClass(configModeArgsOption.MediaObject_ID, addClass);
+  };
+
   let settingItemsTemp: Array<ToolConfigContext.settingItemsData>; //上書きされる
   let buttonOperationFunc: Function; //上書きされる
 
@@ -325,12 +351,16 @@ const ComponentOptionConvertConfigMode = (props: any) => {
       buttonOperationFunc = buttonOperationFuncOperationKeyframe;
       break;
     case configModeList[4]: //メディアオブジェクトテキストモードの設定
-      settingItemsTemp = itemMediaObjectImageText();
+      settingItemsTemp = itemMediaObjectTextMode();
       buttonOperationFunc = buttonOperationFuncMediaObjectTextMode;
       break;
     case configModeList[5]: //メディアオブジェクト画像モードの設定
       settingItemsTemp = itemMediaObjectImageMode();
       buttonOperationFunc = buttonOperationFuncMediaObjectImageMode;
+      break;
+    case configModeList[6]: //メディアオブジェクトコンポジットモードの設定
+      settingItemsTemp = itemMediaObjectCompositeMode();
+      buttonOperationFunc = buttonOperationFuncMediaObjectCompositeMode;
       break;
     default:
       break;

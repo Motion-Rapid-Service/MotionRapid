@@ -53,3 +53,8 @@ export const sortNumber = (arrayData: Array<string>, sortMode: boolean) => {
   });
   return arrayData;
 };
+
+export const hasKeyFound = (key: string, dict: any) => {
+  //keyが存在していたらtrue それ以外ならfalse
+  return dict[key] !== undefined;
+};

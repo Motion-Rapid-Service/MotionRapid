@@ -13,6 +13,8 @@ type AppContextValue = {
   conversionStyleToTime: Function;
   conversionTimeToStyle: Function;
 
+  getOwnedID_Composite: Function;
+
   update: boolean;
   updateDOM: Function;
   readerImage: Function;
