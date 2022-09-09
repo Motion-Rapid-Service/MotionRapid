@@ -176,18 +176,18 @@ const recursiveHtml = (htmlID: string) => {
   return recursiveText;
 };
 
-const parseComposite = (
+export const parseComposite = (
   // htmlRoot: string,
   getJsonDataCentral: Function,
   parentID: string,
   compositeID: string
 ) => {
   console.log(getJsonDataCentral);
-  const OwnedClass_Composite = getJsonDataCentral().OwnedClass_Composite;
-  const thenComposite = OwnedClass_Composite[compositeID];
+  const OwnedClass_Composite: { [name: string]: middleDataClass.Composite } = getJsonDataCentral().OwnedClass_Composite;
+  const thenComposite: middleDataClass.Composite = OwnedClass_Composite[compositeID];
   //console.table(thenComposite);
 
-  const OwnedID_MediaObject = thenComposite["OwnedID_MediaObject"];
+  const OwnedID_MediaObject = thenComposite.OwnedID_MediaObject;
 
   console.log(compositeID);
 
@@ -232,12 +232,7 @@ const parseMediaObject = (
   }
   if (thenSourceSpecies === buildSourceSpecies.sourceSpeciesList[2]) {
     //Composite
-    buildSourceSpecies.sourceSpeciesFunctionComposite(
-      getJsonDataCentral,
-      newHtmlID,
-      thenSourceSpeciesClass as buildSourceSpecies.SourceSpeciesCompositeClass,
-      parseComposite
-    );
+    buildSourceSpecies.sourceSpeciesFunctionComposite(getJsonDataCentral, newHtmlID, thenSourceSpeciesClass as buildSourceSpecies.SourceSpeciesCompositeClass);
   }
   if (thenSourceSpecies === buildSourceSpecies.sourceSpeciesList[3]) {
     //Composite

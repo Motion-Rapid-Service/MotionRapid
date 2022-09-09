@@ -1,6 +1,6 @@
 import { testJoin } from "./buildAuxiliaryFunction";
 import * as buildQue from "../buildQue";
-
+import * as buildHtmlMain from "./buildHtmlMain";
 import * as middleDataClass from "./../../MiddleData/middleDataClass";
 
 export const sourceSpeciesList = [
@@ -32,10 +32,12 @@ export const sourceSpeciesFunctionText = (jsonDataCentral: Function, downParentI
 export const sourceSpeciesFunctionComposite = (
   jsonDataCentral: Function,
   downParentID: string,
-  sourceSpeciesCompositeClass: SourceSpeciesCompositeClass, //読み込み対象コンポジット
-  parseComposite: Function
+  sourceSpeciesCompositeClass: SourceSpeciesCompositeClass //読み込み対象コンポジット
 ) => {
-  parseComposite(jsonDataCentral, sourceSpeciesCompositeClass.compositeID);
+  const htmlAttribute: { [name: string]: string } = { id: sourceSpeciesCompositeClass.compositeID };
+  const newHtmlID = buildQue.pushHtmlElementQue(new buildQue.htmlElementBlockClass("div", htmlAttribute), downParentID);
+
+  buildHtmlMain.parseComposite(jsonDataCentral, newHtmlID, sourceSpeciesCompositeClass.compositeID);
   return;
 };
 
