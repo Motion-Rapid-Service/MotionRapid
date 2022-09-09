@@ -127,7 +127,7 @@ const ComponentOptionConvertConfigMode = (props: any) => {
       settingTitle: "コンポジット横軸",
       settingMessage: "選択してください",
       thenConfigSettingGUIparts: ToolConfigContext.configSettingGUIparts[3],
-      exposeValue: Object.assign(middleDataClass.Composite_Mode),
+      exposeValue: Object.assign(middleDataClass.Composite_HorizontalMode),
       configItem: configItemCompositeMode,
     };
     settingItemsTemp.push(settingItemsDataCompositeName);

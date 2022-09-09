@@ -1,6 +1,7 @@
 import * as buildSourceSpecies from "../BuildSite/buildHTML/buildSourceSpecies";
 
-export const Composite_Mode: Array<string> = ["time", "parallax"];
+export const Composite_HorizontalMode: Array<string> = ["time", "parallax"];
+export const Composite_LocationMode: Array<string> = [];
 
 export class DataCentral {
   OwnedClass_Composite: { [name: string]: Composite };
@@ -31,16 +32,16 @@ export class Composite {
   Composite_ID: string;
   Composite_Name: string;
   OwnedID_MediaObject: Array<string>;
-  Composite_Mode: string;
+  Composite_HorizontalMode: string;
   Composite_Duration: number; //コンポジットの長さ
   staStyleViewPos: number;
   endStyleViewPos: number;
   playheadTimePos: number;
-  constructor(send_Composite_ID: string, send_Composite_Name: string, send_Composite_Mode: string) {
+  constructor(send_Composite_ID: string, send_Composite_Name: string, send_Composite_HorizontalMode: string) {
     this.Composite_ID = send_Composite_ID;
     this.Composite_Name = send_Composite_Name;
     this.OwnedID_MediaObject = [];
-    this.Composite_Mode = send_Composite_Mode;
+    this.Composite_HorizontalMode = send_Composite_HorizontalMode;
     this.Composite_Duration = 3000;
     this.staStyleViewPos = 0;
     this.endStyleViewPos = this.Composite_Duration;

@@ -98,7 +98,7 @@ const CSSBuildMain = (
 
       const newID = buildQue.pushCSSElementQue(new buildQue.cssElementDefault(mediaObjectID, "#"), cssDownParentID);
       buildQue.pushCSSElementQue(new buildQue.cssElementSubstance(cssText), newID);
-    } else if (thenCompositeClass.Composite_Mode === middleDataClass.Composite_Mode[1]) {
+    } else if (thenCompositeClass.Composite_HorizontalMode === middleDataClass.Composite_HorizontalMode[1]) {
       //パララックスアニメーションモード
       const cssRootID = buildQue.pushCSSElementQue(new buildQue.cssElementDefault("root", ":"), cssDownParentID);
 

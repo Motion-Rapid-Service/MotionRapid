@@ -36,13 +36,13 @@ export default class MiddleDataOperation {
     this.DataCentral = new middleDataClass.DataCentral(projectName);
   };
 
-  createComposite = (compositeName: string = "CompositeName_" + getUUID(), compositeMode: string = middleDataClass.Composite_Mode[0]) => {
+  createComposite = (compositeName: string = "CompositeName_" + getUUID(), compositeMode: string = middleDataClass.Composite_HorizontalMode[0]) => {
     const newID = "Composite_" + getUUID();
     const newObj = new middleDataClass.Composite(
       newID,
       compositeName,
       compositeMode
-      // middleDataClass.Composite_Mode[1]
+      // middleDataClass.Composite_HorizontalMode[1]
     );
     console.log("newObj", newObj);
     this.DataCentral.OwnedClass_Composite[newID] = newObj;
