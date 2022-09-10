@@ -49,6 +49,18 @@ const CSSBuildMain = (
 
   let CSSTextReplace: string = "";
 
+  const newID = buildQue.pushCSSElementQue(new buildQue.cssElementDefault(mediaObjectID, "#"), cssDownParentID);
+
+  if (thenCompositeClass.Composite_LocationMode === middleDataClass.Composite_LocationMode[0]) {
+    const cssTextPosition = "position:static;";
+    buildQue.pushCSSElementQue(new buildQue.cssElementSubstance(cssTextPosition), newID);
+  }
+
+  if (thenCompositeClass.Composite_LocationMode === middleDataClass.Composite_LocationMode[1]) {
+    const cssTextPosition = "position:absolute;";
+    buildQue.pushCSSElementQue(new buildQue.cssElementSubstance(cssTextPosition), newID);
+  }
+
   for (let agi = 0; agi < OwnedID_AnimatorGroup.length; agi++) {
     //アニメーターグループ
     const thenAnimatorGroupID = OwnedID_AnimatorGroup[agi];
@@ -226,7 +238,6 @@ const CSSBuildMain = (
 
       const cssText = animatorGroupFormat.cssWriteFunction(animatorGroupFormat.cssPropertyName, cssPropertySpeciesList);
 
-      const newID = buildQue.pushCSSElementQue(new buildQue.cssElementDefault(mediaObjectID, "#"), cssDownParentID);
       buildQue.pushCSSElementQue(new buildQue.cssElementSubstance(cssText), newID);
     }
 

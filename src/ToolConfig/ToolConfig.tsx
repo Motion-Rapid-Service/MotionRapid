@@ -112,7 +112,8 @@ const ComponentOptionConvertConfigMode = (props: any) => {
 
   const itemNewComposite = () => {
     const configItemCompositeName: string = ToolConfigContext.ConfigItemNewComposite[0];
-    const configItemCompositeMode: string = ToolConfigContext.ConfigItemNewComposite[2];
+    const configItemCompositeHorizontalMode: string = ToolConfigContext.ConfigItemNewComposite[2];
+    const configItemCompositeLocationMode: string = ToolConfigContext.ConfigItemNewComposite[3];
     let settingItemsTemp: Array<ToolConfigContext.settingItemsData> = [];
 
     const settingItemsDataCompositeName: ToolConfigContext.settingItemsData = {
@@ -128,18 +129,33 @@ const ComponentOptionConvertConfigMode = (props: any) => {
       settingMessage: "選択してください",
       thenConfigSettingGUIparts: ToolConfigContext.configSettingGUIparts[3],
       exposeValue: Object.assign(middleDataClass.Composite_HorizontalMode),
-      configItem: configItemCompositeMode,
+      configItem: configItemCompositeHorizontalMode,
     };
+
+    const settingItemsDataCompositeName3: ToolConfigContext.settingItemsData = {
+      settingTitle: "配置方法",
+      settingMessage: "選択してください",
+      thenConfigSettingGUIparts: ToolConfigContext.configSettingGUIparts[3],
+      exposeValue: Object.assign(middleDataClass.Composite_LocationMode),
+      configItem: configItemCompositeLocationMode,
+    };
+
     settingItemsTemp.push(settingItemsDataCompositeName);
     settingItemsTemp.push(settingItemsDataCompositeName2);
+    settingItemsTemp.push(settingItemsDataCompositeName3);
 
     return settingItemsTemp;
   };
 
   const buttonOperationFuncNewComposite = (sendConfigContent: { [name: string]: string | number | boolean }) => {
     const configItemCompositeName: string = ToolConfigContext.ConfigItemNewComposite[0];
-    const configItemCompositeMode: string = ToolConfigContext.ConfigItemNewComposite[2];
-    AppContextValue.createComposite(sendConfigContent[configItemCompositeName], sendConfigContent[configItemCompositeMode]);
+    const configItemCompositeHorizontalMode: string = ToolConfigContext.ConfigItemNewComposite[2];
+    const configItemCompositeLocationMode: string = ToolConfigContext.ConfigItemNewComposite[3];
+    AppContextValue.createComposite(
+      sendConfigContent[configItemCompositeName],
+      sendConfigContent[configItemCompositeHorizontalMode],
+      sendConfigContent[configItemCompositeLocationMode]
+    );
     console.log("buttonOperationFunc", sendConfigContent);
   };
 

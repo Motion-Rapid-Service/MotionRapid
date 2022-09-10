@@ -236,7 +236,7 @@ const parseMediaObject = (
     const thenSourceSpeciesCompositeClass = thenSourceSpeciesClass as buildSourceSpecies.SourceSpeciesCompositeClass;
 
     if (hasKeyFound(thenSourceSpeciesCompositeClass.compositeID, OwnedClass_Composite)) {
-      buildSourceSpecies.sourceSpeciesFunctionComposite(getJsonDataCentral, newHtmlID, thenSourceSpeciesCompositeClass);
+      buildSourceSpecies.sourceSpeciesFunctionComposite(getJsonDataCentral, newHtmlID, thenSourceSpeciesCompositeClass, rootStyleID);
     }
   }
   if (thenSourceSpecies === buildSourceSpecies.sourceSpeciesList[3]) {
@@ -245,8 +245,7 @@ const parseMediaObject = (
       getJsonDataCentral,
       newHtmlID,
       thenSourceSpeciesClass as buildSourceSpecies.SourceSpeciesImageClass,
-      rootStyleID,
-      mediaObjectID
+      rootStyleID
     );
   }
   CSSBuildMain(getJsonDataCentral(), rootStyleID, rootScriptID, compositeID, mediaObjectID, compositeTimeFlag);

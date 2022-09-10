@@ -32,14 +32,29 @@ export const sourceSpeciesFunctionText = (jsonDataCentral: Function, downParentI
 export const sourceSpeciesFunctionComposite = (
   jsonDataCentral: Function,
   downParentID: string,
-  sourceSpeciesCompositeClass: SourceSpeciesCompositeClass //読み込み対象コンポジット
+  sourceSpeciesCompositeClass: SourceSpeciesCompositeClass, //読み込み対象コンポジット
+  cssDownParentID: string
 ) => {
   const dataCentral: middleDataClass.DataCentral = jsonDataCentral();
+  const thenCompositeClass = dataCentral.OwnedClass_Composite[sourceSpeciesCompositeClass.compositeID];
 
   const htmlAttribute: { [name: string]: string } = { id: sourceSpeciesCompositeClass.compositeID };
   const newHtmlID = buildQue.pushHtmlElementQue(new buildQue.htmlElementBlockClass("div", htmlAttribute), downParentID);
-
   buildHtmlMain.parseComposite(jsonDataCentral, newHtmlID, sourceSpeciesCompositeClass.compositeID);
+
+  const newCssID = buildQue.pushCSSElementQue(new buildQue.cssElementDefault(sourceSpeciesCompositeClass.compositeID, "#"), cssDownParentID);
+
+  if (thenCompositeClass.Composite_LocationMode === middleDataClass.Composite_LocationMode[0]) {
+    //文書配置
+    const cssText = "position : static;";
+    buildQue.pushCSSElementQue(new buildQue.cssElementSubstance(cssText), newCssID);
+  }
+  if (thenCompositeClass.Composite_LocationMode === middleDataClass.Composite_LocationMode[1]) {
+    //座標設定(左)
+    const cssText = "position : relative;";
+    buildQue.pushCSSElementQue(new buildQue.cssElementSubstance(cssText), newCssID);
+  }
+
   return;
 };
 
@@ -47,8 +62,7 @@ export const sourceSpeciesFunctionImage = (
   jsonDataCentral: Function,
   downParentID: string,
   SourceSpeciesImageClass: SourceSpeciesImageClass,
-  cssDownParentID: string,
-  mediaObjectID: string
+  cssDownParentID: string
 ) => {
   const dataCentral: middleDataClass.DataCentral = jsonDataCentral();
   // const OwnedClass_Composite: { [name: string]: middleDataClass.Composite } = jsonDataCentral().OwnedClass_Composite;
