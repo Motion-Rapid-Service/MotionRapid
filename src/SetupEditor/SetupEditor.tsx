@@ -13,7 +13,6 @@ const Editor = () => {
   const [choiceComposite, choiceCompositeSetState] = useState<string>("not");
   useEffect(() => {}, [choiceComposite]);
 
-
   const [previewUpdate, previewSetUpdata] = useState<boolean>(false);
   const previewUpdateDOM = () => {
     //強制再レンダリング関数
@@ -30,8 +29,8 @@ const Editor = () => {
       value={{
         choiceComposite: choiceComposite,
         choiceCompositeSetState: choiceCompositeSetState,
-        previewUpdate:previewUpdate,
-        previewUpdateDOM:previewUpdateDOM,
+        previewUpdate: previewUpdate,
+        previewUpdateDOM: previewUpdateDOM,
       }}
     >
       <SetupConfig />

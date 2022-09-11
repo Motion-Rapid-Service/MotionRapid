@@ -40,7 +40,16 @@ export type ConfigItemType = {
   [name: string]: string | number | boolean;
 };
 
-export const ConfigItemNewComposite: Array<string> = ["compositeName", "compositeTime", "compositeHorizontalMode", "compositeLocationMode"];
+export const ConfigItemNewComposite: Array<string> = [
+  "compositeName",
+  "compositeTime",
+  "compositeHorizontalMode",
+  "compositeLocationMode",
+  "compositeWidth",
+  "compositeWidthUnit",
+  "compositeHeight",
+  "compositeHeightUnit",
+];
 export const ConfigItemNewAnimatorGroup: Array<string> = ["animatorGroupFormatSpecies"];
 export const ConfigItemOperationKeyframe: Array<string> = ["time", "value"];
 export const ConfigItemMediaObjextTextMode: Array<string> = ["text"];

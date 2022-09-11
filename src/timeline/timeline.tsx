@@ -63,35 +63,44 @@ const TimelineComponent = () => {
 
   useEffect(() => {
     const compositeStyleViewPos: Array<number> = AppContextValue.getCompositeStyleViewPos(SetupEditorContextValue.choiceComposite);
-    if (!compositeStyleViewPos) {
+
+    const compositeDuration: number = AppContextValue.getCompositeDuration(SetupEditorContextValue.choiceComposite);
+    if (!compositeDuration || !compositeStyleViewPos) {
       return;
     }
     staStyleViewPosSetState(compositeStyleViewPos[0]);
     endStyleViewPosSetState(compositeStyleViewPos[1]);
+
+    const posTime = AppContextValue.getCompositePlayheadTimePos(SetupEditorContextValue.choiceComposite);
+    const posStyle = AppContextValue.conversionTimeToStyle(posTime, staStyleViewPos, endStyleViewPos, compositeDuration);
+    playheadTimeSetState(posStyle);
+
     return () => {
+      const compositeDuration: number = AppContextValue.getCompositeDuration(SetupEditorContextValue.choiceComposite);
+      if (!compositeDuration || !staStyleViewPos || !endStyleViewPos) {
+        return;
+      }
+      //console.log("playheadTime B", playheadTime, staStyleViewPos, endStyleViewPos, compositeDuration);
+      const posTime = AppContextValue.conversionStyleToTime(playheadTime, staStyleViewPos, endStyleViewPos, compositeDuration);
+
       AppContextValue.setCompositeStyleViewPos(SetupEditorContextValue.choiceComposite, [staStyleViewPos, endStyleViewPos]);
+      AppContextValue.setCompositePlayheadTimePos(SetupEditorContextValue.choiceComposite, posTime);
     };
   }, [SetupEditorContextValue.choiceComposite]);
-
-  useEffect(() => {
-    AppContextValue.setCompositeStyleViewPos(SetupEditorContextValue.choiceComposite, [staStyleViewPos, endStyleViewPos]);
-    //console.log("staStyleViewPos, endStyleViewPos", staStyleViewPos, endStyleViewPos);
-    timelineUpdateDOM();
-  }, [SetupEditorContextValue.choiceComposite, staStyleViewPos, endStyleViewPos]);
-
-  //ここから プレイヘッド数値の設定
 
   useEffect(() => {
     const compositeDuration: number = AppContextValue.getCompositeDuration(SetupEditorContextValue.choiceComposite);
     if (!compositeDuration) {
       return;
     }
+    // AppContextValue.setCompositeStyleViewPos(SetupEditorContextValue.choiceComposite, [staStyleViewPos, endStyleViewPos]);
     const posTime = AppContextValue.getCompositePlayheadTimePos(SetupEditorContextValue.choiceComposite);
-    //console.log("playheadTime A", playheadTime, staStyleViewPos, endStyleViewPos, compositeDuration, posTime);
     const posStyle = AppContextValue.conversionTimeToStyle(posTime, staStyleViewPos, endStyleViewPos, compositeDuration);
     playheadTimeSetState(posStyle);
     timelineUpdateDOM();
-  }, [SetupEditorContextValue.choiceComposite, staStyleViewPos, endStyleViewPos]);
+  }, [staStyleViewPos, endStyleViewPos]);
+
+  //ここから プレイヘッド数値の設定
 
   useEffect(() => {
     const compositeDuration: number = AppContextValue.getCompositeDuration(SetupEditorContextValue.choiceComposite);
@@ -101,8 +110,8 @@ const TimelineComponent = () => {
     //console.log("playheadTime B", playheadTime, staStyleViewPos, endStyleViewPos, compositeDuration);
     const posTime = AppContextValue.conversionStyleToTime(playheadTime, staStyleViewPos, endStyleViewPos, compositeDuration);
     AppContextValue.setCompositePlayheadTimePos(SetupEditorContextValue.choiceComposite, posTime);
-    SetupEditorContextValue.previewUpdateDOM()
-  }, [playheadTime, SetupEditorContextValue.choiceComposite]);
+    SetupEditorContextValue.previewUpdateDOM();
+  }, [playheadTime]);
 
   // ************************************************
 

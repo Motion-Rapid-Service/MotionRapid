@@ -59,11 +59,14 @@ export const MediaObjectAreaComponent = (props: any) => {
       TimeNavigatorContextValue.endStyleViewPos,
       compositeDuration
     );
-    AppContextValue.operationMediaObjectTime({
-      mediaObjectID: MediaObject_ID,
-      sta: staTime,
-      end: endTime,
-    });
+
+    if (isFinite(staStylePos) && isFinite(endStylePos)) {
+      AppContextValue.operationMediaObjectTime({
+        mediaObjectID: MediaObject_ID,
+        sta: staTime,
+        end: endTime,
+      });
+    }
   }, [staStylePos, endStylePos]);
 
   useEffect(() => {

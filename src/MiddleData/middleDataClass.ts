@@ -35,16 +35,36 @@ export class Composite {
   Composite_HorizontalMode: string;
   Composite_LocationMode: string;
   Composite_Duration: number; //コンポジットの長さ
+  Composite_Width: number;
+  Composite_Height: number;
+  Composite_WidthUnit: string;
+  Composite_HeightUnit: string;
+
   staStyleViewPos: number;
   endStyleViewPos: number;
   playheadTimePos: number;
-  constructor(send_Composite_ID: string, send_Composite_Name: string, send_Composite_HorizontalMode: string, send_Composite_LocationMode: string) {
+  constructor(
+    send_Composite_ID: string,
+    send_Composite_Name: string,
+    send_Composite_HorizontalMode: string,
+    send_Composite_LocationMode: string,
+    send_Composite_Width: number,
+    send_Composite_WidthUnit: string,
+    send_Composite_Height: number,
+    send_Composite_HeightUnit: string
+  ) {
     this.Composite_ID = send_Composite_ID;
     this.Composite_Name = send_Composite_Name;
     this.OwnedID_MediaObject = [];
     this.Composite_HorizontalMode = send_Composite_HorizontalMode;
     this.Composite_LocationMode = send_Composite_LocationMode;
     this.Composite_Duration = 3000;
+
+    this.Composite_Width = send_Composite_Width;
+    this.Composite_WidthUnit = send_Composite_WidthUnit;
+    this.Composite_Height = send_Composite_Height;
+    this.Composite_HeightUnit = send_Composite_HeightUnit;
+
     this.staStyleViewPos = 0;
     this.endStyleViewPos = this.Composite_Duration;
     this.playheadTimePos = 0;

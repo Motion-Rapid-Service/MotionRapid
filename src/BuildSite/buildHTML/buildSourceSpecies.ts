@@ -54,7 +54,12 @@ export const sourceSpeciesFunctionComposite = (
     const cssText = "position : relative;";
     buildQue.pushCSSElementQue(new buildQue.cssElementSubstance(cssText), newCssID);
   }
-
+  const cssTextWidth = "width : " + thenCompositeClass.Composite_Width + thenCompositeClass.Composite_WidthUnit + ";";
+  buildQue.pushCSSElementQue(new buildQue.cssElementSubstance(cssTextWidth), newCssID);
+  const cssTextHeight = "height : " + thenCompositeClass.Composite_Height + thenCompositeClass.Composite_HeightUnit + ";";
+  buildQue.pushCSSElementQue(new buildQue.cssElementSubstance(cssTextHeight), newCssID);
+  // const cssTextWidth = "width : 100%;";
+  // buildQue.pushCSSElementQue(new buildQue.cssElementSubstance(cssText), newCssID);
   return;
 };
 

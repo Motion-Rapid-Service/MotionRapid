@@ -315,7 +315,7 @@ const AnimaterCSSpropertyUnit = (props: any) => {
   return (
     <select onChange={onChange} value={props.animaterCSSpropertyUnit}>
       {cssValueUnitList.map((output: string, index: number) => (
-        <AnimaterCSSpropertyUnitOption output={output} index={index} key={index} initCSSPropertyUnit={props.initCSSPropertyUnit} />
+        <AnimaterCSSpropertyUnitOption output={output} index={index} key={index} />
       ))}
     </select>
   );

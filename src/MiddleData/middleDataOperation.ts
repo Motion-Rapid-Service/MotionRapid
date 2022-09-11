@@ -39,14 +39,24 @@ export default class MiddleDataOperation {
   createComposite = (
     compositeName: string = "CompositeName_" + getUUID(),
     compositeHorizontalMode: string = middleDataClass.Composite_HorizontalMode[0],
-    compositeLocationMode: string = middleDataClass.Composite_LocationMode[0]
+    compositeLocationMode: string = middleDataClass.Composite_LocationMode[0],
+    composite_Width: number = 0,
+    composite_WidthUnit: string = "px",
+    composite_Height: number = 0,
+    composite_HeightUnit: string = "px"
   ) => {
     const newID = "Composite_" + getUUID();
     const newObj = new middleDataClass.Composite(
       newID,
       compositeName,
       compositeHorizontalMode,
-      compositeLocationMode
+      compositeLocationMode,
+
+      composite_Width,
+      composite_WidthUnit,
+      composite_Height,
+      composite_HeightUnit
+
       // middleDataClass.Composite_HorizontalMode[1]
     );
     console.log("newObj", newObj);

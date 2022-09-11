@@ -163,8 +163,11 @@ export const MediaObjectScrollComponent = () => {
       TimeNavigatorContextValue.endStyleViewPos,
       compositeDuration
     );
-    StaSetState(styleStaTime);
-    EndSetState(styleEndTime);
+
+    if (isFinite(styleStaTime) && isFinite(styleEndTime)) {
+      StaSetState(styleStaTime);
+      EndSetState(styleEndTime);
+    }
 
     console.log("mediaObjectUpdate", styleStaTime, styleEndTime, mediaObjectTime);
   };
