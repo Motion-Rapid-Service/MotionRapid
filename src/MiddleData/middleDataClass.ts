@@ -1,7 +1,7 @@
 import * as buildSourceSpecies from "../BuildSite/buildHTML/buildSourceSpecies";
 
 export const Composite_HorizontalMode: Array<string> = ["time", "parallax"];
-export const Composite_LocationMode: Array<string> = ["文書配置", "座標設定(左)", "座標設定(中央)", "固定"];
+export const Composite_LocationMode: Array<string> = ["文書配置", "座標設定(左)", "予備枠", "背景固定"];
 
 export class DataCentral {
   OwnedClass_Composite: { [name: string]: Composite };

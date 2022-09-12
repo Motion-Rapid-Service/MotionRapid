@@ -10,13 +10,12 @@ import * as middleDataClass from "./../../MiddleData/middleDataClass";
 let rootHtmlID: string;
 let rootStyleID: string;
 let rootScriptID: string;
-let compositeTimeFlag :boolean;
+let compositeTimeFlag: boolean;
 
 const htmlBuildMain = (jsonDataCentral: any, compositeID: string, send_compositeTimeFlag: boolean = false) => {
   buildQue.alldeleteHtmlElementQue();
   buildQue.alldeleteCSSElementQue();
   buildQue.alldeleteJavaScriptElementQue();
-
 
   const OwnedClass_Composite: { [name: string]: middleDataClass.Composite } = jsonDataCentral.OwnedClass_Composite;
   const OwnedClass_MediaObject: { [name: string]: middleDataClass.MediaObject } = jsonDataCentral.OwnedClass_MediaObject;
@@ -25,19 +24,18 @@ const htmlBuildMain = (jsonDataCentral: any, compositeID: string, send_composite
   const OwnedClass_Keyframe: { [name: string]: middleDataClass.Keyframe } = jsonDataCentral.OwnedClass_Keyframe;
   const OwnedClass_CSSProperty: { [name: string]: middleDataClass.CSSProperty } = jsonDataCentral.OwnedClass_CSSProperty;
 
-  compositeTimeFlag = send_compositeTimeFlag
+  compositeTimeFlag = send_compositeTimeFlag;
 
   const thenComposite: middleDataClass.Composite = OwnedClass_Composite[compositeID];
   let htmlText;
-  let compositePreviewTime : number
+  let compositePreviewTime: number;
   if (compositeTimeFlag) {
     htmlText = String(require("./../buildFormat/htmlFormatPreview.txt")["default"]);
-    compositePreviewTime = thenComposite.playheadTimePos
+    compositePreviewTime = thenComposite.playheadTimePos;
   } else {
     htmlText = String(require("./../buildFormat/htmlFormat.txt")["default"]);
-    compositePreviewTime = null
+    compositePreviewTime = null;
   }
-
 
   //htmlFormatPreview
 
@@ -64,7 +62,7 @@ const htmlBuildMain = (jsonDataCentral: any, compositeID: string, send_composite
   // buildQue.pushHtmlElementQue(new buildQue.htmlElementBlockClass("style", cssAttribute), rootStyleID);
   // parseComposite(getJsonDataCentral, rootHtmlID, compositeID,compositePreviewTime);
 
-  buildSourceSpecies.sourceSpeciesFunctionComposite(getJsonDataCentral, rootHtmlID, thenComposite.Composite_ID, rootStyleID,compositePreviewTime);
+  buildSourceSpecies.sourceSpeciesFunctionComposite(getJsonDataCentral, rootHtmlID, thenComposite.Composite_ID, rootStyleID, compositePreviewTime);
 
   const outputHtml = recursiveHtml(rootHtmlID);
   const outputStyle = recursiveCSS(rootStyleID);
@@ -187,7 +185,8 @@ export const parseComposite = (
   // htmlRoot: string,
   getJsonDataCentral: Function,
   parentID: string,
-  compositeID: string,compositePreviewTime:number
+  compositeID: string,
+  compositePreviewTime: number
 ) => {
   console.log(getJsonDataCentral);
   const OwnedClass_Composite: { [name: string]: middleDataClass.Composite } = getJsonDataCentral().OwnedClass_Composite;
@@ -200,7 +199,7 @@ export const parseComposite = (
 
   for (let i = 0; i < OwnedID_MediaObject.length; i++) {
     const thenMediaObjectID = OwnedID_MediaObject[i];
-    parseMediaObject(getJsonDataCentral, parentID, compositeID, thenMediaObjectID,compositePreviewTime);
+    parseMediaObject(getJsonDataCentral, parentID, compositeID, thenMediaObjectID, compositePreviewTime);
   }
   return;
 };
@@ -211,7 +210,7 @@ const parseMediaObject = (
   parentID: string,
   compositeID: string,
   mediaObjectID: string,
-  compositePreviewTime:number
+  compositePreviewTime: number
 ) => {
   const jsonDataCentral: middleDataClass.DataCentral = getJsonDataCentral();
   const OwnedClass_Composite: { [name: string]: middleDataClass.Composite } = jsonDataCentral.OwnedClass_Composite;
@@ -244,8 +243,14 @@ const parseMediaObject = (
     const thenSourceSpeciesCompositeClass = thenSourceSpeciesClass as buildSourceSpecies.SourceSpeciesCompositeClass;
 
     if (hasKeyFound(thenSourceSpeciesCompositeClass.compositeID, OwnedClass_Composite)) {
-      compositePreviewTime -= thenMediaObject.MediaObject_StartTime
-      buildSourceSpecies.sourceSpeciesFunctionComposite(getJsonDataCentral, newHtmlID, thenSourceSpeciesCompositeClass.compositeID, rootStyleID,compositePreviewTime);
+      compositePreviewTime -= thenMediaObject.MediaObject_StartTime;
+      buildSourceSpecies.sourceSpeciesFunctionComposite(
+        getJsonDataCentral,
+        newHtmlID,
+        thenSourceSpeciesCompositeClass.compositeID,
+        rootStyleID,
+        compositePreviewTime
+      );
     }
   }
   if (thenSourceSpecies === buildSourceSpecies.sourceSpeciesList[3]) {
@@ -257,7 +262,7 @@ const parseMediaObject = (
       rootStyleID
     );
   }
-  CSSBuildMain(getJsonDataCentral(), rootStyleID, rootScriptID, compositeID, mediaObjectID, compositeTimeFlag,compositePreviewTime);
+  CSSBuildMain(getJsonDataCentral(), rootStyleID, rootScriptID, compositeID, mediaObjectID, compositeTimeFlag, compositePreviewTime);
 
   return;
 };

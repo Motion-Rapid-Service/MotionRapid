@@ -30,16 +30,16 @@ export const sourceSpeciesFunctionText = (jsonDataCentral: Function, downParentI
 export const sourceSpeciesFunctionComposite = (
   jsonDataCentral: Function,
   downParentID: string,
-  targetCompositeID:string , 
+  targetCompositeID: string,
   cssDownParentID: string,
-  compositePreviewTime:number
+  compositePreviewTime: number
 ) => {
   const dataCentral: middleDataClass.DataCentral = jsonDataCentral();
   const thenCompositeClass = dataCentral.OwnedClass_Composite[targetCompositeID];
 
   const htmlAttribute: { [name: string]: string } = { id: targetCompositeID };
   const newHtmlID = buildQue.pushHtmlElementQue(new buildQue.htmlElementBlockClass("div", htmlAttribute), downParentID);
-  buildHtmlMain.parseComposite(jsonDataCentral, newHtmlID, targetCompositeID,compositePreviewTime);
+  buildHtmlMain.parseComposite(jsonDataCentral, newHtmlID, targetCompositeID, compositePreviewTime);
 
   const newCssID = buildQue.pushCSSElementQue(new buildQue.cssElementDefault(targetCompositeID, "#"), cssDownParentID);
 
@@ -55,7 +55,7 @@ export const sourceSpeciesFunctionComposite = (
   }
 
   if (thenCompositeClass.Composite_LocationMode === middleDataClass.Composite_LocationMode[3]) {
-    //座標設定(左)
+    //座標固定
     const cssText = "position : fixed;";
     buildQue.pushCSSElementQue(new buildQue.cssElementSubstance(cssText), newCssID);
   }
@@ -106,8 +106,8 @@ export const sourceSpeciesFunctionImage = (
 export abstract class SourceSpeciesClass {
   constructor() {}
   abstract sourceSpecies: string;
-  abstract mediaObejctDefaultColor:Array<number>;
-  abstract mediaObejctSelectColor:Array<number>;
+  abstract mediaObejctDefaultColor: Array<number>;
+  abstract mediaObejctSelectColor: Array<number>;
 }
 
 export class SourceSpeciesTextClass extends SourceSpeciesClass {
@@ -133,7 +133,6 @@ export class SourceSpeciesCompositeClass extends SourceSpeciesClass {
 
   mediaObejctDefaultColor = [150, 50, 50];
   mediaObejctSelectColor = [200, 100, 100];
-
 
   constructor(send_compositeID: string) {
     super();
