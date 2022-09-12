@@ -99,6 +99,8 @@ export const sourceSpeciesFunctionImage = (
 export abstract class SourceSpeciesClass {
   constructor() {}
   abstract sourceSpecies: string;
+  abstract mediaObejctDefaultColor:Array<number>;
+  abstract mediaObejctSelectColor:Array<number>;
 }
 
 export class SourceSpeciesTextClass extends SourceSpeciesClass {
@@ -107,6 +109,9 @@ export class SourceSpeciesTextClass extends SourceSpeciesClass {
 
   sourceSpecies = sourceSpeciesList[1];
   fontFamily: string;
+
+  mediaObejctDefaultColor = [50, 150, 50];
+  mediaObejctSelectColor = [100, 200, 100];
 
   constructor(send_text: string, send_fontFamily: string) {
     super();
@@ -119,6 +124,10 @@ export class SourceSpeciesCompositeClass extends SourceSpeciesClass {
   sourceSpecies = sourceSpeciesList[2];
   compositeID: string;
 
+  mediaObejctDefaultColor = [150, 50, 50];
+  mediaObejctSelectColor = [200, 100, 100];
+
+
   constructor(send_compositeID: string) {
     super();
     this.compositeID = send_compositeID;
@@ -127,6 +136,8 @@ export class SourceSpeciesCompositeClass extends SourceSpeciesClass {
 
 export class SourceSpeciesImageClass extends SourceSpeciesClass {
   sourceSpecies = sourceSpeciesList[3];
+  mediaObejctDefaultColor = [50, 50, 150];
+  mediaObejctSelectColor = [100, 100, 200];
 
   //DataCentral_MediaTableに入っているID
   mediaTableID: string;

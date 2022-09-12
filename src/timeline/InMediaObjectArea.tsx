@@ -18,8 +18,8 @@ import * as buildSourceSpecies from "../BuildSite/buildHTML/buildSourceSpecies";
 
 import { TimeNavigatorContext } from "./TimeNavigator/TimeNavigatorContext";
 
-const defaultColor = [50, 150, 50];
-const selectColor = [100, 200, 100];
+// const defaultColor = [50, 150, 50];
+// const selectColor = [100, 200, 100];
 
 export const MediaObjectScrollComponent = () => {
   const AppContextValue = useContext(AppContext);
@@ -77,12 +77,12 @@ export const MediaObjectScrollComponent = () => {
     } else {
       MouseUnselectedSetState("auto");
     }
-
-    mediaObjectColorSetState(defaultColor);
+    const thenSourceSpeciesClass: buildSourceSpecies.SourceSpeciesClass = AppContextValue.getMediaObjectSourceSpecies(mediaObjectUUID);
+    mediaObjectColorSetState(thenSourceSpeciesClass.mediaObejctDefaultColor);
     if (!UserHand.hasUserHandMediaObject(mediaObjectUUID)) {
       return;
     }
-    mediaObjectColorSetState(selectColor);
+    mediaObjectColorSetState(thenSourceSpeciesClass.mediaObejctSelectColor);
 
     const userHandMediaObject = UserHand.getUserHandMediaObject(mediaObjectUUID);
     const mouseMoveX = mouseX - userHandMediaObject.mousePushPos;
@@ -132,12 +132,14 @@ export const MediaObjectScrollComponent = () => {
   const MouseRelease = (event: any) => {
     MouseSelectedSetState("auto");
 
-    mediaObjectColorSetState(defaultColor);
+
+    const thenSourceSpeciesClass: buildSourceSpecies.SourceSpeciesClass = AppContextValue.getMediaObjectSourceSpecies(mediaObjectUUID);
+    mediaObjectColorSetState(thenSourceSpeciesClass.mediaObejctDefaultColor);
 
     if (!UserHand.hasUserHandMediaObject(mediaObjectUUID)) {
       return;
     }
-    mediaObjectColorSetState(selectColor);
+    mediaObjectColorSetState(thenSourceSpeciesClass.mediaObejctSelectColor);
     UserHand.insertUserHandMediaObject(mediaObjectUUID, 4, null, null, null);
 
     // TimelineAreaDivContextValue.deleteUserHandMediaObjectList(mediaObjectUUID);
@@ -177,10 +179,13 @@ export const MediaObjectScrollComponent = () => {
 
     mediaObjectUpdate();
 
-    mediaObjectColorSetState(selectColor);
+    const thenSourceSpeciesClass: buildSourceSpecies.SourceSpeciesClass = AppContextValue.getMediaObjectSourceSpecies(mediaObjectUUID);
+
+    
+    mediaObjectColorSetState(thenSourceSpeciesClass.mediaObejctSelectColor);
 
     if (!UserHand.hasUserHandMediaObject(mediaObjectUUID)) {
-      mediaObjectColorSetState(defaultColor);
+      mediaObjectColorSetState(thenSourceSpeciesClass.mediaObejctDefaultColor);
     }
 
     window.addEventListener("mousemove", timeLineMouseMoveAction);
