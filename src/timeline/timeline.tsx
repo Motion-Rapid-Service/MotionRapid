@@ -89,14 +89,20 @@ const TimelineComponent = () => {
   }, [SetupEditorContextValue.choiceComposite]);
 
   useEffect(() => {
+    console.log("staStyleViewPos",staStyleViewPos,endStyleViewPos)
     const compositeDuration: number = AppContextValue.getCompositeDuration(SetupEditorContextValue.choiceComposite);
     if (!compositeDuration) {
       return;
-    }
-    // AppContextValue.setCompositeStyleViewPos(SetupEditorContextValue.choiceComposite, [staStyleViewPos, endStyleViewPos]);
-    const posTime = AppContextValue.getCompositePlayheadTimePos(SetupEditorContextValue.choiceComposite);
-    const posStyle = AppContextValue.conversionTimeToStyle(posTime, staStyleViewPos, endStyleViewPos, compositeDuration);
-    playheadTimeSetState(posStyle);
+      }
+
+      console.log("compositeDuration pass")
+
+    AppContextValue.setCompositeStyleViewPos(SetupEditorContextValue.choiceComposite, [staStyleViewPos, endStyleViewPos]);
+    const playheadPosTime = AppContextValue.getCompositePlayheadTimePos(SetupEditorContextValue.choiceComposite);
+    const playheadPosStyle = AppContextValue.conversionTimeToStyle(playheadPosTime, staStyleViewPos, endStyleViewPos, compositeDuration);
+    playheadTimeSetState(playheadPosStyle);
+
+
     timelineUpdateDOM();
   }, [staStyleViewPos, endStyleViewPos]);
 
