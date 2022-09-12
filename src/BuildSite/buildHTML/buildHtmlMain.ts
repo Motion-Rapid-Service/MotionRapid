@@ -62,7 +62,9 @@ const htmlBuildMain = (jsonDataCentral: any, compositeID: string, send_composite
 
   // const cssAttribute: { [name: string]: string } = { type: "text/css" };
   // buildQue.pushHtmlElementQue(new buildQue.htmlElementBlockClass("style", cssAttribute), rootStyleID);
-  parseComposite(getJsonDataCentral, rootHtmlID, compositeID,compositePreviewTime);
+  // parseComposite(getJsonDataCentral, rootHtmlID, compositeID,compositePreviewTime);
+
+  buildSourceSpecies.sourceSpeciesFunctionComposite(getJsonDataCentral, rootHtmlID, thenComposite.Composite_ID, rootStyleID,compositePreviewTime);
 
   const outputHtml = recursiveHtml(rootHtmlID);
   const outputStyle = recursiveCSS(rootStyleID);
@@ -243,7 +245,7 @@ const parseMediaObject = (
 
     if (hasKeyFound(thenSourceSpeciesCompositeClass.compositeID, OwnedClass_Composite)) {
       compositePreviewTime -= thenMediaObject.MediaObject_StartTime
-      buildSourceSpecies.sourceSpeciesFunctionComposite(getJsonDataCentral, newHtmlID, thenSourceSpeciesCompositeClass, rootStyleID,compositePreviewTime);
+      buildSourceSpecies.sourceSpeciesFunctionComposite(getJsonDataCentral, newHtmlID, thenSourceSpeciesCompositeClass.compositeID, rootStyleID,compositePreviewTime);
     }
   }
   if (thenSourceSpecies === buildSourceSpecies.sourceSpeciesList[3]) {

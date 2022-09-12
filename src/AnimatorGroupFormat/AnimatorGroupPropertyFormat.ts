@@ -137,27 +137,66 @@ export const PropertyFormat_blockBorder: PropertyFormatSpecies = {
     return rtext;
   },
 };
-export const PropertyFormat_Image: PropertyFormatSpecies = {
-  cssPropertyName: "image",
+export const PropertyFormat_left: PropertyFormatSpecies = {
+  cssPropertyName: "left",
   cssPropertySpeciesList: {
-    画像指定: propertySpeciesUnitList[5],
-    幅: propertySpeciesUnitList[1],
-    縦: propertySpeciesUnitList[1],
+    left: propertySpeciesUnitList[1],
   },
 
   cssWriteFunction: (send_propertyName: string, send_cssPropertySpeciesList: { [name: string]: string }) => {
     const rtext = textJoinAnimatorGroup([
-      "background url('",
-      send_cssPropertySpeciesList["画像指定"],
-      "')",
-      send_cssPropertySpeciesList["幅"],
-      ",",
-      send_cssPropertySpeciesList["縦"],
-      ");",
+      "left:",
+      send_cssPropertySpeciesList["left"],
+      ";"
     ]);
     return rtext;
   },
 };
 
+export const PropertyFormat_right: PropertyFormatSpecies = {
+  cssPropertyName: "right",
+  cssPropertySpeciesList: {
+    right: propertySpeciesUnitList[1],
+  },
+
+  cssWriteFunction: (send_propertyName: string, send_cssPropertySpeciesList: { [name: string]: string }) => {
+    const rtext = textJoinAnimatorGroup([
+      "right:",
+      send_cssPropertySpeciesList["right"],
+      ";"
+    ]);
+    return rtext;
+  },
+};
+export const PropertyFormat_top: PropertyFormatSpecies = {
+  cssPropertyName: "top",
+  cssPropertySpeciesList: {
+    left: propertySpeciesUnitList[1],
+  },
+
+  cssWriteFunction: (send_propertyName: string, send_cssPropertySpeciesList: { [name: string]: string }) => {
+    const rtext = textJoinAnimatorGroup([
+      "top:",
+      send_cssPropertySpeciesList["top"],
+      ";"
+    ]);
+    return rtext;
+  },
+};
+export const PropertyFormat_bottom: PropertyFormatSpecies = {
+  cssPropertyName: "bottom",
+  cssPropertySpeciesList: {
+    bottom: propertySpeciesUnitList[1],
+  },
+
+  cssWriteFunction: (send_propertyName: string, send_cssPropertySpeciesList: { [name: string]: string }) => {
+    const rtext = textJoinAnimatorGroup([
+      "bottom:",
+      send_cssPropertySpeciesList["bottom"],
+      ";"
+    ]);
+    return rtext;
+  },
+};
 //https://nyanblog2222.com/programming/javascript/1132/
 //inputタグからfileRenaderを使って画面に表示する方法 div要素に出力する

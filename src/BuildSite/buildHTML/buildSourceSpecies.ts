@@ -30,18 +30,18 @@ export const sourceSpeciesFunctionText = (jsonDataCentral: Function, downParentI
 export const sourceSpeciesFunctionComposite = (
   jsonDataCentral: Function,
   downParentID: string,
-  sourceSpeciesCompositeClass: SourceSpeciesCompositeClass, //読み込み対象コンポジット
+  targetCompositeID:string , 
   cssDownParentID: string,
   compositePreviewTime:number
 ) => {
   const dataCentral: middleDataClass.DataCentral = jsonDataCentral();
-  const thenCompositeClass = dataCentral.OwnedClass_Composite[sourceSpeciesCompositeClass.compositeID];
+  const thenCompositeClass = dataCentral.OwnedClass_Composite[targetCompositeID];
 
-  const htmlAttribute: { [name: string]: string } = { id: sourceSpeciesCompositeClass.compositeID };
+  const htmlAttribute: { [name: string]: string } = { id: targetCompositeID };
   const newHtmlID = buildQue.pushHtmlElementQue(new buildQue.htmlElementBlockClass("div", htmlAttribute), downParentID);
-  buildHtmlMain.parseComposite(jsonDataCentral, newHtmlID, sourceSpeciesCompositeClass.compositeID,compositePreviewTime);
+  buildHtmlMain.parseComposite(jsonDataCentral, newHtmlID, targetCompositeID,compositePreviewTime);
 
-  const newCssID = buildQue.pushCSSElementQue(new buildQue.cssElementDefault(sourceSpeciesCompositeClass.compositeID, "#"), cssDownParentID);
+  const newCssID = buildQue.pushCSSElementQue(new buildQue.cssElementDefault(targetCompositeID, "#"), cssDownParentID);
 
   if (thenCompositeClass.Composite_LocationMode === middleDataClass.Composite_LocationMode[0]) {
     //文書配置
@@ -53,6 +53,13 @@ export const sourceSpeciesFunctionComposite = (
     const cssText = "position : relative;";
     buildQue.pushCSSElementQue(new buildQue.cssElementSubstance(cssText), newCssID);
   }
+
+  if (thenCompositeClass.Composite_LocationMode === middleDataClass.Composite_LocationMode[3]) {
+    //座標設定(左)
+    const cssText = "position : fixed;";
+    buildQue.pushCSSElementQue(new buildQue.cssElementSubstance(cssText), newCssID);
+  }
+
   const cssTextWidth = "width : " + thenCompositeClass.Composite_Width + thenCompositeClass.Composite_WidthUnit + ";";
   buildQue.pushCSSElementQue(new buildQue.cssElementSubstance(cssTextWidth), newCssID);
   const cssTextHeight = "height : " + thenCompositeClass.Composite_Height + thenCompositeClass.Composite_HeightUnit + ";";
