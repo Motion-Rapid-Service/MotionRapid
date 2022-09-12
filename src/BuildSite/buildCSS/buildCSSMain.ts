@@ -26,7 +26,8 @@ const CSSBuildMain = (
   jsDownParentID: string,
   compositeID: string,
   mediaObjectID: string,
-  compositePreviewFlag: boolean
+  compositeTimeFlag:boolean,
+  compositePreviewTime: number
 ) => {
   //   const htmlText = String(require("./../buildFormat/htmlFormat.html")["default"]);
 
@@ -157,10 +158,10 @@ const CSSBuildMain = (
         const tempSortTimeValue = sortNumber(Object.keys(tempTimeValue), false);
         console.log("tempSortTimeValue", tempSortTimeValue);
 
-        if (compositePreviewFlag) {
+        if (compositeTimeFlag) {
           //プレビューの時
           let cssValue: number;
-          const compositePlayheadTimePos = thenCompositeClass.playheadTimePos;
+          const compositePlayheadTimePos = compositePreviewTime;
 
           if (compositePlayheadTimePos <= Number(tempSortTimeValue[0])) {
             //最初のキーフレームの場所より手前だった時

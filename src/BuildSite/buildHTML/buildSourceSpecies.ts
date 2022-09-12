@@ -23,8 +23,6 @@ export const writeIndentHTML = (indentHTML: number) => {
 export const sourceSpeciesFunctionDefault = () => {};
 
 export const sourceSpeciesFunctionText = (jsonDataCentral: Function, downParentID: string, SourceSpeciesTextClass: SourceSpeciesTextClass) => {
-  // const reTemp = testJoin([writeIndentHTML(indentHTML), "<p>", SourceSpeciesTextClass.text, "</p>"]);
-  // const newParentID = buildQue.pushHtmlElementQue(new buildQue.htmlElementBlockClass("p"), downParentID);
   buildQue.pushHtmlElementQue(new buildQue.htmlElementSubstanceClass(SourceSpeciesTextClass.text), downParentID);
   return;
 };
@@ -33,14 +31,15 @@ export const sourceSpeciesFunctionComposite = (
   jsonDataCentral: Function,
   downParentID: string,
   sourceSpeciesCompositeClass: SourceSpeciesCompositeClass, //読み込み対象コンポジット
-  cssDownParentID: string
+  cssDownParentID: string,
+  compositePreviewTime:number
 ) => {
   const dataCentral: middleDataClass.DataCentral = jsonDataCentral();
   const thenCompositeClass = dataCentral.OwnedClass_Composite[sourceSpeciesCompositeClass.compositeID];
 
   const htmlAttribute: { [name: string]: string } = { id: sourceSpeciesCompositeClass.compositeID };
   const newHtmlID = buildQue.pushHtmlElementQue(new buildQue.htmlElementBlockClass("div", htmlAttribute), downParentID);
-  buildHtmlMain.parseComposite(jsonDataCentral, newHtmlID, sourceSpeciesCompositeClass.compositeID);
+  buildHtmlMain.parseComposite(jsonDataCentral, newHtmlID, sourceSpeciesCompositeClass.compositeID,compositePreviewTime);
 
   const newCssID = buildQue.pushCSSElementQue(new buildQue.cssElementDefault(sourceSpeciesCompositeClass.compositeID, "#"), cssDownParentID);
 
