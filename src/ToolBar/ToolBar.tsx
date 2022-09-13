@@ -80,6 +80,11 @@ const toolBarComponent = (props: any) => {
     AppContextValue.fileExportDataCentral();
   };
 
+  const uploadFile = (funcdata: { [name: string]: any}) => {
+    SetupConfigContextValue.configModeSetState(SetupConfigContextValue.configModeList[7]);
+    SetupConfigContextValue.configSwitchGUISetState(SetupConfigContextValue.configSwitchGUIList[1]);
+  }
+
   useEffect(() => {}, [SetupEditorContextValue.choiceComposite]);
 
   const buildHtml = (funcdata: { [name: string]: any }) => {
@@ -118,7 +123,7 @@ const toolBarComponent = (props: any) => {
     let toolBar1 = "fileEdit";
     insertToolBarClassificationArraySetStateValue(toolBar1, "ファイル操作", false);
     insertToolBarEditorDictSetStateValue(toolBar1, "1A", "ダウンロード", downloadFile, false);
-    insertToolBarEditorDictSetStateValue(toolBar1, "1B", "アップロード", Test, false);
+    insertToolBarEditorDictSetStateValue(toolBar1, "1B", "アップロード", uploadFile, false);
 
     let toolBar2 = "buildEdit";
     insertToolBarClassificationArraySetStateValue(toolBar2, "ファイル生成", false);

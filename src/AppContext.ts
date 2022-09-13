@@ -19,6 +19,8 @@ type AppContextValue = {
   updateDOM: Function;
   readerImage: Function;
 
+  replaceDataCentral:Function,
+
   setDataCentralMediaTable: Function;
   getDataCentralMediaTable: Function;
 
@@ -50,7 +52,7 @@ type AppContextValue = {
   getCompositeDuration: Function;
 
   fileExportDataCentral: Function;
-  fileExportComposite: Function;
+  // fileExportComposite: Function;
   buildMiddleDataHtml: Function;
   previewMiddleDataHtml: Function;
   swopMediaObject: Function;

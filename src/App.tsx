@@ -259,6 +259,7 @@ const App = () => {
           sortNumber: sortNumber,
           deepCopyDict: deepCopyDict,
           readerImage: readerImage,
+          
           componentConvertCompositeChoiceArea: componentConvertCompositeChoiceArea,
           componentConvertMediaObjectArea: componentConvertMediaObjectArea,
           componentConvertAnimatorArea: componentConvertAnimatorArea,
@@ -271,7 +272,7 @@ const App = () => {
 
           update: update,
           updateDOM: updateDOM,
-
+          replaceDataCentral:middleDataOperation.replaceDataCentral,
           setDataCentralMediaTable: middleDataOperation.setDataCentralMediaTable,
           getDataCentralMediaTable: middleDataOperation.getDataCentralMediaTable,
 
@@ -300,7 +301,7 @@ const App = () => {
           getOwnedID_CSSPropertySpeciesHasKeyframe: middleDataOperation.getOwnedID_CSSPropertySpeciesHasKeyframe,
 
           fileExportDataCentral: middleDataOperation.fileExportDataCentral,
-          fileExportComposite: middleDataOperation.fileExportComposite,
+          // fileExportComposite: middleDataOperation.fileExportComposite,
           // htmlBuildMain:htmlBuildMain
           buildMiddleDataHtml: middleDataOperation.buildMiddleDataHtml,
           previewMiddleDataHtml: middleDataOperation.previewMiddleDataHtml,

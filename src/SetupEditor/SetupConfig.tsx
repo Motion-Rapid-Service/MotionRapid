@@ -26,6 +26,7 @@ const SetupConfig = () => {
     "operationKeyframe", //keyframeをダブルクリックした時の設定
     "mediaObjectTextMode", //メディアオブジェクトがテキストモードの時の設定画面を呼び出すようにする
     "mediaObjectImageMode", //メディアオブジェクトがイメージ設定モードの時の設定画面を呼び出すようにする
+    "mediaObjectJsonMode"
   ];
   const [configMode, configModeSetState] = useState<string>(configModeList[0]);
 

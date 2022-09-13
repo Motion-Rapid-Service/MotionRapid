@@ -36,6 +36,10 @@ export default class MiddleDataOperation {
     this.DataCentral = new middleDataClass.DataCentral(projectName);
   };
 
+  replaceDataCentral = (jsonDataCentral:any) => {
+    this.DataCentral = jsonDataCentral
+  }
+
   createComposite = (
     compositeName: string = "CompositeName_" + getUUID(),
     compositeHorizontalMode: string = middleDataClass.Composite_HorizontalMode[0],
@@ -380,6 +384,10 @@ export default class MiddleDataOperation {
   layerNormalization = (compositeID: string) => {
     //たぶん計算量がn^2ぐらいになりそう
   };
+
+  fileInportCommon = () => {
+
+  }
 
   fileExportCommon = (jsonData: any, fileName: string, typeText: string, extension: string) => {
     //typeについてhttps://asahi-net.jp/support/guide/homepage/0017.html

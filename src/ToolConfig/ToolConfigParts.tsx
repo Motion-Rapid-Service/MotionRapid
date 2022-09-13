@@ -80,5 +80,24 @@ export const ConfigImageUpload = (props: any) => {
     </>
   );
 };
+
+export const ConfigJsonUpload = (props: any) => {
+  const AppContextValue = useContext(AppContext);
+  const SwitchConfigSettingItemsCompositeContextValue = useContext(ToolConfigContext.SwitchConfigSettingItemsCompositeContext);
+
+  const onChange = (event: any) => {
+    const files = event.currentTarget.files;
+    if (!files || files?.length === 0) return; //選択されたファイルが存在しないとき
+    const file = files[0];
+    console.log("file:", file);
+    SwitchConfigSettingItemsCompositeContextValue.configInputSetState(file);
+  };
+  return (
+    <>
+      <input type="file" name="imageData" accept=".json" onChange={onChange} />
+    </>
+  );
+};
+
 // Reactとtypescriptでのinput type=fileの取り扱いについて
 //https://qiita.com/FumioNonaka/items/4f0fc65975eed5b89c0c
