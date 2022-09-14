@@ -139,7 +139,7 @@ const conversionStyleToTime = (valStyle: number, sectionTimeSta: number, section
 };
 const conversionTimeToStyle = (valTime: number, sectionTimeSta: number, sectionTimeEnd: number, viewWidth: number) => {
   const sectionTime = sectionTimeEnd - sectionTimeSta;
-  const conversionRate = viewWidth / sectionTime;
+  const conversionRate =viewWidth / sectionTime;
   const valStyle = (valTime - sectionTimeSta) * conversionRate;
   return valStyle;
 };

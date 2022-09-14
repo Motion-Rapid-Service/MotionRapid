@@ -22,10 +22,13 @@ const hasKeyFound = (key: string, dict: any) => {
 
 export default class MiddleDataOperation {
   DataCentral: middleDataClass.DataCentral;
+  
   toolBars: Array<Array<Function>>;
   constructor() {
     this.DataCentral = null;
   }
+
+
 
   existenceInquiryDataCentral = () => {
     //DataCentralが生成されているか参照する
