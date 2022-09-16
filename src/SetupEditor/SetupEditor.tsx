@@ -9,6 +9,48 @@ import { SetupEditorContext } from "./SetupEditorContext";
 //ここを画面結合専用層にする予定
 //ここから ツールバー処理用のクラス
 
+let undoRedoPointer:number = -1 //editHistoryStackのどのデータを戻すかという数値 たいてい、データ返却直前に数値が変更される
+let editHistoryStack :Array<EditHistoryData> = [] //redo undo 
+class EditHistoryData {
+  constructor(){
+    
+  }
+}
+
+const initEditHistory = () => {
+  editHistoryStack = []
+  const newHistoryData = new EditHistoryData()
+  editHistoryStack.push(newHistoryData)
+  undoRedoPointer = 0
+}
+
+const pushEditHistory = () => {
+  const AppContextValue = useContext(AppContext)
+  const dataCentral = AppContextValue.getDataCentral()
+  delete dataCentral.DataCentral_MediaTable
+  
+
+  if (undoRedoPointer <  editHistoryStack.length){
+    const deleteQuantity = editHistoryStack.length - undoRedoPointer
+    for (let i =  + 1; i <  deleteQuantity; i ++){
+      editHistoryStack.pop() //指定個数分後ろ側から削除してしまう
+    } 
+  }
+  const newHistoryData = new EditHistoryData()
+  editHistoryStack.push(newHistoryData)
+  undoRedoPointer += 1
+}
+
+const undoEditHistory = () => {
+  undoRedoPointer -= 1
+  return editHistoryStack[undoRedoPointer]
+}
+
+const redoEditHistory = () => {
+  undoRedoPointer += 1
+  return editHistoryStack[undoRedoPointer]
+}
+ 
 const Editor = () => {
   const [choiceComposite, choiceCompositeSetState] = useState<string>("not");
   useEffect(() => {}, [choiceComposite]);
@@ -22,6 +64,9 @@ const Editor = () => {
     console.log("previewUpdate 再レンダリング");
   }, [previewUpdate]);
 
+  const makeEditHistory = () => {
+    
+  }
   // **************************************************************
 
   return (
@@ -30,7 +75,8 @@ const Editor = () => {
         choiceComposite: choiceComposite,
         choiceCompositeSetState: choiceCompositeSetState,
         previewUpdate: previewUpdate,
-        previewUpdateDOM: previewUpdateDOM,
+        previewUpdateDOM:previewUpdateDOM,
+        makeEditHistory:makeEditHistory,
       }}
     >
       <SetupConfig />

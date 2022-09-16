@@ -255,6 +255,7 @@ const App = () => {
     <div>
       <AppContext.Provider
         value={{
+          getDataCentral:middleDataOperation.getDataCentral,
           getUUID: getUUID,
           sortNumber: sortNumber,
           deepCopyDict: deepCopyDict,

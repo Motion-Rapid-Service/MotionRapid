@@ -6,6 +6,7 @@ type SetupEditorContextValue = {
   choiceCompositeSetState: Function;
   previewUpdate:boolean
   previewUpdateDOM:Function
+  makeEditHistory:Function
 };
 
 export const SetupEditorContext = createContext<SetupEditorContextValue>({} as SetupEditorContextValue);

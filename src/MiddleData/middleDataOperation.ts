@@ -35,6 +35,10 @@ export default class MiddleDataOperation {
     return this.DataCentral !== null;
   };
 
+  getDataCentral = () => {
+    return Object.assign(this.DataCentral)
+  }
+
   createDataCentral = (projectName: string = getUUID()) => {
     this.DataCentral = new middleDataClass.DataCentral(projectName);
   };
@@ -439,3 +443,4 @@ export default class MiddleDataOperation {
 
 //ユーザー操作をEdit
 //コンピューター操作をoperation
+

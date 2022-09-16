@@ -2,6 +2,9 @@ import * as React from "react";
 const { createContext } = React;
 
 type AppContextValue = {
+
+  getDataCentral: Function
+
   getUUID: Function;
   sortNumber: Function;
   deepCopyDict: Function;
