@@ -68,23 +68,35 @@ const Editor = () => {
 
   const undoEditHistory = () => {
     undoRedoPointer -= 1;
+
+    if (undoRedoPointer < 0 || undoRedoPointer >= editHistoryStack.length) {
+      return;
+    }
+
     const thenStack = editHistoryStack[undoRedoPointer];
     const dataCentral = AppContextValue.getDataCentral();
     thenStack.jsonData.DataCentral_MediaTable = dataCentral.DataCentral_MediaTable;
     console.log("thenStack.jsonData undo", thenStack.jsonData, undoRedoPointer);
 
     AppContextValue.replaceDataCentral(thenStack.jsonData);
+    previewUpdateDOM();
     return;
   };
 
   const redoEditHistory = () => {
     undoRedoPointer += 1;
+
+    if (undoRedoPointer < 0 || undoRedoPointer >= editHistoryStack.length) {
+      return;
+    }
+
     const thenStack = editHistoryStack[undoRedoPointer];
     const dataCentral = AppContextValue.getDataCentral();
     thenStack.jsonData.DataCentral_MediaTable = dataCentral.DataCentral_MediaTable;
     console.log("thenStack.jsonData redo", thenStack.jsonData, undoRedoPointer);
 
     AppContextValue.replaceDataCentral(thenStack.jsonData);
+    previewUpdateDOM();
     return;
   };
 

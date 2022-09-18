@@ -33,17 +33,17 @@ export default class MiddleDataOperation {
     return this.DataCentral !== null;
   };
 
+  createDataCentral = (projectName: string = getUUID()) => {
+    this.DataCentral = new middleDataClass.DataCentral(projectName);
+  };
+
   getDataCentral = () => {
     const jsonData = JSON.parse(JSON.stringify(this.DataCentral, null, "\t"));
     return jsonData;
   };
 
-  createDataCentral = (projectName: string = getUUID()) => {
-    this.DataCentral = new middleDataClass.DataCentral(projectName);
-  };
-
   replaceDataCentral = (jsonDataCentral: any) => {
-    this.DataCentral = jsonDataCentral;
+    this.DataCentral = JSON.parse(JSON.stringify(jsonDataCentral));
   };
 
   createComposite = (
@@ -311,10 +311,18 @@ export default class MiddleDataOperation {
   };
 
   getMediaObjectSourceSpecies = (mediaObjectID: string) => {
+    if (!hasKeyFound(mediaObjectID, this.DataCentral.OwnedClass_MediaObject)) {
+      return;
+    }
+
     return this.DataCentral.OwnedClass_MediaObject[mediaObjectID].MediaObject_SourceSpecies;
   };
 
   getMediaObjectColor = (mediaObjectID: string) => {
+    if (!hasKeyFound(mediaObjectID, this.DataCentral.OwnedClass_MediaObject)) {
+      return;
+    }
+
     return this.DataCentral.OwnedClass_MediaObject[mediaObjectID].MediaObject_Color;
   };
   setMediaObjectColor = (mediaObjectID: string, color: Array<number>) => {
