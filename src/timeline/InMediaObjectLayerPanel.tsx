@@ -91,6 +91,7 @@ export const TimelineAreaLayerPanelComponent = (props: any) => {
 
     TimelineAreaDivContextValue.focusMediaObjectSpaceSetState(-1);
     AppContextValue.updateDOM();
+    SetupEditorContextValue.pushEditHistory();
   };
   const mouseMove = (event: any) => {
     if (!(MediaObjectContextValue.mediaObjectUUID in UserHandLayerPanelList)) {

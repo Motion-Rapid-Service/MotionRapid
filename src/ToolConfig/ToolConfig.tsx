@@ -98,11 +98,7 @@ const ConfigButtonBottm = (props: any) => {
 
   return (
     <div className="tool_config-area-bottom-area">
-      <ToolConfigParts.ConfigButton
-        text={"決定"}
-        buttonOperationFunc={ConfigModeContextValue.buttonOperationFunc}
-        configContent={configContent}
-      />
+      <ToolConfigParts.ConfigButton text={"決定"} buttonOperationFunc={ConfigModeContextValue.buttonOperationFunc} configContent={configContent} />
       <ToolConfigParts.ConfigButton text={"キャンセル"} />
     </div>
   );
@@ -215,6 +211,7 @@ const ComponentOptionConvertConfigMode = (props: any) => {
       sendConfigContent[configItemCompositeHeightUnit]
     );
     console.log("buttonOperationFunc", sendConfigContent);
+    SetupEditorContextValue.pushEditHistory();
   };
 
   const itemNewAnimatorGroup = () => {
@@ -252,6 +249,7 @@ const ComponentOptionConvertConfigMode = (props: any) => {
     }
 
     AppContextValue.updateDOM();
+    SetupEditorContextValue.pushEditHistory();
   };
 
   const itemOperationKeyframe = () => {
@@ -271,8 +269,7 @@ const ComponentOptionConvertConfigMode = (props: any) => {
 
     console.log("configModeArgsOption", configModeArgsOption);
 
-    const animatorGroupFormat: AnimatorGroupPropertyFormat.PropertyFormatSpecies =
-      AnimatorGroupFormat.getAnimatorGroupFormatList(AnimatorGroup_Species);
+    const animatorGroupFormat: AnimatorGroupPropertyFormat.PropertyFormatSpecies = AnimatorGroupFormat.getAnimatorGroupFormatList(AnimatorGroup_Species);
 
     const cssPropertySpeciesList = animatorGroupFormat.cssPropertySpeciesList;
     const cssPropertySpecies = cssPropertySpeciesList[Animator_propertySpecies];
@@ -329,6 +326,7 @@ const ComponentOptionConvertConfigMode = (props: any) => {
     }
 
     AppContextValue.updateDOM();
+    SetupEditorContextValue.pushEditHistory();
   };
 
   const itemMediaObjectTextMode = () => {
@@ -355,11 +353,9 @@ const ComponentOptionConvertConfigMode = (props: any) => {
   const buttonOperationFuncMediaObjectTextMode = (sendConfigContent: { [name: string]: string | number | boolean }) => {
     const configItemMediaObjextTextModeText: string = ToolConfigContext.ConfigItemMediaObjextTextMode[0];
     const configModeArgsOption = SetupConfigContextValue.getConfigModeArgsOption();
-    const addClass = new buildSourceSpecies.SourceSpeciesTextClass(
-      String(sendConfigContent[configItemMediaObjextTextModeText]),
-      "font"
-    );
+    const addClass = new buildSourceSpecies.SourceSpeciesTextClass(String(sendConfigContent[configItemMediaObjextTextModeText]), "font");
     AppContextValue.operationMediaObjectSourceSpeciesClass(configModeArgsOption.MediaObject_ID, addClass);
+    SetupEditorContextValue.pushEditHistory();
   };
 
   const itemMediaObjectImageMode = () => {
@@ -382,10 +378,9 @@ const ComponentOptionConvertConfigMode = (props: any) => {
   const buttonOperationFuncMediaObjectImageMode = (sendConfigContent: { [name: string]: string | number | boolean }) => {
     const configItemMediaObjextImageModeImage: string = ToolConfigContext.ConfigItemMediaObjextImageMode[0];
     const configModeArgsOption = SetupConfigContextValue.getConfigModeArgsOption();
-    const addClass = new buildSourceSpecies.SourceSpeciesImageClass(
-      String(sendConfigContent[configItemMediaObjextImageModeImage])
-    );
+    const addClass = new buildSourceSpecies.SourceSpeciesImageClass(String(sendConfigContent[configItemMediaObjextImageModeImage]));
     AppContextValue.operationMediaObjectSourceSpeciesClass(configModeArgsOption.MediaObject_ID, addClass);
+    SetupEditorContextValue.pushEditHistory();
   };
 
   const itemMediaObjectCompositeMode = () => {
@@ -410,10 +405,9 @@ const ComponentOptionConvertConfigMode = (props: any) => {
   const buttonOperationFuncMediaObjectCompositeMode = (sendConfigContent: { [name: string]: string | number | boolean }) => {
     const configItemMediaObjextCompositeModeComposite: string = ToolConfigContext.ConfigItemMediaObjextCompositeMode[0];
     const configModeArgsOption = SetupConfigContextValue.getConfigModeArgsOption();
-    const addClass = new buildSourceSpecies.SourceSpeciesCompositeClass(
-      String(sendConfigContent[configItemMediaObjextCompositeModeComposite])
-    );
+    const addClass = new buildSourceSpecies.SourceSpeciesCompositeClass(String(sendConfigContent[configItemMediaObjextCompositeModeComposite]));
     AppContextValue.operationMediaObjectSourceSpeciesClass(configModeArgsOption.MediaObject_ID, addClass);
+    SetupEditorContextValue.pushEditHistory();
   };
 
   const itemUploadProject = () => {
@@ -436,15 +430,15 @@ const ComponentOptionConvertConfigMode = (props: any) => {
   const buttonOperationFuncUploadProject = (sendConfigContent: { [name: string]: string | number | boolean | Blob }) => {
     const configItemUploadProjectFile: string = ToolConfigContext.ConfigItemUploadProject[0];
     let reader = new FileReader();
-    const file:Blob = sendConfigContent[configItemUploadProjectFile] as Blob
-    reader.readAsText(file, 'UTF-8');
-    reader.onload = () =>{
-        //console.log(reader.result);
-        const fileJsonData = JSON.parse(reader.result as string);
-        console.log("fileJsonData",fileJsonData)
-        AppContextValue.replaceDataCentral(fileJsonData)
-        SetupEditorContextValue.previewUpdateDOM()
-    }
+    const file: Blob = sendConfigContent[configItemUploadProjectFile] as Blob;
+    reader.readAsText(file, "UTF-8");
+    reader.onload = () => {
+      //console.log(reader.result);
+      const fileJsonData = JSON.parse(reader.result as string);
+      console.log("fileJsonData", fileJsonData);
+      AppContextValue.replaceDataCentral(fileJsonData);
+      SetupEditorContextValue.previewUpdateDOM();
+    };
   };
 
   let settingItemsTemp: Array<ToolConfigContext.settingItemsData>; //上書きされる
@@ -530,11 +524,7 @@ const ToolConfigArea = (props: any) => {
           height: cssAreaViewHeight,
         }}
       >
-        <ComponentOptionConvertConfigMode
-          configMode={configMode}
-          configModeList={configModeList}
-          cssAreaViewHeight={cssAreaViewHeight}
-        />
+        <ComponentOptionConvertConfigMode configMode={configMode} configModeList={configModeList} cssAreaViewHeight={cssAreaViewHeight} />
       </div>
     </>
   );

@@ -20,6 +20,7 @@ export const SwitchMediaObjectAreaSpace = (props: any) => {
   const [emphasisSpace, emphasisSpaceSetState] = useState<boolean>(false);
 
   useEffect(() => {
+    //レイヤーパネルのメディアオブジェクトの順番を帰るときに移動先を示すDOMの操作
     const match: boolean = Number(props.spaceIndex) === Number(TimelineAreaDivContextValue.focusMediaObjectSpace);
 
     if (match) {

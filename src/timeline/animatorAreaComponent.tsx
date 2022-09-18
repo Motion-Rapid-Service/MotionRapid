@@ -54,6 +54,7 @@ export const KeyFrameComponent = (props: any) => {
     if (!UserHand.hasUserHandKeyframe(keyframeUUID)) {
       return;
     }
+    SetupEditorContextValue.pushEditHistory();
     // const mouseEndPos = timelineMousePosition.mediaObjectMousePosition(event, LayerDurationContextValue.timelineAreaLayerDurationElement)[0];
     UserHand.insertUserHandKeyframe(keyframeUUID, 2, null, null);
   };

@@ -9,49 +9,17 @@ import { SetupEditorContext } from "./SetupEditorContext";
 //ここを画面結合専用層にする予定
 //ここから ツールバー処理用のクラス
 
-let undoRedoPointer:number = -1 //editHistoryStackのどのデータを戻すかという数値 たいてい、データ返却直前に数値が変更される
-let editHistoryStack :Array<EditHistoryData> = [] //redo undo 
+let undoRedoPointer: number = -1; //editHistoryStackのどのデータを戻すかという数値 たいてい、データ返却直前に数値が変更される
+let editHistoryStack: Array<EditHistoryData> = []; //redo undo
 class EditHistoryData {
-  constructor(){
-    
+  jsonData: any;
+  constructor(send_jsonData: any) {
+    this.jsonData = send_jsonData;
   }
 }
 
-const initEditHistory = () => {
-  editHistoryStack = []
-  const newHistoryData = new EditHistoryData()
-  editHistoryStack.push(newHistoryData)
-  undoRedoPointer = 0
-}
-
-const pushEditHistory = () => {
-  const AppContextValue = useContext(AppContext)
-  const dataCentral = AppContextValue.getDataCentral()
-  delete dataCentral.DataCentral_MediaTable
-  
-
-  if (undoRedoPointer <  editHistoryStack.length){
-    const deleteQuantity = editHistoryStack.length - undoRedoPointer
-    for (let i =  + 1; i <  deleteQuantity; i ++){
-      editHistoryStack.pop() //指定個数分後ろ側から削除してしまう
-    } 
-  }
-  const newHistoryData = new EditHistoryData()
-  editHistoryStack.push(newHistoryData)
-  undoRedoPointer += 1
-}
-
-const undoEditHistory = () => {
-  undoRedoPointer -= 1
-  return editHistoryStack[undoRedoPointer]
-}
-
-const redoEditHistory = () => {
-  undoRedoPointer += 1
-  return editHistoryStack[undoRedoPointer]
-}
- 
 const Editor = () => {
+  const AppContextValue = useContext(AppContext);
   const [choiceComposite, choiceCompositeSetState] = useState<string>("not");
   useEffect(() => {}, [choiceComposite]);
 
@@ -64,9 +32,50 @@ const Editor = () => {
     console.log("previewUpdate 再レンダリング");
   }, [previewUpdate]);
 
-  const makeEditHistory = () => {
-    
-  }
+  const initEditHistory = () => {
+    editHistoryStack = [];
+
+    const dataCentral = AppContextValue.getDataCentral();
+    dataCentral.DataCentral_MediaTable = null;
+
+    const newHistoryData = new EditHistoryData(dataCentral);
+    editHistoryStack.push(newHistoryData);
+    undoRedoPointer = 0;
+  };
+
+  const pushEditHistory = () => {
+    const dataCentral = AppContextValue.getDataCentral();
+    dataCentral.DataCentral_MediaTable = null;
+
+    if (undoRedoPointer < editHistoryStack.length) {
+      const deleteQuantity = editHistoryStack.length - undoRedoPointer;
+      for (let i = +1; i < deleteQuantity; i++) {
+        editHistoryStack.pop(); //指定個数分後ろ側から削除してしまう
+      }
+    }
+    const newHistoryData = new EditHistoryData(dataCentral);
+    editHistoryStack.push(newHistoryData);
+    undoRedoPointer += 1;
+
+    console.log("editHistoryStack", editHistoryStack);
+  };
+
+  const undoEditHistory = () => {
+    undoRedoPointer -= 1;
+    const thenStack = editHistoryStack[undoRedoPointer];
+    const dataCentral = AppContextValue.getDataCentral();
+    thenStack.jsonData.DataCentral_MediaTable = dataCentral.DataCentral_MediaTable;
+    return thenStack.jsonData;
+  };
+
+  const redoEditHistory = () => {
+    undoRedoPointer += 1;
+    const thenStack = editHistoryStack[undoRedoPointer];
+    const dataCentral = AppContextValue.getDataCentral();
+    thenStack.jsonData.DataCentral_MediaTable = dataCentral.DataCentral_MediaTable;
+    return thenStack.jsonData;
+  };
+
   // **************************************************************
 
   return (
@@ -75,8 +84,11 @@ const Editor = () => {
         choiceComposite: choiceComposite,
         choiceCompositeSetState: choiceCompositeSetState,
         previewUpdate: previewUpdate,
-        previewUpdateDOM:previewUpdateDOM,
-        makeEditHistory:makeEditHistory,
+        previewUpdateDOM: previewUpdateDOM,
+        initEditHistory: initEditHistory,
+        pushEditHistory: pushEditHistory,
+        undoEditHistory: undoEditHistory,
+        redoEditHistory: redoEditHistory,
       }}
     >
       <SetupConfig />

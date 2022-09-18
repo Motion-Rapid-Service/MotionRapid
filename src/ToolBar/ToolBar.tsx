@@ -80,10 +80,10 @@ const toolBarComponent = (props: any) => {
     AppContextValue.fileExportDataCentral();
   };
 
-  const uploadFile = (funcdata: { [name: string]: any}) => {
+  const uploadFile = (funcdata: { [name: string]: any }) => {
     SetupConfigContextValue.configModeSetState(SetupConfigContextValue.configModeList[7]);
     SetupConfigContextValue.configSwitchGUISetState(SetupConfigContextValue.configSwitchGUIList[1]);
-  }
+  };
 
   useEffect(() => {}, [SetupEditorContextValue.choiceComposite]);
 
@@ -100,18 +100,21 @@ const toolBarComponent = (props: any) => {
     const addClass = new buildSourceSpecies.SourceSpeciesTextClass("( 'ω')", "font");
     const t_MediaObjectID = AppContextValue.createMediaObject(addClass);
     AppContextValue.linkMediaObject(funcdata["choiceComposite"], t_MediaObjectID);
+    SetupEditorContextValue.pushEditHistory();
   };
 
   const toolBarCreateMediaObjectComposite = (funcdata: { [name: string]: any }) => {
     const addClass = new buildSourceSpecies.SourceSpeciesCompositeClass("");
     const t_MediaObjectID = AppContextValue.createMediaObject(addClass);
     AppContextValue.linkMediaObject(funcdata["choiceComposite"], t_MediaObjectID);
+    SetupEditorContextValue.pushEditHistory();
   };
 
   const toolBarCreateMediaObjectImage = (funcdata: { [name: string]: any }) => {
     const addClass = new buildSourceSpecies.SourceSpeciesImageClass(null);
     const t_MediaObjectID = AppContextValue.createMediaObject(addClass);
     AppContextValue.linkMediaObject(funcdata["choiceComposite"], t_MediaObjectID);
+    SetupEditorContextValue.pushEditHistory();
   };
 
   const toolBarCreateAnimatorGroup = (funcdata: { [name: string]: any }) => {

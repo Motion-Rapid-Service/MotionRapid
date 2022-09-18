@@ -132,7 +132,6 @@ export const MediaObjectScrollComponent = () => {
   const MouseRelease = (event: any) => {
     MouseSelectedSetState("auto");
 
-
     const thenSourceSpeciesClass: buildSourceSpecies.SourceSpeciesClass = AppContextValue.getMediaObjectSourceSpecies(mediaObjectUUID);
     mediaObjectColorSetState(thenSourceSpeciesClass.mediaObejctDefaultColor);
 
@@ -141,7 +140,7 @@ export const MediaObjectScrollComponent = () => {
     }
     mediaObjectColorSetState(thenSourceSpeciesClass.mediaObejctSelectColor);
     UserHand.insertUserHandMediaObject(mediaObjectUUID, 4, null, null, null);
-
+    SetupEditorContextValue.pushEditHistory();
     // TimelineAreaDivContextValue.deleteUserHandMediaObjectList(mediaObjectUUID);
   };
 
@@ -181,7 +180,6 @@ export const MediaObjectScrollComponent = () => {
 
     const thenSourceSpeciesClass: buildSourceSpecies.SourceSpeciesClass = AppContextValue.getMediaObjectSourceSpecies(mediaObjectUUID);
 
-    
     mediaObjectColorSetState(thenSourceSpeciesClass.mediaObejctSelectColor);
 
     if (!UserHand.hasUserHandMediaObject(mediaObjectUUID)) {
