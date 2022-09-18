@@ -32,6 +32,12 @@ const Editor = () => {
     console.log("previewUpdate 再レンダリング");
   }, [previewUpdate]);
 
+  useEffect(() => {
+    initEditHistory();
+
+    console.log("initEditHistory");
+  }, []);
+
   const initEditHistory = () => {
     editHistoryStack = [];
 
@@ -47,17 +53,17 @@ const Editor = () => {
     const dataCentral = AppContextValue.getDataCentral();
     dataCentral.DataCentral_MediaTable = null;
 
-    if (undoRedoPointer < editHistoryStack.length) {
-      const deleteQuantity = editHistoryStack.length - undoRedoPointer;
-      for (let i = +1; i < deleteQuantity; i++) {
-        editHistoryStack.pop(); //指定個数分後ろ側から削除してしまう
-      }
-    }
+    // if (undoRedoPointer < editHistoryStack.length) {
+    //   const deleteQuantity = editHistoryStack.length - undoRedoPointer;
+    //   for (let i = +1; i < deleteQuantity; i++) {
+    //     editHistoryStack.pop(); //指定個数分後ろ側から削除してしまう
+    //   }
+    // }
     const newHistoryData = new EditHistoryData(dataCentral);
     editHistoryStack.push(newHistoryData);
     undoRedoPointer += 1;
 
-    console.log("editHistoryStack", editHistoryStack);
+    console.log("editHistoryStack", editHistoryStack, undoRedoPointer);
   };
 
   const undoEditHistory = () => {
@@ -65,7 +71,10 @@ const Editor = () => {
     const thenStack = editHistoryStack[undoRedoPointer];
     const dataCentral = AppContextValue.getDataCentral();
     thenStack.jsonData.DataCentral_MediaTable = dataCentral.DataCentral_MediaTable;
-    return thenStack.jsonData;
+    console.log("thenStack.jsonData undo", thenStack.jsonData, undoRedoPointer);
+
+    AppContextValue.replaceDataCentral(thenStack.jsonData);
+    return;
   };
 
   const redoEditHistory = () => {
@@ -73,8 +82,32 @@ const Editor = () => {
     const thenStack = editHistoryStack[undoRedoPointer];
     const dataCentral = AppContextValue.getDataCentral();
     thenStack.jsonData.DataCentral_MediaTable = dataCentral.DataCentral_MediaTable;
-    return thenStack.jsonData;
+    console.log("thenStack.jsonData redo", thenStack.jsonData, undoRedoPointer);
+
+    AppContextValue.replaceDataCentral(thenStack.jsonData);
+    return;
   };
+
+  const fireUndoRedo = (event: any) => {
+    console.log(event.key === "Z", event.ctrlKey || event.metaKey, event.shiftKey);
+    if (event.key === "Z" && (event.ctrlKey || event.metaKey) && event.shiftKey) {
+      // redoの処理
+      console.log("redo run ");
+      redoEditHistory();
+    } else if (event.key === "z" && (event.ctrlKey || event.metaKey)) {
+      // undoの処理
+      console.log("undo run");
+      undoEditHistory();
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("keydown", fireUndoRedo);
+
+    return () => {
+      window.removeEventListener("keydown", fireUndoRedo);
+    };
+  }, []);
 
   // **************************************************************
 

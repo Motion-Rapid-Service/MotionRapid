@@ -22,13 +22,11 @@ const hasKeyFound = (key: string, dict: any) => {
 
 export default class MiddleDataOperation {
   DataCentral: middleDataClass.DataCentral;
-  
+
   toolBars: Array<Array<Function>>;
   constructor() {
     this.DataCentral = null;
   }
-
-
 
   existenceInquiryDataCentral = () => {
     //DataCentralが生成されているか参照する
@@ -36,16 +34,17 @@ export default class MiddleDataOperation {
   };
 
   getDataCentral = () => {
-    return Object.assign(this.DataCentral)
-  }
+    const jsonData = JSON.parse(JSON.stringify(this.DataCentral, null, "\t"));
+    return jsonData;
+  };
 
   createDataCentral = (projectName: string = getUUID()) => {
     this.DataCentral = new middleDataClass.DataCentral(projectName);
   };
 
-  replaceDataCentral = (jsonDataCentral:any) => {
-    this.DataCentral = jsonDataCentral
-  }
+  replaceDataCentral = (jsonDataCentral: any) => {
+    this.DataCentral = jsonDataCentral;
+  };
 
   createComposite = (
     compositeName: string = "CompositeName_" + getUUID(),
@@ -392,9 +391,7 @@ export default class MiddleDataOperation {
     //たぶん計算量がn^2ぐらいになりそう
   };
 
-  fileInportCommon = () => {
-
-  }
+  fileInportCommon = () => {};
 
   fileExportCommon = (jsonData: any, fileName: string, typeText: string, extension: string) => {
     //typeについてhttps://asahi-net.jp/support/guide/homepage/0017.html
@@ -443,4 +440,3 @@ export default class MiddleDataOperation {
 
 //ユーザー操作をEdit
 //コンピューター操作をoperation
-
