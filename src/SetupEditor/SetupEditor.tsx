@@ -2,10 +2,10 @@ import * as React from "react";
 const { useContext, useReducer, createContext, useEffect, useState } = React;
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import SetupConfig from "./SetupConfig";
 import { AppContext } from "../AppContext";
 import { SetupEditorContext } from "./SetupEditorContext";
 
+import SetupUndo from "./SetupUndo";
 const Editor = () => {
   const [choiceComposite, choiceCompositeSetState] = useState<string>("not");
   useEffect(() => {}, [choiceComposite]);
@@ -31,7 +31,7 @@ const Editor = () => {
         previewUpdateDOM: previewUpdateDOM,
       }}
     >
-      <SetupConfig />
+      <SetupUndo />
     </SetupEditorContext.Provider>
   );
 };

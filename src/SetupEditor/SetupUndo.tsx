@@ -4,6 +4,11 @@ import * as React from "react";
 const { useContext, useReducer, createContext, useEffect, useState } = React;
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AppContext } from "../AppContext";
+
+import SetupConfig from "./SetupConfig";
+import { SetupEditorContext } from "./SetupEditorContext";
+import { SetupUndoContext } from "./SetupUndoContext";
+
 let undoRedoPointer: number = -1; //editHistoryStackのどのデータを戻すかという数値 たいてい、データ返却直前に数値が変更される
 let editHistoryStack: Array<EditHistoryData> = []; //redo undo
 class EditHistoryData {
@@ -15,6 +20,8 @@ class EditHistoryData {
 
 const SetupUndo = () => {
   const AppContextValue = useContext(AppContext);
+  const SetupEditorContextValue = useContext(SetupEditorContext);
+  const SetupUndoContextValue = useContext(SetupUndoContext);
 
   useEffect(() => {
     initEditHistory();
@@ -60,10 +67,10 @@ const SetupUndo = () => {
     const thenStack = editHistoryStack[undoRedoPointer];
     const dataCentral = AppContextValue.getDataCentral();
     thenStack.jsonData.DataCentral_MediaTable = dataCentral.DataCentral_MediaTable;
-    console.log("thenStack.jsonData undo", thenStack.jsonData, undoRedoPointer, previewUpdateDOM);
+    console.log("thenStack.jsonData undo", thenStack.jsonData, undoRedoPointer, SetupEditorContextValue.previewUpdateDOM);
 
     AppContextValue.replaceDataCentral(thenStack.jsonData);
-    previewUpdateDOM();
+    SetupEditorContextValue.previewUpdateDOM();
     return;
   };
 
@@ -80,7 +87,7 @@ const SetupUndo = () => {
     console.log("thenStack.jsonData redo", thenStack.jsonData, undoRedoPointer);
 
     AppContextValue.replaceDataCentral(thenStack.jsonData);
-    previewUpdateDOM();
+    SetupEditorContextValue.previewUpdateDOM();
     return;
   };
 
@@ -105,12 +112,13 @@ const SetupUndo = () => {
     };
   }, []);
 
-  return {
-    initEditHistory: initEditHistory,
-    pushEditHistory: pushEditHistory,
-    undoEditHistory: undoEditHistory,
-    redoEditHistory: redoEditHistory,
-  };
+  return (
+    <SetupUndoContext.Provider
+      value={{ initEditHistory: initEditHistory, pushEditHistory: pushEditHistory, undoEditHistory: undoEditHistory, redoEditHistory: redoEditHistory }}
+    >
+      <SetupConfig />
+    </SetupUndoContext.Provider>
+  );
 };
 
 export default SetupUndo;
