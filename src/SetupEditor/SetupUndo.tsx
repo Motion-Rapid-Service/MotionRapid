@@ -44,21 +44,27 @@ const SetupUndo = () => {
     const dataCentral = AppContextValue.getDataCentral();
     dataCentral.DataCentral_MediaTable = null;
 
-    // if (undoRedoPointer < editHistoryStack.length) {
-    //   const deleteQuantity = editHistoryStack.length - undoRedoPointer;
-    //   for (let i = +1; i < deleteQuantity; i++) {
-    //     editHistoryStack.pop(); //指定個数分後ろ側から削除してしまう
-    //   }
-    // }
-    const newHistoryData = new EditHistoryData(dataCentral);
-    editHistoryStack.push(newHistoryData);
-    undoRedoPointer += 1;
+    const deleteQuantity = editHistoryStack.length - undoRedoPointer;
+    console.log("undoRedoPointer deleteQuantity", deleteQuantity);
 
+    if (deleteQuantity > 0) {
+      for (let i = 0; i < deleteQuantity; i++) {
+        console.log("deleteQuantity del");
+        editHistoryStack.pop(); //指定個数分後ろ側から削除してしまう
+      }
+    }
+
+    const newHistoryData = new EditHistoryData(dataCentral);
+    undoRedoPointer += 1;
+    editHistoryStack.push(newHistoryData);
     console.log("editHistoryStack", editHistoryStack, undoRedoPointer);
+    console.log("undoRedoPointer", undoRedoPointer);
   };
 
   const undoEditHistory = () => {
-    if (undoRedoPointer < 0 || undoRedoPointer >= editHistoryStack.length) {
+    console.log("undoRedoPointer -", undoRedoPointer, editHistoryStack.length);
+
+    if (undoRedoPointer < 0 || undoRedoPointer > editHistoryStack.length) {
       return;
     }
 
@@ -69,12 +75,15 @@ const SetupUndo = () => {
 
     AppContextValue.replaceDataCentral(thenStack.jsonData);
     SetupEditorContextValue.previewUpdateDOM();
+
     undoRedoPointer -= 1;
     return;
   };
 
   const redoEditHistory = () => {
-    if (undoRedoPointer < 0 || undoRedoPointer >= editHistoryStack.length) {
+    console.log("undoRedoPointer +", undoRedoPointer, editHistoryStack.length);
+
+    if (undoRedoPointer < 0 || undoRedoPointer > editHistoryStack.length) {
       return;
     }
 

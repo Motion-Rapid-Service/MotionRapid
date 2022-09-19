@@ -8,6 +8,7 @@ export type PropertyFormatSpecies = {
 
 export const propertySpeciesUnitList: Array<string> = ["not", "number", "rgb", "rgba", "text", "image"]; //ここで設定画面の方式を決定
 export const cssValueUnit: { [name: string]: Array<string> } = {
+  not: [],
   number: ["px", "vw", "vh", "%"],
   rgb: [],
   rgba: [],
@@ -144,11 +145,7 @@ export const PropertyFormat_left: PropertyFormatSpecies = {
   },
 
   cssWriteFunction: (send_propertyName: string, send_cssPropertySpeciesList: { [name: string]: string }) => {
-    const rtext = textJoinAnimatorGroup([
-      "left:",
-      send_cssPropertySpeciesList["left"],
-      ";"
-    ]);
+    const rtext = textJoinAnimatorGroup(["left:", send_cssPropertySpeciesList["left"], ";"]);
     return rtext;
   },
 };
@@ -160,11 +157,7 @@ export const PropertyFormat_right: PropertyFormatSpecies = {
   },
 
   cssWriteFunction: (send_propertyName: string, send_cssPropertySpeciesList: { [name: string]: string }) => {
-    const rtext = textJoinAnimatorGroup([
-      "right:",
-      send_cssPropertySpeciesList["right"],
-      ";"
-    ]);
+    const rtext = textJoinAnimatorGroup(["right:", send_cssPropertySpeciesList["right"], ";"]);
     return rtext;
   },
 };
@@ -175,11 +168,7 @@ export const PropertyFormat_top: PropertyFormatSpecies = {
   },
 
   cssWriteFunction: (send_propertyName: string, send_cssPropertySpeciesList: { [name: string]: string }) => {
-    const rtext = textJoinAnimatorGroup([
-      "top:",
-      send_cssPropertySpeciesList["top"],
-      ";"
-    ]);
+    const rtext = textJoinAnimatorGroup(["top:", send_cssPropertySpeciesList["top"], ";"]);
     return rtext;
   },
 };
@@ -190,13 +179,24 @@ export const PropertyFormat_bottom: PropertyFormatSpecies = {
   },
 
   cssWriteFunction: (send_propertyName: string, send_cssPropertySpeciesList: { [name: string]: string }) => {
-    const rtext = textJoinAnimatorGroup([
-      "bottom:",
-      send_cssPropertySpeciesList["bottom"],
-      ";"
-    ]);
+    const rtext = textJoinAnimatorGroup(["bottom:", send_cssPropertySpeciesList["bottom"], ";"]);
     return rtext;
   },
 };
+
+export const PropertyFormat_opacity: PropertyFormatSpecies = {
+  cssPropertyName: "透明度(1~100)",
+  cssPropertySpeciesList: {
+    opacity: propertySpeciesUnitList[0],
+  },
+
+  cssWriteFunction: (send_propertyName: string, send_cssPropertySpeciesList: { [name: string]: string }) => {
+    // console.log("opacity", send_cssPropertySpeciesList["opacity"]);
+    // const val: number = Number(send_cssPropertySpeciesList["opacity"]) / 100;
+    const rtext = textJoinAnimatorGroup(["opacity:", send_cssPropertySpeciesList["opacity"], ";"]);
+    return rtext;
+  },
+};
+
 //https://nyanblog2222.com/programming/javascript/1132/
 //inputタグからfileRenaderを使って画面に表示する方法 div要素に出力する
