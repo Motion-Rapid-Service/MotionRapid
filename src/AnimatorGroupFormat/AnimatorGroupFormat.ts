@@ -11,6 +11,7 @@ const animatorGroupFormatList: { [name: string]: PropertyFormat.PropertyFormatSp
   top: PropertyFormat.PropertyFormat_top,
   bottom: PropertyFormat.PropertyFormat_bottom,
   opacity: PropertyFormat.PropertyFormat_opacity,
+  fontProperty: PropertyFormat.PropertyFormat_fontProperty,
 };
 
 export const getAnimatorGroupFormatList = (animatorGroupFormatPropertyName: string) => {

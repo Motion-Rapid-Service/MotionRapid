@@ -65,7 +65,7 @@ const SetupUndo = () => {
     if (undoRedoPointer < 0) {
       return;
     }
-    undoRedoPointer -= 1;
+
     console.log("undoRedoPointer -", undoRedoPointer, editHistoryStack);
 
     const thenStack = editHistoryStack[undoRedoPointer];
@@ -75,7 +75,7 @@ const SetupUndo = () => {
 
     AppContextValue.replaceDataCentral(thenStack.jsonData);
     SetupEditorContextValue.previewUpdateDOM();
-
+    undoRedoPointer -= 1;
     return;
   };
 

@@ -164,7 +164,7 @@ export const PropertyFormat_right: PropertyFormatSpecies = {
 export const PropertyFormat_top: PropertyFormatSpecies = {
   cssPropertyName: "top",
   cssPropertySpeciesList: {
-    left: propertySpeciesUnitList[1],
+    top: propertySpeciesUnitList[1],
   },
 
   cssWriteFunction: (send_propertyName: string, send_cssPropertySpeciesList: { [name: string]: string }) => {
@@ -200,3 +200,32 @@ export const PropertyFormat_opacity: PropertyFormatSpecies = {
 
 //https://nyanblog2222.com/programming/javascript/1132/
 //inputタグからfileRenaderを使って画面に表示する方法 div要素に出力する
+
+export const PropertyFormat_fontProperty: PropertyFormatSpecies = {
+  cssPropertyName: "font",
+  cssPropertySpeciesList: {
+    fontSize: propertySpeciesUnitList[1],
+    r: propertySpeciesUnitList[3],
+    g: propertySpeciesUnitList[3],
+    b: propertySpeciesUnitList[3],
+    a: propertySpeciesUnitList[3],
+  },
+
+  cssWriteFunction: (send_propertyName: string, send_cssPropertySpeciesList: { [name: string]: string }) => {
+    const rtext = textJoinAnimatorGroup([
+      "font-size:",
+      send_cssPropertySpeciesList["fontSize"],
+      ";",
+      "color : rgba(",
+      send_cssPropertySpeciesList["r"],
+      ",",
+      send_cssPropertySpeciesList["g"],
+      ",",
+      send_cssPropertySpeciesList["b"],
+      ",",
+      send_cssPropertySpeciesList["a"],
+      ");",
+    ]);
+    return rtext;
+  },
+};
