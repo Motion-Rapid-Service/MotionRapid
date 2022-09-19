@@ -1,6 +1,5 @@
 import * as React from "react";
-const { useState, useRef, useEffect, useContext, useReducer, createContext } =
-  React;
+const { useState, useRef, useEffect, useContext, useReducer, createContext } = React;
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import { AppContext } from "../AppContext";
@@ -33,18 +32,15 @@ const CompositeChoiceListComponent = () => {
   const SetupEditorContextValue = useContext(SetupEditorContext);
   const SetupToolbarContextValue = useContext(SetupToolbarContext);
 
+  console.log("previewUpdate CompositeChoiceListComponent");
+
   return (
     <div className="composite_choice-list-area">
       <>
-        {AppContextValue.componentConvertCompositeChoiceArea().map(
-          (output: any, index: number) => (
-            // <>{fruit}</> //SurfaceControlIndividualを追加するmap (list_surface_controlに入っている)
-            <CompositeChoiceListIndexComponent
-              DownstreamMiddleDataComposite={output}
-              key={index}
-            />
-          )
-        )}
+        {AppContextValue.componentConvertCompositeChoiceArea().map((output: any, index: number) => (
+          // <>{fruit}</> //SurfaceControlIndividualを追加するmap (list_surface_controlに入っている)
+          <CompositeChoiceListIndexComponent DownstreamMiddleDataComposite={output} key={index} />
+        ))}
       </>
     </div>
   );
