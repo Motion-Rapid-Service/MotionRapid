@@ -58,8 +58,6 @@ const SetupUndo = () => {
   };
 
   const undoEditHistory = () => {
-    undoRedoPointer -= 1;
-
     if (undoRedoPointer < 0 || undoRedoPointer >= editHistoryStack.length) {
       return;
     }
@@ -71,12 +69,11 @@ const SetupUndo = () => {
 
     AppContextValue.replaceDataCentral(thenStack.jsonData);
     SetupEditorContextValue.previewUpdateDOM();
+    undoRedoPointer -= 1;
     return;
   };
 
   const redoEditHistory = () => {
-    undoRedoPointer += 1;
-
     if (undoRedoPointer < 0 || undoRedoPointer >= editHistoryStack.length) {
       return;
     }
@@ -88,6 +85,9 @@ const SetupUndo = () => {
 
     AppContextValue.replaceDataCentral(thenStack.jsonData);
     SetupEditorContextValue.previewUpdateDOM();
+
+    undoRedoPointer += 1;
+
     return;
   };
 

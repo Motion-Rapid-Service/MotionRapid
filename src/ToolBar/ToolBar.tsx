@@ -98,24 +98,24 @@ const toolBarComponent = (props: any) => {
   };
 
   const toolBarCreateMediaObjectText = (funcdata: { [name: string]: any }) => {
+    SetupUndoContextValue.pushEditHistory();
     const addClass = new buildSourceSpecies.SourceSpeciesTextClass("( 'ω')", "font");
     const t_MediaObjectID = AppContextValue.createMediaObject(addClass);
     AppContextValue.linkMediaObject(funcdata["choiceComposite"], t_MediaObjectID);
-    SetupUndoContextValue.pushEditHistory();
   };
 
   const toolBarCreateMediaObjectComposite = (funcdata: { [name: string]: any }) => {
+    SetupUndoContextValue.pushEditHistory();
     const addClass = new buildSourceSpecies.SourceSpeciesCompositeClass("");
     const t_MediaObjectID = AppContextValue.createMediaObject(addClass);
     AppContextValue.linkMediaObject(funcdata["choiceComposite"], t_MediaObjectID);
-    SetupUndoContextValue.pushEditHistory();
   };
 
   const toolBarCreateMediaObjectImage = (funcdata: { [name: string]: any }) => {
+    SetupUndoContextValue.pushEditHistory();
     const addClass = new buildSourceSpecies.SourceSpeciesImageClass(null);
     const t_MediaObjectID = AppContextValue.createMediaObject(addClass);
     AppContextValue.linkMediaObject(funcdata["choiceComposite"], t_MediaObjectID);
-    SetupUndoContextValue.pushEditHistory();
   };
 
   const toolBarCreateAnimatorGroup = (funcdata: { [name: string]: any }) => {

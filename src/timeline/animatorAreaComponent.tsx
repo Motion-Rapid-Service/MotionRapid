@@ -56,12 +56,14 @@ export const KeyFrameComponent = (props: any) => {
     if (!UserHand.hasUserHandKeyframe(keyframeUUID)) {
       return;
     }
-    SetupUndoContextValue.pushEditHistory();
+
     // const mouseEndPos = timelineMousePosition.mediaObjectMousePosition(event, LayerDurationContextValue.timelineAreaLayerDurationElement)[0];
     UserHand.insertUserHandKeyframe(keyframeUUID, 2, null, null);
   };
 
   const MouseDown = (event: any) => {
+    SetupUndoContextValue.pushEditHistory();
+
     const mousePushPos = timelineMousePosition.mediaObjectMousePosition(event, LayerDurationContextValue.timelineAreaLayerDurationElement)[0];
 
     UserHand.alldeleteUserHandKeyframe();
@@ -129,7 +131,7 @@ export const KeyFrameComponent = (props: any) => {
 
   useEffect(() => {
     keyframeUpdate();
-  }, [TimelineAreaDivContextValue.timelineUpdate]);
+  }, [TimelineAreaDivContextValue.timelineUpdate, SetupEditorContextValue.previewUpdate]);
 
   const mouseDoubleClick = (event: any) => {
     const clientX = event.clientX;

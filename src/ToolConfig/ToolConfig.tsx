@@ -194,6 +194,7 @@ const ComponentOptionConvertConfigMode = (props: any) => {
   };
 
   const buttonOperationFuncNewComposite = (sendConfigContent: { [name: string]: string | number | boolean }) => {
+    SetupUndoContextValue.pushEditHistory();
     const configItemCompositeName: string = ToolConfigContext.ConfigItemNewComposite[0];
     const configItemCompositeHorizontalMode: string = ToolConfigContext.ConfigItemNewComposite[2];
     const configItemCompositeLocationMode: string = ToolConfigContext.ConfigItemNewComposite[3];
@@ -213,7 +214,6 @@ const ComponentOptionConvertConfigMode = (props: any) => {
       sendConfigContent[configItemCompositeHeightUnit]
     );
     console.log("buttonOperationFunc", sendConfigContent);
-    SetupUndoContextValue.pushEditHistory();
   };
 
   const itemNewAnimatorGroup = () => {
@@ -234,6 +234,7 @@ const ComponentOptionConvertConfigMode = (props: any) => {
     return settingItemsTemp;
   };
   const buttonOperationFuncNewAnimatorGroup = (sendConfigContent: { [name: string]: string | number | boolean }) => {
+    SetupUndoContextValue.pushEditHistory();
     const configItemAnimatorGroupFormatSpecies: string = ToolConfigContext.ConfigItemNewAnimatorGroup[0];
 
     const userHandMediaObjectIDArray: Array<string> = UserHand.getUserHandMediaObjectIDArray();
@@ -251,7 +252,6 @@ const ComponentOptionConvertConfigMode = (props: any) => {
     }
 
     AppContextValue.updateDOM();
-    SetupUndoContextValue.pushEditHistory();
   };
 
   const itemOperationKeyframe = () => {
@@ -302,6 +302,7 @@ const ComponentOptionConvertConfigMode = (props: any) => {
   };
 
   const buttonOperationFuncOperationKeyframe = (sendConfigContent: { [name: string]: string | number | boolean }) => {
+    SetupUndoContextValue.pushEditHistory();
     const ConfigItemOperationKeyframeTime: string = ToolConfigContext.ConfigItemOperationKeyframe[0];
     const ConfigItemOperationKeyframeValue: string = ToolConfigContext.ConfigItemOperationKeyframe[1];
 
@@ -328,7 +329,6 @@ const ComponentOptionConvertConfigMode = (props: any) => {
     }
 
     AppContextValue.updateDOM();
-    SetupUndoContextValue.pushEditHistory();
   };
 
   const itemMediaObjectTextMode = () => {
@@ -353,11 +353,11 @@ const ComponentOptionConvertConfigMode = (props: any) => {
   };
 
   const buttonOperationFuncMediaObjectTextMode = (sendConfigContent: { [name: string]: string | number | boolean }) => {
+    SetupUndoContextValue.pushEditHistory();
     const configItemMediaObjextTextModeText: string = ToolConfigContext.ConfigItemMediaObjextTextMode[0];
     const configModeArgsOption = SetupConfigContextValue.getConfigModeArgsOption();
     const addClass = new buildSourceSpecies.SourceSpeciesTextClass(String(sendConfigContent[configItemMediaObjextTextModeText]), "font");
     AppContextValue.operationMediaObjectSourceSpeciesClass(configModeArgsOption.MediaObject_ID, addClass);
-    SetupUndoContextValue.pushEditHistory();
   };
 
   const itemMediaObjectImageMode = () => {
@@ -378,11 +378,11 @@ const ComponentOptionConvertConfigMode = (props: any) => {
   };
 
   const buttonOperationFuncMediaObjectImageMode = (sendConfigContent: { [name: string]: string | number | boolean }) => {
+    SetupUndoContextValue.pushEditHistory();
     const configItemMediaObjextImageModeImage: string = ToolConfigContext.ConfigItemMediaObjextImageMode[0];
     const configModeArgsOption = SetupConfigContextValue.getConfigModeArgsOption();
     const addClass = new buildSourceSpecies.SourceSpeciesImageClass(String(sendConfigContent[configItemMediaObjextImageModeImage]));
     AppContextValue.operationMediaObjectSourceSpeciesClass(configModeArgsOption.MediaObject_ID, addClass);
-    SetupUndoContextValue.pushEditHistory();
   };
 
   const itemMediaObjectCompositeMode = () => {
@@ -405,11 +405,11 @@ const ComponentOptionConvertConfigMode = (props: any) => {
   };
 
   const buttonOperationFuncMediaObjectCompositeMode = (sendConfigContent: { [name: string]: string | number | boolean }) => {
+    SetupUndoContextValue.pushEditHistory();
     const configItemMediaObjextCompositeModeComposite: string = ToolConfigContext.ConfigItemMediaObjextCompositeMode[0];
     const configModeArgsOption = SetupConfigContextValue.getConfigModeArgsOption();
     const addClass = new buildSourceSpecies.SourceSpeciesCompositeClass(String(sendConfigContent[configItemMediaObjextCompositeModeComposite]));
     AppContextValue.operationMediaObjectSourceSpeciesClass(configModeArgsOption.MediaObject_ID, addClass);
-    SetupUndoContextValue.pushEditHistory();
   };
 
   const itemUploadProject = () => {

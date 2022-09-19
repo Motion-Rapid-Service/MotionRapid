@@ -33,6 +33,7 @@ export const MediaObjectScrollComponent = () => {
 
   const SetupEditorContextValue = useContext(SetupEditorContext);
   const SetupUndoContextValue = useContext(SetupUndoContext);
+
   const [MouseSelected, MouseSelectedSetState] = useState<string>("auto");
   const [MouseUnselected, MouseUnselectedSetState] = useState<string>("auto");
   const [Mouselogic, MouselogicSetState] = useState<string>("auto");
@@ -110,6 +111,8 @@ export const MediaObjectScrollComponent = () => {
 
   const MouseDown = (event: any) => {
     //マウスでクリックされた時に、メディアオブジェクトの操作を開始するか検証し、マウスのデータを格納する
+    SetupUndoContextValue.pushEditHistory();
+
     const mousePushPos = timeLineMousePosition.mediaObjectMousePosition(event, LayerDurationContextValue.timelineAreaLayerDurationElement)[0];
 
     let stateUserHand = 0;
@@ -142,7 +145,7 @@ export const MediaObjectScrollComponent = () => {
     }
     mediaObjectColorSetState(thenSourceSpeciesClass.mediaObejctSelectColor);
     UserHand.insertUserHandMediaObject(mediaObjectUUID, 4, null, null, null);
-    SetupUndoContextValue.pushEditHistory();
+
     // TimelineAreaDivContextValue.deleteUserHandMediaObjectList(mediaObjectUUID);
   };
 
@@ -201,7 +204,7 @@ export const MediaObjectScrollComponent = () => {
 
   useEffect(() => {
     mediaObjectUpdate();
-  }, [TimelineAreaDivContextValue.timelineUpdate]);
+  }, [TimelineAreaDivContextValue.timelineUpdate, SetupEditorContextValue.previewUpdate]);
 
   useEffect(() => {
     // if (!areaFocus){

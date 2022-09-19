@@ -11,6 +11,7 @@ import * as InMediaObjectLayerPanel from "./InMediaObjectLayerPanel";
 import * as MediaObjectAreaSpaceComponent from "./MediaObjectSpace";
 // {componentGenerateMediaObjectAreaSpace(index)}
 import { SetupEditorContext } from "./../SetupEditor/SetupEditorContext";
+import { SetupUndoContext } from "./../SetupEditor/SetupUndoContext";
 
 import { TimeNavigatorContext } from "./TimeNavigator/TimeNavigatorContext";
 
@@ -20,6 +21,7 @@ export const MediaObjectAreaComponent = (props: any) => {
   const MediaObject_ID = props.DownstreamMiddleDataMediaObject["MediaObject_ID"];
 
   const AppContextValue = useContext(AppContext);
+
   const TimelineAreaDivContextValue = useContext(TimelineAreaDivContext);
 
   const [animatorOpen, animatorOpenSetState] = useState<boolean>(AppContextValue.getMediaObejctAnimatorOpen(MediaObject_ID));
@@ -38,9 +40,6 @@ export const MediaObjectAreaComponent = (props: any) => {
   }, []);
 
   useEffect(() => {
-
-
-
     if (!staStylePos || !endStylePos) {
       return;
     }
@@ -62,7 +61,6 @@ export const MediaObjectAreaComponent = (props: any) => {
       TimeNavigatorContextValue.endStyleViewPos,
       compositeDuration
     );
-
 
     if (isFinite(staStylePos) && isFinite(endStylePos)) {
       AppContextValue.operationMediaObjectTime({
