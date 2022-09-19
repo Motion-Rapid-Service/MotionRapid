@@ -10,7 +10,7 @@ import { SetupEditorContext } from "./SetupEditorContext";
 import { SetupUndoContext } from "./SetupUndoContext";
 
 let undoRedoPointer: number = -1; //editHistoryStackのどのデータを戻すかという数値 たいてい、データ返却直前に数値が変更される
-let editHistoryStack: Array<EditHistoryData> = []; //redo undo
+let editHistoryStack: { [name: number]: EditHistoryData }; //redo undo
 class EditHistoryData {
   jsonData: any;
   constructor(send_jsonData: any) {
@@ -30,13 +30,13 @@ const SetupUndo = () => {
   }, []);
 
   const initEditHistory = () => {
-    editHistoryStack = [];
+    editHistoryStack = {};
 
     const dataCentral = AppContextValue.getDataCentral();
     dataCentral.DataCentral_MediaTable = null;
 
     const newHistoryData = new EditHistoryData(dataCentral);
-    editHistoryStack.push(newHistoryData);
+    editHistoryStack[0] = newHistoryData;
     undoRedoPointer = 0;
   };
 
@@ -44,29 +44,29 @@ const SetupUndo = () => {
     const dataCentral = AppContextValue.getDataCentral();
     dataCentral.DataCentral_MediaTable = null;
 
-    const deleteQuantity = editHistoryStack.length - undoRedoPointer;
-    console.log("undoRedoPointer deleteQuantity", deleteQuantity);
+    // const deleteQuantity = editHistoryStack.length - undoRedoPointer;
+    // console.log("undoRedoPointer deleteQuantity", deleteQuantity);
 
-    if (deleteQuantity > 0) {
-      for (let i = 0; i < deleteQuantity; i++) {
-        console.log("deleteQuantity del");
-        editHistoryStack.pop(); //指定個数分後ろ側から削除してしまう
-      }
-    }
+    // if (deleteQuantity > 0) {
+    //   for (let i = 0; i < deleteQuantity; i++) {
+    //     console.log("deleteQuantity del");
+    //     editHistoryStack.pop(); //指定個数分後ろ側から削除してしまう
+    //   }
+    // }
 
     const newHistoryData = new EditHistoryData(dataCentral);
     undoRedoPointer += 1;
-    editHistoryStack.push(newHistoryData);
+    editHistoryStack[undoRedoPointer] = newHistoryData;
     console.log("editHistoryStack", editHistoryStack, undoRedoPointer);
     console.log("undoRedoPointer", undoRedoPointer);
   };
 
   const undoEditHistory = () => {
-    console.log("undoRedoPointer -", undoRedoPointer, editHistoryStack.length);
-
-    if (undoRedoPointer < 0 || undoRedoPointer > editHistoryStack.length) {
+    if (undoRedoPointer < 0) {
       return;
     }
+    undoRedoPointer -= 1;
+    console.log("undoRedoPointer -", undoRedoPointer, editHistoryStack);
 
     const thenStack = editHistoryStack[undoRedoPointer];
     const dataCentral = AppContextValue.getDataCentral();
@@ -76,16 +76,15 @@ const SetupUndo = () => {
     AppContextValue.replaceDataCentral(thenStack.jsonData);
     SetupEditorContextValue.previewUpdateDOM();
 
-    undoRedoPointer -= 1;
     return;
   };
 
   const redoEditHistory = () => {
-    console.log("undoRedoPointer +", undoRedoPointer, editHistoryStack.length);
-
-    if (undoRedoPointer < 0 || undoRedoPointer > editHistoryStack.length) {
+    if (undoRedoPointer < 0) {
       return;
     }
+    undoRedoPointer += 1;
+    console.log("undoRedoPointer +", undoRedoPointer, editHistoryStack);
 
     const thenStack = editHistoryStack[undoRedoPointer];
     const dataCentral = AppContextValue.getDataCentral();
@@ -94,8 +93,6 @@ const SetupUndo = () => {
 
     AppContextValue.replaceDataCentral(thenStack.jsonData);
     SetupEditorContextValue.previewUpdateDOM();
-
-    undoRedoPointer += 1;
 
     return;
   };
