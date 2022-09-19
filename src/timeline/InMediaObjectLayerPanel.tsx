@@ -6,6 +6,8 @@ import { AppContext, ComponentConvertAnimatorAreaType, ComponentConvertAnimatorG
 import { MediaObjectContext, TimelineAreaDivContext, LayerPanelContext, LayerDurationContext, LayerPanelAnimaterContext } from "./timelineContext";
 import { SetupEditorContext } from "./../SetupEditor/SetupEditorContext";
 import { SetupConfigContext } from "../SetupEditor/SetupConfigContext";
+import { SetupUndoContext } from "./../SetupEditor/SetupUndoContext";
+
 import * as buildSourceSpecies from "./../BuildSite/buildHTML/buildSourceSpecies";
 // import { timelineMousePosition ,timelineLayerPanelPostion} from "./timeLineMousePosition";
 import * as timelineMousePosition from "./timeLineMousePosition";
@@ -69,7 +71,7 @@ export const TimelineAreaLayerPanelComponent = (props: any) => {
   const timelineAreaLayerPanelElement = useRef(null);
   const SetupEditorContextValue = useContext(SetupEditorContext);
   const animatorOpen = MediaObjectContextValue.animatorOpen as boolean;
-
+  const SetupUndoContextValue = useContext(SetupUndoContext);
   const mouseUp = (event: any) => {
     if (!(MediaObjectContextValue.mediaObjectUUID in UserHandLayerPanelList)) {
       return;
@@ -91,7 +93,7 @@ export const TimelineAreaLayerPanelComponent = (props: any) => {
 
     TimelineAreaDivContextValue.focusMediaObjectSpaceSetState(-1);
     AppContextValue.updateDOM();
-    SetupEditorContextValue.pushEditHistory();
+    SetupUndoContextValue.pushEditHistory();
   };
   const mouseMove = (event: any) => {
     if (!(MediaObjectContextValue.mediaObjectUUID in UserHandLayerPanelList)) {

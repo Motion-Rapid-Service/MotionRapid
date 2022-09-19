@@ -7,6 +7,7 @@ import { AppContext } from "./../AppContext";
 import { SetupEditorContext } from "./../SetupEditor/SetupEditorContext";
 import { SetupToolbarContext } from "../SetupEditor/SetupToolbarContext";
 import { SetupConfigContext } from "../SetupEditor/SetupConfigContext";
+import { SetupUndoContext } from "./../SetupEditor/SetupUndoContext";
 
 import * as buildSourceSpecies from "../BuildSite/buildHTML/buildSourceSpecies";
 
@@ -59,7 +60,7 @@ const toolBarComponent = (props: any) => {
 
   const SetupEditorContextValue = useContext(SetupEditorContext);
   const SetupToolbarContextValue = useContext(SetupToolbarContext);
-
+  const SetupUndoContextValue = useContext(SetupUndoContext);
   const SetupConfigContextValue = useContext(SetupConfigContext);
 
   const insertToolBarClassificationArraySetStateValue = SetupToolbarContextValue.insertToolBarClassificationArraySetStateValue;
@@ -100,21 +101,21 @@ const toolBarComponent = (props: any) => {
     const addClass = new buildSourceSpecies.SourceSpeciesTextClass("( 'ω')", "font");
     const t_MediaObjectID = AppContextValue.createMediaObject(addClass);
     AppContextValue.linkMediaObject(funcdata["choiceComposite"], t_MediaObjectID);
-    SetupEditorContextValue.pushEditHistory();
+    SetupUndoContextValue.pushEditHistory();
   };
 
   const toolBarCreateMediaObjectComposite = (funcdata: { [name: string]: any }) => {
     const addClass = new buildSourceSpecies.SourceSpeciesCompositeClass("");
     const t_MediaObjectID = AppContextValue.createMediaObject(addClass);
     AppContextValue.linkMediaObject(funcdata["choiceComposite"], t_MediaObjectID);
-    SetupEditorContextValue.pushEditHistory();
+    SetupUndoContextValue.pushEditHistory();
   };
 
   const toolBarCreateMediaObjectImage = (funcdata: { [name: string]: any }) => {
     const addClass = new buildSourceSpecies.SourceSpeciesImageClass(null);
     const t_MediaObjectID = AppContextValue.createMediaObject(addClass);
     AppContextValue.linkMediaObject(funcdata["choiceComposite"], t_MediaObjectID);
-    SetupEditorContextValue.pushEditHistory();
+    SetupUndoContextValue.pushEditHistory();
   };
 
   const toolBarCreateAnimatorGroup = (funcdata: { [name: string]: any }) => {

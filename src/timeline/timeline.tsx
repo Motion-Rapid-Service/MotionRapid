@@ -20,6 +20,8 @@ import { TimeNavigatorContext } from "./TimeNavigator/TimeNavigatorContext";
 const TimelineComponent = () => {
   // ここでhooksを使える
 
+  console.log("TimelineComponent");
+
   const [timelineUpdate, timelineSetUpdata] = useState<boolean>(false);
 
   const timelineUpdateDOM = () => {
@@ -89,19 +91,18 @@ const TimelineComponent = () => {
   }, [SetupEditorContextValue.choiceComposite]);
 
   useEffect(() => {
-    console.log("staStyleViewPos",staStyleViewPos,endStyleViewPos)
+    console.log("staStyleViewPos", staStyleViewPos, endStyleViewPos);
     const compositeDuration: number = AppContextValue.getCompositeDuration(SetupEditorContextValue.choiceComposite);
     if (!compositeDuration) {
       return;
-      }
+    }
 
-      console.log("compositeDuration pass")
+    console.log("compositeDuration pass");
 
     AppContextValue.setCompositeStyleViewPos(SetupEditorContextValue.choiceComposite, [staStyleViewPos, endStyleViewPos]);
     const playheadPosTime = AppContextValue.getCompositePlayheadTimePos(SetupEditorContextValue.choiceComposite);
     const playheadPosStyle = AppContextValue.conversionTimeToStyle(playheadPosTime, staStyleViewPos, endStyleViewPos, compositeDuration);
     playheadTimeSetState(playheadPosStyle);
-
 
     timelineUpdateDOM();
   }, [staStyleViewPos, endStyleViewPos]);

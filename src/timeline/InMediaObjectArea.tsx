@@ -3,6 +3,8 @@ const { useState, useRef, useEffect, useContext, useReducer, createContext, useI
 import { MediaObjectContext, TimelineAreaDivContext, TimelineAreaRightContext, LayerPanelContext, LayerDurationContext } from "./timelineContext";
 
 import { SetupEditorContext } from "./../SetupEditor/SetupEditorContext";
+import { SetupUndoContext } from "./../SetupEditor/SetupUndoContext";
+
 import * as UserHand from "./../UserHand";
 
 const UserHandTolerance = 5;
@@ -30,7 +32,7 @@ export const MediaObjectScrollComponent = () => {
   const TimeNavigatorContextValue = useContext(TimeNavigatorContext);
 
   const SetupEditorContextValue = useContext(SetupEditorContext);
-
+  const SetupUndoContextValue = useContext(SetupUndoContext);
   const [MouseSelected, MouseSelectedSetState] = useState<string>("auto");
   const [MouseUnselected, MouseUnselectedSetState] = useState<string>("auto");
   const [Mouselogic, MouselogicSetState] = useState<string>("auto");
@@ -140,7 +142,7 @@ export const MediaObjectScrollComponent = () => {
     }
     mediaObjectColorSetState(thenSourceSpeciesClass.mediaObejctSelectColor);
     UserHand.insertUserHandMediaObject(mediaObjectUUID, 4, null, null, null);
-    SetupEditorContextValue.pushEditHistory();
+    SetupUndoContextValue.pushEditHistory();
     // TimelineAreaDivContextValue.deleteUserHandMediaObjectList(mediaObjectUUID);
   };
 

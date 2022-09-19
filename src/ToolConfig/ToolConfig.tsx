@@ -5,6 +5,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AppContext } from "../AppContext";
 import { SetupConfigContext } from "./../SetupEditor/SetupConfigContext";
 import { SetupEditorContext } from "./../SetupEditor/SetupEditorContext";
+import { SetupUndoContext } from "./../SetupEditor/SetupUndoContext";
+
 import * as SetupEditor from "./../SetupEditor/SetupEditor";
 
 import * as ToolConfigContext from "./ToolConfigContext";
@@ -112,7 +114,7 @@ const ComponentOptionConvertConfigMode = (props: any) => {
   const AppContextValue = useContext(AppContext);
   const SetupEditorContextValue = useContext(SetupEditorContext);
   const SetupConfigContextValue = useContext(SetupConfigContext);
-
+  const SetupUndoContextValue = useContext(SetupUndoContext);
   const itemNewComposite = () => {
     const configItemCompositeName: string = ToolConfigContext.ConfigItemNewComposite[0];
     const configItemCompositeHorizontalMode: string = ToolConfigContext.ConfigItemNewComposite[2];
@@ -211,7 +213,7 @@ const ComponentOptionConvertConfigMode = (props: any) => {
       sendConfigContent[configItemCompositeHeightUnit]
     );
     console.log("buttonOperationFunc", sendConfigContent);
-    SetupEditorContextValue.pushEditHistory();
+    SetupUndoContextValue.pushEditHistory();
   };
 
   const itemNewAnimatorGroup = () => {
@@ -249,7 +251,7 @@ const ComponentOptionConvertConfigMode = (props: any) => {
     }
 
     AppContextValue.updateDOM();
-    SetupEditorContextValue.pushEditHistory();
+    SetupUndoContextValue.pushEditHistory();
   };
 
   const itemOperationKeyframe = () => {
@@ -326,7 +328,7 @@ const ComponentOptionConvertConfigMode = (props: any) => {
     }
 
     AppContextValue.updateDOM();
-    SetupEditorContextValue.pushEditHistory();
+    SetupUndoContextValue.pushEditHistory();
   };
 
   const itemMediaObjectTextMode = () => {
@@ -355,7 +357,7 @@ const ComponentOptionConvertConfigMode = (props: any) => {
     const configModeArgsOption = SetupConfigContextValue.getConfigModeArgsOption();
     const addClass = new buildSourceSpecies.SourceSpeciesTextClass(String(sendConfigContent[configItemMediaObjextTextModeText]), "font");
     AppContextValue.operationMediaObjectSourceSpeciesClass(configModeArgsOption.MediaObject_ID, addClass);
-    SetupEditorContextValue.pushEditHistory();
+    SetupUndoContextValue.pushEditHistory();
   };
 
   const itemMediaObjectImageMode = () => {
@@ -380,7 +382,7 @@ const ComponentOptionConvertConfigMode = (props: any) => {
     const configModeArgsOption = SetupConfigContextValue.getConfigModeArgsOption();
     const addClass = new buildSourceSpecies.SourceSpeciesImageClass(String(sendConfigContent[configItemMediaObjextImageModeImage]));
     AppContextValue.operationMediaObjectSourceSpeciesClass(configModeArgsOption.MediaObject_ID, addClass);
-    SetupEditorContextValue.pushEditHistory();
+    SetupUndoContextValue.pushEditHistory();
   };
 
   const itemMediaObjectCompositeMode = () => {
@@ -407,7 +409,7 @@ const ComponentOptionConvertConfigMode = (props: any) => {
     const configModeArgsOption = SetupConfigContextValue.getConfigModeArgsOption();
     const addClass = new buildSourceSpecies.SourceSpeciesCompositeClass(String(sendConfigContent[configItemMediaObjextCompositeModeComposite]));
     AppContextValue.operationMediaObjectSourceSpeciesClass(configModeArgsOption.MediaObject_ID, addClass);
-    SetupEditorContextValue.pushEditHistory();
+    SetupUndoContextValue.pushEditHistory();
   };
 
   const itemUploadProject = () => {

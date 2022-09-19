@@ -8,6 +8,7 @@ import { MediaObjectContext, LayerPanelContext, LayerDurationContext, TimelineAr
 import { SetupConfigContext } from "../SetupEditor/SetupConfigContext";
 
 import { SetupEditorContext } from "./../SetupEditor/SetupEditorContext";
+import { SetupUndoContext } from "./../SetupEditor/SetupUndoContext";
 
 import * as MiddleDataOperationType from "./../MiddleData/middleDataOperationType";
 import * as UserHand from "./../UserHand";
@@ -28,6 +29,7 @@ export const KeyFrameComponent = (props: any) => {
 
   const SetupConfigContextValue = useContext(SetupConfigContext);
   const SetupEditorContextValue = useContext(SetupEditorContext);
+  const SetupUndoContextValue = useContext(SetupUndoContext);
 
   const TimeNavigatorContextValue = useContext(TimeNavigatorContext);
   const TimelineAreaDivContextValue = useContext(TimelineAreaDivContext);
@@ -54,7 +56,7 @@ export const KeyFrameComponent = (props: any) => {
     if (!UserHand.hasUserHandKeyframe(keyframeUUID)) {
       return;
     }
-    SetupEditorContextValue.pushEditHistory();
+    SetupUndoContextValue.pushEditHistory();
     // const mouseEndPos = timelineMousePosition.mediaObjectMousePosition(event, LayerDurationContextValue.timelineAreaLayerDurationElement)[0];
     UserHand.insertUserHandKeyframe(keyframeUUID, 2, null, null);
   };

@@ -6,11 +6,6 @@ type SetupEditorContextValue = {
   choiceCompositeSetState: Function;
   previewUpdate: boolean;
   previewUpdateDOM: Function;
-
-  initEditHistory: Function;
-  pushEditHistory: Function;
-  undoEditHistory: Function;
-  redoEditHistory: Function;
 };
 
 export const SetupEditorContext = createContext<SetupEditorContextValue>({} as SetupEditorContextValue);
