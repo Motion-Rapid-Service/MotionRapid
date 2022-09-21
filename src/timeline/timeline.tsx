@@ -60,6 +60,7 @@ const TimelineComponent = () => {
   const [playheadTime, playheadTimeSetState] = useState<number>(100);
   const [staStyleViewPos, staStyleViewPosSetState] = useState<number>(0);
   const [endStyleViewPos, endStyleViewPosSetState] = useState<number>(0);
+  const [timeNavigatorFlag,timeNavigatorFlagSetState] = useState<boolean>(false); //trueは操作中
 
   //ここから 描画域のState設定
 
@@ -91,7 +92,7 @@ const TimelineComponent = () => {
   }, [SetupEditorContextValue.choiceComposite]);
 
   useEffect(() => {
-    console.log("staStyleViewPos", staStyleViewPos, endStyleViewPos);
+    console.log("scrollbarC", staStyleViewPos, endStyleViewPos);
     const compositeDuration: number = AppContextValue.getCompositeDuration(SetupEditorContextValue.choiceComposite);
     if (!compositeDuration) {
       return;
@@ -103,21 +104,26 @@ const TimelineComponent = () => {
     const playheadPosTime = AppContextValue.getCompositePlayheadTimePos(SetupEditorContextValue.choiceComposite);
     const playheadPosStyle = AppContextValue.conversionTimeToStyle(playheadPosTime, staStyleViewPos, endStyleViewPos, compositeDuration);
     playheadTimeSetState(playheadPosStyle);
+    console.log("scrollbarDA t-s", playheadPosTime, playheadPosStyle);
 
     timelineUpdateDOM();
   }, [staStyleViewPos, endStyleViewPos]);
 
   //ここから プレイヘッド数値の設定
 
-  useEffect(() => {
+  useEffect(() => { //uiのplayhedが変化したときにjsonデータに差し込む
+
     const compositeDuration: number = AppContextValue.getCompositeDuration(SetupEditorContextValue.choiceComposite);
-    if (!compositeDuration) {
+    if (!compositeDuration || timeNavigatorFlag) {
       return;
     }
     //console.log("playheadTime B", playheadTime, staStyleViewPos, endStyleViewPos, compositeDuration);
     const posTime = AppContextValue.conversionStyleToTime(playheadTime, staStyleViewPos, endStyleViewPos, compositeDuration);
     AppContextValue.setCompositePlayheadTimePos(SetupEditorContextValue.choiceComposite, posTime);
     SetupEditorContextValue.previewUpdateDOM();
+
+    console.log("scrollbarDB t-s", posTime, playheadTime);
+    
   }, [playheadTime]);
 
   // ************************************************
@@ -238,6 +244,8 @@ const TimelineComponent = () => {
             staStyleViewPosSetState: staStyleViewPosSetState,
             endStyleViewPos: endStyleViewPos,
             endStyleViewPosSetState: endStyleViewPosSetState,
+            timeNavigatorFlag:timeNavigatorFlag,
+            timeNavigatorFlagSetState:timeNavigatorFlagSetState,
           }}
         >
           <TimeNavigatorHeader />

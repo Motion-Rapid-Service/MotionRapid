@@ -67,6 +67,8 @@ const ScrollBarComponent = () => {
   };
 
   const mouseDown = (event: any) => {
+
+
     const thenMousePushPos = mousePostion(event);
     let stateUserHand = 0;
     if (scrollBarEdgeJudge(thenMousePushPos, staRate)) {
@@ -78,6 +80,8 @@ const ScrollBarComponent = () => {
     } else {
       return;
     }
+
+    TimeNavigatorContextValue.timeNavigatorFlagSetState(true)
     mouseModeSetState(stateUserHand);
     mousePushRateStaSetState(staRateRef.current);
     mousePushRateEndSetState(endRateRef.current);
@@ -87,10 +91,19 @@ const ScrollBarComponent = () => {
   };
 
   const mouseMove = (event: any) => {
+
+    if (mouseModeRef.current === 0){
+      return
+    }
+
     const mouseMoveX = mousePostion(event) - mousePushPosRef.current; //今のマウス位置と、マウスを押し始めた地点の数値を計算する
 
     const sStyle = Math.max(mouseMoveX + mousePushStaRateRef.current, 0);
     const eStyle = Math.min(mouseMoveX + mousePushEndRateRef.current, 1);
+
+
+    console.log("scrollbarA",mouseModeRef.current,mouseMoveX,sStyle,eStyle)
+
 
     switch (mouseModeRef.current) {
       case 1:
@@ -108,6 +121,7 @@ const ScrollBarComponent = () => {
 
   const MouseUp = () => {
     mouseModeSetState(0);
+    TimeNavigatorContextValue.timeNavigatorFlagSetState(false)
   };
 
   useEffect(() => {
@@ -124,10 +138,13 @@ const ScrollBarComponent = () => {
     if (!compositeDuration) {
       return;
     }
+    console.log("scrollbarB",compositeDuration * staRate,compositeDuration * endRate)
+
 
     TimeNavigatorContextValue.staStyleViewPosSetState(compositeDuration * staRate);
     TimeNavigatorContextValue.endStyleViewPosSetState(compositeDuration * endRate);
 
+    
     //console.log("staRate endRate");
   }, [staRate, endRate]);
 

@@ -40,7 +40,7 @@ export const MediaObjectAreaComponent = (props: any) => {
   }, []);
 
   useEffect(() => {
-    if (!staStylePos || !endStylePos) {
+    if (!staStylePos || !endStylePos || TimeNavigatorContextValue.timeNavigatorFlag) {
       return;
     }
 

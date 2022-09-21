@@ -10,6 +10,9 @@ type TimeNavigatorContextValue = {
   staStyleViewPosSetState: Function;
   endStyleViewPos: number;
   endStyleViewPosSetState: Function;
+  timeNavigatorFlag:boolean;
+  timeNavigatorFlagSetState:Function;
+  
 };
 
 export const TimeNavigatorContext = createContext<TimeNavigatorContextValue>({} as TimeNavigatorContextValue);
