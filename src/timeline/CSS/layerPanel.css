@@ -52,14 +52,6 @@
 .layer_panel-animator-entity-css_property input {
   font-size: 16px; /*フォントサイズ*/
   width: 40px;
-  height: 15px;
-  line-height: 15px;
-  padding: 2px; /*パディング*/
-
-  border: 1px solid #999999; /*ボーダー*/
-
-  border-radius: 3px; /*角丸にする*/
-  box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.1) inset; /*影を付ける*/
-  background-color: rgb(60, 60, 60);
-  color: rgb(255, 255, 255);
+  /* height: 15px;
+  line-height: 15px; */
 }

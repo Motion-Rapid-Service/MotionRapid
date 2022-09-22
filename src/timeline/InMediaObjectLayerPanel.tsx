@@ -293,7 +293,7 @@ const AnimaterCSSpropertyValue = (props: any) => {
     const text = event.target.value;
     props.animaterCSSpropertyValueSetState(String(text));
   };
-  return <input type="text" value={props.animaterCSSpropertyValue} onChange={onChange} />;
+  return <input className="text_box_common" type="text" value={props.animaterCSSpropertyValue} onChange={onChange} />;
 };
 
 const AnimaterCSSpropertyUnit = (props: any) => {

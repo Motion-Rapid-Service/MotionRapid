@@ -16,5 +16,12 @@ body {
   margin: 0px;
 }
 
-.text_box_common input {
+.text_box_common {
+  font-size: 16px; /*フォントサイズ*/
+  border: 2px solid #999999; /*ボーダー*/
+  padding: 2px; /*パディング*/
+  border-radius: 3px; /*角丸にする*/
+  box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.1) inset; /*影を付ける*/
+  background-color: rgb(60, 60, 60);
+  color: rgb(255, 255, 255);
 }

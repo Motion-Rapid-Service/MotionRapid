@@ -35,8 +35,8 @@ export const ConfigTextBox = () => {
     SwitchConfigSettingItemsCompositeContextValue.configInputSetState(String(text));
   };
   return (
-    <div className="config_parts-textbox">
-      <input type="text" value={SwitchConfigSettingItemsCompositeContextValue.configInput} onChange={onChange} />
+    <div className="config_parts-textbox ">
+      <input className="text_box_common" type="text" value={SwitchConfigSettingItemsCompositeContextValue.configInput} onChange={onChange} />
     </div>
   );
 };
