@@ -314,6 +314,8 @@ const App = () => {
 
           setMediaObjectColor: middleDataOperation.setMediaObjectColor,
           getMediaObjectColor: middleDataOperation.getMediaObjectColor,
+          getMediaObjectName: middleDataOperation.getMediaObjectName,
+          setMediaObjectName: middleDataOperation.setMediaObjectName,
 
           getCompositeDuration: middleDataOperation.getCompositeDuration,
 

@@ -2,8 +2,7 @@ import * as React from "react";
 const { createContext } = React;
 
 type AppContextValue = {
-
-  getDataCentral: Function
+  getDataCentral: Function;
 
   getUUID: Function;
   sortNumber: Function;
@@ -22,7 +21,7 @@ type AppContextValue = {
   updateDOM: Function;
   readerImage: Function;
 
-  replaceDataCentral:Function,
+  replaceDataCentral: Function;
 
   setDataCentralMediaTable: Function;
   getDataCentralMediaTable: Function;
@@ -51,6 +50,8 @@ type AppContextValue = {
   getCompositeName: Function;
   setMediaObjectColor: Function;
   getMediaObjectColor: Function;
+  getMediaObjectName: Function;
+  setMediaObjectName: Function;
 
   getCompositeDuration: Function;
 

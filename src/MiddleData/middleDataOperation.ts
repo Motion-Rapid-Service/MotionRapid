@@ -77,7 +77,8 @@ export default class MiddleDataOperation {
 
   createMediaObject = (sourceSpeciesClass: BuildSourceSpecies.SourceSpeciesClass) => {
     const newID = "MediaObject_" + getUUID();
-    const newObj = new middleDataClass.MediaObject(newID, sourceSpeciesClass);
+    const newName = "メディアオブジェクト" + Object.keys(this.DataCentral.OwnedClass_MediaObject).length;
+    const newObj = new middleDataClass.MediaObject(newID, newName, sourceSpeciesClass);
     this.DataCentral.OwnedClass_MediaObject[newID] = newObj;
     return newID;
   };
@@ -316,6 +317,22 @@ export default class MiddleDataOperation {
     }
 
     return this.DataCentral.OwnedClass_MediaObject[mediaObjectID].MediaObject_SourceSpecies;
+  };
+
+  getMediaObjectName = (mediaObjectID: string) => {
+    if (!hasKeyFound(mediaObjectID, this.DataCentral.OwnedClass_MediaObject)) {
+      return;
+    }
+
+    return this.DataCentral.OwnedClass_MediaObject[mediaObjectID].MediaObject_Name;
+  };
+
+  setMediaObjectName = (mediaObjectID: string, newName: string) => {
+    if (!hasKeyFound(mediaObjectID, this.DataCentral.OwnedClass_MediaObject)) {
+      return;
+    }
+
+    this.DataCentral.OwnedClass_MediaObject[mediaObjectID].MediaObject_Name = newName;
   };
 
   getMediaObjectColor = (mediaObjectID: string) => {

@@ -167,7 +167,7 @@ export const LayerPanelMediaObjectComponent = (props: any) => {
   };
   return (
     <div className="layer_panel-entity" onDoubleClick={mouseDoubleClick}>
-      <p>{MediaObjectContextValue.mediaObjectUUID}</p>
+      <p>{AppContextValue.getMediaObjectName(MediaObjectContextValue.mediaObjectUUID)}</p>
     </div>
   );
 };

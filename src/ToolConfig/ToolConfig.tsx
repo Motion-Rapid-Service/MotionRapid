@@ -333,6 +333,7 @@ const ComponentOptionConvertConfigMode = (props: any) => {
 
   const itemMediaObjectTextMode = () => {
     const configItemMediaObjextTextModeText: string = ToolConfigContext.ConfigItemMediaObjextTextMode[0];
+
     let settingItemsTemp: Array<ToolConfigContext.settingItemsData> = [];
     const configModeArgsOption = SetupConfigContextValue.getConfigModeArgsOption();
     const thenSourceSpeciesTextClass: buildSourceSpecies.SourceSpeciesTextClass = AppContextValue.getMediaObjectSourceSpecies(
@@ -347,7 +348,19 @@ const ComponentOptionConvertConfigMode = (props: any) => {
       configItem: configItemMediaObjextTextModeText,
     };
 
+    const configItemMediaObjectName: string = ToolConfigContext.ConfigItemMediaObjextTextMode[1];
+    const mediaObjectName: string = AppContextValue.getMediaObjectName(configModeArgsOption.MediaObject_ID);
+
+    const settingItemsDataImage2: ToolConfigContext.settingItemsData = {
+      settingTitle: "コンポジットの名前",
+      settingMessage: "入力してください",
+      thenConfigSettingGUIparts: ToolConfigContext.configSettingGUIparts[1],
+      exposeValue: [mediaObjectName],
+      configItem: configItemMediaObjectName,
+    };
+
     settingItemsTemp.push(settingItemsDataImage);
+    settingItemsTemp.push(settingItemsDataImage2);
 
     return settingItemsTemp;
   };
@@ -358,6 +371,9 @@ const ComponentOptionConvertConfigMode = (props: any) => {
     const configModeArgsOption = SetupConfigContextValue.getConfigModeArgsOption();
     const addClass = new buildSourceSpecies.SourceSpeciesTextClass(String(sendConfigContent[configItemMediaObjextTextModeText]), "font");
     AppContextValue.operationMediaObjectSourceSpeciesClass(configModeArgsOption.MediaObject_ID, addClass);
+
+    const configItemMediaObjectName: string = ToolConfigContext.ConfigItemMediaObjextTextMode[1];
+    AppContextValue.setMediaObjectName(configModeArgsOption.MediaObject_ID, sendConfigContent[configItemMediaObjectName]);
   };
 
   const itemMediaObjectImageMode = () => {
@@ -372,7 +388,20 @@ const ComponentOptionConvertConfigMode = (props: any) => {
       configItem: configItemMediaObjextImageModeImage,
     };
 
+    const configItemMediaObjectName: string = ToolConfigContext.ConfigItemMediaObjextImageMode[1];
+    const configModeArgsOption = SetupConfigContextValue.getConfigModeArgsOption();
+    const mediaObjectName: string = AppContextValue.getMediaObjectName(configModeArgsOption.MediaObject_ID);
+
+    const settingItemsDataImage2: ToolConfigContext.settingItemsData = {
+      settingTitle: "コンポジットの名前",
+      settingMessage: "入力してください",
+      thenConfigSettingGUIparts: ToolConfigContext.configSettingGUIparts[1],
+      exposeValue: [mediaObjectName],
+      configItem: configItemMediaObjectName,
+    };
+
     settingItemsTemp.push(settingItemsDataImage);
+    settingItemsTemp.push(settingItemsDataImage2);
 
     return settingItemsTemp;
   };
@@ -383,6 +412,9 @@ const ComponentOptionConvertConfigMode = (props: any) => {
     const configModeArgsOption = SetupConfigContextValue.getConfigModeArgsOption();
     const addClass = new buildSourceSpecies.SourceSpeciesImageClass(String(sendConfigContent[configItemMediaObjextImageModeImage]));
     AppContextValue.operationMediaObjectSourceSpeciesClass(configModeArgsOption.MediaObject_ID, addClass);
+
+    const configItemMediaObjectName: string = ToolConfigContext.ConfigItemMediaObjextImageMode[1];
+    AppContextValue.setMediaObjectName(configModeArgsOption.MediaObject_ID, sendConfigContent[configItemMediaObjectName]);
   };
 
   const itemMediaObjectCompositeMode = () => {
@@ -399,7 +431,20 @@ const ComponentOptionConvertConfigMode = (props: any) => {
       configItem: configItemMediaObjextCompositeModeComposite,
     };
 
+    const configItemMediaObjectName: string = ToolConfigContext.ConfigItemMediaObjextCompositeMode[1];
+    const configModeArgsOption = SetupConfigContextValue.getConfigModeArgsOption();
+    const mediaObjectName: string = AppContextValue.getMediaObjectName(configModeArgsOption.MediaObject_ID);
+
+    const settingItemsDataImage2: ToolConfigContext.settingItemsData = {
+      settingTitle: "コンポジットの名前",
+      settingMessage: "入力してください",
+      thenConfigSettingGUIparts: ToolConfigContext.configSettingGUIparts[1],
+      exposeValue: [mediaObjectName],
+      configItem: configItemMediaObjectName,
+    };
+
     settingItemsTemp.push(settingItemsDataImage);
+    settingItemsTemp.push(settingItemsDataImage2);
 
     return settingItemsTemp;
   };
@@ -410,6 +455,10 @@ const ComponentOptionConvertConfigMode = (props: any) => {
     const configModeArgsOption = SetupConfigContextValue.getConfigModeArgsOption();
     const addClass = new buildSourceSpecies.SourceSpeciesCompositeClass(String(sendConfigContent[configItemMediaObjextCompositeModeComposite]));
     AppContextValue.operationMediaObjectSourceSpeciesClass(configModeArgsOption.MediaObject_ID, addClass);
+
+    const configItemMediaObjectName: string = ToolConfigContext.ConfigItemMediaObjextCompositeMode[1];
+
+    AppContextValue.setMediaObjectName(configModeArgsOption.MediaObject_ID, sendConfigContent[configItemMediaObjectName]);
   };
 
   const itemUploadProject = () => {

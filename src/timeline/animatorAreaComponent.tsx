@@ -78,7 +78,7 @@ export const KeyFrameComponent = (props: any) => {
     }
 
     const compositeDuration: number = AppContextValue.getCompositeDuration(SetupEditorContextValue.choiceComposite);
-    if (!compositeDuration) {
+    if (!compositeDuration || TimeNavigatorContextValue.timeNavigatorFlag) {
       return;
     }
 

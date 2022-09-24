@@ -2,7 +2,7 @@ import * as React from "react";
 const { useContext, useReducer, createContext, useEffect, useState } = React;
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-export const configSettingGUIparts: Array<string> = ["notExist", "textbox", "textboxNumber", "listBox", "checkBox", "radiobutton", "inputImage","inputJson"];
+export const configSettingGUIparts: Array<string> = ["notExist", "textbox", "textboxNumber", "listBox", "checkBox", "radiobutton", "inputImage", "inputJson"];
 
 type SwitchConfigSettingItemsCompositeContextValue = {
   configInput: string;
@@ -52,10 +52,10 @@ export const ConfigItemNewComposite: Array<string> = [
 ];
 export const ConfigItemNewAnimatorGroup: Array<string> = ["animatorGroupFormatSpecies"];
 export const ConfigItemOperationKeyframe: Array<string> = ["time", "value"];
-export const ConfigItemMediaObjextTextMode: Array<string> = ["text"];
-export const ConfigItemMediaObjextImageMode: Array<string> = ["image"];
-export const ConfigItemMediaObjextCompositeMode: Array<string> = ["compositeTargetName"];
-export const ConfigItemUploadProject : Array<string> = ["file"]
+export const ConfigItemMediaObjextTextMode: Array<string> = ["text", "mediaObjectName"];
+export const ConfigItemMediaObjextImageMode: Array<string> = ["image", "mediaObjectName"];
+export const ConfigItemMediaObjextCompositeMode: Array<string> = ["compositeTargetName", "mediaObjectName"];
+export const ConfigItemUploadProject: Array<string> = ["file"];
 // export type ConfigItemNewComposite = {
 //   compositeName: "";
 //   compositeTime: "";

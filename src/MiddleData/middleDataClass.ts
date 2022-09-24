@@ -77,16 +77,19 @@ export class MediaObject {
   MediaObject_EndTime: number;
   MediaObject_LayerNumber: number;
   MediaObject_Color: Array<number>;
+  MediaObject_Name: string;
+
   OwnedID_AnimatorGroup: Array<string>;
   animatorOpen: boolean;
   MediaObject_SourceSpecies: buildSourceSpecies.SourceSpeciesClass;
 
-  constructor(send_MediaObject_ID: string, send_sourceSpecies: buildSourceSpecies.SourceSpeciesClass) {
+  constructor(send_MediaObject_ID: string, send_MediaObject_Name: string, send_sourceSpecies: buildSourceSpecies.SourceSpeciesClass) {
     this.MediaObject_ID = send_MediaObject_ID;
     this.MediaObject_StartTime = 500;
     this.MediaObject_EndTime = 750;
     this.MediaObject_LayerNumber = 0;
     this.MediaObject_Color = [50, 150, 50];
+    this.MediaObject_Name = send_MediaObject_Name;
 
     this.OwnedID_AnimatorGroup = [];
     this.animatorOpen = true;
