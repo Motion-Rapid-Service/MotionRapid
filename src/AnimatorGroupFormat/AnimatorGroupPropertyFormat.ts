@@ -6,7 +6,7 @@ export type PropertyFormatSpecies = {
   cssWriteFunction: Function;
 };
 
-export const propertySpeciesUnitList: Array<string> = ["not", "number", "rgb", "rgba", "text", "image", "rotate"]; //ここで設定画面の方式を決定
+export const propertySpeciesUnitList: Array<string> = ["not", "number", "rgb", "rgba", "text", "image", "rotate", "rate"]; //ここで設定画面の方式を決定
 export const cssValueUnit: { [name: string]: Array<string> } = {
   not: [],
   number: ["px", "vw", "vh", "%"],
@@ -14,6 +14,7 @@ export const cssValueUnit: { [name: string]: Array<string> } = {
   rgba: [],
   text: [],
   rotate: ["deg"],
+  rate: ["%"],
 };
 
 export const PropertyFormat_margin: PropertyFormatSpecies = {
@@ -165,7 +166,7 @@ export const PropertyFormat_right: PropertyFormatSpecies = {
 export const PropertyFormat_top: PropertyFormatSpecies = {
   cssPropertyName: "top",
   cssPropertySpeciesList: {
-    left: propertySpeciesUnitList[1],
+    top: propertySpeciesUnitList[1],
   },
 
   cssWriteFunction: (send_propertyName: string, send_cssPropertySpeciesList: { [name: string]: string }) => {
@@ -294,6 +295,30 @@ export const PropertyFormat_Rotate: PropertyFormatSpecies = {
 
   cssWriteFunction: (send_propertyName: string, send_cssPropertySpeciesList: { [name: string]: string }) => {
     const rtext = textJoinAnimatorGroup(["transform:rotate(", send_cssPropertySpeciesList["deg"] + ");"]);
+    return rtext;
+  },
+};
+
+export const PropertyFormat_Filter: PropertyFormatSpecies = {
+  cssPropertyName: "CSSフィルター",
+  cssPropertySpeciesList: {
+    blur: propertySpeciesUnitList[1],
+    grayscale: propertySpeciesUnitList[7],
+  },
+
+  cssWriteFunction: (send_propertyName: string, send_cssPropertySpeciesList: { [name: string]: string }) => {
+    const rtext = textJoinAnimatorGroup([
+      "filter:",
+      "blur(",
+      send_cssPropertySpeciesList["blur"],
+      ")",
+      ";",
+      "filter:",
+      "grayscale(",
+      send_cssPropertySpeciesList["grayscale"],
+      ")",
+      ";",
+    ]);
     return rtext;
   },
 };

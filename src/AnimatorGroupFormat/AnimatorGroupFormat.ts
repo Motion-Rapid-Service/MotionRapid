@@ -15,6 +15,7 @@ const animatorGroupFormatList: { [name: string]: PropertyFormat.PropertyFormatSp
   color: PropertyFormat.PropertyFormat_Color,
   font: PropertyFormat.PropertyFormat_Font,
   rotate: PropertyFormat.PropertyFormat_Rotate,
+  filter: PropertyFormat.PropertyFormat_Filter,
 };
 
 export const getAnimatorGroupFormatList = (animatorGroupFormatPropertyName: string) => {
