@@ -57,10 +57,10 @@ const TimelineComponent = () => {
   //getCompositePlayheadTimePos
 
   const [focusMediaObjectSpace, focusMediaObjectSpaceSetState] = useState<number>(-1);
-  const [playheadTime, playheadTimeSetState] = useState<number>(100);
-  const [staStyleViewPos, staStyleViewPosSetState] = useState<number>(0);
-  const [endStyleViewPos, endStyleViewPosSetState] = useState<number>(0);
-  const [timeNavigatorFlag,timeNavigatorFlagSetState] = useState<boolean>(false); //trueは操作中
+  const [playheadTime, playheadTimeSetState] = useState<number>(100); //時間単位の数値
+  const [staStyleViewPos, staStyleViewPosSetState] = useState<number>(0); //時間単位の数値
+  const [endStyleViewPos, endStyleViewPosSetState] = useState<number>(0); //時間単位の数値
+  const [timeNavigatorFlag, timeNavigatorFlagSetState] = useState<boolean>(false); //trueは操作中
 
   //ここから 描画域のState設定
 
@@ -111,7 +111,8 @@ const TimelineComponent = () => {
 
   //ここから プレイヘッド数値の設定
 
-  useEffect(() => { //uiのplayhedが変化したときにjsonデータに差し込む
+  useEffect(() => {
+    //uiのplayhedが変化したときにjsonデータに差し込む
 
     const compositeDuration: number = AppContextValue.getCompositeDuration(SetupEditorContextValue.choiceComposite);
     if (!compositeDuration || timeNavigatorFlag) {
@@ -123,7 +124,6 @@ const TimelineComponent = () => {
     SetupEditorContextValue.previewUpdateDOM();
 
     console.log("scrollbarDB t-s", posTime, playheadTime);
-    
   }, [playheadTime]);
 
   // ************************************************
@@ -244,8 +244,8 @@ const TimelineComponent = () => {
             staStyleViewPosSetState: staStyleViewPosSetState,
             endStyleViewPos: endStyleViewPos,
             endStyleViewPosSetState: endStyleViewPosSetState,
-            timeNavigatorFlag:timeNavigatorFlag,
-            timeNavigatorFlagSetState:timeNavigatorFlagSetState,
+            timeNavigatorFlag: timeNavigatorFlag,
+            timeNavigatorFlagSetState: timeNavigatorFlagSetState,
           }}
         >
           <TimeNavigatorHeader />

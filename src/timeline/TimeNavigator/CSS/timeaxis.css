@@ -9,3 +9,7 @@
 .timeNavigator-timeaxis-block {
   position: absolute;
 }
+.timeNavigator-timeaxis-block p {
+  color: rgb(200, 200, 200);
+  margin: 0px;
+}

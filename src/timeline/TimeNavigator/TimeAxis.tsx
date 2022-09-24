@@ -23,7 +23,7 @@ const TimeAxisBlockComponent = (props: any) => {
         left: DownstreamTimeAxisBlock.stylePos,
       }}
     >
-      {DownstreamTimeAxisBlock.timeAxisPos}
+      <p>{DownstreamTimeAxisBlock.timeAxisPos}</p>
     </div>
   );
 };
@@ -43,10 +43,10 @@ const componentConvertTimeAxisBlock = (staStyleViewPos: number, endStyleViewPos:
 
   while (sectionTemp > 1) {
     digit++;
-    sectionTemp = sectionTemp / 10;
+    sectionTemp = sectionTemp / 5;
   }
 
-  const sectionBlockView = 10 ** (digit - 1);
+  const sectionBlockView = 10 ** (digit - 3);
   const quantity = Math.floor(compositeDuration / sectionBlockView) + 1;
 
   if (sectionBlockView >= 1) {
