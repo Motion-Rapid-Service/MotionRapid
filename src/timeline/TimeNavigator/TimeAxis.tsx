@@ -31,6 +31,7 @@ const componentConvertTimeAxisBlock = (staStyleViewPos: number, endStyleViewPos:
   let tempArray: Array<DownstreamTimeAxisBlockClass> = [];
   const AppContextValue = useContext(AppContext);
   const SetupEditorContextValue = useContext(SetupEditorContext);
+  const TimeNavigatorContextValue = useContext(TimeNavigatorContext);
   const compositeDuration: number = AppContextValue.getCompositeDuration(SetupEditorContextValue.choiceComposite);
   if (!compositeDuration) {
     return [];
@@ -54,7 +55,7 @@ const componentConvertTimeAxisBlock = (staStyleViewPos: number, endStyleViewPos:
       const thenTimeAxisPos = i * sectionBlockView;
 
       if (staStyleViewPos <= thenTimeAxisPos && thenTimeAxisPos <= endStyleViewPos) {
-        const stylePos = AppContextValue.conversionTimeToStyle(thenTimeAxisPos, staStyleViewPos, endStyleViewPos, compositeDuration);
+        const stylePos = AppContextValue.conversionTimeToStyle(thenTimeAxisPos, staStyleViewPos, endStyleViewPos, TimeNavigatorContextValue.durationWidth);
 
         tempArray.push(new DownstreamTimeAxisBlockClass(thenTimeAxisPos, stylePos));
       }

@@ -7,10 +7,11 @@ import { SetupEditorContext } from "../../SetupEditor/SetupEditorContext";
 import { TimeNavigatorContext, TimeNavigatorLayerDurationContext, TimeNavigatorTimelineLayerDurationContext } from "./TimeNavigatorContext";
 
 import { TimeNavigatorPlayheadComponent, TimelinePlayheadComponent } from "./Playhead";
+
 const TimeNavigatorHeaderComponent = () => {
   const SetupEditorContextValue = useContext(SetupEditorContext);
-  const TimeNavigatorTimelineLayerDurationElement = useRef(null);
 
+  const TimeNavigatorTimelineLayerDurationElement = useRef(null);
   return (
     <div className="timeNavigator-timeline">
       <div className="timeNavigator-timeline-layer_panel"></div>

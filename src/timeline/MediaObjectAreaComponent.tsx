@@ -53,13 +53,13 @@ export const MediaObjectAreaComponent = (props: any) => {
       staStylePos,
       TimeNavigatorContextValue.staStyleViewPos,
       TimeNavigatorContextValue.endStyleViewPos,
-      compositeDuration
+      TimeNavigatorContextValue.durationWidth
     );
     const endTime = AppContextValue.conversionStyleToTime(
       endStylePos,
       TimeNavigatorContextValue.staStyleViewPos,
       TimeNavigatorContextValue.endStyleViewPos,
-      compositeDuration
+      TimeNavigatorContextValue.durationWidth
     );
 
     if (isFinite(staStylePos) && isFinite(endStylePos)) {

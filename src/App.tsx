@@ -7,6 +7,7 @@ import "./timeline/CSS/timeline.css";
 import "./timeline/CSS/animator.css";
 import "./timeline/CSS/keyframe.css";
 import "./timeline/CSS/layerPanel.css";
+import "./timeline/CSS/layerPanelCommn.css";
 
 import "./ToolBar/CSS/ToolBar.css";
 import "./ToolBar/CSS/ToolBarDetail.css";
@@ -139,7 +140,7 @@ const conversionStyleToTime = (valStyle: number, sectionTimeSta: number, section
 };
 const conversionTimeToStyle = (valTime: number, sectionTimeSta: number, sectionTimeEnd: number, viewWidth: number) => {
   const sectionTime = sectionTimeEnd - sectionTimeSta;
-  const conversionRate =viewWidth / sectionTime;
+  const conversionRate = viewWidth / sectionTime;
   const valStyle = (valTime - sectionTimeSta) * conversionRate;
   return valStyle;
 };
@@ -255,12 +256,12 @@ const App = () => {
     <div>
       <AppContext.Provider
         value={{
-          getDataCentral:middleDataOperation.getDataCentral,
+          getDataCentral: middleDataOperation.getDataCentral,
           getUUID: getUUID,
           sortNumber: sortNumber,
           deepCopyDict: deepCopyDict,
           readerImage: readerImage,
-          
+
           componentConvertCompositeChoiceArea: componentConvertCompositeChoiceArea,
           componentConvertMediaObjectArea: componentConvertMediaObjectArea,
           componentConvertAnimatorArea: componentConvertAnimatorArea,
@@ -273,7 +274,7 @@ const App = () => {
 
           update: update,
           updateDOM: updateDOM,
-          replaceDataCentral:middleDataOperation.replaceDataCentral,
+          replaceDataCentral: middleDataOperation.replaceDataCentral,
           setDataCentralMediaTable: middleDataOperation.setDataCentralMediaTable,
           getDataCentralMediaTable: middleDataOperation.getDataCentralMediaTable,
 

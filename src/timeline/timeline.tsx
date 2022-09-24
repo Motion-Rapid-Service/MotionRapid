@@ -61,6 +61,11 @@ const TimelineComponent = () => {
   const [staStyleViewPos, staStyleViewPosSetState] = useState<number>(0); //時間単位の数値
   const [endStyleViewPos, endStyleViewPosSetState] = useState<number>(0); //時間単位の数値
   const [timeNavigatorFlag, timeNavigatorFlagSetState] = useState<boolean>(false); //trueは操作中
+  const [durationWidth, durationWidthSetState] = useState<number>(0); //これは画面表示上の数値
+
+  // useEffect(() => {
+  //   console.log("durationWidth", durationWidth);
+  // }, [durationWidth]);
 
   //ここから 描画域のState設定
 
@@ -75,7 +80,7 @@ const TimelineComponent = () => {
     endStyleViewPosSetState(compositeStyleViewPos[1]);
 
     const posTime = AppContextValue.getCompositePlayheadTimePos(SetupEditorContextValue.choiceComposite);
-    const posStyle = AppContextValue.conversionTimeToStyle(posTime, staStyleViewPos, endStyleViewPos, compositeDuration);
+    const posStyle = AppContextValue.conversionTimeToStyle(posTime, staStyleViewPos, endStyleViewPos, durationWidth);
     playheadTimeSetState(posStyle);
 
     return () => {
@@ -84,7 +89,7 @@ const TimelineComponent = () => {
         return;
       }
       //console.log("playheadTime B", playheadTime, staStyleViewPos, endStyleViewPos, compositeDuration);
-      const posTime = AppContextValue.conversionStyleToTime(playheadTime, staStyleViewPos, endStyleViewPos, compositeDuration);
+      const posTime = AppContextValue.conversionStyleToTime(playheadTime, staStyleViewPos, endStyleViewPos, durationWidth);
 
       AppContextValue.setCompositeStyleViewPos(SetupEditorContextValue.choiceComposite, [staStyleViewPos, endStyleViewPos]);
       AppContextValue.setCompositePlayheadTimePos(SetupEditorContextValue.choiceComposite, posTime);
@@ -102,7 +107,7 @@ const TimelineComponent = () => {
 
     AppContextValue.setCompositeStyleViewPos(SetupEditorContextValue.choiceComposite, [staStyleViewPos, endStyleViewPos]);
     const playheadPosTime = AppContextValue.getCompositePlayheadTimePos(SetupEditorContextValue.choiceComposite);
-    const playheadPosStyle = AppContextValue.conversionTimeToStyle(playheadPosTime, staStyleViewPos, endStyleViewPos, compositeDuration);
+    const playheadPosStyle = AppContextValue.conversionTimeToStyle(playheadPosTime, staStyleViewPos, endStyleViewPos, durationWidth);
     playheadTimeSetState(playheadPosStyle);
     console.log("scrollbarDA t-s", playheadPosTime, playheadPosStyle);
 
@@ -119,7 +124,7 @@ const TimelineComponent = () => {
       return;
     }
     //console.log("playheadTime B", playheadTime, staStyleViewPos, endStyleViewPos, compositeDuration);
-    const posTime = AppContextValue.conversionStyleToTime(playheadTime, staStyleViewPos, endStyleViewPos, compositeDuration);
+    const posTime = AppContextValue.conversionStyleToTime(playheadTime, staStyleViewPos, endStyleViewPos, durationWidth);
     AppContextValue.setCompositePlayheadTimePos(SetupEditorContextValue.choiceComposite, posTime);
     SetupEditorContextValue.previewUpdateDOM();
 
@@ -211,20 +216,6 @@ const TimelineComponent = () => {
   };
 
   //elementTimelineWidthSetState elementLayerPanelWidthSetState elementLayerDurationWidthSetState
-  const windowSizeEvent = () => {
-    const size = timelineMousePosition.elementSize(timelineAreaElement);
-  };
-
-  useEffect(() => {
-    window.addEventListener("resize", windowSizeEvent);
-    windowSizeEvent();
-    // elementLayerPanelWidthSetState(400);
-    // elementLayerDurationWidthSetState(4000);
-
-    return () => {
-      window.removeEventListener("resize", windowSizeEvent);
-    };
-  }, []);
 
   // mediaObejctDivHeightSetState(new Array(10)) //レンダリングがかかるたびに要素高さ管理stateの要素数更新する
 
@@ -246,6 +237,9 @@ const TimelineComponent = () => {
             endStyleViewPosSetState: endStyleViewPosSetState,
             timeNavigatorFlag: timeNavigatorFlag,
             timeNavigatorFlagSetState: timeNavigatorFlagSetState,
+
+            durationWidth: durationWidth,
+            durationWidthSetState: durationWidthSetState,
           }}
         >
           <TimeNavigatorHeader />

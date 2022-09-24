@@ -86,7 +86,7 @@ export const KeyFrameComponent = (props: any) => {
       keyframeStylePos,
       TimeNavigatorContextValue.staStyleViewPos,
       TimeNavigatorContextValue.endStyleViewPos,
-      compositeDuration
+      TimeNavigatorContextValue.durationWidth
     );
 
     const temp: MiddleDataOperationType.OperationKeyframeTimeType = {
@@ -109,7 +109,7 @@ export const KeyFrameComponent = (props: any) => {
       KeyframeTime,
       TimeNavigatorContextValue.staStyleViewPos,
       TimeNavigatorContextValue.endStyleViewPos,
-      compositeDuration
+      TimeNavigatorContextValue.durationWidth
     );
 
     KeyframePosSetState(tempKeyframeStylePos);

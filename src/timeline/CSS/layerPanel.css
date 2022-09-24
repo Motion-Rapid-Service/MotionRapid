@@ -32,7 +32,6 @@
 /*   layer_panel-animator layer_panel-animator-entity*/
 
 .media_object-area .media_object-area-layer_panel {
-  min-width: 500px;
   /* width: 40vw; */
   margin: 0px;
   background-color: var(--background-B);

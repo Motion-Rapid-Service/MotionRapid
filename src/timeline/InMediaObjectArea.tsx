@@ -161,13 +161,13 @@ export const MediaObjectScrollComponent = () => {
       mediaObjectTime[0],
       TimeNavigatorContextValue.staStyleViewPos,
       TimeNavigatorContextValue.endStyleViewPos,
-      compositeDuration
+      TimeNavigatorContextValue.durationWidth
     );
     const styleEndTime = AppContextValue.conversionTimeToStyle(
       mediaObjectTime[1],
       TimeNavigatorContextValue.staStyleViewPos,
       TimeNavigatorContextValue.endStyleViewPos,
-      compositeDuration
+      TimeNavigatorContextValue.durationWidth
     );
 
     if (isFinite(styleStaTime) && isFinite(styleEndTime)) {
