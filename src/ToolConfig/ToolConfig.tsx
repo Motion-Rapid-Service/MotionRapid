@@ -352,15 +352,26 @@ const ComponentOptionConvertConfigMode = (props: any) => {
     const mediaObjectName: string = AppContextValue.getMediaObjectName(configModeArgsOption.MediaObject_ID);
 
     const settingItemsDataImage2: ToolConfigContext.settingItemsData = {
-      settingTitle: "コンポジットの名前",
+      settingTitle: "メディアオブジェクトの名前",
       settingMessage: "入力してください",
       thenConfigSettingGUIparts: ToolConfigContext.configSettingGUIparts[1],
       exposeValue: [mediaObjectName],
       configItem: configItemMediaObjectName,
     };
 
+    const configItemMediaObjectFont: string = ToolConfigContext.ConfigItemMediaObjextTextMode[2];
+
+    const settingItemsDataImage3: ToolConfigContext.settingItemsData = {
+      settingTitle: "font family",
+      settingMessage: "入力してください",
+      thenConfigSettingGUIparts: ToolConfigContext.configSettingGUIparts[1],
+      exposeValue: [thenSourceSpeciesTextClass.fontFamily],
+      configItem: configItemMediaObjectFont,
+    };
+
     settingItemsTemp.push(settingItemsDataImage);
     settingItemsTemp.push(settingItemsDataImage2);
+    settingItemsTemp.push(settingItemsDataImage3);
 
     return settingItemsTemp;
   };
@@ -368,8 +379,13 @@ const ComponentOptionConvertConfigMode = (props: any) => {
   const buttonOperationFuncMediaObjectTextMode = (sendConfigContent: { [name: string]: string | number | boolean }) => {
     SetupUndoContextValue.pushEditHistory();
     const configItemMediaObjextTextModeText: string = ToolConfigContext.ConfigItemMediaObjextTextMode[0];
+    const configItemMediaObjectFont: string = ToolConfigContext.ConfigItemMediaObjextTextMode[2];
+
     const configModeArgsOption = SetupConfigContextValue.getConfigModeArgsOption();
-    const addClass = new buildSourceSpecies.SourceSpeciesTextClass(String(sendConfigContent[configItemMediaObjextTextModeText]), "font");
+    const addClass = new buildSourceSpecies.SourceSpeciesTextClass(
+      String(sendConfigContent[configItemMediaObjextTextModeText]),
+      String(sendConfigContent[configItemMediaObjectFont])
+    );
     AppContextValue.operationMediaObjectSourceSpeciesClass(configModeArgsOption.MediaObject_ID, addClass);
 
     const configItemMediaObjectName: string = ToolConfigContext.ConfigItemMediaObjextTextMode[1];
@@ -393,7 +409,7 @@ const ComponentOptionConvertConfigMode = (props: any) => {
     const mediaObjectName: string = AppContextValue.getMediaObjectName(configModeArgsOption.MediaObject_ID);
 
     const settingItemsDataImage2: ToolConfigContext.settingItemsData = {
-      settingTitle: "コンポジットの名前",
+      settingTitle: "メディアオブジェクトの名前",
       settingMessage: "入力してください",
       thenConfigSettingGUIparts: ToolConfigContext.configSettingGUIparts[1],
       exposeValue: [mediaObjectName],
@@ -436,7 +452,7 @@ const ComponentOptionConvertConfigMode = (props: any) => {
     const mediaObjectName: string = AppContextValue.getMediaObjectName(configModeArgsOption.MediaObject_ID);
 
     const settingItemsDataImage2: ToolConfigContext.settingItemsData = {
-      settingTitle: "コンポジットの名前",
+      settingTitle: "メディアオブジェクトの名前",
       settingMessage: "入力してください",
       thenConfigSettingGUIparts: ToolConfigContext.configSettingGUIparts[1],
       exposeValue: [mediaObjectName],

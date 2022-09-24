@@ -99,7 +99,7 @@ const toolBarComponent = (props: any) => {
 
   const toolBarCreateMediaObjectText = (funcdata: { [name: string]: any }) => {
     SetupUndoContextValue.pushEditHistory();
-    const addClass = new buildSourceSpecies.SourceSpeciesTextClass("( 'ω')", "font");
+    const addClass = new buildSourceSpecies.SourceSpeciesTextClass("( 'ω')", "'Noto Sans JP', sans-serif");
     const t_MediaObjectID = AppContextValue.createMediaObject(addClass);
     AppContextValue.linkMediaObject(funcdata["choiceComposite"], t_MediaObjectID);
   };

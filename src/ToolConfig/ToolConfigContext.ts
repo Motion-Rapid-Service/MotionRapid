@@ -52,7 +52,7 @@ export const ConfigItemNewComposite: Array<string> = [
 ];
 export const ConfigItemNewAnimatorGroup: Array<string> = ["animatorGroupFormatSpecies"];
 export const ConfigItemOperationKeyframe: Array<string> = ["time", "value"];
-export const ConfigItemMediaObjextTextMode: Array<string> = ["text", "mediaObjectName"];
+export const ConfigItemMediaObjextTextMode: Array<string> = ["text", "mediaObjectName", "font"];
 export const ConfigItemMediaObjextImageMode: Array<string> = ["image", "mediaObjectName"];
 export const ConfigItemMediaObjextCompositeMode: Array<string> = ["compositeTargetName", "mediaObjectName"];
 export const ConfigItemUploadProject: Array<string> = ["file"];

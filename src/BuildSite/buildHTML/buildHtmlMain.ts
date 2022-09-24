@@ -227,7 +227,6 @@ const parseMediaObject = (
   const thenSourceSpecies = String(thenSourceSpeciesClass.sourceSpecies);
 
   const htmlAttribute: { [name: string]: string } = { id: mediaObjectID };
-
   const newHtmlID = buildQue.pushHtmlElementQue(new buildQue.htmlElementBlockClass(tag, htmlAttribute), parentID);
 
   if (thenSourceSpecies === buildSourceSpecies.sourceSpeciesList[0]) {
@@ -235,7 +234,13 @@ const parseMediaObject = (
   }
   if (thenSourceSpecies === buildSourceSpecies.sourceSpeciesList[1]) {
     //text
-    buildSourceSpecies.sourceSpeciesFunctionText(getJsonDataCentral, newHtmlID, thenSourceSpeciesClass as buildSourceSpecies.SourceSpeciesTextClass);
+    buildSourceSpecies.sourceSpeciesFunctionText(
+      getJsonDataCentral,
+      newHtmlID,
+      rootStyleID,
+      mediaObjectID,
+      thenSourceSpeciesClass as buildSourceSpecies.SourceSpeciesTextClass
+    );
   }
   if (thenSourceSpecies === buildSourceSpecies.sourceSpeciesList[2]) {
     //Composite

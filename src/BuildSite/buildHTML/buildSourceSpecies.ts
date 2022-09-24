@@ -22,8 +22,25 @@ export const writeIndentHTML = (indentHTML: number) => {
 
 export const sourceSpeciesFunctionDefault = () => {};
 
-export const sourceSpeciesFunctionText = (jsonDataCentral: Function, downParentID: string, SourceSpeciesTextClass: SourceSpeciesTextClass) => {
-  buildQue.pushHtmlElementQue(new buildQue.htmlElementSubstanceClass(SourceSpeciesTextClass.text), downParentID);
+export const sourceSpeciesFunctionText = (
+  jsonDataCentral: Function,
+  downParentID: string,
+  cssDownParentID: string,
+  mediaObjectID: string,
+  SourceSpeciesTextClass: SourceSpeciesTextClass
+) => {
+  const textID = mediaObjectID + "_text_build";
+
+  const htmlAttribute: { [name: string]: string } = { id: textID };
+  const newHtmlID = buildQue.pushHtmlElementQue(new buildQue.htmlElementBlockClass("div", htmlAttribute), downParentID);
+
+  buildQue.pushHtmlElementQue(new buildQue.htmlElementSubstanceClass(SourceSpeciesTextClass.text), newHtmlID);
+
+  const newCssID = buildQue.pushCSSElementQue(new buildQue.cssElementDefault(textID, "#"), cssDownParentID);
+
+  const cssText = "font-family: " + SourceSpeciesTextClass.fontFamily + ";";
+  buildQue.pushCSSElementQue(new buildQue.cssElementSubstance(cssText), newCssID);
+
   return;
 };
 
