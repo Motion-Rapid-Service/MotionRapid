@@ -111,6 +111,72 @@ export default class MiddleDataOperation {
     return newID;
   };
 
+  copyMediaObject = (mediaObjectID: string, AfterCompositeID: string) => {
+    const oldMediaObjectClass = this.DataCentral.OwnedClass_MediaObject[mediaObjectID];
+    const newMediaObjectClass: middleDataClass.MediaObject = JSON.parse(JSON.stringify(oldMediaObjectClass, null, "\t"));
+
+    const newIDmediaObjectID = "md_MediaObject_" + getUUID();
+    newMediaObjectClass.MediaObject_ID = newIDmediaObjectID;
+    this.DataCentral.OwnedClass_MediaObject[newIDmediaObjectID] = newMediaObjectClass;
+
+    console.log(newIDmediaObjectID);
+
+    for (let an = 0; an < newMediaObjectClass.OwnedID_AnimatorGroup.length; an++) {
+      const oldAnimatorGroupClass = this.DataCentral.OwnedClass_AnimatorGroup[newMediaObjectClass.OwnedID_AnimatorGroup[an]];
+      const newAnimatorGroupClass: middleDataClass.AnimatorGroup = JSON.parse(JSON.stringify(oldAnimatorGroupClass, null, "\t"));
+      const newIDAnimatorGroup = "an_AnimatorGroup_" + getUUID();
+
+      newMediaObjectClass.OwnedID_AnimatorGroup[an] = newIDAnimatorGroup;
+      newAnimatorGroupClass.AnimatorGroup_ID = newIDAnimatorGroup;
+      this.DataCentral.OwnedClass_AnimatorGroup[newIDAnimatorGroup] = newAnimatorGroupClass;
+
+      for (let ai = 0; ai < newAnimatorGroupClass.OwnedID_Animator.length; ai++) {
+        const oldAnimatorClass = this.DataCentral.OwnedClass_Animator[newAnimatorGroupClass.OwnedID_Animator[ai]];
+        const newAnimatorClass: middleDataClass.Animator = JSON.parse(JSON.stringify(oldAnimatorClass, null, "\t"));
+        const newIDAnimator = "ai_Animator_" + getUUID();
+
+        this.DataCentral.OwnedClass_AnimatorGroup[newIDAnimatorGroup].OwnedID_Animator[ai] = newIDAnimator;
+        newAnimatorClass.Animator_ID = newIDAnimator;
+        this.DataCentral.OwnedClass_Animator[newIDAnimator] = newAnimatorClass;
+
+        // for (let cpA = 0; cpA < newAnimatorClass.OwnedID_cssPropertyValue.length; cpA++) {
+        //   console.log("OwnedID_cssPropertyValue", newAnimatorClass.OwnedID_cssPropertyValue, cpA);
+        const oldCSSpropertyClass = this.DataCentral.OwnedClass_CSSProperty[newAnimatorClass.OwnedID_cssPropertyValue];
+        const newCSSpropertyClass: middleDataClass.CSSProperty = JSON.parse(JSON.stringify(oldCSSpropertyClass, null, "\t"));
+        const newIDCSSpropertyClass = "cpA_CSSProperty_" + getUUID();
+
+        this.DataCentral.OwnedClass_Animator[newIDAnimator].OwnedID_cssPropertyValue = newIDCSSpropertyClass;
+        newCSSpropertyClass.CSSProperty_ID = newIDCSSpropertyClass;
+        this.DataCentral.OwnedClass_CSSProperty[newIDCSSpropertyClass] = newCSSpropertyClass;
+
+        for (let kf = 0; kf < newAnimatorClass.OwnedID_Keyframe.length; kf++) {
+          const oldKeyframeClass = this.DataCentral.OwnedClass_Keyframe[newAnimatorClass.OwnedID_Keyframe[kf]];
+          const newKeyframeClass: middleDataClass.Keyframe = JSON.parse(JSON.stringify(oldKeyframeClass, null, "\t"));
+          const newIDKeyframeClass = "kf_Keyframe_" + getUUID();
+
+          this.DataCentral.OwnedClass_Animator[newIDAnimator].OwnedID_Keyframe[kf] = newIDKeyframeClass;
+          newKeyframeClass.Keyframe_ID = newIDKeyframeClass;
+          this.DataCentral.OwnedClass_Keyframe[newIDKeyframeClass] = JSON.parse(JSON.stringify(newKeyframeClass));
+
+          //ここからcss-property
+          console.log("Keyframe_AbsoluteTime A", this.DataCentral.OwnedClass_Keyframe[newIDKeyframeClass].Keyframe_AbsoluteTime);
+          const oldCSSpropertyClass =
+            this.DataCentral.OwnedClass_CSSProperty[this.DataCentral.OwnedClass_Keyframe[newIDKeyframeClass].OwnedID_cssPropertyValue];
+          const newCSSpropertyClass: middleDataClass.CSSProperty = JSON.parse(JSON.stringify(oldCSSpropertyClass, null, "\t"));
+          const newIDCSSpropertyClass = "cpB_CSSProperty_" + getUUID();
+
+          this.DataCentral.OwnedClass_Keyframe[newIDKeyframeClass].OwnedID_cssPropertyValue = newIDCSSpropertyClass;
+          newCSSpropertyClass.CSSProperty_ID = newIDCSSpropertyClass;
+
+          this.DataCentral.OwnedClass_CSSProperty[newIDCSSpropertyClass] = newCSSpropertyClass;
+          console.log("Keyframe_AbsoluteTime B", this.DataCentral.OwnedClass_Keyframe[newIDKeyframeClass].Keyframe_AbsoluteTime);
+        }
+      }
+    }
+
+    this.linkMediaObject(AfterCompositeID, newIDmediaObjectID);
+  };
+
   setDataCentralMediaTable = (mediaID: string, mediaURL: string) => {
     this.DataCentral.DataCentral_MediaTable[mediaID] = mediaURL;
   };
@@ -393,10 +459,6 @@ export default class MiddleDataOperation {
 
     return Keyframe_AbsoluteTime;
   };
-
-  copyMediaObject = () => {};
-  copyAnimator = () => {};
-  copyKeyframe = () => {};
 
   deleteMediaObject = () => {};
   deleteAnimator = () => {};

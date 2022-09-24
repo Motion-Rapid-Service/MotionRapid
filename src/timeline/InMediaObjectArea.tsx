@@ -6,6 +6,7 @@ import { SetupEditorContext } from "./../SetupEditor/SetupEditorContext";
 import { SetupUndoContext } from "./../SetupEditor/SetupUndoContext";
 
 import * as UserHand from "./../UserHand";
+import * as UserCopy from "./../UserCopy";
 
 const UserHandTolerance = 5;
 
@@ -108,6 +109,33 @@ export const MediaObjectScrollComponent = () => {
   const MouseDoubleClick = (event: any) => {
     animatorOpenSetState(!animatorOpen);
   };
+
+  const copyMediaObject = () => {
+    UserCopy.setCopyData(UserCopy.copySpeciesList[1], [mediaObjectUUID]);
+  };
+
+  const KeyDown = (event: any) => {
+    console.log("copy p", mediaObjectUUID);
+
+    if (!UserHand.hasUserHandMediaObject(mediaObjectUUID)) {
+      return;
+    }
+
+    console.log(event.key === "Z", event.ctrlKey || event.metaKey, event.shiftKey);
+    if (event.key === "c" && (event.ctrlKey || event.metaKey)) {
+      // undoの処理
+      console.log("copy");
+      copyMediaObject();
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("keydown", KeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", KeyDown);
+    };
+  }, []);
 
   const MouseDown = (event: any) => {
     //マウスでクリックされた時に、メディアオブジェクトの操作を開始するか検証し、マウスのデータを格納する

@@ -35,6 +35,7 @@ const UserHandKeyframeList: { [name: string]: UserHandKeyframeOperation } = {};
 
 export const insertUserHandMediaObject = (mediaObjectUUID: string, stateUserHand: number, mousePushPos: number, staStylePos: number, endStylePos: number) => {
   UserHandMediaObjectList[mediaObjectUUID] = new UserHandMediaObjectOperation(stateUserHand, mousePushPos, staStylePos, endStylePos);
+  console.log("UserHandMediaObjectList", UserHandMediaObjectList);
 };
 export const deleteUserHandMediaObject = (mediaObjectUUID: string) => {
   delete UserHandMediaObjectList[mediaObjectUUID];

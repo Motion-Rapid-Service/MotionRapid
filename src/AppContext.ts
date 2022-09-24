@@ -23,6 +23,8 @@ type AppContextValue = {
 
   replaceDataCentral: Function;
 
+  copyMediaObject: Function;
+
   setDataCentralMediaTable: Function;
   getDataCentralMediaTable: Function;
 

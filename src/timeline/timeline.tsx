@@ -10,6 +10,7 @@ import { AppContext } from "./../AppContext";
 import { SetupEditorContext } from "./../SetupEditor/SetupEditorContext";
 import { SetupToolbarContext } from "./../SetupEditor/SetupToolbarContext";
 import * as timelineMousePosition from "./timeLineMousePosition";
+import * as UserCopy from "./../UserCopy";
 
 import TimeNavigatorHeader from "./TimeNavigator/Header";
 
@@ -62,6 +63,8 @@ const TimelineComponent = () => {
   const [endStyleViewPos, endStyleViewPosSetState] = useState<number>(0); //時間単位の数値
   const [timeNavigatorFlag, timeNavigatorFlagSetState] = useState<boolean>(false); //trueは操作中
   const [durationWidth, durationWidthSetState] = useState<number>(0); //これは画面表示上の数値
+
+  const choiceComposite = SetupEditorContextValue.choiceComposite;
 
   // useEffect(() => {
   //   console.log("durationWidth", durationWidth);
@@ -214,6 +217,46 @@ const TimelineComponent = () => {
     }
     return -1;
   };
+  // const countEndRef3 = useRef(null); //  ref オブジェクト作成する
+  // countEndRef3.current = SetupEditorContextValue.choiceComposite; // countを.currentプロパティへ保持する
+
+  // const thencomposite = countEndRef3.current;
+
+  const pasteMediaObject = () => {
+    const thencomposite = SetupEditorContextValue.choiceComposite;
+    const compositeDuration: number = AppContextValue.getCompositeDuration(thencomposite);
+    console.log("paste -in ", thencomposite, compositeDuration);
+    if (!compositeDuration) {
+      return;
+    }
+    if (!UserCopy.hasCopyData(UserCopy.copySpeciesList[1])) {
+      return;
+    }
+    const userCopyData: UserCopy.copyDataClass = UserCopy.getCopyData();
+
+    console.log("paste userCopyData", userCopyData);
+
+    for (let i = 0; i < userCopyData.copyTargetID.length; i++) {
+      console.log("paste", userCopyData.copyTargetID[i], thencomposite);
+      AppContextValue.copyMediaObject(userCopyData.copyTargetID[i], thencomposite);
+    }
+    SetupEditorContextValue.previewUpdateDOM();
+  };
+
+  const KeyDown = (event: any) => {
+    if (event.key === "v" && (event.ctrlKey || event.metaKey)) {
+      // undoの処理
+      console.log("paste");
+      pasteMediaObject();
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("keydown", KeyDown);
+    return () => {
+      window.removeEventListener("keydown", KeyDown);
+    };
+  }, [SetupEditorContextValue.choiceComposite]);
 
   //elementTimelineWidthSetState elementLayerPanelWidthSetState elementLayerDurationWidthSetState
 

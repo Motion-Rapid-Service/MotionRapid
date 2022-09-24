@@ -20,7 +20,17 @@ export const KeyFrameComponent = (props: any) => {
   const Animator_propertySpecies = props.DownstreamMiddleDataKeyframe["Animator_propertySpecies"];
 
   const AppContextValue = useContext(AppContext);
-  const [keyframeStylePos, KeyframePosSetState] = useState<number>(AppContextValue.getKeyframeTime(keyframeUUID));
+
+  const TimeNavigatorContextValue = useContext(TimeNavigatorContext);
+
+  const [keyframeStylePos, KeyframePosSetState] = useState<number>(
+    AppContextValue.conversionTimeToStyle(
+      AppContextValue.getKeyframeTime(keyframeUUID),
+      TimeNavigatorContextValue.staStyleViewPos,
+      TimeNavigatorContextValue.endStyleViewPos,
+      TimeNavigatorContextValue.durationWidth
+    )
+  );
 
   const MediaObjectContextValue = useContext(MediaObjectContext);
   const mediaObjectAreaElement = MediaObjectContextValue.mediaObjectAreaElement as any;
@@ -31,7 +41,6 @@ export const KeyFrameComponent = (props: any) => {
   const SetupEditorContextValue = useContext(SetupEditorContext);
   const SetupUndoContextValue = useContext(SetupUndoContext);
 
-  const TimeNavigatorContextValue = useContext(TimeNavigatorContext);
   const TimelineAreaDivContextValue = useContext(TimelineAreaDivContext);
 
   const keyframeMouseMoveAction = (event: any) => {
@@ -94,7 +103,7 @@ export const KeyFrameComponent = (props: any) => {
       time: tempKeyframeTime,
     };
 
-    console.log("keyframeStylePos", keyframeStylePos);
+    console.log("keyframeStylePosP-A", keyframeStylePos, tempKeyframeTime);
 
     AppContextValue.operationKeyframeTime(temp);
   }, [keyframeStylePos]);
@@ -113,7 +122,7 @@ export const KeyFrameComponent = (props: any) => {
     );
 
     KeyframePosSetState(tempKeyframeStylePos);
-
+    console.log("keyframeStylePosP-B", KeyframeTime, tempKeyframeStylePos);
     return;
   };
 

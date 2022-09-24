@@ -272,6 +272,8 @@ const App = () => {
 
           operationMediaObjectSourceSpeciesClass: middleDataOperation.operationMediaObjectSourceSpeciesClass,
 
+          copyMediaObject: middleDataOperation.copyMediaObject,
+
           update: update,
           updateDOM: updateDOM,
           replaceDataCentral: middleDataOperation.replaceDataCentral,
