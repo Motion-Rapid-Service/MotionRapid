@@ -112,7 +112,7 @@ const TimelineComponent = () => {
     console.log("scrollbarDA t-s", playheadPosTime, playheadPosStyle);
 
     timelineUpdateDOM();
-  }, [staStyleViewPos, endStyleViewPos]);
+  }, [staStyleViewPos, endStyleViewPos, durationWidth]);
 
   //ここから プレイヘッド数値の設定
 

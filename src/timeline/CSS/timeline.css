@@ -72,6 +72,7 @@
   /* width: 70vw; */
   margin: 0;
   flex: 1;
+  overflow: hidden;
 }
 
 .media_object-area .media_object-area-layer_duration * {

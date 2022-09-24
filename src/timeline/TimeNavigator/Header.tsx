@@ -20,6 +20,7 @@ const TimeNavigatorHeaderComponent = () => {
     const size = timelineMousePosition.elementSize(TimeNavigatorLayerDurationElement);
     console.log("windowSizeEvent", size[0]);
     TimeNavigatorContextValue.durationWidthSetState(size[0]);
+    SetupEditorContextValue.previewUpdateDOM();
   };
 
   useEffect(() => {

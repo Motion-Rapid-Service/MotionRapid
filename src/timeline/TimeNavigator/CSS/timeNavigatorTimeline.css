@@ -13,6 +13,7 @@
 .timeNavigator-timeline-layer_duration {
   position: relative;
   flex: 1;
+  overflow: hidden;
 }
 
 .timeNavigator-timeline * {

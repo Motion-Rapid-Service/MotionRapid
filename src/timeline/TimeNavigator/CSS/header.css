@@ -10,4 +10,5 @@
 .timeNavigator-header-layer_duration {
   position: relative;
   flex: 1;
+  overflow: hidden;
 }
