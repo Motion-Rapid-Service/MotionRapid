@@ -16,12 +16,31 @@ body {
   margin: 0px;
 }
 
+body * {
+  font-family: "Noto Sans JP", sans-serif;
+}
+
 .text_box_common {
   font-size: 16px; /*フォントサイズ*/
-  border: 2px solid #999999; /*ボーダー*/
-  padding: 2px; /*パディング*/
+  border: 0px solid #00000000; /*ボーダー*/
+  margin: auto;
+  /*padding: 2px; パディング*/
   border-radius: 3px; /*角丸にする*/
-  box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.1) inset; /*影を付ける*/
+  /*box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.1) inset; 影を付ける*/
   background-color: rgb(60, 60, 60);
-  color: rgb(255, 255, 255);
+  color: rgb(240, 240, 240);
+}
+
+.text_box_common:focus {
+  outline: 0px solid #00000000; /*ボーダー*/
+}
+
+.select_common {
+  border: 0px solid #00000000; /*ボーダー*/
+  background-color: rgb(60, 60, 60);
+
+  border-radius: 3px; /*角丸にする*/
+}
+.select_common:focus {
+  outline: 0px solid #00000000; /*ボーダー*/
 }

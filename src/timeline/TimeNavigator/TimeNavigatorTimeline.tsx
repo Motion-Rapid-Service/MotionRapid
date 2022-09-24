@@ -10,6 +10,7 @@ import { TimeNavigatorPlayheadComponent, TimelinePlayheadComponent } from "./Pla
 const TimeNavigatorHeaderComponent = () => {
   const SetupEditorContextValue = useContext(SetupEditorContext);
   const TimeNavigatorTimelineLayerDurationElement = useRef(null);
+
   return (
     <div className="timeNavigator-timeline">
       <div className="timeNavigator-timeline-layer_panel"></div>

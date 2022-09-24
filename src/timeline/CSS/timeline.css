@@ -68,14 +68,6 @@
     left:100px; */
 }
 
-.media_object-area .media_object-area-layer_panel {
-  min-width: 400px;
-  width: 20vw;
-  margin: 0px;
-  background-color: rgb(100, 100, 100);
-  /* height: var(--media_object-height); */
-}
-
 .media_object-area .media_object-area-layer_duration {
   /* width: 70vw; */
   margin: 0;

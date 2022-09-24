@@ -18,10 +18,10 @@ const TimeNavigatorHeaderComponent = () => {
       <div className="timeNavigator-header-layer_panel"></div>
       <div className="timeNavigator-header-layer_duration" ref={TimeNavigatorLayerDurationElement}>
         <TimeNavigatorLayerDurationContext.Provider value={{ TimeNavigatorLayerDurationElement: TimeNavigatorLayerDurationElement }}>
-          <TimeNavigatorScrollBarComponent />
-          <TimeNavigatorPlayheadComponent />
-
           <TimeNavigatorTimeAxisComponent />
+          <TimeNavigatorScrollBarComponent />
+
+          <TimeNavigatorPlayheadComponent />
         </TimeNavigatorLayerDurationContext.Provider>
       </div>
     </div>

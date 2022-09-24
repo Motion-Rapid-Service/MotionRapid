@@ -3,13 +3,18 @@
   height: 100%;
   width: 100%;
   overflow: hidden;
+  pointer-events: none;
 }
 
 .timeNavigator-timeline-layer_panel {
-  width: 400px;
+  min-width: 500px;
 }
 
 .timeNavigator-timeline-layer_duration {
   position: relative;
   flex: 1;
+}
+
+.timeNavigator-timeline * {
+  z-index: 700;
 }

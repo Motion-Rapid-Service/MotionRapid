@@ -6,13 +6,12 @@
 .timeNavigator-scrollbar-out {
   width: 100%;
   height: 100%;
-  background-color: var(--background-B);
-  padding-top: 5px;
-  padding-bottom: 5px;
+  background: linear-gradient(-90deg, rgb(80, 80, 80), rgb(100, 100, 100));
 }
 
 .timeNavigator-scrollbar-in {
   height: 100%;
-  background-color: var(--background-C);
+  background: linear-gradient(-90deg, rgb(20, 100, 240), rgb(20, 120, 240));
   position: relative;
+  /* border-left: 2px solid rgb(20, 150, 240); */
 }

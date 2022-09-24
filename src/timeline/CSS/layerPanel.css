@@ -1,8 +1,14 @@
-.media_object-area-layer_panel {
+.media_object-area-layer_panel * {
+  color: rgb(240, 240, 240);
 }
 
 .media_object-area-layer_panel .layer_panel-entity {
   height: var(--media_object-height);
+  padding-left: 4px;
+}
+
+.media_object-area-layer_panel .layer_panel-entity p {
+  font-size: 12px;
 }
 .media_object-area-layer_panel .layer_panel-animator {
 }
@@ -25,6 +31,14 @@
 /*   layer_panel-media_object */
 /*   layer_panel-animator layer_panel-animator-entity*/
 
+.media_object-area .media_object-area-layer_panel {
+  min-width: 500px;
+  /* width: 40vw; */
+  margin: 0px;
+  background-color: var(--background-B);
+  /* height: var(--media_object-height); */
+}
+
 .layer_panel-animator .layer_panel-animator-entity {
   display: flex;
   justify-content: flex-start;
@@ -32,13 +46,18 @@
 }
 
 .layer_panel-animator .layer_panel-animator-entity p {
-  width: 40px;
+  width: 60px;
+  padding-left: 4px;
 }
 
 .layer_panel-animator-entity .layer_panel-animator-entity-insert_keyframe_button {
   width: 20px;
   height: var(--animator-button-height);
-  background-color: rgb(100, 100, 200);
+  /* background-color: rgb(100, 100, 200); */
+  background-image: url("./keyframeButton3.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+
   margin-right: 3px;
 }
 
@@ -50,8 +69,17 @@
 }
 
 .layer_panel-animator-entity-css_property input {
-  font-size: 16px; /*フォントサイズ*/
+  font-size: 14px; /*フォントサイズ*/
   width: 40px;
   /* height: 15px;
   line-height: 15px; */
+  line-height: 18px;
+  padding: 0px 2px 0px 4px;
+  text-align: right;
+}
+.layer_panel-animator-entity-css_property select {
+  height: 18px;
+  line-height: 18px;
+  font-size: 12px; /*フォントサイズ*/
+  margin-left: 5px;
 }

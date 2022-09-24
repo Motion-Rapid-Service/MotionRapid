@@ -1,0 +1,11 @@
+.timeNavigator-timeaxis {
+  height: 20px;
+  width: 100%;
+  position: absolute;
+  bottom: 5px;
+  background: linear-gradient(-90deg, rgb(80, 80, 80), rgb(100, 100, 100));
+}
+
+.timeNavigator-timeaxis-block {
+  position: absolute;
+}

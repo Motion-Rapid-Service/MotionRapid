@@ -1,11 +1,11 @@
 .timeNavigator-header {
   display: flex;
-  height: 100px;
+  height: 60px;
   overflow: hidden;
 }
 
 .timeNavigator-header-layer_panel {
-  width: 400px;
+  min-width: 500px;
 }
 
 .timeNavigator-header-layer_duration {
