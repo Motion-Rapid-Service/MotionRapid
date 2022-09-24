@@ -6,13 +6,14 @@ export type PropertyFormatSpecies = {
   cssWriteFunction: Function;
 };
 
-export const propertySpeciesUnitList: Array<string> = ["not", "number", "rgb", "rgba", "text", "image"]; //ここで設定画面の方式を決定
+export const propertySpeciesUnitList: Array<string> = ["not", "number", "rgb", "rgba", "text", "image", "rotate"]; //ここで設定画面の方式を決定
 export const cssValueUnit: { [name: string]: Array<string> } = {
   not: [],
   number: ["px", "vw", "vh", "%"],
   rgb: [],
   rgba: [],
   text: [],
+  rotate: ["deg"],
 };
 
 export const PropertyFormat_margin: PropertyFormatSpecies = {
@@ -200,3 +201,99 @@ export const PropertyFormat_opacity: PropertyFormatSpecies = {
 
 //https://nyanblog2222.com/programming/javascript/1132/
 //inputタグからfileRenaderを使って画面に表示する方法 div要素に出力する
+
+export const PropertyFormat_Color: PropertyFormatSpecies = {
+  cssPropertyName: "color",
+  cssPropertySpeciesList: {
+    r: propertySpeciesUnitList[3],
+    g: propertySpeciesUnitList[3],
+    b: propertySpeciesUnitList[3],
+    a: propertySpeciesUnitList[3],
+  },
+
+  cssWriteFunction: (send_propertyName: string, send_cssPropertySpeciesList: { [name: string]: string }) => {
+    const rtext = textJoinAnimatorGroup([
+      send_propertyName,
+      ":rgba(",
+      send_cssPropertySpeciesList["r"],
+      ",",
+      send_cssPropertySpeciesList["g"],
+      ",",
+      send_cssPropertySpeciesList["b"],
+      ",",
+      send_cssPropertySpeciesList["a"],
+      ");",
+    ]);
+    return rtext;
+  },
+};
+
+export const PropertyFormat_GradationColor: PropertyFormatSpecies = {
+  cssPropertyName: "background",
+  cssPropertySpeciesList: {
+    deg: propertySpeciesUnitList[6],
+    r1: propertySpeciesUnitList[3],
+    g1: propertySpeciesUnitList[3],
+    b1: propertySpeciesUnitList[3],
+    a1: propertySpeciesUnitList[3],
+
+    r2: propertySpeciesUnitList[3],
+    g2: propertySpeciesUnitList[3],
+    b2: propertySpeciesUnitList[3],
+    a2: propertySpeciesUnitList[3],
+  },
+
+  //background: linear-gradient(-90deg, rgb(80, 80, 80), rgb(100, 100, 100));
+
+  cssWriteFunction: (send_propertyName: string, send_cssPropertySpeciesList: { [name: string]: string }) => {
+    const rtext = textJoinAnimatorGroup([
+      "background :linear-gradient(",
+      send_cssPropertySpeciesList["deg"],
+      ",",
+      "rgba(",
+      send_cssPropertySpeciesList["r1"],
+      ",",
+      send_cssPropertySpeciesList["g1"],
+      ",",
+      send_cssPropertySpeciesList["b1"],
+      ",",
+      send_cssPropertySpeciesList["a1"],
+      ")",
+      ",",
+      "rgba(",
+      send_cssPropertySpeciesList["r2"],
+      ",",
+      send_cssPropertySpeciesList["g2"],
+      ",",
+      send_cssPropertySpeciesList["b2"],
+      ",",
+      send_cssPropertySpeciesList["a2"],
+      "));",
+    ]);
+    return rtext;
+  },
+};
+
+export const PropertyFormat_Font: PropertyFormatSpecies = {
+  cssPropertyName: "フォント",
+  cssPropertySpeciesList: {
+    fontSize: propertySpeciesUnitList[1],
+  },
+
+  cssWriteFunction: (send_propertyName: string, send_cssPropertySpeciesList: { [name: string]: string }) => {
+    const rtext = textJoinAnimatorGroup(["font-size :", send_cssPropertySpeciesList["fontSize"], ";"]);
+    return rtext;
+  },
+};
+
+export const PropertyFormat_Rotate: PropertyFormatSpecies = {
+  cssPropertyName: "回転",
+  cssPropertySpeciesList: {
+    deg: propertySpeciesUnitList[6],
+  },
+
+  cssWriteFunction: (send_propertyName: string, send_cssPropertySpeciesList: { [name: string]: string }) => {
+    const rtext = textJoinAnimatorGroup(["transform:rotate(", send_cssPropertySpeciesList["deg"] + ");"]);
+    return rtext;
+  },
+};

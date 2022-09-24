@@ -26,7 +26,7 @@ const CSSBuildMain = (
   jsDownParentID: string,
   compositeID: string,
   mediaObjectID: string,
-  compositeTimeFlag:boolean,
+  compositeTimeFlag: boolean,
   compositePreviewTime: number
 ) => {
   //   const htmlText = String(require("./../buildFormat/htmlFormat.html")["default"]);
@@ -193,7 +193,12 @@ const CSSBuildMain = (
             cssValue = valueSectionRate + aPointValue;
           }
 
-          const cssRootSubstance = valueIDArray[1] + ":" + cssValue + thenCSSPropertyClass.CSSProperty_Unit + ";";
+          let unitTemp = "";
+          if (thenCSSPropertyClass.CSSProperty_Unit) {
+            unitTemp = thenCSSPropertyClass.CSSProperty_Unit;
+          }
+
+          const cssRootSubstance = valueIDArray[1] + ":" + cssValue + unitTemp + ";";
           buildQue.pushCSSElementQue(new buildQue.cssElementSubstance(cssRootSubstance), cssRootID);
         } else {
           //プレビューではないとき
