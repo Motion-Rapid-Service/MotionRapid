@@ -3,33 +3,81 @@
   /* 標準色 */
   --background-B: rgb(70, 70, 70);
   /* ちょっと薄い */
+
+  --background-C: rgb(170, 170, 170);
 }
 
 #root {
   margin: 5px;
 }
 
-body{
+body {
   padding: 0px;
   margin: 0px;
 }
-.timeline-area {
-  background-color: rgb(50, 50, 50);
-  width: auto;
-  height: 90vh;
-  margin: 0px 2px 200px 2px;
-  overflow: scroll;
+
+body * {
+  font-family: "Noto Sans JP", sans-serif;
 }
 
-.timeline-area * {
+.text_box_common {
+  font-size: 16px; /*フォントサイズ*/
+  border: 0px solid #00000000; /*ボーダー*/
+  margin: auto;
+  /*padding: 2px; パディング*/
+  border-radius: 3px; /*角丸にする*/
+  /*box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.1) inset; 影を付ける*/
+  background-color: rgb(60, 60, 60);
+  color: rgb(240, 240, 240);
+}
+
+.text_box_common:focus {
+  outline: 0px solid #00000000; /*ボーダー*/
+}
+
+.select_common {
+  border: 0px solid #00000000; /*ボーダー*/
+  background-color: rgb(60, 60, 60);
+
+  border-radius: 3px; /*角丸にする*/
+}
+.select_common:focus {
+  outline: 0px solid #00000000; /*ボーダー*/
+}
+
+.timeline-main {
+  position: relative;
+  background-color: rgb(50, 50, 50);
+  width: auto;
+
+  margin: 0px 2px 200px 2px;
+}
+
+.timeline-main * {
   user-select: none;
   z-index: 500;
 }
 
+.timeline-area {
+  /* position: absolute; */
+
+  position: relative;
+  overflow-x: hidden;
+  overflow-y: scroll;
+
+  width: 100%;
+  height: 90vh;
+  margin: 0px;
+}
+
 .timeline-area-scroll {
+  position: absolute;
+  width: 100%;
   /* background-color: rgb(200, 200, 200); */
   margin: 0px;
-  width: 3000px;
+  /* width: 3000px; */
+  left: 0px;
+  top: 0px;
 }
 
 .timeline-area-scroll .media_object-area {
@@ -67,17 +115,15 @@ body{
     left:100px; */
 }
 
-.media_object-area .media_object-area-layer_panel {
-  /* width: 20vw; */
-  margin: 0px;
-  background-color: rgb(100, 100, 100);
-  /* height: var(--media_object-height); */
-}
-
 .media_object-area .media_object-area-layer_duration {
   /* width: 70vw; */
-  margin: 0px;
+  margin: 0;
+  flex: 1;
   overflow: hidden;
+}
+
+.media_object-area .media_object-area-layer_duration * {
+  /* overflow: hidden; */
 }
 
 .animator_area {
@@ -117,11 +163,17 @@ body{
   margin: auto;
 }
 
-.media_object-area-layer_panel {
+.media_object-area-layer_panel * {
+  color: rgb(240, 240, 240);
 }
 
 .media_object-area-layer_panel .layer_panel-entity {
   height: var(--media_object-height);
+  padding-left: 4px;
+}
+
+.media_object-area-layer_panel .layer_panel-entity p {
+  font-size: 12px;
 }
 .media_object-area-layer_panel .layer_panel-animator {
 }
@@ -144,6 +196,13 @@ body{
 /*   layer_panel-media_object */
 /*   layer_panel-animator layer_panel-animator-entity*/
 
+.media_object-area .media_object-area-layer_panel {
+  /* width: 40vw; */
+  margin: 0px;
+  background-color: var(--background-B);
+  /* height: var(--media_object-height); */
+}
+
 .layer_panel-animator .layer_panel-animator-entity {
   display: flex;
   justify-content: flex-start;
@@ -151,13 +210,18 @@ body{
 }
 
 .layer_panel-animator .layer_panel-animator-entity p {
-  width: 40px;
+  width: 60px;
+  padding-left: 4px;
 }
 
 .layer_panel-animator-entity .layer_panel-animator-entity-insert_keyframe_button {
   width: 20px;
   height: var(--animator-button-height);
-  background-color: rgb(100, 100, 200);
+  /* background-color: rgb(100, 100, 200); */
+  background-image: url(data:image/png;base64,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);
+  background-size: cover;
+  background-repeat: no-repeat;
+
   margin-right: 3px;
 }
 
@@ -169,23 +233,24 @@ body{
 }
 
 .layer_panel-animator-entity-css_property input {
-  font-size: 16px; /*フォントサイズ*/
+  font-size: 14px; /*フォントサイズ*/
   width: 40px;
-  height: 15px;
-  line-height: 15px;
-  padding: 2px; /*パディング*/
-
-  border: 1px solid #999999; /*ボーダー*/
-
-  border-radius: 3px; /*角丸にする*/
-  box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.1) inset; /*影を付ける*/
-  background-color: rgb(60, 60, 60);
-  color: rgb(255, 255, 255);
+  /* height: 15px;
+  line-height: 15px; */
+  line-height: 18px;
+  padding: 0px 2px 0px 4px;
+  text-align: right;
+}
+.layer_panel-animator-entity-css_property select {
+  height: 18px;
+  line-height: 18px;
+  font-size: 12px; /*フォントサイズ*/
+  margin-left: 5px;
 }
 
-.playhead {
-  width: 2px;
-  height: 100%;
+.media_object-area-layer_panel,
+.timeNavigator-header-layer_panel {
+  min-width: 500px;
 }
 
 .toolBar {
@@ -399,15 +464,8 @@ body{
   right: 10px; */
 }
 
-.config_parts-textbox input {
-  font-size: 16px; /*フォントサイズ*/
-  border: 1px solid #999999; /*ボーダー*/
-  padding: 2px; /*パディング*/
-  border-radius: 3px; /*角丸にする*/
-  box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.1) inset; /*影を付ける*/
-  background-color: rgb(60, 60, 60);
-  color: rgb(255, 255, 255);
-}
+/* .config_parts-textbox input {
+} */
 
 .config_parts-button {
   /* position: relative; */
@@ -430,5 +488,124 @@ body{
   color: rgb(255, 255, 255);
   /* position: absolute; */
   margin: 0px;
+}
+
+.timeNavigator-header {
+  display: flex;
+  height: 60px;
+  overflow: hidden;
+}
+
+.timeNavigator-header-layer_panel {
+}
+
+.timeNavigator-header-layer_duration {
+  position: relative;
+  flex: 1;
+  overflow: hidden;
+}
+
+.timeNavigator-playhead {
+  width: 50px;
+  height: 30px;
+  background-color: brown;
+  position: absolute;
+  bottom: 0;
+  border-radius: 10px; /*角丸にする*/
+  z-index: 400;
+}
+
+.timeNavigator-playhead p {
+  color: rgb(220, 220, 220);
+  font-size: 20px;
+  margin: 0;
+  text-align: center;
+}
+
+.timeline-playhead {
+  width: 3px;
+  height: 100%;
+  background-color: brown;
+  position: relative;
+  left: 0px;
+  top: 0px;
+  /* z-index: 400; */
+}
+
+.timeNavigator-playhead-area {
+  width: 100%;
+  height: 40px;
+  position: relative;
+}
+
+.timeNavigator-scrollbar {
+  height: 20px;
+  width: 100%;
+}
+
+.timeNavigator-scrollbar-out {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(-90deg, rgb(80, 80, 80), rgb(100, 100, 100));
+}
+
+.timeNavigator-scrollbar-in {
+  height: 100%;
+  background: linear-gradient(-90deg, rgb(20, 100, 240), rgb(20, 120, 240));
+  position: relative;
+  /* border-left: 2px solid rgb(20, 150, 240); */
+}
+
+.timeNavigator-timeaxis {
+  height: 20px;
+  width: 100%;
+  position: absolute;
+  bottom: 5px;
+  background: linear-gradient(-90deg, rgb(80, 80, 80), rgb(100, 100, 100));
+}
+
+.timeNavigator-timeaxis-block {
+  position: absolute;
+}
+.timeNavigator-timeaxis-block p {
+  color: rgb(200, 200, 200);
+  margin: 0px;
+}
+
+.timeNavigator-timeline {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.timeNavigator-timeline-layer_panel {
+  min-width: 500px;
+}
+
+.timeNavigator-timeline-layer_duration {
+  position: relative;
+  flex: 1;
+  overflow: hidden;
+}
+
+.timeNavigator-timeline * {
+  z-index: 700;
+}
+
+.preview-main {
+  width: 90vw;
+  height: 90vh;
+}
+
+.preview-replace {
+  width: 100%;
+  height: 100%;
+}
+
+.preview-replace-iframe {
+  width: 100%;
+  height: 100%;
 }
 
