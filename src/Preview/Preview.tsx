@@ -7,14 +7,14 @@ import { SetupEditorContext } from "./../SetupEditor/SetupEditorContext";
 import { SetupToolbarContext } from "./../SetupEditor/SetupToolbarContext";
 
 class PreviewOverlay {
-  x: number;
-  y: number;
+  left: number;
+  top: number;
   width: number;
   height: number;
 
-  constructor(send_x: number, send_y: number, send_width: number, send_height: number) {
-    this.x = send_x;
-    this.y = send_y;
+  constructor(send_left: number, send_top: number, send_width: number, send_height: number) {
+    this.left = send_left;
+    this.top = send_top;
     this.width = send_width;
     this.height = send_height;
   }
@@ -35,6 +35,15 @@ const searchMaxSizeElement = (targetElement: Element) => {
   }
 
   return [thenWidth, thenHeight];
+};
+
+const ShapePreviewOverlayComponent = (props: any) => {
+  const left = props.DownstreamShapePreviewOverlay.left;
+  const top = props.DownstreamShapePreviewOverlay.top;
+  const width = props.DownstreamShapePreviewOverlay.width;
+  const height = props.DownstreamShapePreviewOverlay.height;
+
+  return <div className="preview-overlay-shape" style={{ left: left, top: top, width: width, height: height }}></div>;
 };
 
 const PreviewComponent = () => {
@@ -80,23 +89,19 @@ const PreviewComponent = () => {
       console.log("thenElements", thenElements);
 
       const maxSize = searchMaxSizeElement(thenElements);
-      console.log("searchMaxSizeElement", maxSize);
 
-      returnArray.push(new PreviewOverlay(0, 0, maxSize[0], maxSize[1]));
+      const inRect = thenElements.getBoundingClientRect();
+      const inLeft = inRect.left;
+      const inTop = inRect.top;
+
+      returnArray.push(new PreviewOverlay(inLeft, inTop, maxSize[0], maxSize[1]));
+
+      console.log("searchMaxSizeElement", maxSize, inLeft, inTop);
     }
     return returnArray;
   };
 
   const [previewOverlay, previewOverlayUpdate] = useReducer(setPreviewOverlay, []);
-
-  // const calculationPreviewOverlayWidth = (): string => {
-  //   if (!previewIframeElement.current) {
-  //     console.log("calculationPreviewOverlayWidth iframe not");
-  //     return "0px";
-  //   }
-  // };
-
-  // const [previewOverlayWidth, previewOverlayWidthUpdate] = useReducer(calculationPreviewOverlayWidth, "0px");
 
   useEffect(() => {
     console.log(previewOverlay);
@@ -121,7 +126,14 @@ const PreviewComponent = () => {
         ref={previeOverlayElement}
         onMouseMove={previewOverlayUpdate}
         style={{ width: widthHeightText(), height: widthHeightText() }}
-      ></div>
+      >
+        {" "}
+        {previewOverlay.map((output: any, index: number) => (
+          // <>{fruit}</> //SurfaceControlIndividualを追加するmap (list_surface_controlに入っている)
+
+          <ShapePreviewOverlayComponent DownstreamShapePreviewOverlay={output} key={index} />
+        ))}
+      </div>
     </div>
   );
 };

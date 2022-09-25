@@ -21,7 +21,17 @@
   /* height: 100%; */
   position: absolute;
   top: 0px;
+  overflow: hidden;
   /* pointer-events: none; */
   /* box-sizing: border-box; */
   /* pointer-events: none; */
+}
+
+.preview-overlay-shape {
+  background-color: rgba(100, 100, 200, 0);
+  position: absolute;
+  overflow: hidden;
+}
+.preview-overlay-shape:hover {
+  background-color: rgba(100, 100, 200, 0.3);
 }
