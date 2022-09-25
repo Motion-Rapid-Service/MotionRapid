@@ -18,21 +18,6 @@ export class UserHandMediaObjectOperation {
 
 const UserHandMediaObjectList: { [name: string]: UserHandMediaObjectOperation } = {}; //0番 無操作 1番左 2番右 3番移動 4番選択
 
-class UserHandKeyframeOperation {
-  mouseDownFlag: number;
-  //0:押していない(番号として登録しているが、実際は0番登録するようなコードを書いてはいけない) ,
-  //1:動作 2:単純選択(自発的な座標の移動はできない)
-
-  mousePushPos: number; //マウスが押された時のマウス座標
-  mouseDownKeyframeStyle: number; //マウスが押された時のキーフレーム地点
-  constructor(send_mouseDownFlag: number, send_mousePushPos: number, send_mouseDownKeyframeStyle: number) {
-    this.mouseDownFlag = send_mouseDownFlag;
-    this.mousePushPos = send_mousePushPos;
-    this.mouseDownKeyframeStyle = send_mouseDownKeyframeStyle;
-  }
-}
-const UserHandKeyframeList: { [name: string]: UserHandKeyframeOperation } = {};
-
 export const insertUserHandMediaObject = (mediaObjectUUID: string, stateUserHand: number, mousePushPos: number, staStylePos: number, endStylePos: number) => {
   UserHandMediaObjectList[mediaObjectUUID] = new UserHandMediaObjectOperation(stateUserHand, mousePushPos, staStylePos, endStylePos);
   console.log("UserHandMediaObjectList", UserHandMediaObjectList);
@@ -61,6 +46,21 @@ export const alldeleteUserHandMediaObject = () => {
 };
 
 // **************************************************************
+
+class UserHandKeyframeOperation {
+  mouseDownFlag: number;
+  //0:押していない(番号として登録しているが、実際は0番登録するようなコードを書いてはいけない) ,
+  //1:動作 2:単純選択(自発的な座標の移動はできない)
+
+  mousePushPos: number; //マウスが押された時のマウス座標
+  mouseDownKeyframeStyle: number; //マウスが押された時のキーフレーム地点
+  constructor(send_mouseDownFlag: number, send_mousePushPos: number, send_mouseDownKeyframeStyle: number) {
+    this.mouseDownFlag = send_mouseDownFlag;
+    this.mousePushPos = send_mousePushPos;
+    this.mouseDownKeyframeStyle = send_mouseDownKeyframeStyle;
+  }
+}
+const UserHandKeyframeList: { [name: string]: UserHandKeyframeOperation } = {};
 
 export const insertUserHandKeyframe = (keyframeUUID: string, stateUserHand: number, mousePushPos: number, mouseDownKeyframeStyle: number) => {
   UserHandKeyframeList[keyframeUUID] = new UserHandKeyframeOperation(stateUserHand, mousePushPos, mouseDownKeyframeStyle);
@@ -118,3 +118,60 @@ export const deleteUserHandPlayhead = () => {
 export const getUserHandPlayhead = () => {
   return UserHandPlayhead;
 };
+
+// ***************************************************************
+
+class UserHandPreviewShapeOperation {
+  mouseDownFlag: number;
+  //0:押していない(番号として登録しているが、実際は0番登録するようなコードを書いてはいけない) ,
+  //1:動作 2:単純選択(自発的な座標の移動はできない)
+
+  mousePushPos: Array<number>; //マウスが押された時のマウス座標
+  mouseDownPreviewShapeStyle: Array<number>; //マウスが押された時のキーフレーム地点
+  mouseNowPos: Array<number>;
+  constructor(send_mouseDownFlag: number, send_mousePushPos: Array<number>, send_mouseDownPreviewShapeStyle: Array<number>) {
+    this.mouseDownFlag = send_mouseDownFlag;
+    this.mousePushPos = send_mousePushPos;
+    this.mouseDownPreviewShapeStyle = send_mouseDownPreviewShapeStyle;
+    this.mouseNowPos = Object.assign(send_mousePushPos);
+  }
+}
+const UserHandPreviewShapeList: { [name: string]: UserHandPreviewShapeOperation } = {};
+
+export const insertUserHandPreviewShape = (
+  PreviewShapeUUID: string,
+  stateUserHand: number,
+  mousePushPos: Array<number>,
+  mouseDownPreviewShapeStyle: Array<number>
+) => {
+  UserHandPreviewShapeList[PreviewShapeUUID] = new UserHandPreviewShapeOperation(stateUserHand, mousePushPos, mouseDownPreviewShapeStyle);
+};
+
+export const nowPosUserHandPreviewShape = (PreviewShapeUUID: string, nowPos: Array<number>) => {
+  UserHandPreviewShapeList[PreviewShapeUUID].mouseNowPos = Object.assign(nowPos);
+};
+
+export const deleteUserHandPreviewShape = (PreviewShapeUUID: string) => {
+  delete UserHandPreviewShapeList[PreviewShapeUUID];
+};
+export const hasUserHandPreviewShape = (PreviewShapeUUID: string) => {
+  const hasHand = PreviewShapeUUID in UserHandPreviewShapeList;
+  return hasHand;
+};
+export const getUserHandPreviewShape = (PreviewShapeUUID: string) => {
+  const getHand = UserHandPreviewShapeList[PreviewShapeUUID];
+  return getHand;
+};
+
+export const getUserHandPreviewShapeIDArray = () => {
+  const getIDArray = Object.keys(UserHandPreviewShapeList);
+  return getIDArray;
+};
+
+export const alldeleteUserHandPreviewShape = () => {
+  for (let key in UserHandPreviewShapeList) {
+    delete UserHandPreviewShapeList[key];
+  }
+};
+
+// ***************************************************************

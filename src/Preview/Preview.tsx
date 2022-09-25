@@ -6,17 +6,23 @@ import { AppContext } from "./../AppContext";
 import { SetupEditorContext } from "./../SetupEditor/SetupEditorContext";
 import { SetupToolbarContext } from "./../SetupEditor/SetupToolbarContext";
 
+import * as timelineMousePosition from "./../timeline/timeLineMousePosition";
+import UUID from "uuidjs";
+import * as UserHand from "./../UserHand";
+
 class PreviewOverlay {
   left: number;
   top: number;
   width: number;
   height: number;
+  previewOverlayID: string;
 
   constructor(send_left: number, send_top: number, send_width: number, send_height: number) {
     this.left = send_left;
     this.top = send_top;
     this.width = send_width;
     this.height = send_height;
+    this.previewOverlayID = "previewOverlay_" + String(UUID.generate());
   }
 }
 
@@ -37,13 +43,54 @@ const searchMaxSizeElement = (targetElement: Element) => {
   return [thenWidth, thenHeight];
 };
 
-const ShapePreviewOverlayComponent = (props: any) => {
+const PreviewOverlayShapeComponent = (props: any) => {
   const left = props.DownstreamShapePreviewOverlay.left;
   const top = props.DownstreamShapePreviewOverlay.top;
   const width = props.DownstreamShapePreviewOverlay.width;
   const height = props.DownstreamShapePreviewOverlay.height;
+  const previewOverlayID = props.DownstreamShapePreviewOverlay.previewOverlayID;
+  const previewOverlayShapeRef = useRef(null);
 
-  return <div className="preview-overlay-shape" style={{ left: left, top: top, width: width, height: height }}></div>;
+  const mouseDown = (event: any) => {
+    UserHand.alldeleteUserHandPreviewShape();
+    const mousePushPos = timelineMousePosition.mediaObjectMousePosition(event, previewOverlayShapeRef);
+    UserHand.insertUserHandPreviewShape(previewOverlayID, 1, mousePushPos, [left, top]);
+  };
+  const mouseMove = (event: any) => {
+    if (!UserHand.hasUserHandPreviewShape(previewOverlayID)) {
+      return;
+    }
+
+    const userHandKeyframe = UserHand.getUserHandKeyframe(previewOverlayID);
+
+    switch (userHandKeyframe.mouseDownFlag) {
+      case 1:
+        const mouseXY = timelineMousePosition.mediaObjectMousePosition(event, previewOverlayShapeRef);
+        UserHand.nowPosUserHandPreviewShape(previewOverlayID, mouseXY);
+        break;
+    }
+  };
+  const mouseUp = (event: any) => {
+    UserHand.deleteUserHandPreviewShape(props.DownstreamShapePreviewOverlay.previewOverlayID);
+  };
+
+  useEffect(() => {
+    window.addEventListener("mousemove", mouseMove);
+    window.addEventListener("mouseup", mouseUp);
+    return () => {
+      window.removeEventListener("mousemove", mouseMove);
+      window.removeEventListener("mouseup", mouseUp);
+    };
+  }, [props.DownstreamShapePreviewOverlay.previewOverlayID]);
+
+  return (
+    <div
+      className="preview-overlay-shape"
+      onMouseDown={mouseDown}
+      ref={previewOverlayShapeRef}
+      style={{ left: left, top: top, width: width, height: height }}
+    ></div>
+  );
 };
 
 const PreviewComponent = () => {
@@ -113,6 +160,10 @@ const PreviewComponent = () => {
     return text;
   };
 
+  const onMouseMove = () => {
+    previewOverlayUpdate();
+  };
+
   return (
     <div className="preview-main">
       {" "}
@@ -121,17 +172,12 @@ const PreviewComponent = () => {
           <p>html p</p>
         </iframe>
       </div>
-      <div
-        className="preview-overlay"
-        ref={previeOverlayElement}
-        onMouseMove={previewOverlayUpdate}
-        style={{ width: widthHeightText(), height: widthHeightText() }}
-      >
+      <div className="preview-overlay" ref={previeOverlayElement} onMouseMove={onMouseMove} style={{ width: widthHeightText(), height: widthHeightText() }}>
         {" "}
         {previewOverlay.map((output: any, index: number) => (
           // <>{fruit}</> //SurfaceControlIndividualを追加するmap (list_surface_controlに入っている)
 
-          <ShapePreviewOverlayComponent DownstreamShapePreviewOverlay={output} key={index} />
+          <PreviewOverlayShapeComponent DownstreamShapePreviewOverlay={output} key={index} />
         ))}
       </div>
     </div>
