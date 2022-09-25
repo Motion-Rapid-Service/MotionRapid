@@ -43,20 +43,20 @@ const PreviewComponent = () => {
   const previeOverlayElement = useRef(null);
   const AppContextValue = useContext(AppContext);
   const SetupEditorContextValue = useContext(SetupEditorContext);
+
+  const [scrollbarWidth, scrollbarWidthSetState] = useState<number>(0);
+
   useEffect(() => {
     const htmlStr = AppContextValue.previewMiddleDataHtml(SetupEditorContextValue.choiceComposite);
     console.log(previewIframeElement);
     previewIframeElement.current.srcdoc = htmlStr;
     console.log("htmlStr", htmlStr);
+    previewIframeElement.current.scrolling = "no";
 
-    // const iframe = document.createElement("iframe");
-    // iframe.srcdoc = htmlStr;
-    // iframe.className = "preview-replace-iframe";
-    // previewReplaceElement.current.replaceChild(iframe, previewReplaceElement.current.firstElementChild);
+    // scrollbarWidthSetState();
+
     return () => {};
   }, [SetupEditorContextValue.previewUpdate]);
-
-  // const [previewUpdate, previewSetUpdata] = useState<boolean>(false);
 
   const setPreviewOverlay = (): Array<PreviewOverlay> => {
     console.log("setPreviewOverlay");
@@ -65,13 +65,14 @@ const PreviewComponent = () => {
     }
     const iframeDocument = previewIframeElement.current.contentDocument || previewIframeElement.current.contentWindow.document;
 
-    const rootElement = iframeDocument.getElementById("root");
+    const rootElement: HTMLInputElement = iframeDocument.getElementById("root");
     if (!rootElement) {
       return [];
     }
+
     const returnArray: Array<PreviewOverlay> = [];
 
-    const compositeElements: HTMLInputElement = rootElement.firstElementChild;
+    const compositeElements: Element = rootElement.firstElementChild;
     const inElements: HTMLCollection = compositeElements.children;
 
     for (let ce = 0; ce < inElements.length; ce++) {
@@ -88,18 +89,28 @@ const PreviewComponent = () => {
 
   const [previewOverlay, previewOverlayUpdate] = useReducer(setPreviewOverlay, []);
 
+  // const calculationPreviewOverlayWidth = (): string => {
+  //   if (!previewIframeElement.current) {
+  //     console.log("calculationPreviewOverlayWidth iframe not");
+  //     return "0px";
+  //   }
+  // };
+
+  // const [previewOverlayWidth, previewOverlayWidthUpdate] = useReducer(calculationPreviewOverlayWidth, "0px");
+
   useEffect(() => {
     console.log(previewOverlay);
   }, [previewOverlay]);
 
   return (
     <div className="preview-main">
+      {" "}
       <div className="preview-overlay-update" ref={previewOverlayUpdateElement}>
         <iframe className="preview-replace" ref={previewIframeElement}>
           <p>html p</p>
         </iframe>
-        <div className="preview-overlay" ref={previeOverlayElement} onMouseDown={previewOverlayUpdate}></div>
       </div>
+      <div className="preview-overlay" ref={previeOverlayElement} onMouseMove={previewOverlayUpdate} style={{ width: "100px" }}></div>
     </div>
   );
 };
