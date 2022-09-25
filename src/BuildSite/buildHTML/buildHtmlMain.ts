@@ -58,6 +58,11 @@ const htmlBuildMain = (jsonDataCentral: any, compositeID: string, send_composite
   rootStyleID = buildQue.pushCSSElementQue(new buildQue.cssElementTopClass());
   rootScriptID = buildQue.pushJavaScriptElementQue(new buildQue.javascriptElementTopClass());
 
+  const bodyID = buildQue.pushCSSElementQue(new buildQue.cssElementDefault("body", ""), rootStyleID);
+  buildQue.pushCSSElementQue(new buildQue.cssElementSubstance("margin : 0;"), bodyID);
+
+  buildQue.pushCSSElementQue(new buildQue.cssElementSubstance("min-width : 100vw;"), bodyID);
+  buildQue.pushCSSElementQue(new buildQue.cssElementSubstance("min-height : 100vh;"), bodyID);
   // const cssAttribute: { [name: string]: string } = { type: "text/css" };
   // buildQue.pushHtmlElementQue(new buildQue.htmlElementBlockClass("style", cssAttribute), rootStyleID);
   // parseComposite(getJsonDataCentral, rootHtmlID, compositeID,compositePreviewTime);

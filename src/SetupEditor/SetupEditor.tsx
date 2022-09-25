@@ -11,14 +11,12 @@ const Editor = () => {
   const [choiceComposite, choiceCompositeSetState] = useState<string>("not");
   useEffect(() => {}, [choiceComposite]);
 
-  // const [previewUpdate, previewSetUpdata] = useState<boolean>(false);
-
-  const [previewUpdate, previewSetUpdata] = useReducer((num) => num + 1, 0);
+  const [previewUpdate, previewSetUpdate] = useReducer((num) => num + 1, 0);
 
   const previewUpdateDOM = () => {
     //強制再レンダリング関数
     console.log("previewUpdate 再レンダリング A");
-    previewSetUpdata();
+    previewSetUpdate();
   };
   useEffect(() => {
     console.log("previewUpdate 再レンダリング B");
