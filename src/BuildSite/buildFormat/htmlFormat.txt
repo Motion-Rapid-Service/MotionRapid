@@ -13,10 +13,12 @@
     <style>
     body{
         margin : 0;
+        position : relative;
     }
     #root{
+        top : 0;
+        left : 0;
         position: absolute;
-        top: 0px;
         width: 100vw;
         height: 100vh;
     }

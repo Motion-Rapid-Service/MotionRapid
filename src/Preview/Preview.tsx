@@ -51,7 +51,7 @@ const PreviewComponent = () => {
     console.log(previewIframeElement);
     previewIframeElement.current.srcdoc = htmlStr;
     console.log("htmlStr", htmlStr);
-    previewIframeElement.current.scrolling = "no";
+    previewIframeElement.current.scrolling = "yes";
 
     // scrollbarWidthSetState();
 
@@ -102,6 +102,12 @@ const PreviewComponent = () => {
     console.log(previewOverlay);
   }, [previewOverlay]);
 
+  const widthHeightText = () => {
+    const scrollbarSizeWidth = String(window.innerWidth - document.body.clientWidth);
+    const text = "calc(100% - " + scrollbarSizeWidth + "px)";
+    return text;
+  };
+
   return (
     <div className="preview-main">
       {" "}
@@ -110,7 +116,12 @@ const PreviewComponent = () => {
           <p>html p</p>
         </iframe>
       </div>
-      <div className="preview-overlay" ref={previeOverlayElement} onMouseMove={previewOverlayUpdate} style={{ width: "100px" }}></div>
+      <div
+        className="preview-overlay"
+        ref={previeOverlayElement}
+        onMouseMove={previewOverlayUpdate}
+        style={{ width: widthHeightText(), height: widthHeightText() }}
+      ></div>
     </div>
   );
 };
