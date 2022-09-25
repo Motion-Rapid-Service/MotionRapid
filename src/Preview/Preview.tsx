@@ -10,6 +10,8 @@ import * as timelineMousePosition from "./../timeline/timeLineMousePosition";
 import UUID from "uuidjs";
 import * as UserHand from "./../UserHand";
 
+let moveFlag = false;
+
 class PreviewOverlay {
   left: number;
   top: number;
@@ -51,27 +53,43 @@ const PreviewOverlayShapeComponent = (props: any) => {
   const previewOverlayID = props.DownstreamShapePreviewOverlay.previewOverlayID;
   const previewOverlayShapeRef = useRef(null);
 
+  useEffect(() => {
+    console.log("PreviewOverlayShapeComponent", left);
+  }, [left]);
+
   const mouseDown = (event: any) => {
     UserHand.alldeleteUserHandPreviewShape();
-    const mousePushPos = timelineMousePosition.mediaObjectMousePosition(event, previewOverlayShapeRef);
+    const mousePushPos = Object.assign(timelineMousePosition.mediaObjectMousePosition(event, previewOverlayShapeRef));
     UserHand.insertUserHandPreviewShape(previewOverlayID, 1, mousePushPos, [left, top]);
+    console.log("userhand - insertUserHandPreviewShape", previewOverlayID, 1, mousePushPos, [left, top]);
+    moveFlag = true;
   };
   const mouseMove = (event: any) => {
     if (!UserHand.hasUserHandPreviewShape(previewOverlayID)) {
       return;
     }
 
-    const userHandKeyframe = UserHand.getUserHandKeyframe(previewOverlayID);
-
-    switch (userHandKeyframe.mouseDownFlag) {
+    const userrHandPreview = UserHand.getUserHandPreviewShape(previewOverlayID);
+    // console.log("userhand - ban", previewOverlayID, userHandKeyframe.mouseDownFlag);
+    switch (userrHandPreview.mouseDownFlag) {
       case 1:
         const mouseXY = timelineMousePosition.mediaObjectMousePosition(event, previewOverlayShapeRef);
-        UserHand.nowPosUserHandPreviewShape(previewOverlayID, mouseXY);
+        props.previewOverlayUpdate({
+          type: "drag",
+          left: mouseXY[0] - userrHandPreview.mousePushPos[0],
+          top: mouseXY[1] - userrHandPreview.mousePushPos[1],
+          thenPreviewOverlayID: previewOverlayID,
+          thenPreviewOverlay: JSON.parse(JSON.stringify(props.previewOverlayRef.current)),
+        });
+        // console.log("userhand - getUserHandPreviewShape", mouseXY, previewOverlayID);
+        // UserHand.nowPosUserHandPreviewShape(previewOverlayID, mouseXY);
         break;
     }
   };
   const mouseUp = (event: any) => {
-    UserHand.deleteUserHandPreviewShape(props.DownstreamShapePreviewOverlay.previewOverlayID);
+    console.log("userhand - mouseUp");
+    UserHand.alldeleteUserHandPreviewShape();
+    moveFlag = false;
   };
 
   useEffect(() => {
@@ -100,8 +118,6 @@ const PreviewComponent = () => {
   const AppContextValue = useContext(AppContext);
   const SetupEditorContextValue = useContext(SetupEditorContext);
 
-  const [scrollbarWidth, scrollbarWidthSetState] = useState<number>(0);
-
   useEffect(() => {
     const htmlStr = AppContextValue.previewMiddleDataHtml(SetupEditorContextValue.choiceComposite);
     console.log(previewIframeElement);
@@ -114,44 +130,80 @@ const PreviewComponent = () => {
     return () => {};
   }, [SetupEditorContextValue.previewUpdate]);
 
-  const setPreviewOverlay = (): Array<PreviewOverlay> => {
+  useEffect(() => {
+    // previewOverlayUpdate({ type: "new", thenPreviewOverlay: {} });
+    return () => {
+      previewOverlayUpdate({ type: "delete", thenPreviewOverlay: {} });
+    };
+  }, [SetupEditorContextValue.choiceComposite]);
+
+  const setPreviewOverlay = (state: any, action: any): { [name: string]: PreviewOverlay } => {
     console.log("setPreviewOverlay");
     if (!previewIframeElement.current) {
-      return [];
-    }
-    const iframeDocument = previewIframeElement.current.contentDocument || previewIframeElement.current.contentWindow.document;
-
-    const rootElement: HTMLInputElement = iframeDocument.getElementById("root");
-    if (!rootElement) {
-      return [];
+      return {};
     }
 
-    const returnArray: Array<PreviewOverlay> = [];
-
-    const compositeElements: Element = rootElement.firstElementChild;
-    const inElements: HTMLCollection = compositeElements.children;
-
-    for (let ce = 0; ce < inElements.length; ce++) {
-      const thenElements: Element = inElements[ce]; //これでcomposite要素直下を取得できる
-      console.log("thenElements", thenElements);
-
-      const maxSize = searchMaxSizeElement(thenElements);
-
-      const inRect = thenElements.getBoundingClientRect();
-      const inLeft = inRect.left;
-      const inTop = inRect.top;
-
-      returnArray.push(new PreviewOverlay(inLeft, inTop, maxSize[0], maxSize[1]));
-
-      console.log("searchMaxSizeElement", maxSize, inLeft, inTop);
+    console.log("action.type", action.type);
+    if (action.type === "delete") {
+      return {};
     }
-    return returnArray;
+
+    if (action.type === "drag") {
+      const newPVO = JSON.parse(JSON.stringify(action.thenPreviewOverlay));
+      const newL = action.left + newPVO[action.thenPreviewOverlayID].left;
+      const newT = action.top + newPVO[action.thenPreviewOverlayID].top;
+      newPVO[action.thenPreviewOverlayID].left = newL + 0;
+      newPVO[action.thenPreviewOverlayID].top = newT + 0;
+
+      console.log("userhand - newLT", action.thenPreviewOverlayID, newL, newT);
+
+      return newPVO;
+    }
+
+    if (action.type === "mouseMove") {
+      console.log("userhand - mouseMove");
+      const iframeDocument = previewIframeElement.current.contentDocument || previewIframeElement.current.contentWindow.document;
+
+      const rootElement: HTMLInputElement = iframeDocument.getElementById("root");
+      if (!rootElement) {
+        return {};
+      }
+
+      const compositeElements: Element = rootElement.firstElementChild;
+      const inElements: HTMLCollection = compositeElements.children;
+
+      for (let ce = 0; ce < inElements.length; ce++) {
+        const thenElements: Element = inElements[ce]; //これでcomposite要素直下を取得できる
+        console.log("thenElements", thenElements);
+
+        const maxSize = searchMaxSizeElement(thenElements);
+
+        const inRect = thenElements.getBoundingClientRect();
+        const inLeft = inRect.left;
+        const inTop = inRect.top;
+        const newPreviewOverlay = new PreviewOverlay(inLeft, inTop, maxSize[0], maxSize[1]);
+        action.thenPreviewOverlay[newPreviewOverlay.previewOverlayID] = newPreviewOverlay;
+        // }
+        console.log("searchMaxSizeElement", maxSize, inLeft, inTop);
+      }
+    }
+
+    // const returnDict: { [name: string]: PreviewOverlay } = {};
+
+    return action.thenPreviewOverlay;
   };
 
-  const [previewOverlay, previewOverlayUpdate] = useReducer(setPreviewOverlay, []);
+  const [previewOverlay, previewOverlayUpdate] = useReducer(setPreviewOverlay, {});
+
+  const previewOverlayRef = useRef(null);
+  previewOverlayRef.current = previewOverlay;
+
+  const componentConvertPreviewOverlay = () => {
+    return Object.values(previewOverlay);
+  };
 
   useEffect(() => {
-    console.log(previewOverlay);
+    console.log("previewOverlayUpdate", previewOverlay);
   }, [previewOverlay]);
 
   const widthHeightText = () => {
@@ -161,7 +213,11 @@ const PreviewComponent = () => {
   };
 
   const onMouseMove = () => {
-    previewOverlayUpdate();
+    if (moveFlag) {
+      return;
+    }
+
+    previewOverlayUpdate({ type: "mouseMove", thenPreviewOverlay: {} });
   };
 
   return (
@@ -174,10 +230,16 @@ const PreviewComponent = () => {
       </div>
       <div className="preview-overlay" ref={previeOverlayElement} onMouseMove={onMouseMove} style={{ width: widthHeightText(), height: widthHeightText() }}>
         {" "}
-        {previewOverlay.map((output: any, index: number) => (
+        {componentConvertPreviewOverlay().map((output: any, index: number) => (
           // <>{fruit}</> //SurfaceControlIndividualを追加するmap (list_surface_controlに入っている)
 
-          <PreviewOverlayShapeComponent DownstreamShapePreviewOverlay={output} key={index} />
+          <PreviewOverlayShapeComponent
+            DownstreamShapePreviewOverlay={output}
+            previewOverlay={previewOverlay}
+            previewOverlayUpdate={previewOverlayUpdate}
+            key={index}
+            previewOverlayRef={previewOverlayRef}
+          />
         ))}
       </div>
     </div>

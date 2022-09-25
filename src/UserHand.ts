@@ -128,12 +128,10 @@ class UserHandPreviewShapeOperation {
 
   mousePushPos: Array<number>; //マウスが押された時のマウス座標
   mouseDownPreviewShapeStyle: Array<number>; //マウスが押された時のキーフレーム地点
-  mouseNowPos: Array<number>;
   constructor(send_mouseDownFlag: number, send_mousePushPos: Array<number>, send_mouseDownPreviewShapeStyle: Array<number>) {
     this.mouseDownFlag = send_mouseDownFlag;
     this.mousePushPos = send_mousePushPos;
     this.mouseDownPreviewShapeStyle = send_mouseDownPreviewShapeStyle;
-    this.mouseNowPos = Object.assign(send_mousePushPos);
   }
 }
 const UserHandPreviewShapeList: { [name: string]: UserHandPreviewShapeOperation } = {};
@@ -144,11 +142,11 @@ export const insertUserHandPreviewShape = (
   mousePushPos: Array<number>,
   mouseDownPreviewShapeStyle: Array<number>
 ) => {
-  UserHandPreviewShapeList[PreviewShapeUUID] = new UserHandPreviewShapeOperation(stateUserHand, mousePushPos, mouseDownPreviewShapeStyle);
-};
-
-export const nowPosUserHandPreviewShape = (PreviewShapeUUID: string, nowPos: Array<number>) => {
-  UserHandPreviewShapeList[PreviewShapeUUID].mouseNowPos = Object.assign(nowPos);
+  UserHandPreviewShapeList[PreviewShapeUUID] = new UserHandPreviewShapeOperation(
+    stateUserHand,
+    Object.assign(mousePushPos),
+    Object.assign(mouseDownPreviewShapeStyle)
+  );
 };
 
 export const deleteUserHandPreviewShape = (PreviewShapeUUID: string) => {
