@@ -6,6 +6,8 @@ import { testJoin, textReplace, sortNumber } from "./../buildHTML/buildAuxiliary
 import * as middleDataClass from "./../../MiddleData/middleDataClass";
 import * as buildQue from "../buildQue";
 import * as buildCalculationTimeInterpolation from "./../buildCalculationTimeInterpolation";
+import generateCSSproperty from "../generateCSSproperty";
+
 import UUID from "uuidjs";
 
 const getUUIDCSSProperty = () => {
@@ -128,32 +130,33 @@ const CSSBuildMain = (
         const thenAnimatorClass: middleDataClass.Animator = OwnedClass_Animator[thenAnimatorID];
         const OwnedID_cssPropertyValue = thenAnimatorClass.OwnedID_cssPropertyValue;
         const thenCSSPropertyClass: middleDataClass.CSSProperty = OwnedClass_CSSProperty[OwnedID_cssPropertyValue];
-        const OwnedID_Keyframe: Array<string> = thenAnimatorClass.OwnedID_Keyframe;
 
         const valueIDArray = getUUIDCSSProperty();
 
         cssPropertySpeciesList[thenAnimatorClass.Animator_propertySpecies] = "var(" + valueIDArray[1] + ")";
 
-        let tempTimeValue: { [name: number]: string | number } = {};
-        if (OwnedID_Keyframe.length === 0) {
-          const OwnedID_cssPropertyValue = thenAnimatorClass.OwnedID_cssPropertyValue;
-          const thenCSSPropertyClass: middleDataClass.CSSProperty = OwnedClass_CSSProperty[OwnedID_cssPropertyValue];
-          tempTimeValue[0] = thenCSSPropertyClass.CSSProperty_Value;
-        } else {
-          for (let ki = 0; ki < OwnedID_Keyframe.length; ki++) {
-            //キーフレーム
-            const thenkeyframeID = OwnedID_Keyframe[ki];
-            const thenkeyframeClass: middleDataClass.Keyframe = OwnedClass_Keyframe[thenkeyframeID];
-            const Keyframe_AbsoluteTime = thenkeyframeClass.Keyframe_AbsoluteTime;
-            console.log("最深部", compositeID, mediaObjectID, thenAnimatorGroupID, thenAnimatorID, thenkeyframeID);
-            console.log(OwnedID_AnimatorGroup.length, OwnedID_Animator.length, OwnedID_Keyframe.length);
+        const tempTimeValue = generateCSSproperty(thenAnimatorClass, OwnedClass_Keyframe, OwnedClass_CSSProperty);
 
-            let thenCSSPropertyID: string = thenkeyframeClass.OwnedID_cssPropertyValue;
-            let thenCSSPropertyClass: middleDataClass.CSSProperty = OwnedClass_CSSProperty[thenCSSPropertyID];
+        // let tempTimeValue: { [name: number]: string | number } = {};
+        // if (OwnedID_Keyframe.length === 0) {
+        //   const OwnedID_cssPropertyValue = thenAnimatorClass.OwnedID_cssPropertyValue;
+        //   const thenCSSPropertyClass: middleDataClass.CSSProperty = OwnedClass_CSSProperty[OwnedID_cssPropertyValue];
+        //   tempTimeValue[0] = thenCSSPropertyClass.CSSProperty_Value;
+        // } else {
+        //   for (let ki = 0; ki < OwnedID_Keyframe.length; ki++) {
+        //     //キーフレーム
+        //     const thenkeyframeID = OwnedID_Keyframe[ki];
+        //     const thenkeyframeClass: middleDataClass.Keyframe = OwnedClass_Keyframe[thenkeyframeID];
+        //     const Keyframe_AbsoluteTime = thenkeyframeClass.Keyframe_AbsoluteTime;
+        //     console.log("最深部", compositeID, mediaObjectID, thenAnimatorGroupID, thenAnimatorID, thenkeyframeID);
+        //     console.log(OwnedID_AnimatorGroup.length, OwnedID_Animator.length, OwnedID_Keyframe.length);
 
-            tempTimeValue[Keyframe_AbsoluteTime] = thenCSSPropertyClass.CSSProperty_Value;
-          }
-        }
+        //     let thenCSSPropertyID: string = thenkeyframeClass.OwnedID_cssPropertyValue;
+        //     let thenCSSPropertyClass: middleDataClass.CSSProperty = OwnedClass_CSSProperty[thenCSSPropertyID];
+
+        //     tempTimeValue[Keyframe_AbsoluteTime] = thenCSSPropertyClass.CSSProperty_Value;
+        //   }
+        // }
         console.log("tempTimeValue", tempTimeValue);
         const tempSortTimeValue = sortNumber(Object.keys(tempTimeValue), false);
         console.log("tempSortTimeValue", tempSortTimeValue);
