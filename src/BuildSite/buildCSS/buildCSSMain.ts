@@ -5,7 +5,7 @@ import * as AnimatorGroupPropertyFormat from "./../../AnimatorGroupFormat/Animat
 import { testJoin, textReplace, sortNumber } from "./../buildHTML/buildAuxiliaryFunction";
 import * as middleDataClass from "./../../MiddleData/middleDataClass";
 import * as buildQue from "../buildQue";
-
+import * as buildCalculationTimeInterpolation from "./../buildCalculationTimeInterpolation";
 import UUID from "uuidjs";
 
 const getUUIDCSSProperty = () => {
@@ -160,38 +160,8 @@ const CSSBuildMain = (
 
         if (compositeTimeFlag) {
           //プレビューの時
-          let cssValue: number;
-          const compositePlayheadTimePos = compositePreviewTime;
 
-          if (compositePlayheadTimePos <= Number(tempSortTimeValue[0])) {
-            //最初のキーフレームの場所より手前だった時
-            const pointTime = tempSortTimeValue[0];
-            cssValue = Number(tempTimeValue[Number(pointTime)]);
-          } else if (Number(tempSortTimeValue[tempSortTimeValue.length - 1]) <= compositePlayheadTimePos) {
-            const pointTime = tempSortTimeValue[tempSortTimeValue.length - 1];
-            cssValue = Number(tempTimeValue[Number(pointTime)]);
-          } else {
-            let aPointTime: string;
-            let bPointTime: string;
-
-            for (let i = 0; i < tempSortTimeValue.length; i++) {
-              if (compositePlayheadTimePos > Number(tempSortTimeValue[i])) {
-                aPointTime = tempSortTimeValue[i];
-                bPointTime = tempSortTimeValue[i + 1];
-                continue;
-              }
-            }
-
-            const aPointValue: number = Number(tempTimeValue[Number(aPointTime)]);
-            const bPointValue: number = Number(tempTimeValue[Number(bPointTime)]);
-
-            const timeSection: number = Number(bPointTime) - Number(aPointTime);
-            const nowTimeSection: number = compositePlayheadTimePos - Number(aPointTime);
-            const valueSection: number = bPointValue - aPointValue;
-            const timeRate: number = nowTimeSection / timeSection; //進行度を計算する
-            const valueSectionRate: number = valueSection * timeRate;
-            cssValue = valueSectionRate + aPointValue;
-          }
+          const cssValue = buildCalculationTimeInterpolation.timeInterpolation(compositePreviewTime, tempSortTimeValue, tempTimeValue);
 
           let unitTemp = "";
           if (thenCSSPropertyClass.CSSProperty_Unit) {
