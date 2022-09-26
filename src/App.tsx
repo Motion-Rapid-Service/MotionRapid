@@ -282,6 +282,8 @@ const App = () => {
 
           getOwnedID_Composite: middleDataOperation.getOwnedID_Composite,
 
+          getOwnedClassAnimator: middleDataOperation.getOwnedClassAnimator,
+
           operationMediaObjectTime: middleDataOperation.operationMediaObjectTime,
           operationKeyframeTime: middleDataOperation.operationKeyframeTime,
           operationLinkAnimatorGroup: middleDataOperation.operationLinkAnimatorGroup,
@@ -303,6 +305,8 @@ const App = () => {
 
           getOwnedID_CSSPropertySpeciesHasAnimator: middleDataOperation.getOwnedID_CSSPropertySpeciesHasAnimator,
           getOwnedID_CSSPropertySpeciesHasKeyframe: middleDataOperation.getOwnedID_CSSPropertySpeciesHasKeyframe,
+
+          getOwnedID_Keyframe: middleDataOperation.getOwnedID_Keyframe,
 
           fileExportDataCentral: middleDataOperation.fileExportDataCentral,
           // fileExportComposite: middleDataOperation.fileExportComposite,

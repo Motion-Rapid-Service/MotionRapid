@@ -64,8 +64,6 @@ const TimelineComponent = () => {
   const [timeNavigatorFlag, timeNavigatorFlagSetState] = useState<boolean>(false); //trueは操作中
   const [durationWidth, durationWidthSetState] = useState<number>(0); //これは画面表示上の数値
 
-  const choiceComposite = SetupEditorContextValue.choiceComposite;
-
   // useEffect(() => {
   //   console.log("durationWidth", durationWidth);
   // }, [durationWidth]);

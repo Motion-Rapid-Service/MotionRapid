@@ -28,6 +28,8 @@ type AppContextValue = {
   setDataCentralMediaTable: Function;
   getDataCentralMediaTable: Function;
 
+  getOwnedClassAnimator: Function;
+
   operationMediaObjectSourceSpeciesClass: Function;
 
   operationMediaObjectTime: Function;
@@ -56,6 +58,8 @@ type AppContextValue = {
   setMediaObjectName: Function;
 
   getCompositeDuration: Function;
+
+  getOwnedID_Keyframe: Function;
 
   fileExportDataCentral: Function;
   // fileExportComposite: Function;

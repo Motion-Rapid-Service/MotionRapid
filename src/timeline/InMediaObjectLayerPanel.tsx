@@ -3,10 +3,19 @@ const { useState, useRef, useEffect, useContext, useReducer, createContext } = R
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import { AppContext, ComponentConvertAnimatorAreaType, ComponentConvertAnimatorGroupType, ComponentConvertAnimatorType } from "../AppContext";
-import { MediaObjectContext, TimelineAreaDivContext, LayerPanelContext, LayerDurationContext, LayerPanelAnimaterContext } from "./timelineContext";
+import {
+  MediaObjectContext,
+  TimelineAreaDivContext,
+  LayerPanelContext,
+  LayerDurationContext,
+  LayerPanelAnimaterContext,
+  AnimaterCSSpropertyContext,
+} from "./timelineContext";
 import { SetupEditorContext } from "./../SetupEditor/SetupEditorContext";
 import { SetupConfigContext } from "../SetupEditor/SetupConfigContext";
 import { SetupUndoContext } from "./../SetupEditor/SetupUndoContext";
+
+import { TimeNavigatorContext } from "./TimeNavigator/TimeNavigatorContext";
 
 import * as buildSourceSpecies from "./../BuildSite/buildHTML/buildSourceSpecies";
 // import { timelineMousePosition ,timelineLayerPanelPostion} from "./timeLineMousePosition";
@@ -16,7 +25,8 @@ import * as middleDataClass from "./../MiddleData/middleDataClass";
 import * as AnimatorGroupFormat from "./../AnimatorGroupFormat/AnimatorGroupFormat";
 import * as AnimatorGroupPropertyFormat from "./../AnimatorGroupFormat/AnimatorGroupPropertyFormat";
 import * as MiddleDataOperationType from "./../MiddleData/middleDataOperationType";
-
+import * as buildCalculationTimeInterpolation from "./../BuildSite/buildCalculationTimeInterpolation";
+// import generateCSSproperty from "../BuildSite/generateCSSproperty";
 class UserHandLayerPanelOperation {
   mousePushPos: number; //マウスが押された時のマウス座標
   //mouseDownKeyframeStyle: number; //マウスが押された時のメディアオブジェクト開始地点
@@ -247,27 +257,16 @@ const AnimaterInsertKeyframeButton = (props: any) => {
 const AnimaterCSSproperty = (props: any) => {
   const AppContextValue = useContext(AppContext);
   const LayerPanelAnimaterContextValue = useContext(LayerPanelAnimaterContext);
+  const AnimaterCSSpropertyContextValue = useContext(AnimaterCSSpropertyContext);
 
-  const CSSPropertyID = AppContextValue.getOwnedID_CSSPropertySpeciesHasAnimator(LayerPanelAnimaterContextValue.Animator_ID);
-  const CSSPropertyValue: string = AppContextValue.getCSSPropertyValue(CSSPropertyID);
-  const CSSPropertyUnit: string = AppContextValue.getCSSPropertyUnit(CSSPropertyID);
-
-  console.log("AnimaterCSSproperty", CSSPropertyID, CSSPropertyValue, CSSPropertyUnit);
-
-  const [animaterCSSpropertyValue, animaterCSSpropertyValueSetState] = useState<string>(CSSPropertyValue);
+  const AnimatorCSSPropertyID = AppContextValue.getOwnedID_CSSPropertySpeciesHasAnimator(LayerPanelAnimaterContextValue.Animator_ID);
+  const CSSPropertyUnit: string = AppContextValue.getCSSPropertyUnit(AnimatorCSSPropertyID);
+  const [animaterCSSpropertyValue, animaterCSSpropertyValueSetState] = useState<string>(null);
   const [animaterCSSpropertyUnit, animaterCSSpropertyUnitSetState] = useState<string>(CSSPropertyUnit);
 
   useEffect(() => {
-    const unitSendData: MiddleDataOperationType.OoperationCSSPropertyValueType = {
-      CSSPropertyID: CSSPropertyID,
-      CSSPropertyValue: animaterCSSpropertyValue,
-    };
-
-    AppContextValue.operationCSSPropertyValue(unitSendData);
-  }, [animaterCSSpropertyValue]);
-  useEffect(() => {
     const unitSendData: MiddleDataOperationType.OoperationCSSPropertyUnitType = {
-      CSSPropertyID: CSSPropertyID,
+      CSSPropertyID: AnimatorCSSPropertyID,
       CSSPropertyUnit: animaterCSSpropertyUnit,
     };
     AppContextValue.operationCSSPropertyUnit(unitSendData);
@@ -276,13 +275,101 @@ const AnimaterCSSproperty = (props: any) => {
 
   return (
     <div className="layer_panel-animator-entity-css_property">
-      <AnimaterCSSpropertyValue animaterCSSpropertyValue={animaterCSSpropertyValue} animaterCSSpropertyValueSetState={animaterCSSpropertyValueSetState} />
+      <AnimaterCSSpropertyContext.Provider
+        value={{
+          animaterCSSpropertyValue: animaterCSSpropertyValue,
+          animaterCSSpropertyValueSetState: animaterCSSpropertyValueSetState,
+          AnimatorCSSPropertyID: AnimatorCSSPropertyID,
+        }}
+      >
+        <SwitchAnimaterCSSpropertyValue />
+      </AnimaterCSSpropertyContext.Provider>
+
       <AnimaterCSSpropertyUnit
         initCSSPropertyUnit={CSSPropertyUnit}
         animaterCSSpropertyUnit={animaterCSSpropertyUnit}
         animaterCSSpropertyUnitSetState={animaterCSSpropertyUnitSetState}
       />
     </div>
+  );
+};
+const SwitchAnimaterCSSpropertyValue = () => {
+  const AppContextValue = useContext(AppContext);
+  const LayerPanelAnimaterContextValue = useContext(LayerPanelAnimaterContext);
+
+  const keyframe_IDArray: Array<string> = AppContextValue.getOwnedID_Keyframe(LayerPanelAnimaterContextValue.Animator_ID);
+
+  if (keyframe_IDArray.length === 0) {
+    return <AnimaterCSSpropertyValueAnimator />;
+  } else {
+    return <AnimaterCSSpropertyValueKeyframe />;
+  }
+};
+const AnimaterCSSpropertyValueAnimator = () => {
+  const AppContextValue = useContext(AppContext);
+  const AnimaterCSSpropertyContextValue = useContext(AnimaterCSSpropertyContext);
+
+  useEffect(() => {
+    const CSSPropertyValue: string = AppContextValue.getCSSPropertyValue(AnimaterCSSpropertyContextValue.AnimatorCSSPropertyID);
+    AnimaterCSSpropertyContextValue.animaterCSSpropertyValueSetState(CSSPropertyValue);
+  }, []);
+
+  useEffect(() => {
+    const unitSendData: MiddleDataOperationType.OoperationCSSPropertyValueType = {
+      CSSPropertyID: AnimaterCSSpropertyContextValue.AnimatorCSSPropertyID,
+      CSSPropertyValue: AnimaterCSSpropertyContextValue.animaterCSSpropertyValue,
+    };
+
+    AppContextValue.operationCSSPropertyValue(unitSendData);
+  }, [AnimaterCSSpropertyContextValue.animaterCSSpropertyValue]);
+
+  return (
+    <AnimaterCSSpropertyValue
+      animaterCSSpropertyValue={AnimaterCSSpropertyContextValue.animaterCSSpropertyValue}
+      animaterCSSpropertyValueSetState={AnimaterCSSpropertyContextValue.animaterCSSpropertyValueSetState}
+    />
+  );
+};
+const AnimaterCSSpropertyValueKeyframe = (props: any) => {
+  const AppContextValue = useContext(AppContext);
+  const LayerPanelAnimaterContextValue = useContext(LayerPanelAnimaterContext);
+  const SetupEditorContextValue = useContext(SetupEditorContext);
+  const OwnedID_Keyframe = AppContextValue.getOwnedID_Keyframe(LayerPanelAnimaterContextValue.Animator_ID);
+  const TimeNavigatorContextValue = useContext(TimeNavigatorContext);
+
+  const getKeyframeValue = () => {
+    //現在のプレイヘッドから数値を補完する
+    let tempTimeValue: { [name: number]: string | number } = {};
+    for (let ki = 0; ki < OwnedID_Keyframe.length; ki++) {
+      //キーフレーム
+      const thenkeyframeID = OwnedID_Keyframe[ki];
+      const Keyframe_AbsoluteTime = AppContextValue.getKeyframeTime(thenkeyframeID);
+
+      const thenCSSPropertyID: string = AppContextValue.getOwnedID_CSSPropertySpeciesHasKeyframe(thenkeyframeID);
+      tempTimeValue[Keyframe_AbsoluteTime] = AppContextValue.getCSSPropertyValue(thenCSSPropertyID);
+    }
+    const tempSortTimeValue = AppContextValue.sortNumber(Object.keys(tempTimeValue), false);
+    const cssValue = buildCalculationTimeInterpolation.timeInterpolation(TimeNavigatorContextValue.playheadTime, tempSortTimeValue, tempTimeValue);
+    return cssValue;
+  };
+
+  useEffect(() => {
+    props.animaterCSSpropertyValueSetState(getKeyframeValue());
+  }, []);
+  useEffect(() => {
+    const unitSendData: MiddleDataOperationType.OoperationCSSPropertyValueType = {
+      CSSPropertyID: props.CSSPropertyID,
+      CSSPropertyValue: props.animaterCSSpropertyValue,
+    };
+
+    AppContextValue.operationCSSPropertyValue(unitSendData);
+  }, [props.animaterCSSpropertyValue]);
+
+  return (
+    <AnimaterCSSpropertyValue
+      animaterCSSpropertyValue={props.animaterCSSpropertyValue}
+      animaterCSSpropertyValueSetState={props.animaterCSSpropertyValueSetState}
+    />
   );
 };
 

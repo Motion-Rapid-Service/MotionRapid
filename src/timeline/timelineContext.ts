@@ -69,3 +69,6 @@ type LayerPanelAnimaterContextValue = {
   AnimatorGroup_Species: string;
 };
 export const LayerPanelAnimaterContext = createContext<LayerPanelAnimaterContextValue>({} as LayerPanelAnimaterContextValue);
+
+type AnimaterCSSpropertyContextValue = { AnimatorCSSPropertyID: string; animaterCSSpropertyValue: string; animaterCSSpropertyValueSetState: Function };
+export const AnimaterCSSpropertyContext = createContext<AnimaterCSSpropertyContextValue>({} as AnimaterCSSpropertyContextValue);
