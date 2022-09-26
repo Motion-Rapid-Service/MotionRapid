@@ -331,6 +331,14 @@ const AnimaterCSSpropertyValueKeyframe = () => {
   const OwnedID_Keyframe = AppContextValue.getOwnedID_Keyframe(LayerPanelAnimaterContextValue.Animator_ID);
   const TimeNavigatorContextValue = useContext(TimeNavigatorContext);
   const AnimaterCSSpropertyContextValue = useContext(AnimaterCSSpropertyContext);
+
+  const playheadTime = AppContextValue.conversionStyleToTime(
+    TimeNavigatorContextValue.playheadTime,
+    TimeNavigatorContextValue.staStyleViewPos,
+    TimeNavigatorContextValue.endStyleViewPos,
+    TimeNavigatorContextValue.durationWidth
+  );
+
   const getKeyframeValue = () => {
     //現在のプレイヘッドから数値を補完する
     let tempTimeValue: { [name: number]: string | number } = {};
@@ -343,21 +351,14 @@ const AnimaterCSSpropertyValueKeyframe = () => {
       tempTimeValue[Keyframe_AbsoluteTime] = AppContextValue.getCSSPropertyValue(thenCSSPropertyID);
     }
     const tempSortTimeValue = AppContextValue.sortNumber(Object.keys(tempTimeValue), false);
-    const cssValue = buildCalculationTimeInterpolation.timeInterpolation(TimeNavigatorContextValue.playheadTime, tempSortTimeValue, tempTimeValue);
+    console.log("tempSortTimeValue-AnimaterCSSpropertyValueKeyframe", tempSortTimeValue, tempTimeValue);
+    const cssValue = buildCalculationTimeInterpolation.timeInterpolation(playheadTime, tempSortTimeValue, tempTimeValue);
     return cssValue;
   };
 
   useEffect(() => {
     AnimaterCSSpropertyContextValue.animaterCSSpropertyValueSetState(getKeyframeValue());
-  }, []);
-  // useEffect(() => {
-  //   const unitSendData: MiddleDataOperationType.OoperationCSSPropertyValueType = {
-  //     CSSPropertyID: AnimaterCSSpropertyContextValue.CSSPropertyID,
-  //     CSSPropertyValue: AnimaterCSSpropertyContextValue.animaterCSSpropertyValue,
-  //   };
-
-  //   AppContextValue.operationCSSPropertyValue(unitSendData);
-  // }, [AnimaterCSSpropertyContextValue.animaterCSSpropertyValue]);
+  }, [SetupEditorContextValue.previewUpdate]);
 
   return <AnimaterCSSpropertyValue />;
 };

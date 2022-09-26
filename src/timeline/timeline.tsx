@@ -58,7 +58,7 @@ const TimelineComponent = () => {
   //getCompositePlayheadTimePos
 
   const [focusMediaObjectSpace, focusMediaObjectSpaceSetState] = useState<number>(-1);
-  const [playheadTime, playheadTimeSetState] = useState<number>(100); //時間単位の数値
+  const [playheadTime, playheadTimeSetState] = useState<number>(100); //画面表示上の数値
   const [staStyleViewPos, staStyleViewPosSetState] = useState<number>(0); //時間単位の数値
   const [endStyleViewPos, endStyleViewPosSetState] = useState<number>(0); //時間単位の数値
   const [timeNavigatorFlag, timeNavigatorFlagSetState] = useState<boolean>(false); //trueは操作中
