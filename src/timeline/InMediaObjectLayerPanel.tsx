@@ -346,7 +346,6 @@ const AnimaterCSSpropertyValueKeyframe = () => {
       //キーフレーム
       const thenkeyframeID = OwnedID_Keyframe[ki];
       const Keyframe_AbsoluteTime = AppContextValue.getKeyframeTime(thenkeyframeID);
-
       const thenCSSPropertyID: string = AppContextValue.getOwnedID_CSSPropertySpeciesHasKeyframe(thenkeyframeID);
       tempTimeValue[Keyframe_AbsoluteTime] = AppContextValue.getCSSPropertyValue(thenCSSPropertyID);
     }
@@ -355,6 +354,48 @@ const AnimaterCSSpropertyValueKeyframe = () => {
     const cssValue = buildCalculationTimeInterpolation.timeInterpolation(playheadTime, tempSortTimeValue, tempTimeValue);
     return cssValue;
   };
+
+  const equalsKeyframeTime = (playheadTime: number): number => {
+    for (let ki = 0; ki < OwnedID_Keyframe.length; ki++) {
+      //キーフレーム
+      const thenkeyframeID = OwnedID_Keyframe[ki];
+      const Keyframe_AbsoluteTime = Number(AppContextValue.getKeyframeTime(thenkeyframeID));
+
+      console.log("比較", playheadTime, Keyframe_AbsoluteTime);
+
+      if (playheadTime === Keyframe_AbsoluteTime) {
+        return thenkeyframeID;
+      }
+      // const thenCSSPropertyID: string = AppContextValue.getOwnedID_CSSPropertySpeciesHasKeyframe(thenkeyframeID);
+    }
+
+    return null;
+  };
+
+  useEffect(() => {
+    if (!equalsKeyframeTime(playheadTime)) {
+      //同じ値のキーフレームがなかった時
+      const keyframeID: string = AppContextValue.operationCreateKeyframe();
+      AppContextValue.linkKeyframe(LayerPanelAnimaterContextValue.Animator_ID, keyframeID);
+      const temp: MiddleDataOperationType.OperationKeyframeTimeType = { KeyframeID: keyframeID, time: playheadTime };
+      console.log("newkeyframe", playheadTime, temp);
+      AppContextValue.operationKeyframeTime(temp);
+      const thenCSSPropertyID: string = AppContextValue.getOwnedID_CSSPropertySpeciesHasKeyframe(keyframeID);
+      const unitSendData: MiddleDataOperationType.OoperationCSSPropertyValueType = {
+        CSSPropertyID: thenCSSPropertyID,
+        CSSPropertyValue: AnimaterCSSpropertyContextValue.animaterCSSpropertyValue,
+      };
+      AppContextValue.operationCSSPropertyValue(unitSendData);
+    } else {
+      //あった時
+      const unitSendData: MiddleDataOperationType.OoperationCSSPropertyValueType = {
+        CSSPropertyID: AnimaterCSSpropertyContextValue.AnimatorCSSPropertyID,
+        CSSPropertyValue: AnimaterCSSpropertyContextValue.animaterCSSpropertyValue,
+      };
+
+      AppContextValue.operationCSSPropertyValue(unitSendData);
+    }
+  }, [AnimaterCSSpropertyContextValue.animaterCSSpropertyValue]);
 
   useEffect(() => {
     AnimaterCSSpropertyContextValue.animaterCSSpropertyValueSetState(getKeyframeValue());
