@@ -301,14 +301,21 @@ const App = () => {
           getMediaObjectSourceSpecies: middleDataOperation.getMediaObjectSourceSpecies,
           getKeyframeTime: middleDataOperation.getKeyframeTime,
 
+          getCompositeHorizontalMode: middleDataOperation.getCompositeHorizontalMode,
+          getCompositeLocationMode: middleDataOperation.getCompositeLocationMode,
+
           getCompositePlayheadTimePos: middleDataOperation.getCompositePlayheadTimePos,
           setCompositePlayheadTimePos: middleDataOperation.setCompositePlayheadTimePos,
 
           getOwnedID_CSSPropertySpeciesHasAnimator: middleDataOperation.getOwnedID_CSSPropertySpeciesHasAnimator,
           getOwnedID_CSSPropertySpeciesHasKeyframe: middleDataOperation.getOwnedID_CSSPropertySpeciesHasKeyframe,
 
+          getOwnedID_MediaObject: middleDataOperation.getOwnedID_MediaObject,
+          getOwnedID_AnimatorGroup: middleDataOperation.getOwnedClassAnimatorGroup,
+          getOwnedID_Animator: middleDataOperation.getOwnedClassAnimator,
           getOwnedID_Keyframe: middleDataOperation.getOwnedID_Keyframe,
 
+          searchSpecificAnimatorGroupSpecies: middleDataOperation.searchSpecificAnimatorGroupSpecies,
           fileExportDataCentral: middleDataOperation.fileExportDataCentral,
           // fileExportComposite: middleDataOperation.fileExportComposite,
           // htmlBuildMain:htmlBuildMain

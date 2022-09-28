@@ -18,13 +18,15 @@ class PreviewOverlay {
   width: number;
   height: number;
   previewOverlayID: string;
+  mediaObjectID: string;
 
-  constructor(send_left: number, send_top: number, send_width: number, send_height: number) {
+  constructor(send_left: number, send_top: number, send_width: number, send_height: number, send_mediaObjectID: string) {
     this.left = send_left;
     this.top = send_top;
     this.width = send_width;
     this.height = send_height;
     this.previewOverlayID = "previewOverlay_" + String(UUID.generate());
+    this.mediaObjectID = send_mediaObjectID;
   }
 }
 
@@ -46,12 +48,17 @@ const searchMaxSizeElement = (targetElement: Element) => {
 };
 
 const PreviewOverlayShapeComponent = (props: any) => {
+  const SetupEditorContextValue = useContext(SetupEditorContext);
+
   const left = props.DownstreamShapePreviewOverlay.left;
   const top = props.DownstreamShapePreviewOverlay.top;
   const width = props.DownstreamShapePreviewOverlay.width;
   const height = props.DownstreamShapePreviewOverlay.height;
+  const mediaObjectID = props.DownstreamShapePreviewOverlay.mediaObjectID;
   const previewOverlayID = props.DownstreamShapePreviewOverlay.previewOverlayID;
   const previewOverlayShapeRef = useRef(null);
+
+  const AppContextValue = useContext(AppContext);
 
   useEffect(() => {
     console.log("PreviewOverlayShapeComponent", left);
@@ -59,7 +66,33 @@ const PreviewOverlayShapeComponent = (props: any) => {
 
   const newKeyframe = () => {};
 
-  const checkAnimator = () => {};
+  const checkAnimatorGroup = () => {
+    //leftやtop、marginが存在するかどうかを検出 これはcomposite要素の配置順による
+
+    const leftAnimatorGroupID: Array<string> = AppContextValue.searchSpecificAnimatorGroupSpecies(mediaObjectID, "left");
+    const topAnimatorGroupID: Array<string> = AppContextValue.searchSpecificAnimatorGroupSpecies(mediaObjectID, "top");
+    const rightAnimatorGroupID: Array<string> = AppContextValue.searchSpecificAnimatorGroupSpecies(mediaObjectID, "right");
+    const bottomAnimatorGroupID: Array<string> = AppContextValue.searchSpecificAnimatorGroupSpecies(mediaObjectID, "bottom");
+    const marginAnimatorGroupID: Array<string> = AppContextValue.searchSpecificAnimatorGroupSpecies(mediaObjectID, "margin");
+
+    const HasLeftAnimatorGroupID = leftAnimatorGroupID.length > 0;
+    const HasTopAnimatorGroupID = topAnimatorGroupID.length > 0;
+    const HasRightAnimatorGroupID = rightAnimatorGroupID.length > 0;
+    const HasBottomAnimatorGroupID = bottomAnimatorGroupID.length > 0;
+    const HasMarginAnimatorGroupID = marginAnimatorGroupID.length > 0;
+
+    const compositeLocationMode = AppContextValue.getCompositeLocationMode(SetupEditorContextValue.choiceComposite);
+
+    // const OwnedID_AnimatorGroup: Array<string> = AppContextValue.getOwnedID_AnimatorGroup(mediaObjectID);
+    // for (let ag = 0; ag < OwnedID_AnimatorGroup.length; ag++) {
+    //   const thenAnimatorGroupID = OwnedID_AnimatorGroup[ag];
+    //   // const OwnedID_Animator: Array<string> = AppContextValue.getOwnedID_Animator(thenAnimatorGroupID);
+    //   // for (let an = 0; an < OwnedID_Animator.length; an++) {
+    //   //   const thenAnimatorID = OwnedID_Animator[an];
+    //   // }
+    // }
+    // const isAnimator = OwnedID_Keyframe.length === 0;
+  };
 
   const mouseDown = (event: any) => {
     UserHand.alldeleteUserHandPreviewShape();
@@ -178,14 +211,15 @@ const PreviewComponent = () => {
 
       for (let ce = 0; ce < inElements.length; ce++) {
         const thenElements: Element = inElements[ce]; //これでcomposite要素直下を取得できる
-        console.log("thenElements", thenElements);
+        const thenID = thenElements.getAttribute("id");
+        console.log("thenElements", thenElements, thenID);
 
         const maxSize = searchMaxSizeElement(thenElements);
 
         const inRect = thenElements.getBoundingClientRect();
         const inLeft = inRect.left;
         const inTop = inRect.top;
-        const newPreviewOverlay = new PreviewOverlay(inLeft, inTop, maxSize[0], maxSize[1]);
+        const newPreviewOverlay = new PreviewOverlay(inLeft, inTop, maxSize[0], maxSize[1], thenID);
         action.thenPreviewOverlay[newPreviewOverlay.previewOverlayID] = newPreviewOverlay;
         // }
         console.log("searchMaxSizeElement", maxSize, inLeft, inTop);

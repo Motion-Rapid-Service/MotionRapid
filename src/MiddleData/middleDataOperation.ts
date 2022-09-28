@@ -361,6 +361,26 @@ export default class MiddleDataOperation {
     return Object.assign(this.DataCentral.OwnedClass_CSSProperty[CSSPropertySpeciesID]);
   };
 
+  getCompositeHorizontalMode = (compositeID: string) => {
+    if (!hasKeyFound(compositeID, this.DataCentral.OwnedClass_Composite)) {
+      return "";
+    }
+
+    const thenComposite = this.DataCentral.OwnedClass_Composite[compositeID];
+    //console.log("thenComposite", thenComposite);
+    return thenComposite.Composite_HorizontalMode;
+  };
+
+  getCompositeLocationMode = (compositeID: string) => {
+    if (!hasKeyFound(compositeID, this.DataCentral.OwnedClass_Composite)) {
+      return "";
+    }
+
+    const thenComposite = this.DataCentral.OwnedClass_Composite[compositeID];
+    //console.log("thenComposite", thenComposite);
+    return thenComposite.Composite_LocationMode;
+  };
+
   getCompositeName = (compositeID: string) => {
     if (!hasKeyFound(compositeID, this.DataCentral.OwnedClass_Composite)) {
       return "";
@@ -458,6 +478,28 @@ export default class MiddleDataOperation {
     const Keyframe_AbsoluteTime = this.DataCentral.OwnedClass_Keyframe[keyframeID].Keyframe_AbsoluteTime;
 
     return Keyframe_AbsoluteTime;
+  };
+
+  searchSpecificAnimatorGroupSpecies = (mediaObjectID: string, animatorGroupSpeciesName: string) => {
+    const animatorGroupFormatListKey = AnimatorGroupFormat.getAnimatorGroupFormatListKey();
+
+    let tempAnimatorGroupIDArray: Array<string> = [];
+
+    if (!hasKeyFound(mediaObjectID, this.DataCentral.OwnedClass_MediaObject)) {
+      return;
+    }
+    const OwnedID_AnimatorGroup = this.DataCentral.OwnedClass_MediaObject[mediaObjectID].OwnedID_AnimatorGroup;
+
+    for (let ani = 0; ani < OwnedID_AnimatorGroup.length; ani++) {
+      const thenAnimatorID = OwnedID_AnimatorGroup[ani];
+      const thenAnimatorGroupClass = this.DataCentral.OwnedClass_AnimatorGroup[thenAnimatorID];
+
+      if (thenAnimatorGroupClass.AnimatorGroup_Species === animatorGroupSpeciesName) {
+        tempAnimatorGroupIDArray.push(thenAnimatorID);
+      }
+    }
+
+    return tempAnimatorGroupIDArray;
   };
 
   deleteMediaObject = () => {};

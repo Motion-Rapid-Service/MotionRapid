@@ -48,6 +48,11 @@ type AppContextValue = {
   getOwnedID_CSSPropertySpeciesHasAnimator: Function;
   getOwnedID_CSSPropertySpeciesHasKeyframe: Function;
 
+  searchSpecificAnimatorGroupSpecies: Function;
+
+  getCompositeHorizontalMode: Function;
+  getCompositeLocationMode: Function;
+
   getMediaObjectTime: Function;
   getMediaObjectSourceSpecies: Function;
   getKeyframeTime: Function;
@@ -58,6 +63,10 @@ type AppContextValue = {
   setMediaObjectName: Function;
 
   getCompositeDuration: Function;
+
+  getOwnedID_MediaObject: Function;
+  getOwnedID_AnimatorGroup: Function;
+  getOwnedID_Animator: Function;
 
   getOwnedID_Keyframe: Function;
 
