@@ -6,7 +6,7 @@ function %SCROLLFUNCTIONNAME%() {
 
   let scroll_y = Number(window.scrollY);
 
-  console.log("scroll_y",scroll_y)
+  //console.log("scroll_y",scroll_y)
 
   let cssValue;
 
@@ -51,7 +51,7 @@ function %SCROLLFUNCTIONNAME%() {
 
     cssValue = valueSectionRate + aPointValue;
 
-    console.log(scroll_y,aPoint,bPoint,aPointTime,bPointTime,aPointValue,bPointValue,timeSection,nowTimeSection,valueSection,timeRate,valueSectionRate,cssValue)
+    //console.log(scroll_y,aPoint,bPoint,aPointTime,bPointTime,aPointValue,bPointValue,timeSection,nowTimeSection,valueSection,timeRate,valueSectionRate,cssValue)
 
   }
 

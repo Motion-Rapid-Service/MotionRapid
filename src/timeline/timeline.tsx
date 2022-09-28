@@ -58,7 +58,7 @@ const TimelineComponent = () => {
   //getCompositePlayheadTimePos
 
   const [focusMediaObjectSpace, focusMediaObjectSpaceSetState] = useState<number>(-1);
-  const [playheadTime, playheadTimeSetState] = useState<number>(100); //画面表示上の数値
+  const [playheadViewPos, playheadViewPosSetState] = useState<number>(100); //画面表示上の数値
   const [staStyleViewPos, staStyleViewPosSetState] = useState<number>(0); //時間単位の数値
   const [endStyleViewPos, endStyleViewPosSetState] = useState<number>(0); //時間単位の数値
   const [timeNavigatorFlag, timeNavigatorFlagSetState] = useState<boolean>(false); //trueは操作中
@@ -82,7 +82,7 @@ const TimelineComponent = () => {
 
     const posTime = AppContextValue.getCompositePlayheadTimePos(SetupEditorContextValue.choiceComposite);
     const posStyle = AppContextValue.conversionTimeToStyle(posTime, staStyleViewPos, endStyleViewPos, durationWidth);
-    playheadTimeSetState(posStyle);
+    playheadViewPosSetState(posStyle);
 
     return () => {
       const compositeDuration: number = AppContextValue.getCompositeDuration(SetupEditorContextValue.choiceComposite);
@@ -90,7 +90,7 @@ const TimelineComponent = () => {
         return;
       }
       //console.log("playheadTime B", playheadTime, staStyleViewPos, endStyleViewPos, compositeDuration);
-      const posTime = AppContextValue.conversionStyleToTime(playheadTime, staStyleViewPos, endStyleViewPos, durationWidth);
+      const posTime = AppContextValue.conversionStyleToTime(playheadViewPos, staStyleViewPos, endStyleViewPos, durationWidth);
 
       AppContextValue.setCompositeStyleViewPos(SetupEditorContextValue.choiceComposite, [staStyleViewPos, endStyleViewPos]);
       AppContextValue.setCompositePlayheadTimePos(SetupEditorContextValue.choiceComposite, posTime);
@@ -109,7 +109,7 @@ const TimelineComponent = () => {
     AppContextValue.setCompositeStyleViewPos(SetupEditorContextValue.choiceComposite, [staStyleViewPos, endStyleViewPos]);
     const playheadPosTime = AppContextValue.getCompositePlayheadTimePos(SetupEditorContextValue.choiceComposite);
     const playheadPosStyle = AppContextValue.conversionTimeToStyle(playheadPosTime, staStyleViewPos, endStyleViewPos, durationWidth);
-    playheadTimeSetState(playheadPosStyle);
+    playheadViewPosSetState(playheadPosStyle);
     console.log("scrollbarDA t-s", playheadPosTime, playheadPosStyle);
 
     timelineUpdateDOM();
@@ -125,12 +125,12 @@ const TimelineComponent = () => {
       return;
     }
     //console.log("playheadTime B", playheadTime, staStyleViewPos, endStyleViewPos, compositeDuration);
-    const posTime = AppContextValue.conversionStyleToTime(playheadTime, staStyleViewPos, endStyleViewPos, durationWidth);
+    const posTime = AppContextValue.conversionStyleToTime(playheadViewPos, staStyleViewPos, endStyleViewPos, durationWidth);
     AppContextValue.setCompositePlayheadTimePos(SetupEditorContextValue.choiceComposite, posTime);
     SetupEditorContextValue.previewUpdateDOM();
 
-    console.log("scrollbarDB t-s", posTime, playheadTime);
-  }, [playheadTime]);
+    console.log("scrollbarDB t-s", posTime, playheadViewPos);
+  }, [playheadViewPos]);
 
   // ************************************************
 
@@ -220,6 +220,12 @@ const TimelineComponent = () => {
 
   // const thencomposite = countEndRef3.current;
 
+  const getPlayheadTime = (): number => {
+    const playheadTime = AppContextValue.conversionStyleToTime(playheadViewPos, staStyleViewPos, endStyleViewPos, durationWidth);
+    const playheadTimeNumber = Number(playheadTime);
+    return playheadTimeNumber;
+  };
+
   const pasteMediaObject = () => {
     const thencomposite = SetupEditorContextValue.choiceComposite;
     const compositeDuration: number = AppContextValue.getCompositeDuration(thencomposite);
@@ -270,14 +276,15 @@ const TimelineComponent = () => {
         <TimeNavigatorContext.Provider
           value={{
             timelineMainElement: timelineMainElement,
-            playheadTime: playheadTime,
-            playheadTimeSetState: playheadTimeSetState,
+            playheadViewPos: playheadViewPos,
+            playheadViewPosSetState: playheadViewPosSetState,
             staStyleViewPos: staStyleViewPos,
             staStyleViewPosSetState: staStyleViewPosSetState,
             endStyleViewPos: endStyleViewPos,
             endStyleViewPosSetState: endStyleViewPosSetState,
             timeNavigatorFlag: timeNavigatorFlag,
             timeNavigatorFlagSetState: timeNavigatorFlagSetState,
+            getPlayheadTime: getPlayheadTime,
 
             durationWidth: durationWidth,
             durationWidthSetState: durationWidthSetState,

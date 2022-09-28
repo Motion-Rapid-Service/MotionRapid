@@ -27,7 +27,7 @@ import * as middleDataClass from "./../MiddleData/middleDataClass";
 import * as AnimatorGroupFormat from "./../AnimatorGroupFormat/AnimatorGroupFormat";
 import * as AnimatorGroupPropertyFormat from "./../AnimatorGroupFormat/AnimatorGroupPropertyFormat";
 import * as MiddleDataOperationType from "./../MiddleData/middleDataOperationType";
-import * as buildCalculationTimeInterpolation from "./../BuildSite/buildCalculationTimeInterpolation";
+
 // import generateCSSproperty from "../BuildSite/generateCSSproperty";
 class UserHandLayerPanelOperation {
   mousePushPos: number; //マウスが押された時のマウス座標
@@ -271,35 +271,6 @@ const AnimaterCSSproperty = (props: any) => {
   const SetupEditorContextValue = useContext(SetupEditorContext);
   //初期値設定用+
 
-  const getPlayheadTime = (): number => {
-    const playheadTime = AppContextValue.conversionStyleToTime(
-      TimeNavigatorContextValue.playheadTime,
-      TimeNavigatorContextValue.staStyleViewPos,
-      TimeNavigatorContextValue.endStyleViewPos,
-      TimeNavigatorContextValue.durationWidth
-    );
-    const playheadTimeNumber = Number(playheadTime);
-    return playheadTimeNumber;
-  };
-
-  const getKeyframeValue = (): string => {
-    //現在のプレイヘッドから数値を補完する
-    let tempTimeValue: { [name: string]: number } = {};
-    for (let ki = 0; ki < OwnedID_Keyframe.length; ki++) {
-      //キーフレーム
-      const thenkeyframeID = OwnedID_Keyframe[ki];
-      const Keyframe_AbsoluteTime = String(AppContextValue.getKeyframeTime(thenkeyframeID));
-      const thenCSSPropertyID: string = AppContextValue.getOwnedID_CSSPropertySpeciesHasKeyframe(thenkeyframeID);
-      tempTimeValue[Keyframe_AbsoluteTime] = Number(AppContextValue.getCSSPropertyValue(thenCSSPropertyID));
-    }
-    const tempSortTimeValue = AppContextValue.sortNumber(Object.keys(tempTimeValue), false);
-    const cssValue = buildCalculationTimeInterpolation.timeInterpolation(getPlayheadTime(), tempSortTimeValue, tempTimeValue);
-    const cssValueStr = String(cssValue);
-    console.log("tempSortTimeValue-AnimaterCSSpropertyValueKeyframe", getPlayheadTime(), tempSortTimeValue, tempTimeValue, cssValue, cssValueStr);
-
-    return cssValueStr;
-  };
-
   const equalsKeyframeTime = (playheadTime: number): string => {
     for (let ki = 0; ki < OwnedID_Keyframe.length; ki++) {
       //キーフレーム
@@ -328,7 +299,7 @@ const AnimaterCSSproperty = (props: any) => {
           return action.cssValue;
         }
 
-        const nowTime = getPlayheadTime();
+        const nowTime = TimeNavigatorContextValue.getPlayheadTime();
         if (!equalsKeyframeTime(nowTime)) {
           // 同じ時間にkeyframeが存在するかを確認する;
           // 存在しない場合;
@@ -369,10 +340,10 @@ const AnimaterCSSproperty = (props: any) => {
     if (!isAnimator) {
       animaterCSSpropertyValueUpdate({
         actionType: "",
-        cssValue: getKeyframeValue(),
+        cssValue: SetupEditorContextValue.getKeyframeValue(OwnedID_Keyframe, TimeNavigatorContextValue.getPlayheadTime()),
       });
     }
-  }, [TimeNavigatorContextValue.playheadTime]);
+  }, [TimeNavigatorContextValue.playheadViewPos]);
 
   return (
     <div className="layer_panel-animator-entity-css_property">

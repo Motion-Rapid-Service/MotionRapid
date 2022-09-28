@@ -57,6 +57,10 @@ const PreviewOverlayShapeComponent = (props: any) => {
     console.log("PreviewOverlayShapeComponent", left);
   }, [left]);
 
+  const newKeyframe = () => {};
+
+  const checkAnimator = () => {};
+
   const mouseDown = (event: any) => {
     UserHand.alldeleteUserHandPreviewShape();
     const mousePushPos = Object.assign(timelineMousePosition.mediaObjectMousePosition(event, previewOverlayShapeRef));

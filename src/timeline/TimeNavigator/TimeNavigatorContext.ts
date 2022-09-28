@@ -2,8 +2,8 @@ import * as React from "react";
 const { createContext } = React;
 
 type TimeNavigatorContextValue = {
-  playheadTime: number;
-  playheadTimeSetState: Function;
+  playheadViewPos: number;
+  playheadViewPosSetState: Function;
   timelineMainElement: any;
 
   staStyleViewPos: number;
@@ -12,6 +12,8 @@ type TimeNavigatorContextValue = {
   endStyleViewPosSetState: Function;
   timeNavigatorFlag: boolean;
   timeNavigatorFlagSetState: Function;
+
+  getPlayheadTime: Function;
 
   durationWidth: number;
   durationWidthSetState: Function;

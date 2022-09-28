@@ -6,6 +6,7 @@ type SetupEditorContextValue = {
   choiceCompositeSetState: Function;
   previewUpdate: boolean;
   previewUpdateDOM: Function;
+  getKeyframeValue: Function;
 };
 
 export const SetupEditorContext = createContext<SetupEditorContextValue>({} as SetupEditorContextValue);
