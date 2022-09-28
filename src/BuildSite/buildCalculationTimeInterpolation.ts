@@ -32,7 +32,7 @@ export const timeInterpolation = (compositePlayheadTimePos: number, timeList: Ar
 };
 
 const searchTImeSection = (nwoTime: number, timeList: Array<string>) => {
-  for (let i = 0; i < timeList.length; i++) {
+  for (let i = 0; i < timeList.length - 1; i++) {
     if (Number(timeList[i + 1]) > nwoTime) {
       const aPointTime = Number(timeList[i]);
       const bPointTime = Number(timeList[i + 1]);

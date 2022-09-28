@@ -4,7 +4,7 @@ function %SCROLLFUNCTIONNAME%() {
   let UNIT = %UNIT%;
   let SETPROPERTYNAME = %SETPROPERTYNAME%;
 
-  let scroll_y = window.scrollY;
+  let scroll_y = Number(window.scrollY);
 
   console.log("scroll_y",scroll_y)
 
@@ -29,11 +29,11 @@ function %SCROLLFUNCTIONNAME%() {
     let bPoint = 0;
 
 
-    for (let i = 0; i < POINTTIME.length; i++) {
-      if (POINTTIME[i] <= scroll_y) {
+    for (let i = 0; i < POINTTIME.length - 1; i++) {
+      if (Number(POINTTIME[i + 1]) >  scroll_y) {
         aPoint = i;
         bPoint = i + 1;
-        continue;
+        break;
       }
     }
 
@@ -51,7 +51,7 @@ function %SCROLLFUNCTIONNAME%() {
 
     cssValue = valueSectionRate + aPointValue;
 
-    console.log(aPointTime,bPointTime,aPointValue,bPointValue,timeSection,nowTimeSection,valueSection,timeRate,valueSectionRate,cssValue)
+    console.log(scroll_y,aPoint,bPoint,aPointTime,bPointTime,aPointValue,bPointValue,timeSection,nowTimeSection,valueSection,timeRate,valueSectionRate,cssValue)
 
   }
 
