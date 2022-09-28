@@ -10,6 +10,8 @@ import {
   LayerDurationContext,
   LayerPanelAnimaterContext,
   AnimaterCSSpropertyContext,
+  TypeSetCSSpropertyValueAction,
+  TypeSetCSSpropertyUnitAction,
 } from "./timelineContext";
 import { SetupEditorContext } from "./../SetupEditor/SetupEditorContext";
 import { SetupConfigContext } from "../SetupEditor/SetupConfigContext";
@@ -259,151 +261,134 @@ const AnimaterCSSproperty = (props: any) => {
   const LayerPanelAnimaterContextValue = useContext(LayerPanelAnimaterContext);
   const AnimaterCSSpropertyContextValue = useContext(AnimaterCSSpropertyContext);
 
+  const OwnedID_Keyframe: Array<string> = AppContextValue.getOwnedID_Keyframe(LayerPanelAnimaterContextValue.Animator_ID);
+  const isAnimator = OwnedID_Keyframe.length === 0;
+
   const AnimatorCSSPropertyID = AppContextValue.getOwnedID_CSSPropertySpeciesHasAnimator(LayerPanelAnimaterContextValue.Animator_ID);
   const CSSPropertyUnit: string = AppContextValue.getCSSPropertyUnit(AnimatorCSSPropertyID);
-
   const CSSPropertyValue: string = AppContextValue.getCSSPropertyValue(AnimatorCSSPropertyID);
-  //初期値設定用
+  const TimeNavigatorContextValue = useContext(TimeNavigatorContext);
+  const SetupEditorContextValue = useContext(SetupEditorContext);
+  //初期値設定用+
 
-  const [animaterCSSpropertyValue, animaterCSSpropertyValueSetState] = useState<string>(CSSPropertyValue);
-  const [animaterCSSpropertyUnit, animaterCSSpropertyUnitSetState] = useState<string>(CSSPropertyUnit);
+  const getPlayheadTime = (): number => {
+    const playheadTime = AppContextValue.conversionStyleToTime(
+      TimeNavigatorContextValue.playheadTime,
+      TimeNavigatorContextValue.staStyleViewPos,
+      TimeNavigatorContextValue.endStyleViewPos,
+      TimeNavigatorContextValue.durationWidth
+    );
+    const playheadTimeNumber = Number(playheadTime);
+    return playheadTimeNumber;
+  };
+
+  const getKeyframeValue = (): string => {
+    //現在のプレイヘッドから数値を補完する
+    let tempTimeValue: { [name: string]: number } = {};
+    for (let ki = 0; ki < OwnedID_Keyframe.length; ki++) {
+      //キーフレーム
+      const thenkeyframeID = OwnedID_Keyframe[ki];
+      const Keyframe_AbsoluteTime = String(AppContextValue.getKeyframeTime(thenkeyframeID));
+      const thenCSSPropertyID: string = AppContextValue.getOwnedID_CSSPropertySpeciesHasKeyframe(thenkeyframeID);
+      tempTimeValue[Keyframe_AbsoluteTime] = Number(AppContextValue.getCSSPropertyValue(thenCSSPropertyID));
+    }
+    const tempSortTimeValue = AppContextValue.sortNumber(Object.keys(tempTimeValue), false);
+    const cssValue = buildCalculationTimeInterpolation.timeInterpolation(getPlayheadTime(), tempSortTimeValue, tempTimeValue);
+    const cssValueStr = String(cssValue);
+    console.log("tempSortTimeValue-AnimaterCSSpropertyValueKeyframe", getPlayheadTime(), tempSortTimeValue, tempTimeValue, cssValue, cssValueStr);
+
+    return cssValueStr;
+  };
+
+  const equalsKeyframeTime = (playheadTime: number): string => {
+    for (let ki = 0; ki < OwnedID_Keyframe.length; ki++) {
+      //キーフレーム
+      const thenkeyframeID = OwnedID_Keyframe[ki];
+      const Keyframe_AbsoluteTime = Number(AppContextValue.getKeyframeTime(thenkeyframeID));
+      if (playheadTime === Keyframe_AbsoluteTime) {
+        return thenkeyframeID;
+      }
+    }
+    return null;
+  };
+  const setCSSpropertyValue = (state: any, action: TypeSetCSSpropertyValueAction): string => {
+    console.log("setCSSpropertyValue", action.cssValue);
+
+    switch (isAnimator) {
+      case true:
+        const unitSendData: MiddleDataOperationType.OoperationCSSPropertyValueType = {
+          CSSPropertyID: AnimatorCSSPropertyID,
+          CSSPropertyValue: action.cssValue,
+        };
+        AppContextValue.operationCSSPropertyValue(unitSendData);
+        return action.cssValue;
+
+      case false:
+        if (action.actionType !== "user") {
+          return action.cssValue;
+        }
+
+        const nowTime = getPlayheadTime();
+        if (!equalsKeyframeTime(nowTime)) {
+          // 同じ時間にkeyframeが存在するかを確認する;
+          // 存在しない場合;
+          const keyframeID: string = AppContextValue.operationCreateKeyframe();
+          AppContextValue.linkKeyframe(LayerPanelAnimaterContextValue.Animator_ID, keyframeID);
+          const temp: MiddleDataOperationType.OperationKeyframeTimeType = { KeyframeID: keyframeID, time: nowTime };
+          AppContextValue.operationKeyframeTime(temp);
+          const thenCSSPropertyID: string = AppContextValue.getOwnedID_CSSPropertySpeciesHasKeyframe(keyframeID);
+          const unitSendData: MiddleDataOperationType.OoperationCSSPropertyValueType = {
+            CSSPropertyID: thenCSSPropertyID,
+            CSSPropertyValue: action.cssValue,
+          };
+          AppContextValue.operationCSSPropertyValue(unitSendData);
+        } else {
+          const unitSendData: MiddleDataOperationType.OoperationCSSPropertyValueType = {
+            CSSPropertyID: AnimatorCSSPropertyID,
+            CSSPropertyValue: action.cssValue,
+          };
+          AppContextValue.operationCSSPropertyValue(unitSendData);
+        }
+        //存在する場合
+        return action.cssValue;
+    }
+  };
+
+  const setCSSpropertyUnit = (state: any, action: TypeSetCSSpropertyUnitAction): string => {
+    return action.cssUnit;
+  };
+
+  const [animaterCSSpropertyValue, animaterCSSpropertyValueUpdate] = useReducer(setCSSpropertyValue, CSSPropertyValue);
+  const [animaterCSSpropertyUnit, animaterCSSpropertyUnitUpdate] = useReducer(setCSSpropertyUnit, CSSPropertyUnit);
 
   useEffect(() => {
-    const unitSendData: MiddleDataOperationType.OoperationCSSPropertyUnitType = {
-      CSSPropertyID: AnimatorCSSPropertyID,
-      CSSPropertyUnit: animaterCSSpropertyUnit,
-    };
-    AppContextValue.operationCSSPropertyUnit(unitSendData);
-    console.log("animaterCSSpropertyUnit", animaterCSSpropertyUnit);
-  }, [animaterCSSpropertyUnit]);
+    SetupEditorContextValue.previewUpdateDOM();
+  }, [animaterCSSpropertyValue, animaterCSSpropertyUnit]);
+
+  useEffect(() => {
+    if (!isAnimator) {
+      animaterCSSpropertyValueUpdate({
+        actionType: "",
+        cssValue: getKeyframeValue(),
+      });
+    }
+  }, [TimeNavigatorContextValue.playheadTime]);
 
   return (
     <div className="layer_panel-animator-entity-css_property">
       <AnimaterCSSpropertyContext.Provider
         value={{
           animaterCSSpropertyValue: animaterCSSpropertyValue,
-          animaterCSSpropertyValueSetState: animaterCSSpropertyValueSetState,
-          AnimatorCSSPropertyID: AnimatorCSSPropertyID,
+          animaterCSSpropertyValueUpdate: animaterCSSpropertyValueUpdate,
+          animaterCSSpropertyUnit: animaterCSSpropertyUnit,
+          animaterCSSpropertyUnitUpdate: animaterCSSpropertyUnitUpdate,
         }}
       >
-        <SwitchAnimaterCSSpropertyValue />
+        <AnimaterCSSpropertyValue />
+        <AnimaterCSSpropertyUnit />
       </AnimaterCSSpropertyContext.Provider>
-
-      <AnimaterCSSpropertyUnit
-        initCSSPropertyUnit={CSSPropertyUnit}
-        animaterCSSpropertyUnit={animaterCSSpropertyUnit}
-        animaterCSSpropertyUnitSetState={animaterCSSpropertyUnitSetState}
-      />
     </div>
   );
-};
-const SwitchAnimaterCSSpropertyValue = () => {
-  const AppContextValue = useContext(AppContext);
-  const LayerPanelAnimaterContextValue = useContext(LayerPanelAnimaterContext);
-
-  const keyframe_IDArray: Array<string> = AppContextValue.getOwnedID_Keyframe(LayerPanelAnimaterContextValue.Animator_ID);
-
-  if (keyframe_IDArray.length === 0) {
-    return <AnimaterCSSpropertyValueAnimator />;
-  } else {
-    return <AnimaterCSSpropertyValueKeyframe />;
-  }
-};
-const AnimaterCSSpropertyValueAnimator = () => {
-  const AppContextValue = useContext(AppContext);
-  const AnimaterCSSpropertyContextValue = useContext(AnimaterCSSpropertyContext);
-
-  useEffect(() => {
-    const unitSendData: MiddleDataOperationType.OoperationCSSPropertyValueType = {
-      CSSPropertyID: AnimaterCSSpropertyContextValue.AnimatorCSSPropertyID,
-      CSSPropertyValue: AnimaterCSSpropertyContextValue.animaterCSSpropertyValue,
-    };
-
-    AppContextValue.operationCSSPropertyValue(unitSendData);
-  }, [AnimaterCSSpropertyContextValue.animaterCSSpropertyValue]);
-
-  return <AnimaterCSSpropertyValue />;
-};
-const AnimaterCSSpropertyValueKeyframe = () => {
-  const AppContextValue = useContext(AppContext);
-  const LayerPanelAnimaterContextValue = useContext(LayerPanelAnimaterContext);
-  const SetupEditorContextValue = useContext(SetupEditorContext);
-  const OwnedID_Keyframe = AppContextValue.getOwnedID_Keyframe(LayerPanelAnimaterContextValue.Animator_ID);
-  const TimeNavigatorContextValue = useContext(TimeNavigatorContext);
-  const AnimaterCSSpropertyContextValue = useContext(AnimaterCSSpropertyContext);
-
-  const playheadTime = AppContextValue.conversionStyleToTime(
-    TimeNavigatorContextValue.playheadTime,
-    TimeNavigatorContextValue.staStyleViewPos,
-    TimeNavigatorContextValue.endStyleViewPos,
-    TimeNavigatorContextValue.durationWidth
-  );
-
-  const getKeyframeValue = () => {
-    //現在のプレイヘッドから数値を補完する
-    let tempTimeValue: { [name: number]: string | number } = {};
-    for (let ki = 0; ki < OwnedID_Keyframe.length; ki++) {
-      //キーフレーム
-      const thenkeyframeID = OwnedID_Keyframe[ki];
-      const Keyframe_AbsoluteTime = AppContextValue.getKeyframeTime(thenkeyframeID);
-      const thenCSSPropertyID: string = AppContextValue.getOwnedID_CSSPropertySpeciesHasKeyframe(thenkeyframeID);
-      tempTimeValue[Keyframe_AbsoluteTime] = AppContextValue.getCSSPropertyValue(thenCSSPropertyID);
-    }
-    const tempSortTimeValue = AppContextValue.sortNumber(Object.keys(tempTimeValue), false);
-    console.log("tempSortTimeValue-AnimaterCSSpropertyValueKeyframe", tempSortTimeValue, tempTimeValue);
-    const cssValue = buildCalculationTimeInterpolation.timeInterpolation(playheadTime, tempSortTimeValue, tempTimeValue);
-    return cssValue;
-  };
-
-  const equalsKeyframeTime = (playheadTime: number): number => {
-    for (let ki = 0; ki < OwnedID_Keyframe.length; ki++) {
-      //キーフレーム
-      const thenkeyframeID = OwnedID_Keyframe[ki];
-      const Keyframe_AbsoluteTime = Number(AppContextValue.getKeyframeTime(thenkeyframeID));
-
-      console.log("比較", playheadTime, Keyframe_AbsoluteTime);
-
-      if (playheadTime === Keyframe_AbsoluteTime) {
-        return thenkeyframeID;
-      }
-      // const thenCSSPropertyID: string = AppContextValue.getOwnedID_CSSPropertySpeciesHasKeyframe(thenkeyframeID);
-    }
-
-    return null;
-  };
-
-  // useEffect(() => {
-  //   if (!equalsKeyframeTime(playheadTime)) {
-  //     const nowValue = AppContextValue.getCSSPropertyValue(thenCSSPropertyID);
-
-  //     //同じ値のキーフレームがなかった時
-  //     const keyframeID: string = AppContextValue.operationCreateKeyframe();
-  //     AppContextValue.linkKeyframe(LayerPanelAnimaterContextValue.Animator_ID, keyframeID);
-  //     const temp: MiddleDataOperationType.OperationKeyframeTimeType = { KeyframeID: keyframeID, time: playheadTime };
-  //     console.log("newkeyframe", playheadTime, temp);
-  //     AppContextValue.operationKeyframeTime(temp);
-  //     const thenCSSPropertyID: string = AppContextValue.getOwnedID_CSSPropertySpeciesHasKeyframe(keyframeID);
-  //     const unitSendData: MiddleDataOperationType.OoperationCSSPropertyValueType = {
-  //       CSSPropertyID: thenCSSPropertyID,
-  //       CSSPropertyValue: AnimaterCSSpropertyContextValue.animaterCSSpropertyValue,
-  //     };
-  //     AppContextValue.operationCSSPropertyValue(unitSendData);
-  //   } else {
-  //     //あった時
-  //     const unitSendData: MiddleDataOperationType.OoperationCSSPropertyValueType = {
-  //       CSSPropertyID: AnimaterCSSpropertyContextValue.AnimatorCSSPropertyID,
-  //       CSSPropertyValue: AnimaterCSSpropertyContextValue.animaterCSSpropertyValue,
-  //     };
-
-  //     AppContextValue.operationCSSPropertyValue(unitSendData);
-  //   }
-  // }, [AnimaterCSSpropertyContextValue.animaterCSSpropertyValue]);
-
-  useEffect(() => {
-    AnimaterCSSpropertyContextValue.animaterCSSpropertyValueSetState(getKeyframeValue());
-  }, [SetupEditorContextValue.previewUpdate]);
-
-  return <AnimaterCSSpropertyValue />;
 };
 
 const AnimaterCSSpropertyValue = () => {
@@ -411,14 +396,17 @@ const AnimaterCSSpropertyValue = () => {
   const AnimaterCSSpropertyContextValue = useContext(AnimaterCSSpropertyContext);
   const onChange = (event: any) => {
     const text = event.target.value;
-    AnimaterCSSpropertyContextValue.animaterCSSpropertyValueSetState(String(text));
+    console.log("onChangeAnimater");
+    // AnimaterCSSpropertyContextValue.animaterCSSpropertyValueSetState(String(text));
+
+    AnimaterCSSpropertyContextValue.animaterCSSpropertyValueUpdate({ actionType: "user", cssValue: String(text) });
   };
   return <input className="text_box_common" type="text" value={AnimaterCSSpropertyContextValue.animaterCSSpropertyValue} onChange={onChange} />;
 };
 
-const AnimaterCSSpropertyUnit = (props: any) => {
+const AnimaterCSSpropertyUnit = () => {
   const LayerPanelAnimaterContextValue = useContext(LayerPanelAnimaterContext);
-
+  const AnimaterCSSpropertyContextValue = useContext(AnimaterCSSpropertyContext);
   const animatorGroupFormat: AnimatorGroupPropertyFormat.PropertyFormatSpecies = AnimatorGroupFormat.getAnimatorGroupFormatList(
     LayerPanelAnimaterContextValue.AnimatorGroup_Species
   ); //cssのpropertyによる
@@ -428,9 +416,9 @@ const AnimaterCSSpropertyUnit = (props: any) => {
   const cssValueUnitList: Array<string> = Object.assign(AnimatorGroupPropertyFormat.cssValueUnit[cssPropertySpecies]); //そのcssのpropertyがどのような値をとりえるか
 
   const onChange = (event: any) => {
-    const selectValue = Number(event.target.value);
+    const selectValue = String(event.target.value);
     console.log("selectValue", selectValue, event.target.value);
-    props.animaterCSSpropertyUnitSetState(event.target.value);
+    AnimaterCSSpropertyContextValue.animaterCSSpropertyUnitUpdate({ actionType: "", cssUnit: selectValue });
   };
 
   if (cssValueUnitList.length === 0) {
@@ -438,7 +426,7 @@ const AnimaterCSSpropertyUnit = (props: any) => {
   }
 
   return (
-    <select className="select_common" onChange={onChange} value={props.animaterCSSpropertyUnit}>
+    <select className="select_common" onChange={onChange} value={AnimaterCSSpropertyContextValue.animaterCSSpropertyUnit}>
       {cssValueUnitList.map((output: string, index: number) => (
         <AnimaterCSSpropertyUnitOption output={output} index={index} key={index} />
       ))}
@@ -446,13 +434,6 @@ const AnimaterCSSpropertyUnit = (props: any) => {
   );
 };
 const AnimaterCSSpropertyUnitOption = (props: any) => {
-  // if (props.output === props.initCSSPropertyUnit) {
-  //   return (
-  //     <option value={props.index} selected>
-  //       {props.output}
-  //     </option>
-  //   );
-  // } else {
   const LayerPanelAnimaterContextValue = useContext(LayerPanelAnimaterContext);
 
   const animatorGroupFormat: AnimatorGroupPropertyFormat.PropertyFormatSpecies = AnimatorGroupFormat.getAnimatorGroupFormatList(

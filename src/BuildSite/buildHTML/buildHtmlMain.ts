@@ -253,13 +253,13 @@ const parseMediaObject = (
     const thenSourceSpeciesCompositeClass = thenSourceSpeciesClass as buildSourceSpecies.SourceSpeciesCompositeClass;
 
     if (hasKeyFound(thenSourceSpeciesCompositeClass.compositeID, OwnedClass_Composite)) {
-      compositePreviewTime -= thenMediaObject.MediaObject_StartTime;
+      const newCompositePreviewTime = compositePreviewTime - thenMediaObject.MediaObject_StartTime;
       buildSourceSpecies.sourceSpeciesFunctionComposite(
         getJsonDataCentral,
         newHtmlID,
         thenSourceSpeciesCompositeClass.compositeID,
         rootStyleID,
-        compositePreviewTime
+        newCompositePreviewTime
       );
     }
   }

@@ -70,5 +70,13 @@ type LayerPanelAnimaterContextValue = {
 };
 export const LayerPanelAnimaterContext = createContext<LayerPanelAnimaterContextValue>({} as LayerPanelAnimaterContextValue);
 
-type AnimaterCSSpropertyContextValue = { AnimatorCSSPropertyID: string; animaterCSSpropertyValue: string; animaterCSSpropertyValueSetState: Function };
+export type TypeSetCSSpropertyValueAction = { actionType: string; cssValue: string };
+export type TypeSetCSSpropertyUnitAction = { actionType: string; cssUnit: string };
+
+type AnimaterCSSpropertyContextValue = {
+  animaterCSSpropertyValue: string;
+  animaterCSSpropertyUnit: string;
+  animaterCSSpropertyValueUpdate: Function;
+  animaterCSSpropertyUnitUpdate: Function;
+};
 export const AnimaterCSSpropertyContext = createContext<AnimaterCSSpropertyContextValue>({} as AnimaterCSSpropertyContextValue);

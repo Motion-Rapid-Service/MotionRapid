@@ -25,14 +25,18 @@ export const timeInterpolation = (compositePlayheadTimePos: number, timeList: Ar
   const timeRate: number = nowTimeSection / timeSection; //進行度を計算する
   const valueSectionRate: number = valueSection * timeRate;
   const cssValue = valueSectionRate + aPointValue;
+
+  console.log("aPointTimeP", compositePlayheadTimePos, timeList, valueDict, aPointTime, bPointTime, aPointValue, bPointValue, cssValue);
+
   return cssValue;
 };
 
 const searchTImeSection = (nwoTime: number, timeList: Array<string>) => {
   for (let i = 0; i < timeList.length; i++) {
-    if (nwoTime > Number(timeList[i])) {
+    if (Number(timeList[i + 1]) > nwoTime) {
       const aPointTime = Number(timeList[i]);
       const bPointTime = Number(timeList[i + 1]);
+      console.log("searchTImeSection", i, timeList, Number(timeList[i + 1]), nwoTime, aPointTime, bPointTime);
       return [aPointTime, bPointTime];
     }
   }
