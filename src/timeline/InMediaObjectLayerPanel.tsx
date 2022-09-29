@@ -271,17 +271,6 @@ const AnimaterCSSproperty = (props: any) => {
   const SetupEditorContextValue = useContext(SetupEditorContext);
   //初期値設定用+
 
-  const equalsKeyframeTime = (playheadTime: number): string => {
-    for (let ki = 0; ki < OwnedID_Keyframe.length; ki++) {
-      //キーフレーム
-      const thenkeyframeID = OwnedID_Keyframe[ki];
-      const Keyframe_AbsoluteTime = Number(AppContextValue.getKeyframeTime(thenkeyframeID));
-      if (playheadTime === Keyframe_AbsoluteTime) {
-        return thenkeyframeID;
-      }
-    }
-    return null;
-  };
   const setCSSpropertyValue = (state: any, action: TypeSetCSSpropertyValueAction): string => {
     console.log("setCSSpropertyValue", action.cssValue);
 
@@ -300,7 +289,8 @@ const AnimaterCSSproperty = (props: any) => {
         }
 
         const nowTime = TimeNavigatorContextValue.getPlayheadTime();
-        if (!equalsKeyframeTime(nowTime)) {
+        const equalsThenKeyframeID = AppContextValue.equalsKeyframeTime(nowTime,LayerPanelAnimaterContextValue.Animator_ID)
+        if (!equalsThenKeyframeID) {
           // 同じ時間にkeyframeが存在するかを確認する;
           // 存在しない場合;
           const keyframeID: string = AppContextValue.operationCreateKeyframe();
@@ -315,7 +305,7 @@ const AnimaterCSSproperty = (props: any) => {
           AppContextValue.operationCSSPropertyValue(unitSendData);
         } else {
           const unitSendData: MiddleDataOperationType.OoperationCSSPropertyValueType = {
-            CSSPropertyID: AnimatorCSSPropertyID,
+            CSSPropertyID: equalsThenKeyframeID,
             CSSPropertyValue: action.cssValue,
           };
           AppContextValue.operationCSSPropertyValue(unitSendData);

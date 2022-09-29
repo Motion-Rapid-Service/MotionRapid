@@ -240,6 +240,23 @@ const deepCopyDict = (ary: { [name: string | number]: any }) => {
   return temp;
 };
 
+
+const equalsKeyframeTime = (playheadTime: number,Animator_ID:string): string => {
+
+  const OwnedID_Keyframe: Array<string> = middleDataOperation.getOwnedID_Keyframe(Animator_ID);
+
+  for (let ki = 0; ki < OwnedID_Keyframe.length; ki++) {
+    //キーフレーム
+    const thenkeyframeID = OwnedID_Keyframe[ki];
+    const Keyframe_AbsoluteTime = Number(middleDataOperation.getKeyframeTime(thenkeyframeID));
+    if (playheadTime === Keyframe_AbsoluteTime) {
+      return thenkeyframeID;
+    }
+  }
+  return null;
+};
+
+
 //{ [name: string]: ToolBarClassificationData }
 const App = () => {
   const [update, setUpdata] = useState<boolean>(false);
@@ -351,6 +368,8 @@ const App = () => {
 
           linkCSSPropertyHasAnimator: middleDataOperation.linkCSSPropertyHasAnimator,
           linkCSSPropertyHasKeyframe: middleDataOperation.linkCSSPropertyHasKeyframe,
+
+          equalsKeyframeTime:equalsKeyframeTime
         }}
       >
         <SetupEditor />

@@ -12,6 +12,12 @@ import * as UserHand from "./../UserHand";
 import * as AnimatorGroupFormat from "./../AnimatorGroupFormat/AnimatorGroupFormat";
 import * as AnimatorGroupPropertyFormat from "./../AnimatorGroupFormat/AnimatorGroupPropertyFormat";
 import * as AnimatorGroupAuxiliaryFunction from "./../AnimatorGroupFormat/AnimatorGroupAuxiliaryFunction";
+
+import { TimeNavigatorContext } from "./../timeline/TimeNavigator/TimeNavigatorContext";
+import * as MiddleDataOperationType from "./../MiddleData/middleDataOperationType";
+
+//src/timeline/TimeNavigator/TimeNavigatorTimeline.tsx
+
 let moveFlag = false;
 
 class PreviewOverlay {
@@ -51,6 +57,7 @@ const searchMaxSizeElement = (targetElement: Element) => {
 
 const PreviewOverlayShapeComponent = (props: any) => {
   const SetupEditorContextValue = useContext(SetupEditorContext);
+  const TimeNavigatorContextValue = useContext(TimeNavigatorContext)
   const left = props.DownstreamShapePreviewOverlay.left;
   const top = props.DownstreamShapePreviewOverlay.top;
   const width = props.DownstreamShapePreviewOverlay.width;
@@ -74,7 +81,7 @@ const PreviewOverlayShapeComponent = (props: any) => {
     return animatorGroupID;
   };
 
-  const extractAnimatorGroup = () => {
+  const extractAnimator = () => {
     const leftAnimatorGroupID: Array<string> = AppContextValue.searchSpecificAnimatorGroupSpecies(mediaObjectID, "left");
     const topAnimatorGroupID: Array<string> = AppContextValue.searchSpecificAnimatorGroupSpecies(mediaObjectID, "top");
     const rightAnimatorGroupID: Array<string> = AppContextValue.searchSpecificAnimatorGroupSpecies(mediaObjectID, "right");
@@ -127,12 +134,56 @@ const PreviewOverlayShapeComponent = (props: any) => {
     }
   };
 
-  const checkAnimatorGroup = () => {
-    const idDict: { [name: string]: string } = extractAnimatorGroup();
-    console.log("idDict", idDict);
+  const checkAnimatorGroup = (leftDifference:number,topDifference:number) => {
+    const idDictAnimator: { [name: string]: string } = extractAnimator();
+    console.log("idDict", idDictAnimator);
+    const idListAnimator = [idDictAnimator.x,idDictAnimator.y]
+    const differenceList = [leftDifference,topDifference]
 
+    for (let i=0;i < 2;i++){
+      const animatorID = idListAnimator[i]
+      console.log("idDict2",animatorID)
+
+      const OwnedID_Keyframe = AppContextValue.getOwnedID_Keyframe(animatorID)
+      
+      if (OwnedID_Keyframe > 0){
+        // AppContextValue.getOwnedID_CSSPropertySpeciesHasKeyframe()
+        const nowTime = TimeNavigatorContextValue.getPlayheadTime();
+        const equalsThenKeyframeID = AppContextValue.equalsKeyframeTime(nowTime,animatorID)
+        if (!equalsThenKeyframeID) {
+          // 同じ時間にkeyframeが存在するかを確認する;
+          // 存在しない場合;
+          const keyframeID: string = AppContextValue.operationCreateKeyframe();
+          AppContextValue.linkKeyframe(animatorID, keyframeID);
+          const temp: MiddleDataOperationType.OperationKeyframeTimeType = { KeyframeID: keyframeID, time: nowTime };
+          AppContextValue.operationKeyframeTime(temp);
+          const thenCSSPropertyID: string = AppContextValue.getOwnedID_CSSPropertySpeciesHasKeyframe(keyframeID);
+          const unitSendData: MiddleDataOperationType.OoperationCSSPropertyValueType = {
+            CSSPropertyID: thenCSSPropertyID,
+            CSSPropertyValue: differenceList[i],
+          };
+          AppContextValue.operationCSSPropertyValue(unitSendData);
+        } else {
+          const thenCSSPropertyID: string = AppContextValue.getOwnedID_CSSPropertySpeciesHasKeyframe(equalsThenKeyframeID);
+
+          const unitSendData: MiddleDataOperationType.OoperationCSSPropertyValueType = {
+            CSSPropertyID: thenCSSPropertyID,
+            CSSPropertyValue: differenceList[i],
+          };
+          AppContextValue.operationCSSPropertyValue(unitSendData);
+        }
+      }
+      else{
+        const animatorCSSPropertyID  = AppContextValue.getOwnedID_CSSPropertySpeciesHasAnimator(animatorID)
+        const unitSendData: MiddleDataOperationType.OoperationCSSPropertyValueType = {
+          CSSPropertyID: animatorCSSPropertyID,
+          CSSPropertyValue: differenceList[i],
+        };
+        AppContextValue.operationCSSPropertyValue(unitSendData)
+      }
+    }
     SetupEditorContextValue.previewUpdateDOM();
-    
+
     //leftやtop、marginが存在するかどうかを検出 これはcomposite要素の配置順による
   };
 
@@ -153,15 +204,19 @@ const PreviewOverlayShapeComponent = (props: any) => {
     switch (userrHandPreview.mouseDownFlag) {
       case 1:
         const mouseXY = timelineMousePosition.mediaObjectMousePosition(event, previewOverlayShapeRef);
+
+        const leftDifference = mouseXY[0] - userrHandPreview.mousePushPos[0]
+        const topDifference  = mouseXY[1] - userrHandPreview.mousePushPos[1]
+
         props.previewOverlayUpdate({
           type: "drag",
-          left: mouseXY[0] - userrHandPreview.mousePushPos[0],
-          top: mouseXY[1] - userrHandPreview.mousePushPos[1],
+          left: left,
+          top: top,
           thenPreviewOverlayID: previewOverlayID,
           thenPreviewOverlay: JSON.parse(JSON.stringify(props.previewOverlayRef.current)),
         });
 
-        checkAnimatorGroup();
+          checkAnimatorGroup(leftDifference,topDifference);
 
         // console.log("userhand - getUserHandPreviewShape", mouseXY, previewOverlayID);
         // UserHand.nowPosUserHandPreviewShape(previewOverlayID, mouseXY);

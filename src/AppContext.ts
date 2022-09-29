@@ -99,6 +99,8 @@ type AppContextValue = {
 
   linkCSSPropertyHasAnimator: Function;
   linkCSSPropertyHasKeyframe: Function;
+
+  equalsKeyframeTime:Function
 };
 
 export const AppContext = createContext<AppContextValue>({} as AppContextValue);
