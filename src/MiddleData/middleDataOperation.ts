@@ -491,15 +491,36 @@ export default class MiddleDataOperation {
     const OwnedID_AnimatorGroup = this.DataCentral.OwnedClass_MediaObject[mediaObjectID].OwnedID_AnimatorGroup;
 
     for (let ani = 0; ani < OwnedID_AnimatorGroup.length; ani++) {
-      const thenAnimatorID = OwnedID_AnimatorGroup[ani];
-      const thenAnimatorGroupClass = this.DataCentral.OwnedClass_AnimatorGroup[thenAnimatorID];
+      const thenAnimatorGroupID = OwnedID_AnimatorGroup[ani];
+      const thenAnimatorGroupClass = this.DataCentral.OwnedClass_AnimatorGroup[thenAnimatorGroupID];
 
       if (thenAnimatorGroupClass.AnimatorGroup_Species === animatorGroupSpeciesName) {
-        tempAnimatorGroupIDArray.push(thenAnimatorID);
+        tempAnimatorGroupIDArray.push(thenAnimatorGroupID);
       }
     }
 
     return tempAnimatorGroupIDArray;
+  };
+
+  searchSpecificAnimatorPropertySpecies = (animatorGroupID: string, animatorSpeciesName: string) => {
+    const animatorGroupFormatListKey = AnimatorGroupFormat.getAnimatorGroupFormatListKey();
+
+    let tempAnimatorIDArray: Array<string> = [];
+    if (!hasKeyFound(animatorGroupID, this.DataCentral.OwnedClass_AnimatorGroup)) {
+      return;
+    }
+    const OwnedID_Animator = this.DataCentral.OwnedClass_AnimatorGroup[animatorGroupID].OwnedID_Animator;
+
+    for (let ani = 0; ani < OwnedID_Animator.length; ani++) {
+      const thenAnimatorID = OwnedID_Animator[ani];
+      const thenAnimatorClass = this.DataCentral.OwnedClass_Animator[thenAnimatorID];
+
+      if (thenAnimatorClass.Animator_propertySpecies === animatorSpeciesName) {
+        tempAnimatorIDArray.push(thenAnimatorID);
+      }
+    }
+
+    return tempAnimatorIDArray;
   };
 
   deleteMediaObject = () => {};

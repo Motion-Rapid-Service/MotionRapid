@@ -49,6 +49,7 @@ type AppContextValue = {
   getOwnedID_CSSPropertySpeciesHasKeyframe: Function;
 
   searchSpecificAnimatorGroupSpecies: Function;
+  searchSpecificAnimatorPropertySpecies:Function
 
   getCompositeHorizontalMode: Function;
   getCompositeLocationMode: Function;

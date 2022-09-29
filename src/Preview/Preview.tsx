@@ -5,7 +5,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AppContext } from "./../AppContext";
 import { SetupEditorContext } from "./../SetupEditor/SetupEditorContext";
 import { SetupToolbarContext } from "./../SetupEditor/SetupToolbarContext";
-
 import * as middleDataClass from "./../MiddleData/middleDataClass";
 import * as timelineMousePosition from "./../timeline/timeLineMousePosition";
 import UUID from "uuidjs";
@@ -52,7 +51,6 @@ const searchMaxSizeElement = (targetElement: Element) => {
 
 const PreviewOverlayShapeComponent = (props: any) => {
   const SetupEditorContextValue = useContext(SetupEditorContext);
-
   const left = props.DownstreamShapePreviewOverlay.left;
   const top = props.DownstreamShapePreviewOverlay.top;
   const width = props.DownstreamShapePreviewOverlay.width;
@@ -92,17 +90,16 @@ const PreviewOverlayShapeComponent = (props: any) => {
 
     switch (compositeLocationMode) {
       case middleDataClass.Composite_LocationMode[0]: //文書配置
-        let marginID:string
+        let marginID: string;
         if (!HasMarginAnimatorGroupID) {
-          marginID =  newAnimatorGroup("margin");
+          marginID = newAnimatorGroup("margin");
+        } else {
+          marginID = marginAnimatorGroupID[0];
         }
-        else{
-          marginID =  marginAnimatorGroupID[0]
-        }
+        const animatorMarginLeft = AppContextValue.searchSpecificAnimatorPropertySpecies(marginID, "left")[0];
+        const animatorMarginTop = AppContextValue.searchSpecificAnimatorPropertySpecies(marginID, "top")[0];
+        return { x: animatorMarginLeft, y: animatorMarginTop };
 
-        AppContextValue.getOwnedID_Animator()
-
-        return { xy:  };
       case middleDataClass.Composite_LocationMode[1]: //座標設定(左上)
         let leftID: string;
         let topID: string;
@@ -118,20 +115,24 @@ const PreviewOverlayShapeComponent = (props: any) => {
           topID = topAnimatorGroupID[0];
         }
 
-        return { x: leftID, y: topID };
+        const animatorPosLeft = AppContextValue.searchSpecificAnimatorPropertySpecies(leftID, "left")[0];
+        const animatorPosTop = AppContextValue.searchSpecificAnimatorPropertySpecies(topID, "top")[0];
+        return { x: animatorPosLeft, y: animatorPosTop };
       case middleDataClass.Composite_LocationMode[2]:
         return;
       case middleDataClass.Composite_LocationMode[3]: //背景固定
         return;
+
+        
     }
   };
 
   const checkAnimatorGroup = () => {
-    const idDict = extractAnimatorGroup()
+    const idDict: { [name: string]: string } = extractAnimatorGroup();
+    console.log("idDict", idDict);
 
-    if (idDict["xy"]){
-
-    }
+    SetupEditorContextValue.previewUpdateDOM();
+    
     //leftやtop、marginが存在するかどうかを検出 これはcomposite要素の配置順による
   };
 
@@ -159,6 +160,9 @@ const PreviewOverlayShapeComponent = (props: any) => {
           thenPreviewOverlayID: previewOverlayID,
           thenPreviewOverlay: JSON.parse(JSON.stringify(props.previewOverlayRef.current)),
         });
+
+        checkAnimatorGroup();
+
         // console.log("userhand - getUserHandPreviewShape", mouseXY, previewOverlayID);
         // UserHand.nowPosUserHandPreviewShape(previewOverlayID, mouseXY);
         break;
@@ -215,6 +219,8 @@ const PreviewComponent = () => {
   }, [SetupEditorContextValue.choiceComposite]);
 
   const setPreviewOverlay = (state: any, action: any): { [name: string]: PreviewOverlay } => {
+    
+
     console.log("setPreviewOverlay");
     if (!previewIframeElement.current) {
       return {};
@@ -264,6 +270,7 @@ const PreviewComponent = () => {
         // }
         console.log("searchMaxSizeElement", maxSize, inLeft, inTop);
       }
+
     }
 
     // const returnDict: { [name: string]: PreviewOverlay } = {};

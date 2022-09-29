@@ -316,6 +316,7 @@ const App = () => {
           getOwnedID_Keyframe: middleDataOperation.getOwnedID_Keyframe,
 
           searchSpecificAnimatorGroupSpecies: middleDataOperation.searchSpecificAnimatorGroupSpecies,
+          searchSpecificAnimatorPropertySpecies:middleDataOperation.searchSpecificAnimatorPropertySpecies,
           fileExportDataCentral: middleDataOperation.fileExportDataCentral,
           // fileExportComposite: middleDataOperation.fileExportComposite,
           // htmlBuildMain:htmlBuildMain
