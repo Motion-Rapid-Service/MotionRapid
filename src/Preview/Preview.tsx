@@ -57,7 +57,7 @@ const searchMaxSizeElement = (targetElement: Element) => {
 
 const PreviewOverlayShapeComponent = (props: any) => {
   const SetupEditorContextValue = useContext(SetupEditorContext);
-  const TimeNavigatorContextValue = useContext(TimeNavigatorContext)
+  const TimeNavigatorContextValue = useContext(TimeNavigatorContext);
   const left = props.DownstreamShapePreviewOverlay.left;
   const top = props.DownstreamShapePreviewOverlay.top;
   const width = props.DownstreamShapePreviewOverlay.width;
@@ -129,31 +129,29 @@ const PreviewOverlayShapeComponent = (props: any) => {
         return;
       case middleDataClass.Composite_LocationMode[3]: //背景固定
         return;
-
-        
     }
   };
 
-  const checkAnimatorGroup = (previewOverlayID:string,leftDifference:number,topDifference:number) => {
+  const checkAnimatorGroup = (previewOverlayID: string, leftDifference: number, topDifference: number) => {
     const idDictAnimator: { [name: string]: string } = extractAnimator();
     console.log("idDict", idDictAnimator);
-    const idListAnimator = [idDictAnimator.x,idDictAnimator.y]
+    const idListAnimator = [idDictAnimator.x, idDictAnimator.y];
 
     const newL = leftDifference + props.previewOverlay[previewOverlayID].left;
     const newT = topDifference + props.previewOverlay[previewOverlayID].top;
-    const differenceList = [newL,newT]
-    console.log("differenceList",differenceList)
+    const differenceList = [newL, newT];
+    console.log("differenceList", differenceList);
 
-    for (let i=0;i < 2;i++){
-      const animatorID = idListAnimator[i]
-      console.log("idDict2",animatorID)
+    for (let i = 0; i < 2; i++) {
+      const animatorID = idListAnimator[i];
+      console.log("idDict2", animatorID);
 
-      const OwnedID_Keyframe = AppContextValue.getOwnedID_Keyframe(animatorID)
-      
-      if (OwnedID_Keyframe > 0){
+      const OwnedID_Keyframe = AppContextValue.getOwnedID_Keyframe(animatorID);
+
+      if (OwnedID_Keyframe > 0) {
         // AppContextValue.getOwnedID_CSSPropertySpeciesHasKeyframe()
         const nowTime = TimeNavigatorContextValue.getPlayheadTime();
-        const equalsThenKeyframeID = AppContextValue.equalsKeyframeTime(nowTime,animatorID)
+        const equalsThenKeyframeID = AppContextValue.equalsKeyframeTime(nowTime, animatorID);
         if (!equalsThenKeyframeID) {
           // 同じ時間にkeyframeが存在するかを確認する;
           // 存在しない場合;
@@ -176,14 +174,13 @@ const PreviewOverlayShapeComponent = (props: any) => {
           };
           AppContextValue.operationCSSPropertyValue(unitSendData);
         }
-      }
-      else{
-        const animatorCSSPropertyID  = AppContextValue.getOwnedID_CSSPropertySpeciesHasAnimator(animatorID)
+      } else {
+        const animatorCSSPropertyID = AppContextValue.getOwnedID_CSSPropertySpeciesHasAnimator(animatorID);
         const unitSendData: MiddleDataOperationType.OoperationCSSPropertyValueType = {
           CSSPropertyID: animatorCSSPropertyID,
           CSSPropertyValue: differenceList[i],
         };
-        AppContextValue.operationCSSPropertyValue(unitSendData)
+        AppContextValue.operationCSSPropertyValue(unitSendData);
       }
     }
     SetupEditorContextValue.previewUpdateDOM();
@@ -209,8 +206,8 @@ const PreviewOverlayShapeComponent = (props: any) => {
       case 1:
         const mouseXY = timelineMousePosition.mediaObjectMousePosition(event, previewOverlayShapeRef);
 
-        const leftDifference = mouseXY[0] - userrHandPreview.mousePushPos[0]
-        const topDifference  = mouseXY[1] - userrHandPreview.mousePushPos[1]
+        const leftDifference = mouseXY[0] - userrHandPreview.mousePushPos[0];
+        const topDifference = mouseXY[1] - userrHandPreview.mousePushPos[1];
 
         props.previewOverlayUpdate({
           type: "drag",
@@ -220,7 +217,7 @@ const PreviewOverlayShapeComponent = (props: any) => {
           thenPreviewOverlay: JSON.parse(JSON.stringify(props.previewOverlayRef.current)),
         });
 
-          checkAnimatorGroup(previewOverlayID,leftDifference,topDifference);
+        checkAnimatorGroup(previewOverlayID, leftDifference, topDifference);
 
         // console.log("userhand - getUserHandPreviewShape", mouseXY, previewOverlayID);
         // UserHand.nowPosUserHandPreviewShape(previewOverlayID, mouseXY);
@@ -278,8 +275,6 @@ const PreviewComponent = () => {
   }, [SetupEditorContextValue.choiceComposite]);
 
   const setPreviewOverlay = (state: any, action: any): { [name: string]: PreviewOverlay } => {
-    
-
     console.log("setPreviewOverlay");
     if (!previewIframeElement.current) {
       return {};
@@ -329,7 +324,6 @@ const PreviewComponent = () => {
         // }
         console.log("searchMaxSizeElement", maxSize, inLeft, inTop);
       }
-
     }
 
     // const returnDict: { [name: string]: PreviewOverlay } = {};
