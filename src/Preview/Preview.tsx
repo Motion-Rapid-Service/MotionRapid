@@ -134,11 +134,15 @@ const PreviewOverlayShapeComponent = (props: any) => {
     }
   };
 
-  const checkAnimatorGroup = (leftDifference:number,topDifference:number) => {
+  const checkAnimatorGroup = (previewOverlayID:string,leftDifference:number,topDifference:number) => {
     const idDictAnimator: { [name: string]: string } = extractAnimator();
     console.log("idDict", idDictAnimator);
     const idListAnimator = [idDictAnimator.x,idDictAnimator.y]
-    const differenceList = [leftDifference,topDifference]
+
+    const newL = leftDifference + props.previewOverlay[previewOverlayID].left;
+    const newT = topDifference + props.previewOverlay[previewOverlayID].top;
+    const differenceList = [newL,newT]
+    console.log("differenceList",differenceList)
 
     for (let i=0;i < 2;i++){
       const animatorID = idListAnimator[i]
@@ -210,13 +214,13 @@ const PreviewOverlayShapeComponent = (props: any) => {
 
         props.previewOverlayUpdate({
           type: "drag",
-          left: left,
-          top: top,
+          left: leftDifference,
+          top: topDifference,
           thenPreviewOverlayID: previewOverlayID,
           thenPreviewOverlay: JSON.parse(JSON.stringify(props.previewOverlayRef.current)),
         });
 
-          checkAnimatorGroup(leftDifference,topDifference);
+          checkAnimatorGroup(previewOverlayID,leftDifference,topDifference);
 
         // console.log("userhand - getUserHandPreviewShape", mouseXY, previewOverlayID);
         // UserHand.nowPosUserHandPreviewShape(previewOverlayID, mouseXY);
