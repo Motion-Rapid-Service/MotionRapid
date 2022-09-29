@@ -6,10 +6,13 @@ import { AppContext } from "./../AppContext";
 import { SetupEditorContext } from "./../SetupEditor/SetupEditorContext";
 import { SetupToolbarContext } from "./../SetupEditor/SetupToolbarContext";
 
+import * as middleDataClass from "./../MiddleData/middleDataClass";
 import * as timelineMousePosition from "./../timeline/timeLineMousePosition";
 import UUID from "uuidjs";
 import * as UserHand from "./../UserHand";
-
+import * as AnimatorGroupFormat from "./../AnimatorGroupFormat/AnimatorGroupFormat";
+import * as AnimatorGroupPropertyFormat from "./../AnimatorGroupFormat/AnimatorGroupPropertyFormat";
+import * as AnimatorGroupAuxiliaryFunction from "./../AnimatorGroupFormat/AnimatorGroupAuxiliaryFunction";
 let moveFlag = false;
 
 class PreviewOverlay {
@@ -66,9 +69,14 @@ const PreviewOverlayShapeComponent = (props: any) => {
 
   const newKeyframe = () => {};
 
-  const checkAnimatorGroup = () => {
-    //leftやtop、marginが存在するかどうかを検出 これはcomposite要素の配置順による
+  const newAnimatorGroup = (newAnimatorGroupSpecies: string) => {
+    const animatorGroupID = AppContextValue.createAnimatorGroup(newAnimatorGroupSpecies);
+    AppContextValue.linkAnimatorGroup(mediaObjectID, animatorGroupID);
+    AppContextValue.operationLinkAnimatorGroup(animatorGroupID, newAnimatorGroupSpecies);
+    return animatorGroupID;
+  };
 
+  const extractAnimatorGroup = () => {
     const leftAnimatorGroupID: Array<string> = AppContextValue.searchSpecificAnimatorGroupSpecies(mediaObjectID, "left");
     const topAnimatorGroupID: Array<string> = AppContextValue.searchSpecificAnimatorGroupSpecies(mediaObjectID, "top");
     const rightAnimatorGroupID: Array<string> = AppContextValue.searchSpecificAnimatorGroupSpecies(mediaObjectID, "right");
@@ -80,18 +88,51 @@ const PreviewOverlayShapeComponent = (props: any) => {
     const HasRightAnimatorGroupID = rightAnimatorGroupID.length > 0;
     const HasBottomAnimatorGroupID = bottomAnimatorGroupID.length > 0;
     const HasMarginAnimatorGroupID = marginAnimatorGroupID.length > 0;
-
     const compositeLocationMode = AppContextValue.getCompositeLocationMode(SetupEditorContextValue.choiceComposite);
 
-    // const OwnedID_AnimatorGroup: Array<string> = AppContextValue.getOwnedID_AnimatorGroup(mediaObjectID);
-    // for (let ag = 0; ag < OwnedID_AnimatorGroup.length; ag++) {
-    //   const thenAnimatorGroupID = OwnedID_AnimatorGroup[ag];
-    //   // const OwnedID_Animator: Array<string> = AppContextValue.getOwnedID_Animator(thenAnimatorGroupID);
-    //   // for (let an = 0; an < OwnedID_Animator.length; an++) {
-    //   //   const thenAnimatorID = OwnedID_Animator[an];
-    //   // }
-    // }
-    // const isAnimator = OwnedID_Keyframe.length === 0;
+    switch (compositeLocationMode) {
+      case middleDataClass.Composite_LocationMode[0]: //文書配置
+        let marginID:string
+        if (!HasMarginAnimatorGroupID) {
+          marginID =  newAnimatorGroup("margin");
+        }
+        else{
+          marginID =  marginAnimatorGroupID[0]
+        }
+
+        AppContextValue.getOwnedID_Animator()
+
+        return { xy:  };
+      case middleDataClass.Composite_LocationMode[1]: //座標設定(左上)
+        let leftID: string;
+        let topID: string;
+
+        if (!HasLeftAnimatorGroupID) {
+          leftID = newAnimatorGroup("left");
+        } else {
+          leftID = leftAnimatorGroupID[0];
+        }
+        if (!HasTopAnimatorGroupID) {
+          topID = newAnimatorGroup("top");
+        } else {
+          topID = topAnimatorGroupID[0];
+        }
+
+        return { x: leftID, y: topID };
+      case middleDataClass.Composite_LocationMode[2]:
+        return;
+      case middleDataClass.Composite_LocationMode[3]: //背景固定
+        return;
+    }
+  };
+
+  const checkAnimatorGroup = () => {
+    const idDict = extractAnimatorGroup()
+
+    if (idDict["xy"]){
+
+    }
+    //leftやtop、marginが存在するかどうかを検出 これはcomposite要素の配置順による
   };
 
   const mouseDown = (event: any) => {
@@ -168,7 +209,6 @@ const PreviewComponent = () => {
   }, [SetupEditorContextValue.previewUpdate]);
 
   useEffect(() => {
-    // previewOverlayUpdate({ type: "new", thenPreviewOverlay: {} });
     return () => {
       previewOverlayUpdate({ type: "delete", thenPreviewOverlay: {} });
     };
@@ -240,10 +280,6 @@ const PreviewComponent = () => {
     return Object.values(previewOverlay);
   };
 
-  useEffect(() => {
-    console.log("previewOverlayUpdate", previewOverlay);
-  }, [previewOverlay]);
-
   const widthHeightText = () => {
     const scrollbarSizeWidth = String(window.innerWidth - document.body.clientWidth);
     const text = "calc(100% - " + scrollbarSizeWidth + "px)";
@@ -266,7 +302,12 @@ const PreviewComponent = () => {
           <p>html p</p>
         </iframe>
       </div>
-      <div className="preview-overlay" ref={previeOverlayElement} onMouseMove={onMouseMove} style={{ width: widthHeightText(), height: widthHeightText() }}>
+      <div
+        className="preview-overlay"
+        ref={previeOverlayElement}
+        onMouseMove={onMouseMove}
+        style={{ width: widthHeightText(), height: widthHeightText() }}
+      >
         {" "}
         {componentConvertPreviewOverlay().map((output: any, index: number) => (
           // <>{fruit}</> //SurfaceControlIndividualを追加するmap (list_surface_controlに入っている)
