@@ -226,13 +226,6 @@ const PreviewOverlayShapeComponent = (props: any) => {
           topDifference: topDifference,
           mouseDownPreviewShapeStyle: userrHandPreview.mouseDownPreviewShapeStyle,
         });
-        // props.previewOverlayUpdate({
-        //   type: "drag",
-        //   left: leftDifference,
-        //   top: topDifference,
-        //   thenPreviewOverlayID: previewOverlayID,
-        //   thenPreviewOverlay: JSON.parse(JSON.stringify(props.previewOverlayRef.current)),
-        // });
 
         break;
     }
@@ -299,7 +292,13 @@ const PreviewComponent = () => {
     previewIframeElement.current.srcdoc = htmlStr;
     console.log("htmlStr", htmlStr);
     previewIframeElement.current.scrolling = "yes";
-    previewOverlayUpdate({ type: "mouseMove", thenPreviewOverlay: {}, previewIframeElement: previewIframeElement });
+    previewIframeElement.current.addEventListener("load", function () {
+      console.log("iframeDocument");
+      const iframeDocument = previewIframeElement.current.contentDocument || previewIframeElement.current.contentWindow.document;
+      const rootElement: HTMLInputElement = iframeDocument.getElementById("root");
+      previewOverlayUpdate({ type: "mouseMove", thenPreviewOverlay: {}, rootElement: rootElement });
+    });
+
     // scrollbarWidthSetState();
 
     return () => {};
@@ -312,10 +311,10 @@ const PreviewComponent = () => {
   }, [SetupEditorContextValue.choiceComposite]);
 
   const setPreviewOverlay = (state: any, action: any): { [name: string]: PreviewOverlay } => {
-    console.log("setPreviewOverlay");
-    if (!action.previewIframeElement) {
-      return {};
-    }
+    // console.log("setPreviewOverlay");
+    // if (!action.previewIframeElement) {
+    //   return {};
+    // }
 
     console.log("action.type", action.type);
     if (action.type === "delete") {
@@ -335,22 +334,12 @@ const PreviewComponent = () => {
     // }
 
     if (action.type === "mouseMove") {
-      console.log("userhand - mouseMove");
-      const iframeDocument = action.previewIframeElement.current.contentDocument || action.previewIframeElement.current.contentWindow.document;
+      console.log("userhand - mouseMove", action.rootElement);
 
-      previewIframeElement.current.addEventListener("load", function () {
-        console.log("iframeDocument");
-      });
-      const rootElement: HTMLInputElement = iframeDocument.getElementById("root");
-
-      if (!rootElement) {
-        console.log("userhand - mouseMoveC", iframeDocument, rootElement);
+      if (!action.rootElement) {
         return {};
       }
-
-      console.log("userhand - mouseMoveB");
-
-      const compositeElements: Element = rootElement.firstElementChild;
+      const compositeElements: Element = action.rootElement.firstElementChild;
       const inElements: HTMLCollection = compositeElements.children;
 
       for (let ce = 0; ce < inElements.length; ce++) {
