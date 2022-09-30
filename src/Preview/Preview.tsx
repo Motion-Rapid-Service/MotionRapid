@@ -18,8 +18,6 @@ import * as MiddleDataOperationType from "./../MiddleData/middleDataOperationTyp
 
 //src/timeline/TimeNavigator/TimeNavigatorTimeline.tsx
 
-let moveFlag = false;
-
 class PreviewOverlay {
   left: number;
   top: number;
@@ -66,11 +64,25 @@ const PreviewOverlayShapeComponent = (props: any) => {
   const previewOverlayID = props.DownstreamShapePreviewOverlay.previewOverlayID;
   const previewOverlayShapeRef = useRef(null);
 
+  const setPreviewOverlayShapeStylePos = (state: any, action: any): { leftStyle: number; topStyle: number; widthStyle: number; heightStyle: number } => {
+    // const newX = action.leftDifference + state.x;
+    // const newY = action.topDifference + state.y;
+    const newX = state.leftDifference + action.mouseDownPreviewShapeStyle[0];
+    const newY = state.topDifference + action.mouseDownPreviewShapeStyle[1];
+    return { leftStyle: newX, topStyle: newY, widthStyle: width, heightStyle: height };
+  };
+
+  const [previewOverlayShapeStylePos, previewOverlayShapeStylePosSetState] = useReducer(setPreviewOverlayShapeStylePos, {
+    leftStyle: left,
+    topStyle: top,
+    widthStyle: width,
+    heightStyle: height,
+  });
   const AppContextValue = useContext(AppContext);
 
   useEffect(() => {
-    console.log("PreviewOverlayShapeComponent", left);
-  }, [left]);
+    console.log("PreviewOverlayShapeComponent", previewOverlayShapeStylePos);
+  }, [previewOverlayShapeStylePos]);
 
   const newKeyframe = () => {};
 
@@ -140,7 +152,7 @@ const PreviewOverlayShapeComponent = (props: any) => {
     const newL = leftDifference + props.previewOverlay[previewOverlayID].left;
     const newT = topDifference + props.previewOverlay[previewOverlayID].top;
     const differenceList = [newL, newT];
-    console.log("differenceList", differenceList);
+    console.log("differenceList", leftDifference, topDifference, differenceList);
 
     for (let i = 0; i < 2; i++) {
       const animatorID = idListAnimator[i];
@@ -183,17 +195,15 @@ const PreviewOverlayShapeComponent = (props: any) => {
         AppContextValue.operationCSSPropertyValue(unitSendData);
       }
     }
-    SetupEditorContextValue.previewUpdateDOM();
 
     //leftやtop、marginが存在するかどうかを検出 これはcomposite要素の配置順による
   };
 
   const mouseDown = (event: any) => {
     UserHand.alldeleteUserHandPreviewShape();
-    const mousePushPos = Object.assign(timelineMousePosition.mediaObjectMousePosition(event, previewOverlayShapeRef));
+    const mousePushPos = Object.assign(timelineMousePosition.mediaObjectMousePosition(event, props.previeOverlayElement));
     UserHand.insertUserHandPreviewShape(previewOverlayID, 1, mousePushPos, [left, top]);
     console.log("userhand - insertUserHandPreviewShape", previewOverlayID, 1, mousePushPos, [left, top]);
-    moveFlag = true;
   };
   const mouseMove = (event: any) => {
     if (!UserHand.hasUserHandPreviewShape(previewOverlayID)) {
@@ -204,30 +214,52 @@ const PreviewOverlayShapeComponent = (props: any) => {
     // console.log("userhand - ban", previewOverlayID, userHandKeyframe.mouseDownFlag);
     switch (userrHandPreview.mouseDownFlag) {
       case 1:
-        const mouseXY = timelineMousePosition.mediaObjectMousePosition(event, previewOverlayShapeRef);
+        const mouseXY = timelineMousePosition.mediaObjectMousePosition(event, props.previeOverlayElement);
 
         const leftDifference = mouseXY[0] - userrHandPreview.mousePushPos[0];
         const topDifference = mouseXY[1] - userrHandPreview.mousePushPos[1];
 
-        props.previewOverlayUpdate({
-          type: "drag",
-          left: leftDifference,
-          top: topDifference,
-          thenPreviewOverlayID: previewOverlayID,
-          thenPreviewOverlay: JSON.parse(JSON.stringify(props.previewOverlayRef.current)),
+        console.log("previewMoveA", leftDifference, topDifference);
+
+        previewOverlayShapeStylePosSetState({
+          leftDifference: leftDifference,
+          topDifference: topDifference,
+          mouseDownPreviewShapeStyle: userrHandPreview.mouseDownPreviewShapeStyle,
         });
+        // props.previewOverlayUpdate({
+        //   type: "drag",
+        //   left: leftDifference,
+        //   top: topDifference,
+        //   thenPreviewOverlayID: previewOverlayID,
+        //   thenPreviewOverlay: JSON.parse(JSON.stringify(props.previewOverlayRef.current)),
+        // });
 
-        checkAnimatorGroup(previewOverlayID, leftDifference, topDifference);
-
-        // console.log("userhand - getUserHandPreviewShape", mouseXY, previewOverlayID);
-        // UserHand.nowPosUserHandPreviewShape(previewOverlayID, mouseXY);
         break;
     }
   };
   const mouseUp = (event: any) => {
     console.log("userhand - mouseUp");
+
+    if (!UserHand.hasUserHandPreviewShape(previewOverlayID)) {
+      return;
+    }
+    const userrHandPreview = UserHand.getUserHandPreviewShape(previewOverlayID);
+    const mouseXY = timelineMousePosition.mediaObjectMousePosition(event, props.previeOverlayElement);
+
+    const leftDifference = mouseXY[0] - userrHandPreview.mousePushPos[0];
+    const topDifference = mouseXY[1] - userrHandPreview.mousePushPos[1];
+
+    console.log("userhand - preview", mouseXY, userrHandPreview.mousePushPos);
+    console.log("previewMoveB", leftDifference, topDifference);
+
+    checkAnimatorGroup(previewOverlayID, leftDifference, topDifference);
+
+    // console.log("userhand - getUserHandPreviewShape", mouseXY, previewOverlayID);
+    // UserHand.nowPosUserHandPreviewShape(previewOverlayID, mouseXY);
+
     UserHand.alldeleteUserHandPreviewShape();
-    moveFlag = false;
+
+    SetupEditorContextValue.previewUpdateDOM();
   };
 
   useEffect(() => {
@@ -237,14 +269,19 @@ const PreviewOverlayShapeComponent = (props: any) => {
       window.removeEventListener("mousemove", mouseMove);
       window.removeEventListener("mouseup", mouseUp);
     };
-  }, [props.DownstreamShapePreviewOverlay.previewOverlayID]);
+  }, [props.DownstreamShapePreviewOverlay.previewOverlayID, SetupEditorContextValue.previewUpdate]);
 
   return (
     <div
       className="preview-overlay-shape"
       onMouseDown={mouseDown}
       ref={previewOverlayShapeRef}
-      style={{ left: left, top: top, width: width, height: height }}
+      style={{
+        left: previewOverlayShapeStylePos.leftStyle,
+        top: previewOverlayShapeStylePos.topStyle,
+        width: previewOverlayShapeStylePos.widthStyle,
+        height: previewOverlayShapeStylePos.heightStyle,
+      }}
     ></div>
   );
 };
@@ -262,21 +299,21 @@ const PreviewComponent = () => {
     previewIframeElement.current.srcdoc = htmlStr;
     console.log("htmlStr", htmlStr);
     previewIframeElement.current.scrolling = "yes";
-
+    previewOverlayUpdate({ type: "mouseMove", thenPreviewOverlay: {}, previewIframeElement: previewIframeElement });
     // scrollbarWidthSetState();
 
     return () => {};
   }, [SetupEditorContextValue.previewUpdate]);
 
   useEffect(() => {
-    return () => {
-      previewOverlayUpdate({ type: "delete", thenPreviewOverlay: {} });
-    };
+    // return () => {
+    //   previewOverlayUpdate({ type: "delete", thenPreviewOverlay: {}, previewIframeElement: null });
+    // };
   }, [SetupEditorContextValue.choiceComposite]);
 
   const setPreviewOverlay = (state: any, action: any): { [name: string]: PreviewOverlay } => {
     console.log("setPreviewOverlay");
-    if (!previewIframeElement.current) {
+    if (!action.previewIframeElement) {
       return {};
     }
 
@@ -285,26 +322,33 @@ const PreviewComponent = () => {
       return {};
     }
 
-    if (action.type === "drag") {
-      const newPVO = JSON.parse(JSON.stringify(action.thenPreviewOverlay));
-      const newL = action.left + newPVO[action.thenPreviewOverlayID].left;
-      const newT = action.top + newPVO[action.thenPreviewOverlayID].top;
-      newPVO[action.thenPreviewOverlayID].left = newL + 0;
-      newPVO[action.thenPreviewOverlayID].top = newT + 0;
+    // if (action.type === "drag") {
+    //   const newPVO = JSON.parse(JSON.stringify(action.thenPreviewOverlay));
+    //   const newL = action.left + newPVO[action.thenPreviewOverlayID].left;
+    //   const newT = action.top + newPVO[action.thenPreviewOverlayID].top;
+    //   newPVO[action.thenPreviewOverlayID].left = newL;
+    //   newPVO[action.thenPreviewOverlayID].top = newT;
 
-      console.log("userhand - newLT", action.thenPreviewOverlayID, newL, newT);
+    //   console.log("userhand - newLT", action.thenPreviewOverlayID, newL, newT, action.left, action.top);
 
-      return newPVO;
-    }
+    //   return newPVO;
+    // }
 
     if (action.type === "mouseMove") {
       console.log("userhand - mouseMove");
-      const iframeDocument = previewIframeElement.current.contentDocument || previewIframeElement.current.contentWindow.document;
+      const iframeDocument = action.previewIframeElement.current.contentDocument || action.previewIframeElement.current.contentWindow.document;
 
+      previewIframeElement.current.addEventListener("load", function () {
+        console.log("iframeDocument");
+      });
       const rootElement: HTMLInputElement = iframeDocument.getElementById("root");
+
       if (!rootElement) {
+        console.log("userhand - mouseMoveC", iframeDocument, rootElement);
         return {};
       }
+
+      console.log("userhand - mouseMoveB");
 
       const compositeElements: Element = rootElement.firstElementChild;
       const inElements: HTMLCollection = compositeElements.children;
@@ -322,7 +366,7 @@ const PreviewComponent = () => {
         const newPreviewOverlay = new PreviewOverlay(inLeft, inTop, maxSize[0], maxSize[1], thenID);
         action.thenPreviewOverlay[newPreviewOverlay.previewOverlayID] = newPreviewOverlay;
         // }
-        console.log("searchMaxSizeElement", maxSize, inLeft, inTop);
+        console.log("searchMaxSizeElement", maxSize, inLeft, inTop, action.thenPreviewOverlay);
       }
     }
 
@@ -346,13 +390,7 @@ const PreviewComponent = () => {
     return text;
   };
 
-  const onMouseMove = () => {
-    if (moveFlag) {
-      return;
-    }
-
-    previewOverlayUpdate({ type: "mouseMove", thenPreviewOverlay: {} });
-  };
+  const onMouseMove = () => {};
 
   return (
     <div className="preview-main">
@@ -362,13 +400,7 @@ const PreviewComponent = () => {
           <p>html p</p>
         </iframe>
       </div>
-      <div
-        className="preview-overlay"
-        ref={previeOverlayElement}
-        onMouseMove={onMouseMove}
-        style={{ width: widthHeightText(), height: widthHeightText() }}
-      >
-        {" "}
+      <div className="preview-overlay" ref={previeOverlayElement} onMouseMove={onMouseMove} style={{ width: widthHeightText(), height: widthHeightText() }}>
         {componentConvertPreviewOverlay().map((output: any, index: number) => (
           // <>{fruit}</> //SurfaceControlIndividualを追加するmap (list_surface_controlに入っている)
 
@@ -377,6 +409,7 @@ const PreviewComponent = () => {
             previewOverlay={previewOverlay}
             previewOverlayUpdate={previewOverlayUpdate}
             key={index}
+            previeOverlayElement={previeOverlayElement}
             previewOverlayRef={previewOverlayRef}
           />
         ))}
