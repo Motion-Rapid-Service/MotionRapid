@@ -382,7 +382,7 @@ const AnimaterCSSpropertyValue = () => {
 
     AnimaterCSSpropertyContextValue.animaterCSSpropertyValueUpdate({ actionType: "user", cssValue: String(text) });
   };
-  return <input className="text_box_common" type="text" value={AnimaterCSSpropertyContextValue.animaterCSSpropertyValue} onChange={onChange} />;
+  return <input className="text_box_common" type="number" value={AnimaterCSSpropertyContextValue.animaterCSSpropertyValue} onChange={onChange} />;
 };
 
 const AnimaterCSSpropertyUnit = () => {

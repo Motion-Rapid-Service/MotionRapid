@@ -67,10 +67,17 @@ const PreviewOverlayShapeComponent = (props: any) => {
   const setPreviewOverlayShapeStylePos = (state: any, action: any): { leftStyle: number; topStyle: number; widthStyle: number; heightStyle: number } => {
     // const newX = action.leftDifference + state.x;
     // const newY = action.topDifference + state.y;
-    const newX = action.leftDifference + action.mouseDownPreviewShapeStyle[0];
-    const newY = action.topDifference + action.mouseDownPreviewShapeStyle[1];
-    console.log("newXnewY", newX, newY);
-    return { leftStyle: newX, topStyle: newY, widthStyle: width, heightStyle: height };
+
+    if (action.type === "mouseMove") {
+      const newX = action.leftDifference + action.mouseDownPreviewShapeStyle[0];
+      const newY = action.topDifference + action.mouseDownPreviewShapeStyle[1];
+      console.log("newXnewY", newX, newY);
+      return { leftStyle: newX, topStyle: newY, widthStyle: width, heightStyle: height };
+    }
+
+    if (action.type === "useEffect") {
+      return { leftStyle: left, topStyle: top, widthStyle: width, heightStyle: height };
+    }
   };
 
   const [previewOverlayShapeStylePos, previewOverlayShapeStylePosSetState] = useReducer(setPreviewOverlayShapeStylePos, {
@@ -83,7 +90,8 @@ const PreviewOverlayShapeComponent = (props: any) => {
 
   useEffect(() => {
     console.log("PreviewOverlayShapeComponent", previewOverlayShapeStylePos);
-  }, [left, top, width, height, mediaObjectID]);
+    previewOverlayShapeStylePosSetState({ type: "useEffect" });
+  }, [left, top, width, height, mediaObjectID, previewOverlayID]);
 
   const newKeyframe = () => {};
 
@@ -159,12 +167,15 @@ const PreviewOverlayShapeComponent = (props: any) => {
       const animatorID = idListAnimator[i];
       console.log("idDict2", animatorID);
 
-      const OwnedID_Keyframe = AppContextValue.getOwnedID_Keyframe(animatorID);
-
-      if (OwnedID_Keyframe > 0) {
+      const OwnedID_Keyframe: Array<string> = AppContextValue.getOwnedID_Keyframe(animatorID);
+      console.log("checkAnimatorGroup F", OwnedID_Keyframe, OwnedID_Keyframe.length > 0, TimeNavigatorContextValue.getPlayheadTime);
+      if (OwnedID_Keyframe.length > 0) {
         // AppContextValue.getOwnedID_CSSPropertySpeciesHasKeyframe()
         const nowTime = TimeNavigatorContextValue.getPlayheadTime();
+
         const equalsThenKeyframeID = AppContextValue.equalsKeyframeTime(nowTime, animatorID);
+        console.log("checkAnimatorGroup P", nowTime, equalsThenKeyframeID);
+
         if (!equalsThenKeyframeID) {
           // 同じ時間にkeyframeが存在するかを確認する;
           // 存在しない場合;
@@ -177,6 +188,7 @@ const PreviewOverlayShapeComponent = (props: any) => {
             CSSPropertyID: thenCSSPropertyID,
             CSSPropertyValue: differenceList[i],
           };
+          console.log("checkAnimatorGroup-unitSendData", unitSendData);
           AppContextValue.operationCSSPropertyValue(unitSendData);
         } else {
           const thenCSSPropertyID: string = AppContextValue.getOwnedID_CSSPropertySpeciesHasKeyframe(equalsThenKeyframeID);
