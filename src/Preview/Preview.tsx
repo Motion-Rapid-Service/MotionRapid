@@ -67,8 +67,9 @@ const PreviewOverlayShapeComponent = (props: any) => {
   const setPreviewOverlayShapeStylePos = (state: any, action: any): { leftStyle: number; topStyle: number; widthStyle: number; heightStyle: number } => {
     // const newX = action.leftDifference + state.x;
     // const newY = action.topDifference + state.y;
-    const newX = state.leftDifference + action.mouseDownPreviewShapeStyle[0];
-    const newY = state.topDifference + action.mouseDownPreviewShapeStyle[1];
+    const newX = action.leftDifference + action.mouseDownPreviewShapeStyle[0];
+    const newY = action.topDifference + action.mouseDownPreviewShapeStyle[1];
+    console.log("newXnewY", newX, newY);
     return { leftStyle: newX, topStyle: newY, widthStyle: width, heightStyle: height };
   };
 
@@ -82,7 +83,7 @@ const PreviewOverlayShapeComponent = (props: any) => {
 
   useEffect(() => {
     console.log("PreviewOverlayShapeComponent", previewOverlayShapeStylePos);
-  }, [previewOverlayShapeStylePos]);
+  }, [left, top, width, height, mediaObjectID]);
 
   const newKeyframe = () => {};
 
@@ -222,6 +223,7 @@ const PreviewOverlayShapeComponent = (props: any) => {
         console.log("previewMoveA", leftDifference, topDifference);
 
         previewOverlayShapeStylePosSetState({
+          type: "mouseMove",
           leftDifference: leftDifference,
           topDifference: topDifference,
           mouseDownPreviewShapeStyle: userrHandPreview.mouseDownPreviewShapeStyle,
@@ -339,6 +341,8 @@ const PreviewComponent = () => {
       if (!action.rootElement) {
         return {};
       }
+      action.thenPreviewOverlay = {};
+
       const compositeElements: Element = action.rootElement.firstElementChild;
       const inElements: HTMLCollection = compositeElements.children;
 

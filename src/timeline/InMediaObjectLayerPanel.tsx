@@ -274,6 +274,19 @@ const AnimaterCSSproperty = (props: any) => {
   const setCSSpropertyValue = (state: any, action: TypeSetCSSpropertyValueAction): string => {
     console.log("setCSSpropertyValue", action.cssValue);
 
+    if (action.actionType === "previewUpdate") {
+      if (isAnimator) {
+        const newValue = AppContextValue.getCSSPropertyValue(AnimatorCSSPropertyID);
+        console.log("setCSSpropertyValue previewUpdate A", newValue);
+        return newValue;
+      }
+      {
+        const newValue = SetupEditorContextValue.getKeyframeValue(OwnedID_Keyframe, TimeNavigatorContextValue.getPlayheadTime());
+        console.log("setCSSpropertyValue previewUpdate B", newValue);
+        return newValue;
+      }
+    }
+
     switch (isAnimator) {
       case true:
         const unitSendData: MiddleDataOperationType.OoperationCSSPropertyValueType = {
@@ -289,7 +302,7 @@ const AnimaterCSSproperty = (props: any) => {
         }
 
         const nowTime = TimeNavigatorContextValue.getPlayheadTime();
-        const equalsThenKeyframeID = AppContextValue.equalsKeyframeTime(nowTime,LayerPanelAnimaterContextValue.Animator_ID)
+        const equalsThenKeyframeID = AppContextValue.equalsKeyframeTime(nowTime, LayerPanelAnimaterContextValue.Animator_ID);
         if (!equalsThenKeyframeID) {
           // 同じ時間にkeyframeが存在するかを確認する;
           // 存在しない場合;
@@ -334,6 +347,13 @@ const AnimaterCSSproperty = (props: any) => {
       });
     }
   }, [TimeNavigatorContextValue.playheadViewPos]);
+
+  useEffect(() => {
+    animaterCSSpropertyValueUpdate({
+      actionType: "previewUpdate",
+      cssValue: null,
+    });
+  }, [SetupEditorContextValue.previewUpdate]);
 
   return (
     <div className="layer_panel-animator-entity-css_property">
