@@ -317,8 +317,9 @@ const AnimaterCSSproperty = (props: any) => {
           };
           AppContextValue.operationCSSPropertyValue(unitSendData);
         } else {
+          const thenCSSPropertyID: string = AppContextValue.getOwnedID_CSSPropertySpeciesHasKeyframe(equalsThenKeyframeID);
           const unitSendData: MiddleDataOperationType.OoperationCSSPropertyValueType = {
-            CSSPropertyID: equalsThenKeyframeID,
+            CSSPropertyID: thenCSSPropertyID,
             CSSPropertyValue: action.cssValue,
           };
           AppContextValue.operationCSSPropertyValue(unitSendData);

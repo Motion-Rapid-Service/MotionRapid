@@ -62,7 +62,9 @@ const PreviewOverlayShapeComponent = (props: any) => {
   const height = props.DownstreamShapePreviewOverlay.height;
   const mediaObjectID = props.DownstreamShapePreviewOverlay.mediaObjectID;
   const previewOverlayID = props.DownstreamShapePreviewOverlay.previewOverlayID;
+  const AppContextValue = useContext(AppContext);
   const previewOverlayShapeRef = useRef(null);
+  console.log("PreviewOverlayShapeComponent", AppContextValue.getCompositePlayheadTimePos);
 
   const setPreviewOverlayShapeStylePos = (state: any, action: any): { leftStyle: number; topStyle: number; widthStyle: number; heightStyle: number } => {
     // const newX = action.leftDifference + state.x;
@@ -86,7 +88,6 @@ const PreviewOverlayShapeComponent = (props: any) => {
     widthStyle: width,
     heightStyle: height,
   });
-  const AppContextValue = useContext(AppContext);
 
   useEffect(() => {
     console.log("PreviewOverlayShapeComponent", previewOverlayShapeStylePos);
@@ -168,10 +169,17 @@ const PreviewOverlayShapeComponent = (props: any) => {
       console.log("idDict2", animatorID);
 
       const OwnedID_Keyframe: Array<string> = AppContextValue.getOwnedID_Keyframe(animatorID);
-      console.log("checkAnimatorGroup F", OwnedID_Keyframe, OwnedID_Keyframe.length > 0, TimeNavigatorContextValue.getPlayheadTime);
+      console.log(
+        "checkAnimatorGroup F",
+        OwnedID_Keyframe,
+        OwnedID_Keyframe.length > 0,
+        TimeNavigatorContextValue.getPlayheadTime,
+        TimeNavigatorContextValue.playheadViewPos
+      );
       if (OwnedID_Keyframe.length > 0) {
         // AppContextValue.getOwnedID_CSSPropertySpeciesHasKeyframe()
-        const nowTime = TimeNavigatorContextValue.getPlayheadTime();
+        const nowTime = AppContextValue.getCompositePlayheadTimePos(SetupEditorContextValue.choiceComposite);
+        //この関数が上手く呼び出されていない
 
         const equalsThenKeyframeID = AppContextValue.equalsKeyframeTime(nowTime, animatorID);
         console.log("checkAnimatorGroup P", nowTime, equalsThenKeyframeID);
@@ -232,7 +240,7 @@ const PreviewOverlayShapeComponent = (props: any) => {
         const leftDifference = mouseXY[0] - userrHandPreview.mousePushPos[0];
         const topDifference = mouseXY[1] - userrHandPreview.mousePushPos[1];
 
-        console.log("previewMoveA", leftDifference, topDifference);
+        console.log("previewMoveA", leftDifference, topDifference, TimeNavigatorContextValue.getPlayheadTime, TimeNavigatorContextValue.playheadViewPos);
 
         previewOverlayShapeStylePosSetState({
           type: "mouseMove",
@@ -276,7 +284,7 @@ const PreviewOverlayShapeComponent = (props: any) => {
       window.removeEventListener("mousemove", mouseMove);
       window.removeEventListener("mouseup", mouseUp);
     };
-  }, [props.DownstreamShapePreviewOverlay.previewOverlayID, SetupEditorContextValue.previewUpdate]);
+  }, [props.DownstreamShapePreviewOverlay.previewOverlayID, SetupEditorContextValue.previewUpdate, SetupEditorContextValue.choiceComposite]);
 
   return (
     <div
@@ -299,6 +307,7 @@ const PreviewComponent = () => {
   const previeOverlayElement = useRef(null);
   const AppContextValue = useContext(AppContext);
   const SetupEditorContextValue = useContext(SetupEditorContext);
+  const TimeNavigatorContextValue = useContext(TimeNavigatorContext);
 
   useEffect(() => {
     const htmlStr = AppContextValue.previewMiddleDataHtml(SetupEditorContextValue.choiceComposite);

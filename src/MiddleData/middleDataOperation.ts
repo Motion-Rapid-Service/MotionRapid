@@ -378,6 +378,7 @@ export default class MiddleDataOperation {
 
     const thenComposite = this.DataCentral.OwnedClass_Composite[compositeID];
     //console.log("thenComposite", thenComposite);
+
     return thenComposite.Composite_LocationMode;
   };
 
@@ -463,7 +464,7 @@ export default class MiddleDataOperation {
       return;
     }
     const viewPos: number = this.DataCentral.OwnedClass_Composite[compositeID].playheadTimePos;
-    console.log("getCompositePlayheadTimePos", viewPos);
+    // console.log("getCompositePlayheadTimePos", viewPos);
     return viewPos;
   };
 
