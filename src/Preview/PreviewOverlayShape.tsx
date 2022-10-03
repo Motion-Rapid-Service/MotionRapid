@@ -113,7 +113,7 @@ const PreviewOverlayShapeComponent = (props: any) => {
       case middleDataClass.Composite_LocationMode[2]:
         return;
       case middleDataClass.Composite_LocationMode[3]: //背景固定
-        return;
+        return { x: 0, y: 0 };
     }
   };
 

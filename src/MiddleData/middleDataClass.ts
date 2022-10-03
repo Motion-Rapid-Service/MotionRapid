@@ -43,6 +43,8 @@ export class Composite {
   staStyleViewPos: number;
   endStyleViewPos: number;
   playheadTimePos: number;
+  previewViewPosX: number;
+  previewViewPosY: number;
   constructor(
     send_Composite_ID: string,
     send_Composite_Name: string,
@@ -68,6 +70,9 @@ export class Composite {
     this.staStyleViewPos = 0;
     this.endStyleViewPos = this.Composite_Duration;
     this.playheadTimePos = 0;
+
+    this.previewViewPosX = 0;
+    this.previewViewPosY = 0;
   }
 }
 

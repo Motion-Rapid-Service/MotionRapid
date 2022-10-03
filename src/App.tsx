@@ -240,9 +240,7 @@ const deepCopyDict = (ary: { [name: string | number]: any }) => {
   return temp;
 };
 
-
-const equalsKeyframeTime = (playheadTime: number,Animator_ID:string): string => {
-
+const equalsKeyframeTime = (playheadTime: number, Animator_ID: string): string => {
   const OwnedID_Keyframe: Array<string> = middleDataOperation.getOwnedID_Keyframe(Animator_ID);
 
   for (let ki = 0; ki < OwnedID_Keyframe.length; ki++) {
@@ -255,7 +253,6 @@ const equalsKeyframeTime = (playheadTime: number,Animator_ID:string): string => 
   }
   return null;
 };
-
 
 //{ [name: string]: ToolBarClassificationData }
 const App = () => {
@@ -324,6 +321,9 @@ const App = () => {
           getCompositePlayheadTimePos: middleDataOperation.getCompositePlayheadTimePos,
           setCompositePlayheadTimePos: middleDataOperation.setCompositePlayheadTimePos,
 
+          setCompositePreviewViewPos: middleDataOperation.setCompositePreviewViewPos,
+          getCompositePreviewViewPos: middleDataOperation.getCompositePreviewViewPos,
+
           getOwnedID_CSSPropertySpeciesHasAnimator: middleDataOperation.getOwnedID_CSSPropertySpeciesHasAnimator,
           getOwnedID_CSSPropertySpeciesHasKeyframe: middleDataOperation.getOwnedID_CSSPropertySpeciesHasKeyframe,
 
@@ -333,7 +333,7 @@ const App = () => {
           getOwnedID_Keyframe: middleDataOperation.getOwnedID_Keyframe,
 
           searchSpecificAnimatorGroupSpecies: middleDataOperation.searchSpecificAnimatorGroupSpecies,
-          searchSpecificAnimatorPropertySpecies:middleDataOperation.searchSpecificAnimatorPropertySpecies,
+          searchSpecificAnimatorPropertySpecies: middleDataOperation.searchSpecificAnimatorPropertySpecies,
           fileExportDataCentral: middleDataOperation.fileExportDataCentral,
           // fileExportComposite: middleDataOperation.fileExportComposite,
           // htmlBuildMain:htmlBuildMain
@@ -369,7 +369,7 @@ const App = () => {
           linkCSSPropertyHasAnimator: middleDataOperation.linkCSSPropertyHasAnimator,
           linkCSSPropertyHasKeyframe: middleDataOperation.linkCSSPropertyHasKeyframe,
 
-          equalsKeyframeTime:equalsKeyframeTime
+          equalsKeyframeTime: equalsKeyframeTime,
         }}
       >
         <SetupEditor />

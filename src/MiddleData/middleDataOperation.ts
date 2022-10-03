@@ -475,6 +475,29 @@ export default class MiddleDataOperation {
     this.DataCentral.OwnedClass_Composite[compositeID].playheadTimePos = time;
   };
 
+  getCompositePreviewViewPos = (compositeID: string): { x: number; y: number } => {
+    if (!hasKeyFound(compositeID, this.DataCentral.OwnedClass_Composite)) {
+      return;
+    }
+
+    if (!this.DataCentral.OwnedClass_Composite[compositeID].previewViewPosX || !this.DataCentral.OwnedClass_Composite[compositeID].previewViewPosY) {
+      return { x: 0, y: 0 };
+    }
+
+    const viewPosX: number = this.DataCentral.OwnedClass_Composite[compositeID].previewViewPosX;
+    const viewPosY: number = this.DataCentral.OwnedClass_Composite[compositeID].previewViewPosY;
+    // console.log("getCompositePlayheadTimePos", viewPos);
+    return { x: viewPosX, y: viewPosY };
+  };
+
+  setCompositePreviewViewPos = (compositeID: string, pos: { x: number; y: number }) => {
+    if (!hasKeyFound(compositeID, this.DataCentral.OwnedClass_Composite)) {
+      return;
+    }
+    this.DataCentral.OwnedClass_Composite[compositeID].previewViewPosX = pos.x;
+    this.DataCentral.OwnedClass_Composite[compositeID].previewViewPosY = pos.y;
+  };
+
   getKeyframeTime = (keyframeID: string) => {
     const Keyframe_AbsoluteTime = this.DataCentral.OwnedClass_Keyframe[keyframeID].Keyframe_AbsoluteTime;
 

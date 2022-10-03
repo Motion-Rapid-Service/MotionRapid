@@ -48,8 +48,11 @@ type AppContextValue = {
   getOwnedID_CSSPropertySpeciesHasAnimator: Function;
   getOwnedID_CSSPropertySpeciesHasKeyframe: Function;
 
+  setCompositePreviewViewPos: Function;
+  getCompositePreviewViewPos: Function;
+
   searchSpecificAnimatorGroupSpecies: Function;
-  searchSpecificAnimatorPropertySpecies:Function
+  searchSpecificAnimatorPropertySpecies: Function;
 
   getCompositeHorizontalMode: Function;
   getCompositeLocationMode: Function;
@@ -100,7 +103,7 @@ type AppContextValue = {
   linkCSSPropertyHasAnimator: Function;
   linkCSSPropertyHasKeyframe: Function;
 
-  equalsKeyframeTime:Function
+  equalsKeyframeTime: Function;
 };
 
 export const AppContext = createContext<AppContextValue>({} as AppContextValue);

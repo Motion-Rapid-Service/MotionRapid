@@ -17,6 +17,8 @@ import { TimeNavigatorContext } from "./../timeline/TimeNavigator/TimeNavigatorC
 import * as MiddleDataOperationType from "./../MiddleData/middleDataOperationType";
 
 import PreviewOverlayShape from "./PreviewOverlayShape";
+import PreviewOverlayNavigator from "./PreviewOverlayNavigator";
+import * as PreviewContext from "./PreviewContext";
 
 //src/timeline/TimeNavigator/TimeNavigatorTimeline.tsx
 
@@ -63,18 +65,40 @@ const PreviewComponent = () => {
   const SetupEditorContextValue = useContext(SetupEditorContext);
   const TimeNavigatorContextValue = useContext(TimeNavigatorContext);
 
+  const setPreviewNavigator = (state: PreviewContext.TypePreviewNavigator, action: any): PreviewContext.TypePreviewNavigator => {
+    if (action.type === "scroll") {
+      return { scrollX: action.scrollX, scrollY: action.scrollY, iframeWidth: action.iframeWidth, iframeHeight: action.iframeHeight };
+    }
+  };
+
+  const [previewNavigator, previewNavigatorSetState] = useReducer(setPreviewNavigator, { scrollX: 0, scrollY: 0, iframeWidth: 0, iframeHeight: 0 });
+
   useEffect(() => {
     const htmlStr = AppContextValue.previewMiddleDataHtml(SetupEditorContextValue.choiceComposite);
     console.log(previewIframeElement);
     previewIframeElement.current.srcdoc = htmlStr;
     console.log("htmlStr", htmlStr);
     previewIframeElement.current.scrolling = "yes";
-    previewIframeElement.current.addEventListener("load", function () {
+    previewIframeElement.current.onload = function () {
       console.log("iframeDocument");
       const iframeDocument = previewIframeElement.current.contentDocument || previewIframeElement.current.contentWindow.document;
+      const iframeWindow = previewIframeElement.current.contentWindow;
       const rootElement: HTMLInputElement = iframeDocument.getElementById("root");
       previewOverlayUpdate({ type: "mouseMove", thenPreviewOverlay: {}, rootElement: rootElement });
-    });
+
+      const iframeScroll = () => {
+        const scrollX = Number(iframeWindow.scrollX);
+        const scrollY = Number(iframeWindow.scrollY);
+        const iframeWidth = Number(iframeWindow.innerWidth);
+        const iframeHeight = Number(iframeWindow.innerHeight);
+        console.log("iframeDocumentScroll", scrollY, previewIframeElement.current.contentWindow.scrollY, SetupEditorContextValue.choiceComposite, iframeHeight);
+        // iframeWindow.scrollTo(100, 100);
+        previewNavigatorSetState({ type: "scroll", scrollX: scrollX, scrollY: scrollY, iframeWidth: iframeWidth, iframeHeight: iframeHeight });
+      };
+
+      iframeDocument.onscroll = iframeScroll;
+      iframeScroll();
+    };
 
     // scrollbarWidthSetState();
 
@@ -181,6 +205,7 @@ const PreviewComponent = () => {
             previewOverlayRef={previewOverlayRef}
           />
         ))}
+        <PreviewOverlayNavigator previewNavigator={previewNavigator} />
       </div>
     </div>
   );

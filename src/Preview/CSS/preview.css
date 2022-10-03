@@ -44,3 +44,25 @@
 .preview-overlay-shape:hover {
   background-color: rgba(100, 100, 200, 0.3);
 }
+
+.preview_overlay_navigator {
+  position: absolute;
+  right: 0px;
+  top: 0px;
+
+  width: 100px;
+  height: 100%;
+}
+
+.preview_overlay_navigator_block,
+.preview_overlay_navigator_thentime_block {
+  position: absolute;
+}
+
+.preview_overlay_navigator_gray_overlay {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  background-color: rgba(100, 100, 100, 0.3);
+}
