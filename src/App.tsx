@@ -3,6 +3,9 @@ const { useState, useContext, useReducer, createContext, useEffect } = React;
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import "./unify.css";
+import "./SetupEditor/MotionRapidLayoutCSS/layout.css";
+import "./SetupEditor/MotionRapidLayoutCSS/expand_layout.css";
+
 import "./timeline/CSS/timeline.css";
 import "./timeline/CSS/animator.css";
 import "./timeline/CSS/keyframe.css";

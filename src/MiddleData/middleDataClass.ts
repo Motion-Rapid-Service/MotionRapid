@@ -83,6 +83,7 @@ export class MediaObject {
   MediaObject_LayerNumber: number;
   MediaObject_Color: Array<number>;
   MediaObject_Name: string;
+  MediaObject_Fixed: boolean;
 
   OwnedID_AnimatorGroup: Array<string>;
   animatorOpen: boolean;

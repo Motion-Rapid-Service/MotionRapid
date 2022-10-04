@@ -229,7 +229,9 @@ export const LayerPanelAnimaterComponent = (props: any) => {
       value={{ Animator_ID: Animator_ID, Animator_propertySpecies: Animator_propertySpecies, AnimatorGroup_Species: AnimatorGroup_Species }}
     >
       <div className="layer_panel-animator-entity" onClick={onClick}>
+        <AnimaterLeftKeyframeMoveButton />
         <AnimaterInsertKeyframeButton Animator_ID={Animator_ID} />
+        <AnimaterRightKeyframeMoveButton />
         <p>{Animator_propertySpecies}</p>
         <AnimaterCSSproperty Animator_ID={Animator_ID} />
       </div>
@@ -251,6 +253,28 @@ const AnimaterInsertKeyframeButton = (props: any) => {
     const temp: MiddleDataOperationType.OperationKeyframeTimeType = { KeyframeID: keyframeID, time: 100 };
 
     AppContextValue.operationKeyframeTime(temp);
+    AppContextValue.updateDOM();
+  };
+  return <div className="layer_panel-animator-entity-insert_keyframe_button" onMouseDown={mouseDown}></div>;
+};
+
+const AnimaterLeftKeyframeMoveButton = (props: any) => {
+  const AppContextValue = useContext(AppContext);
+  const SetupUndoContextValue = useContext(SetupUndoContext);
+
+  const mouseDown = () => {
+    // SetupUndoContextValue.pushEditHistory();
+    AppContextValue.updateDOM();
+  };
+  return <div className="layer_panel-animator-entity-insert_keyframe_button" onMouseDown={mouseDown}></div>;
+};
+
+const AnimaterRightKeyframeMoveButton = (props: any) => {
+  const AppContextValue = useContext(AppContext);
+  const SetupUndoContextValue = useContext(SetupUndoContext);
+
+  const mouseDown = () => {
+    // SetupUndoContextValue.pushEditHistory();
     AppContextValue.updateDOM();
   };
   return <div className="layer_panel-animator-entity-insert_keyframe_button" onMouseDown={mouseDown}></div>;

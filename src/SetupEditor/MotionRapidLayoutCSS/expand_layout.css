@@ -1,0 +1,21 @@
+.motion_rapid-layout {
+  --layout-expand-min_size: 10px;
+  --layout-expand-max_size: 100%;
+  --layout-expand-color: rgb(200, 200, 200);
+}
+
+.toolBar-layout-expand {
+}
+
+.composite_editor-layout-expand {
+  width: var(--layout-expand-min_size);
+  height: var(--layout-expand-max_size);
+  background-color: var(--layout-expand-color);
+}
+.preview-layout-expand {
+}
+.timeline-layout-expand {
+  width: var(--layout-expand-max_size);
+  height: var(--layout-expand-min_size);
+  background-color: var(--layout-expand-color);
+}

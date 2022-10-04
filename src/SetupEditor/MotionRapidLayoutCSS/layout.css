@@ -1,0 +1,34 @@
+.motion_rapid-layout {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  --toolBar-layout-size: 130px;
+  overflow: hidden;
+}
+
+.toolBar-layout {
+  height: var(--toolBar-layout-size);
+}
+
+.editor-layout {
+  width: 100%;
+  height: calc(100vh - var(--toolBar-layout-size));
+}
+
+.composite_editor-layout {
+  position: absolute;
+  height: 100%;
+  overflow: hidden;
+}
+.preview-layout {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+.timeline-layout {
+  position: absolute;
+  width: 100%;
+  overflow: hidden;
+  bottom: 0px;
+}

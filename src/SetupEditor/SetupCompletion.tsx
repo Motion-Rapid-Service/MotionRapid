@@ -12,6 +12,11 @@ import { SetupConfigContext } from "./SetupConfigContext";
 //ここを画面結合専用層にする予定
 //ここから ツールバー処理用のクラス
 
+type TypeLayoutState = {
+  layoutSize: number;
+  expandFlag: boolean; //展開しているとtrue
+};
+
 const SetupCompletion = () => {
   const SetupConfigContextValue = useContext(SetupConfigContext);
 
@@ -36,15 +41,74 @@ const SetupCompletion = () => {
     }
   }, [configMode]);
 
+  const setLayoutState = (state: TypeLayoutState, action: any): TypeLayoutState => {
+    console.log("setLayoutState");
+    if (action.type === "move") {
+      return { layoutSize: action.layoutSize, expandFlag: true };
+    }
+    if (action.type === "collapse") {
+      return { layoutSize: state.layoutSize, expandFlag: false };
+    }
+    if (action.type === "expand") {
+      return { layoutSize: state.layoutSize, expandFlag: true };
+    }
+    if (action.type === "toggle") {
+      return { layoutSize: state.layoutSize, expandFlag: !state.expandFlag };
+    }
+  };
+
+  const [compositeEditorLayoutState, compositeEditorLayoutSetState] = useReducer(setLayoutState, { layoutSize: 30, expandFlag: false });
+  const [timelineLayoutState, timelineLayoutSetState] = useReducer(setLayoutState, { layoutSize: 60, expandFlag: false });
+
+  const getCompositeEditorLayoutSize = () => {
+    if (!compositeEditorLayoutState.expandFlag) {
+      return 0;
+    }
+    return compositeEditorLayoutState.layoutSize + "vw";
+  };
+  const getTimelineLayoutState = () => {
+    if (!timelineLayoutState.expandFlag) {
+      return 0;
+    }
+    return timelineLayoutState.layoutSize + "vh";
+  };
+
+  const compositeEditorLayoutExpand = () => {
+    compositeEditorLayoutSetState({ type: "toggle" });
+  };
+
+  const timelineLayoutExpandClick = () => {
+    timelineLayoutSetState({ type: "toggle" });
+  };
   return (
     <>
-      {" "}
       <div style={configStyle}>
-        
-        <ToolBarComponent />
-        <CompositeEditorComponent />
-        <PreviewComponent/>
-        <TimelineComponent />
+        <div className="motion_rapid-layout">
+          <div className="toolBar-layout">
+            <div className="toolBar-layout-expand"></div>
+
+            <ToolBarComponent />
+          </div>
+          <div className="editor-layout">
+            <div className="composite_editor-layout">
+              <div className="composite_editor-layout-expand" onClick={compositeEditorLayoutExpand}></div>
+              <div style={{ width: getCompositeEditorLayoutSize() }}>
+                <CompositeEditorComponent />
+              </div>
+            </div>
+            <div className="preview-layout">
+              <div className="preview-layout-expand"></div>
+              <PreviewComponent />
+            </div>
+            <div className="timeline-layout">
+              <div className="timeline-layout-expand" onClick={timelineLayoutExpandClick}></div>
+
+              <div style={{ height: getTimelineLayoutState() }}>
+                <TimelineComponent />
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       <div>
         <ToolConfigComponent />

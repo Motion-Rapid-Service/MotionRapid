@@ -268,10 +268,6 @@ const TimelineComponent = () => {
 
   return (
     <>
-      <p>選択中のコンポジット</p>
-      <p>Name : {AppContextValue.getCompositeName(SetupEditorContextValue.choiceComposite)}</p>
-      <p>ID : {SetupEditorContextValue.choiceComposite}</p>
-
       <div className="timeline-main" ref={timelineMainElement}>
         <TimeNavigatorContext.Provider
           value={{

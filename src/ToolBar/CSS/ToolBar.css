@@ -36,3 +36,11 @@
   font-size: 10px;
   margin: 0px;
 }
+
+.toolBar-composite {
+  display: flex;
+}
+.toolBar-composite p {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}

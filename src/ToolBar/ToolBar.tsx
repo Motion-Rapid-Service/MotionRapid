@@ -156,8 +156,6 @@ const toolBarComponent = (props: any) => {
             <ToolBarSingleComponent DownstreamToolBarClassificationData={output} switchToolBarDetailSetState={switchToolBarDetailSetState} key={index} />
           ))}
         </>
-
-        {/* <TimelineComponent /> */}
       </div>
       <div className="toolBarDetail-area">
         <>
@@ -165,6 +163,11 @@ const toolBarComponent = (props: any) => {
             <ToolBarDetailSingleComponent DownstreamToolBarEditorData={output} choiceComposite={SetupEditorContextValue.choiceComposite} key={index} />
           ))}
         </>
+      </div>
+      <div className="toolBar-composite">
+        <p>選択中のコンポジット</p>
+        <p>Name : {AppContextValue.getCompositeName(SetupEditorContextValue.choiceComposite)}</p>
+        <p>ID : {SetupEditorContextValue.choiceComposite}</p>
       </div>
     </div>
   );
