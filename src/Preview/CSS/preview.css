@@ -5,7 +5,7 @@
 }
 
 .preview-main * {
-  z-index: 300;
+  /* z-index: 300; */
 }
 
 .preview-overlay-update {
@@ -39,7 +39,7 @@
   background-color: rgba(100, 100, 200, 0);
   position: absolute;
   overflow: hidden;
-  z-index: 301;
+  /* z-index: 301; */
 }
 .preview-overlay-shape:hover {
   background-color: rgba(100, 100, 200, 0.3);

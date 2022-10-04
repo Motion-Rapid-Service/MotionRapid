@@ -19,6 +19,7 @@
   position: absolute;
   height: 100%;
   overflow: hidden;
+  display: flex;
 }
 .preview-layout {
   position: absolute;
@@ -31,4 +32,16 @@
   width: 100%;
   overflow: hidden;
   bottom: 0px;
+}
+
+.composite_editor-layout {
+  z-index: 550;
+}
+
+.timeline-layout {
+  z-index: 400;
+}
+
+.preview-layout {
+  z-index: 300;
 }

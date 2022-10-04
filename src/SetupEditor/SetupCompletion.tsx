@@ -91,10 +91,10 @@ const SetupCompletion = () => {
           </div>
           <div className="editor-layout">
             <div className="composite_editor-layout">
-              <div className="composite_editor-layout-expand" onClick={compositeEditorLayoutExpand}></div>
               <div style={{ width: getCompositeEditorLayoutSize() }}>
                 <CompositeEditorComponent />
               </div>
+              <div className="composite_editor-layout-expand" onClick={compositeEditorLayoutExpand}></div>
             </div>
             <div className="preview-layout">
               <div className="preview-layout-expand"></div>

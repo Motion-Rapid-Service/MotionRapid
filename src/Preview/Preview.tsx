@@ -78,7 +78,7 @@ const PreviewComponent = () => {
     console.log(previewIframeElement);
     previewIframeElement.current.srcdoc = htmlStr;
     console.log("htmlStr", htmlStr);
-    previewIframeElement.current.scrolling = "yes";
+    previewIframeElement.current.scrolling = "no";
     previewIframeElement.current.onload = function () {
       console.log("iframeDocument");
       const iframeDocument = previewIframeElement.current.contentDocument || previewIframeElement.current.contentWindow.document;

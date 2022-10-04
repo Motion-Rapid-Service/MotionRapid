@@ -32,7 +32,7 @@ export const sourceSpeciesFunctionText = (
   const textID = mediaObjectID + "_text_build";
 
   const htmlAttribute: { [name: string]: string } = { id: textID };
-  const newHtmlID = buildQue.pushHtmlElementQue(new buildQue.htmlElementBlockClass("div", htmlAttribute), downParentID);
+  const newHtmlID = buildQue.pushHtmlElementQue(new buildQue.htmlElementBlockClass("span", htmlAttribute), downParentID);
 
   buildQue.pushHtmlElementQue(new buildQue.htmlElementSubstanceClass(SourceSpeciesTextClass.text), newHtmlID);
 
@@ -110,7 +110,7 @@ export const sourceSpeciesFunctionImage = (
 
   const htmlAttribute: { [name: string]: string } = { id: SourceSpeciesImageClass.mediaTableID };
 
-  buildQue.pushHtmlElementQue(new buildQue.htmlElementBlockClass("div", htmlAttribute), downParentID);
+  buildQue.pushHtmlElementQue(new buildQue.htmlElementBlockClass("img", htmlAttribute), downParentID);
   const newCssID = buildQue.pushCSSElementQue(new buildQue.cssElementDefault(SourceSpeciesImageClass.mediaTableID, "#"), cssDownParentID);
   buildQue.pushCSSElementQue(new buildQue.cssElementSubstance(cssText), newCssID);
   buildQue.pushCSSElementQue(new buildQue.cssElementSubstance("width : 100%;"), newCssID);

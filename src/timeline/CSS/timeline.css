@@ -9,7 +9,7 @@
 
 .timeline-main * {
   user-select: none;
-  z-index: 500;
+  /* z-index: 500; */
 }
 
 .timeline-area {

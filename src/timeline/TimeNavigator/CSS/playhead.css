@@ -5,7 +5,7 @@
   position: absolute;
   bottom: 0;
   border-radius: 10px; /*角丸にする*/
-  z-index: 400;
+  z-index: 440;
 }
 
 .timeNavigator-playhead p {
@@ -22,7 +22,7 @@
   position: relative;
   left: 0px;
   top: 0px;
-  /* z-index: 400; */
+  z-index: 440;
 }
 
 .timeNavigator-playhead-area {
