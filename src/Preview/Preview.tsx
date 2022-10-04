@@ -92,7 +92,7 @@ const PreviewComponent = () => {
         const iframeWidth = Number(iframeWindow.innerWidth);
         const iframeHeight = Number(iframeWindow.innerHeight);
         console.log("iframeDocumentScroll", scrollY, previewIframeElement.current.contentWindow.scrollY, SetupEditorContextValue.choiceComposite, iframeHeight);
-        // iframeWindow.scrollTo(100, 100);
+        iframeWindow.scrollTo(100, 100);
         previewNavigatorSetState({ type: "scroll", scrollX: scrollX, scrollY: scrollY, iframeWidth: iframeWidth, iframeHeight: iframeHeight });
       };
 

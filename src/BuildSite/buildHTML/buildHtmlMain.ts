@@ -12,6 +12,8 @@ let rootStyleID: string;
 let rootScriptID: string;
 let compositeTimeFlag: boolean;
 
+let zIndex: number;
+
 const htmlBuildMain = (jsonDataCentral: any, compositeID: string, send_compositeTimeFlag: boolean = false) => {
   buildQue.alldeleteHtmlElementQue();
   buildQue.alldeleteCSSElementQue();
@@ -45,6 +47,7 @@ const htmlBuildMain = (jsonDataCentral: any, compositeID: string, send_composite
 
   let indentHTML: number = 3; //root等を考慮した値
 
+  zIndex = Object.keys(OwnedClass_MediaObject).length;
   // let cssText: string = "";
   // // console.log("cssText", cssText);
 
@@ -66,6 +69,10 @@ const htmlBuildMain = (jsonDataCentral: any, compositeID: string, send_composite
   // const cssAttribute: { [name: string]: string } = { type: "text/css" };
   // buildQue.pushHtmlElementQue(new buildQue.htmlElementBlockClass("style", cssAttribute), rootStyleID);
   // parseComposite(getJsonDataCentral, rootHtmlID, compositeID,compositePreviewTime);
+
+  const newRootHeightText = buildQue.pushCSSElementQue(new buildQue.cssElementDefault("root", "#"), rootStyleID);
+  const rootHeigth = "height :" + thenComposite.Composite_Duration + "px" + ";";
+  buildQue.pushCSSElementQue(new buildQue.cssElementSubstance(rootHeigth), newRootHeightText);
 
   buildSourceSpecies.sourceSpeciesFunctionComposite(getJsonDataCentral, rootHtmlID, thenComposite.Composite_ID, rootStyleID, compositePreviewTime);
 
@@ -225,6 +232,8 @@ const parseMediaObject = (
   const OwnedClass_Keyframe: { [name: string]: middleDataClass.Keyframe } = jsonDataCentral.OwnedClass_Keyframe;
   const OwnedClass_CSSProperty: { [name: string]: middleDataClass.CSSProperty } = jsonDataCentral.OwnedClass_CSSProperty;
 
+  zIndex += 1;
+
   const tag = "div";
 
   const thenMediaObject: middleDataClass.MediaObject = OwnedClass_MediaObject[mediaObjectID];
@@ -233,6 +242,10 @@ const parseMediaObject = (
 
   const htmlAttribute: { [name: string]: string } = { id: mediaObjectID };
   const newHtmlID = buildQue.pushHtmlElementQue(new buildQue.htmlElementBlockClass(tag, htmlAttribute), parentID);
+
+  const newZindexID = buildQue.pushCSSElementQue(new buildQue.cssElementDefault(mediaObjectID, "#"), rootStyleID);
+  const cssZindexText = "z-index :" + zIndex + ";";
+  buildQue.pushCSSElementQue(new buildQue.cssElementSubstance(cssZindexText), newZindexID);
 
   if (thenSourceSpecies === buildSourceSpecies.sourceSpeciesList[0]) {
     //default

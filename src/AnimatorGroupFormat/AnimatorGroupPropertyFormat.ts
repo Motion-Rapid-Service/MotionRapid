@@ -4,6 +4,7 @@ export type PropertyFormatSpecies = {
   cssPropertyName: string;
   cssPropertySpeciesList: { [name: string]: string };
   cssWriteFunction: Function;
+  cssApplieTags: Array<string>;
 };
 
 export const propertySpeciesUnitList: Array<string> = ["not", "number", "rgb", "rgba", "text", "image", "rotate", "rate"]; //ここで設定画面の方式を決定
@@ -19,6 +20,7 @@ export const cssValueUnit: { [name: string]: Array<string> } = {
 
 export const PropertyFormat_margin: PropertyFormatSpecies = {
   cssPropertyName: "margin",
+  cssApplieTags: [],
   cssPropertySpeciesList: {
     top: propertySpeciesUnitList[1],
     right: propertySpeciesUnitList[1],
@@ -42,6 +44,7 @@ export const PropertyFormat_margin: PropertyFormatSpecies = {
 
 export const PropertyFormat_backgroundColor: PropertyFormatSpecies = {
   cssPropertyName: "background-color",
+  cssApplieTags: [],
   cssPropertySpeciesList: {
     r: propertySpeciesUnitList[3],
     g: propertySpeciesUnitList[3],
@@ -68,6 +71,7 @@ export const PropertyFormat_backgroundColor: PropertyFormatSpecies = {
 
 export const PropertyFormat_blockSize: PropertyFormatSpecies = {
   cssPropertyName: "width,height",
+  cssApplieTags: [],
   cssPropertySpeciesList: {
     width: propertySpeciesUnitList[1],
     height: propertySpeciesUnitList[1],
@@ -81,6 +85,7 @@ export const PropertyFormat_blockSize: PropertyFormatSpecies = {
 
 export const PropertyFormat_blockBorderShadow: PropertyFormatSpecies = {
   cssPropertyName: "box-shadow",
+  cssApplieTags: [],
   cssPropertySpeciesList: {
     "offset-x": propertySpeciesUnitList[1],
     "offset-y": propertySpeciesUnitList[1],
@@ -115,6 +120,7 @@ export const PropertyFormat_blockBorderShadow: PropertyFormatSpecies = {
 
 export const PropertyFormat_blockBorder: PropertyFormatSpecies = {
   cssPropertyName: "border",
+  cssApplieTags: [],
   cssPropertySpeciesList: {
     幅: propertySpeciesUnitList[1],
     r: propertySpeciesUnitList[3],
@@ -142,6 +148,7 @@ export const PropertyFormat_blockBorder: PropertyFormatSpecies = {
 };
 export const PropertyFormat_left: PropertyFormatSpecies = {
   cssPropertyName: "left",
+  cssApplieTags: [],
   cssPropertySpeciesList: {
     left: propertySpeciesUnitList[1],
   },
@@ -154,6 +161,7 @@ export const PropertyFormat_left: PropertyFormatSpecies = {
 
 export const PropertyFormat_right: PropertyFormatSpecies = {
   cssPropertyName: "right",
+  cssApplieTags: [],
   cssPropertySpeciesList: {
     right: propertySpeciesUnitList[1],
   },
@@ -165,6 +173,7 @@ export const PropertyFormat_right: PropertyFormatSpecies = {
 };
 export const PropertyFormat_top: PropertyFormatSpecies = {
   cssPropertyName: "top",
+  cssApplieTags: [],
   cssPropertySpeciesList: {
     top: propertySpeciesUnitList[1],
   },
@@ -176,6 +185,7 @@ export const PropertyFormat_top: PropertyFormatSpecies = {
 };
 export const PropertyFormat_bottom: PropertyFormatSpecies = {
   cssPropertyName: "bottom",
+  cssApplieTags: [],
   cssPropertySpeciesList: {
     bottom: propertySpeciesUnitList[1],
   },
@@ -188,6 +198,7 @@ export const PropertyFormat_bottom: PropertyFormatSpecies = {
 
 export const PropertyFormat_opacity: PropertyFormatSpecies = {
   cssPropertyName: "透明度(1~100)",
+  cssApplieTags: [],
   cssPropertySpeciesList: {
     opacity: propertySpeciesUnitList[0],
   },
@@ -205,6 +216,7 @@ export const PropertyFormat_opacity: PropertyFormatSpecies = {
 
 export const PropertyFormat_Color: PropertyFormatSpecies = {
   cssPropertyName: "color",
+  cssApplieTags: [],
   cssPropertySpeciesList: {
     r: propertySpeciesUnitList[3],
     g: propertySpeciesUnitList[3],
@@ -231,6 +243,7 @@ export const PropertyFormat_Color: PropertyFormatSpecies = {
 
 export const PropertyFormat_GradationColor: PropertyFormatSpecies = {
   cssPropertyName: "background",
+  cssApplieTags: [],
   cssPropertySpeciesList: {
     deg: propertySpeciesUnitList[6],
     r1: propertySpeciesUnitList[3],
@@ -277,6 +290,7 @@ export const PropertyFormat_GradationColor: PropertyFormatSpecies = {
 
 export const PropertyFormat_Font: PropertyFormatSpecies = {
   cssPropertyName: "フォント",
+  cssApplieTags: ["span"],
   cssPropertySpeciesList: {
     fontSize: propertySpeciesUnitList[1],
   },
@@ -289,6 +303,7 @@ export const PropertyFormat_Font: PropertyFormatSpecies = {
 
 export const PropertyFormat_Rotate: PropertyFormatSpecies = {
   cssPropertyName: "回転",
+  cssApplieTags: [],
   cssPropertySpeciesList: {
     deg: propertySpeciesUnitList[6],
   },
@@ -300,7 +315,8 @@ export const PropertyFormat_Rotate: PropertyFormatSpecies = {
 };
 
 export const PropertyFormat_Filter: PropertyFormatSpecies = {
-  cssPropertyName: "CSSフィルター",
+  cssPropertyName: "CSS画像フィルター",
+  cssApplieTags: ["img"],
   cssPropertySpeciesList: {
     blur: propertySpeciesUnitList[1],
     grayscale: propertySpeciesUnitList[7],
@@ -312,12 +328,44 @@ export const PropertyFormat_Filter: PropertyFormatSpecies = {
       "blur(",
       send_cssPropertySpeciesList["blur"],
       ")",
-      ";",
-      "filter:",
+
       "grayscale(",
       send_cssPropertySpeciesList["grayscale"],
       ")",
       ";",
+    ]);
+    return rtext;
+  },
+};
+
+export const PropertyFormat_textBorderShadow: PropertyFormatSpecies = {
+  cssPropertyName: "text-shadow",
+  cssApplieTags: [],
+  cssPropertySpeciesList: {
+    "offset-x": propertySpeciesUnitList[1],
+    "offset-y": propertySpeciesUnitList[1],
+    "blur-radius": propertySpeciesUnitList[1],
+    r: propertySpeciesUnitList[3],
+    g: propertySpeciesUnitList[3],
+    b: propertySpeciesUnitList[3],
+    a: propertySpeciesUnitList[3],
+  },
+
+  cssWriteFunction: (send_propertyName: string, send_cssPropertySpeciesList: { [name: string]: string }) => {
+    const rtext = textJoinAnimatorGroup([
+      "text-shadow:",
+      send_cssPropertySpeciesList["offset-x"],
+      send_cssPropertySpeciesList["offset-y"],
+      send_cssPropertySpeciesList["blur-radius"],
+      "rgba(",
+      send_cssPropertySpeciesList["r"],
+      ",",
+      send_cssPropertySpeciesList["g"],
+      ",",
+      send_cssPropertySpeciesList["b"],
+      ",",
+      send_cssPropertySpeciesList["a"],
+      ");",
     ]);
     return rtext;
   },

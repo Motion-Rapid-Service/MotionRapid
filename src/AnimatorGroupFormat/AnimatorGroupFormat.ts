@@ -5,6 +5,7 @@ const animatorGroupFormatList: { [name: string]: PropertyFormat.PropertyFormatSp
   backgroundColor: PropertyFormat.PropertyFormat_backgroundColor,
   blockSize: PropertyFormat.PropertyFormat_blockSize,
   boxShadow: PropertyFormat.PropertyFormat_blockBorderShadow,
+  TextShadow: PropertyFormat.PropertyFormat_textBorderShadow,
   blockBorder: PropertyFormat.PropertyFormat_blockBorder,
   left: PropertyFormat.PropertyFormat_left,
   right: PropertyFormat.PropertyFormat_right,

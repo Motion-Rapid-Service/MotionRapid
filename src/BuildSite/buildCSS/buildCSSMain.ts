@@ -50,8 +50,6 @@ const CSSBuildMain = (
   const thenMediaObjectClass = OwnedClass_MediaObject[mediaObjectID];
   const OwnedID_AnimatorGroup = thenMediaObjectClass.OwnedID_AnimatorGroup;
 
-  let CSSTextReplace: string = "";
-
   const newID = buildQue.pushCSSElementQue(new buildQue.cssElementDefault(mediaObjectID, "#"), cssDownParentID);
 
   if (thenCompositeClass.Composite_LocationMode === middleDataClass.Composite_LocationMode[0]) {
@@ -111,8 +109,9 @@ const CSSBuildMain = (
 
       const cssText = animatorGroupFormat.cssWriteFunction(animatorGroupFormat.cssPropertyName, cssPropertySpeciesList);
 
-      const newID = buildQue.pushCSSElementQue(new buildQue.cssElementDefault(mediaObjectID, "#"), cssDownParentID);
-      buildQue.pushCSSElementQue(new buildQue.cssElementSubstance(cssText), newID);
+      const newIDmedia = buildQue.pushCSSElementQue(new buildQue.cssElementDefault(mediaObjectID, "#"), cssDownParentID);
+      //単独要素
+      buildQue.pushCSSElementQue(new buildQue.cssElementSubstance(cssText), newIDmedia);
     } else if (thenCompositeClass.Composite_HorizontalMode === middleDataClass.Composite_HorizontalMode[1]) {
       //パララックスアニメーションモード
       const cssRootID = buildQue.pushCSSElementQue(new buildQue.cssElementDefault("root", ":"), cssDownParentID);

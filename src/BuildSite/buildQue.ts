@@ -146,6 +146,7 @@ export class cssElementDefault extends cssElement {
   elementID = "cssID_" + getUUID();
   selectorName: string;
   selectorSymbol: string;
+
   // substanc: string;
 
   constructor(send_selectorName: string, send_selectorSymbol: string = "") {
