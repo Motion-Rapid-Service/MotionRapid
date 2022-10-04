@@ -21,11 +21,11 @@
 }
 
 .preview-overlay {
-  /* width: 100%; */
-  /* height: 100%; */
+  width: 100%;
+  height: 100%;
   position: absolute;
   top: 0px;
-  overflow: hidden;
+  overflow: scroll;
   /* pointer-events: none; */
   /* box-sizing: border-box; */
   /* pointer-events: none; */

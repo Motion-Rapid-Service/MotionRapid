@@ -92,7 +92,7 @@ const PreviewComponent = () => {
         const iframeWidth = Number(iframeWindow.innerWidth);
         const iframeHeight = Number(iframeWindow.innerHeight);
         console.log("iframeDocumentScroll", scrollY, previewIframeElement.current.contentWindow.scrollY, SetupEditorContextValue.choiceComposite, iframeHeight);
-        iframeWindow.scrollTo(100, 100);
+
         previewNavigatorSetState({ type: "scroll", scrollX: scrollX, scrollY: scrollY, iframeWidth: iframeWidth, iframeHeight: iframeHeight });
       };
 
@@ -172,6 +172,15 @@ const PreviewComponent = () => {
   const previewOverlayRef = useRef(null);
   previewOverlayRef.current = previewOverlay;
 
+  const setPreviewScroll = (state: { x: number; y: number }, action: any): { x: number; y: number } => {
+    const iframeWindow = previewIframeElement.current.contentWindow;
+    iframeWindow.scrollTo(action.x, action.y);
+
+    return { x: action.x, y: action.y };
+  };
+
+  const [previewScroll, previewScrollSetState] = useReducer(setPreviewScroll, { x: 0, y: 0 });
+
   const componentConvertPreviewOverlay = () => {
     return Object.values(previewOverlay);
   };
@@ -184,6 +193,13 @@ const PreviewComponent = () => {
 
   const onMouseMove = () => {};
 
+  const onScroll = (event: any) => {
+    const xP = previeOverlayElement.current.scrollLeft;
+    const yP = previeOverlayElement.current.scrollTop;
+    console.log("onSS", xP, yP);
+    previewScrollSetState({ x: xP, y: yP });
+  };
+
   return (
     <div className="preview-main">
       {" "}
@@ -192,20 +208,22 @@ const PreviewComponent = () => {
           <p>html p</p>
         </iframe>
       </div>
-      <div className="preview-overlay" ref={previeOverlayElement} onMouseMove={onMouseMove} style={{ width: widthHeightText(), height: widthHeightText() }}>
-        {componentConvertPreviewOverlay().map((output: any, index: number) => (
-          // <>{fruit}</> //SurfaceControlIndividualを追加するmap (list_surface_controlに入っている)
+      <PreviewOverlayNavigator previewNavigator={previewNavigator} />
+      <div className="preview-overlay" onScroll={onScroll} ref={previeOverlayElement}>
+        <div className="preview-overlay-scroll" onMouseMove={onMouseMove} style={{ width: widthHeightText(), height: widthHeightText() }}>
+          {componentConvertPreviewOverlay().map((output: any, index: number) => (
+            // <>{fruit}</> //SurfaceControlIndividualを追加するmap (list_surface_controlに入っている)
 
-          <PreviewOverlayShape
-            DownstreamShapePreviewOverlay={output}
-            previewOverlay={previewOverlay}
-            previewOverlayUpdate={previewOverlayUpdate}
-            key={index}
-            previeOverlayElement={previeOverlayElement}
-            previewOverlayRef={previewOverlayRef}
-          />
-        ))}
-        <PreviewOverlayNavigator previewNavigator={previewNavigator} />
+            <PreviewOverlayShape
+              DownstreamShapePreviewOverlay={output}
+              previewOverlay={previewOverlay}
+              previewOverlayUpdate={previewOverlayUpdate}
+              key={index}
+              previeOverlayElement={previeOverlayElement}
+              previewOverlayRef={previewOverlayRef}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );
