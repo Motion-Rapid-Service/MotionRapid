@@ -303,8 +303,7 @@ const AnimaterCSSproperty = (props: any) => {
         const newValue = AppContextValue.getCSSPropertyValue(AnimatorCSSPropertyID);
         console.log("setCSSpropertyValue previewUpdate A", newValue);
         return newValue;
-      }
-      {
+      } else {
         const newValue = SetupEditorContextValue.getKeyframeValue(OwnedID_Keyframe, TimeNavigatorContextValue.getPlayheadTime());
         console.log("setCSSpropertyValue previewUpdate B", newValue);
         return newValue;
@@ -354,6 +353,12 @@ const AnimaterCSSproperty = (props: any) => {
   };
 
   const setCSSpropertyUnit = (state: any, action: TypeSetCSSpropertyUnitAction): string => {
+    const unitSendData: MiddleDataOperationType.OoperationCSSPropertyUnitType = {
+      CSSPropertyID: AnimatorCSSPropertyID,
+      CSSPropertyUnit: action.cssUnit,
+    };
+    AppContextValue.operationCSSPropertyUnit(unitSendData);
+
     return action.cssUnit;
   };
 

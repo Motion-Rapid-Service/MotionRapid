@@ -110,7 +110,7 @@ export const sourceSpeciesFunctionImage = (
 
   const htmlAttribute: { [name: string]: string } = { id: SourceSpeciesImageClass.mediaTableID };
 
-  buildQue.pushHtmlElementQue(new buildQue.htmlElementBlockClass("img", htmlAttribute), downParentID);
+  buildQue.pushHtmlElementQue(new buildQue.htmlElementBlockClass("div", htmlAttribute), downParentID);
   const newCssID = buildQue.pushCSSElementQue(new buildQue.cssElementDefault(SourceSpeciesImageClass.mediaTableID, "#"), cssDownParentID);
   buildQue.pushCSSElementQue(new buildQue.cssElementSubstance(cssText), newCssID);
   buildQue.pushCSSElementQue(new buildQue.cssElementSubstance("width : 100%;"), newCssID);
