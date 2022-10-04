@@ -11,6 +11,8 @@ import { SetupUndoContext } from "./../SetupEditor/SetupUndoContext";
 
 import * as buildSourceSpecies from "../BuildSite/buildHTML/buildSourceSpecies";
 
+// import templateA from "./../template/20221004.json";
+
 const ToolBarDetailSingleComponent = (props: any) => {
   const AppContextValue = useContext(AppContext);
   const SetupToolbarContextValue = useContext(SetupToolbarContext);
@@ -123,6 +125,8 @@ const toolBarComponent = (props: any) => {
     SetupConfigContextValue.configSwitchGUISetState(SetupConfigContextValue.configSwitchGUIList[1]);
   };
 
+  const toolBarInputTemplate = (funcdata: { [name: string]: any }) => {};
+
   useEffect(() => {
     let toolBar1 = "fileEdit";
     insertToolBarClassificationArraySetStateValue(toolBar1, "ファイル操作", false);
@@ -143,6 +147,10 @@ const toolBarComponent = (props: any) => {
     insertToolBarEditorDictSetStateValue(toolBar4, "4B", "コンポジット挿入", toolBarCreateMediaObjectComposite, false);
     insertToolBarEditorDictSetStateValue(toolBar4, "4C", "画像挿入", toolBarCreateMediaObjectImage, false);
     insertToolBarEditorDictSetStateValue(toolBar4, "4D", "エフェクトを追加する", toolBarCreateAnimatorGroup, false);
+
+    let toolBar5 = "templateInput";
+    insertToolBarClassificationArraySetStateValue(toolBar5, "テンプレート読込", false);
+    insertToolBarEditorDictSetStateValue(toolBar5, "5A", "テンプレート1", toolBarInputTemplate, false);
 
     switchToolBarDetailSetState(toolBar1);
     AppContextValue.updateDOM();

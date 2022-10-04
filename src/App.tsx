@@ -327,6 +327,9 @@ const App = () => {
           setCompositePreviewViewPos: middleDataOperation.setCompositePreviewViewPos,
           getCompositePreviewViewPos: middleDataOperation.getCompositePreviewViewPos,
 
+          getMediaObejctCSSFixed: middleDataOperation.getMediaObejctCSSFixed,
+          setMediaObejctCSSFixed: middleDataOperation.setMediaObejctCSSFixed,
+
           getOwnedID_CSSPropertySpeciesHasAnimator: middleDataOperation.getOwnedID_CSSPropertySpeciesHasAnimator,
           getOwnedID_CSSPropertySpeciesHasKeyframe: middleDataOperation.getOwnedID_CSSPropertySpeciesHasKeyframe,
 

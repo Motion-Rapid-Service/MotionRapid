@@ -22,6 +22,24 @@
   align-items: center;
 }
 
+.layer_panel-entity {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.layer_panel-entity .layer_panel-entity-fixed_flag {
+  width: 20px;
+  height: 20px;
+  height: var(--animator-button-height);
+  /* background-color: rgb(100, 100, 200); */
+  /* background-image: url("./keyframeButton3.png");
+  background-size: cover;
+  background-repeat: no-repeat; */
+
+  margin-right: 3px;
+}
+
 .layer_panel-animator .layer_panel-animator-entity,
 .layer_panel-animator .layer_panel-animator_group-entity {
   height: var(--animator-height);

@@ -180,8 +180,21 @@ export const LayerPanelMediaObjectComponent = (props: any) => {
   return (
     <div className="layer_panel-entity" onDoubleClick={mouseDoubleClick}>
       <p>{AppContextValue.getMediaObjectName(MediaObjectContextValue.mediaObjectUUID)}</p>
+      <MediaObjectFixedCheckBox MediaObject_ID={MediaObjectContextValue.mediaObjectUUID} />
     </div>
   );
+};
+
+const MediaObjectFixedCheckBox = (props: any) => {
+  const MediaObject_ID: string = props.MediaObject_ID;
+  const AppContextValue = useContext(AppContext);
+  const nowFlag = AppContextValue.getMediaObejctCSSFixed(MediaObject_ID);
+  const [fixedFlag, fixedFlagSetState] = useState(nowFlag);
+  const mouseDown = () => {
+    fixedFlagSetState(!fixedFlag);
+    AppContextValue.setMediaObejctCSSFixed(MediaObject_ID, !fixedFlag);
+  };
+  return <div className="layer_panel-entity-fixed_flag" onMouseDown={mouseDown}></div>;
 };
 
 export const SwitchLayerPanelAnimaterGroupComponent = (props: any) => {
@@ -229,9 +242,9 @@ export const LayerPanelAnimaterComponent = (props: any) => {
       value={{ Animator_ID: Animator_ID, Animator_propertySpecies: Animator_propertySpecies, AnimatorGroup_Species: AnimatorGroup_Species }}
     >
       <div className="layer_panel-animator-entity" onClick={onClick}>
-        <AnimaterLeftKeyframeMoveButton />
+        {/* <AnimaterLeftKeyframeMoveButton /> */}
         <AnimaterInsertKeyframeButton Animator_ID={Animator_ID} />
-        <AnimaterRightKeyframeMoveButton />
+        {/* <AnimaterRightKeyframeMoveButton /> */}
         <p>{Animator_propertySpecies}</p>
         <AnimaterCSSproperty Animator_ID={Animator_ID} />
       </div>

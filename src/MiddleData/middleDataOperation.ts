@@ -306,6 +306,16 @@ export default class MiddleDataOperation {
     return this.DataCentral.OwnedClass_CSSProperty[CSSPropertyID].CSSProperty_Unit;
   };
 
+  getMediaObejctCSSFixed = (MediaObejctID: string) => {
+    console.log("getMediaObejctCSSFixed", this.DataCentral.OwnedClass_MediaObject, MediaObejctID);
+    return this.DataCentral.OwnedClass_MediaObject[MediaObejctID].MediaObject_Fixed;
+  };
+
+  setMediaObejctCSSFixed = (MediaObejctID: string, flag = false) => {
+    console.log("setMediaObejctCSSFixed", this.DataCentral.OwnedClass_MediaObject, MediaObejctID);
+    return (this.DataCentral.OwnedClass_MediaObject[MediaObejctID].MediaObject_Fixed = flag);
+  };
+
   getOwnedID_Composite = () => {
     return Object.assign(Object.keys(this.DataCentral.OwnedClass_Composite));
   };

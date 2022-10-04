@@ -57,6 +57,9 @@ type AppContextValue = {
   getCompositeHorizontalMode: Function;
   getCompositeLocationMode: Function;
 
+  getMediaObejctCSSFixed: Function;
+  setMediaObejctCSSFixed: Function;
+
   getMediaObjectTime: Function;
   getMediaObjectSourceSpecies: Function;
   getKeyframeTime: Function;
