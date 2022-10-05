@@ -8,7 +8,7 @@
 }
 
 #root {
-  margin: 5px;
+  margin: 0px;
 }
 
 body {
@@ -45,17 +45,88 @@ body * {
   outline: 0px solid #00000000; /*ボーダー*/
 }
 
+.motion_rapid-layout {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  --toolBar-layout-size: 130px;
+  overflow: hidden;
+}
+
+.toolBar-layout {
+  height: var(--toolBar-layout-size);
+}
+
+.editor-layout {
+  width: 100%;
+  height: calc(100vh - var(--toolBar-layout-size));
+}
+
+.composite_editor-layout {
+  position: absolute;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+}
+.preview-layout {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+.timeline-layout {
+  position: absolute;
+  width: 100%;
+  overflow: hidden;
+  bottom: 0px;
+}
+
+.composite_editor-layout {
+  z-index: 550;
+}
+
+.timeline-layout {
+  z-index: 400;
+}
+
+.preview-layout {
+  z-index: 300;
+}
+
+.motion_rapid-layout {
+  --layout-expand-min_size: 10px;
+  --layout-expand-max_size: 100%;
+  --layout-expand-color: rgb(200, 200, 200);
+}
+
+.toolBar-layout-expand {
+}
+
+.composite_editor-layout-expand {
+  width: var(--layout-expand-min_size);
+  height: var(--layout-expand-max_size);
+  background-color: var(--layout-expand-color);
+}
+.preview-layout-expand {
+}
+.timeline-layout-expand {
+  width: var(--layout-expand-max_size);
+  height: var(--layout-expand-min_size);
+  background-color: var(--layout-expand-color);
+}
+
 .timeline-main {
   position: relative;
   background-color: rgb(50, 50, 50);
-  width: auto;
+  width: 100%;
+  height: 100%;
 
   margin: 0px 2px 200px 2px;
 }
 
 .timeline-main * {
   user-select: none;
-  z-index: 500;
+  /* z-index: 500; */
 }
 
 .timeline-area {
@@ -66,7 +137,7 @@ body * {
   overflow-y: scroll;
 
   width: 100%;
-  height: 90vh;
+  height: 100%;
   margin: 0px;
 }
 
@@ -187,6 +258,24 @@ body * {
   align-items: center;
 }
 
+.layer_panel-entity {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.layer_panel-entity .layer_panel-entity-fixed_flag {
+  width: 20px;
+  height: 20px;
+  height: var(--animator-button-height);
+  /* background-color: rgb(100, 100, 200); */
+  /* background-image: url("./keyframeButton3.png");
+  background-size: cover;
+  background-repeat: no-repeat; */
+
+  margin-right: 3px;
+}
+
 .layer_panel-animator .layer_panel-animator-entity,
 .layer_panel-animator .layer_panel-animator_group-entity {
   height: var(--animator-height);
@@ -292,6 +381,14 @@ body * {
   margin: 0px;
 }
 
+.toolBar-composite {
+  display: flex;
+}
+.toolBar-composite p {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
 .toolBarDetail-area {
   background-color: rgb(255, 255, 255);
   width: 50px;
@@ -331,8 +428,8 @@ body * {
 }
 
 .composite_choice-area {
-  width: 90%;
-  height: 300px;
+  width: 100%;
+  height: 300%;
   overflow-y: scroll;
   background-color: var(--background-A);
   margin-bottom: 10px;
@@ -512,7 +609,7 @@ body * {
   position: absolute;
   bottom: 0;
   border-radius: 10px; /*角丸にする*/
-  z-index: 400;
+  z-index: 440;
 }
 
 .timeNavigator-playhead p {
@@ -529,7 +626,7 @@ body * {
   position: relative;
   left: 0px;
   top: 0px;
-  /* z-index: 400; */
+  z-index: 440;
 }
 
 .timeNavigator-playhead-area {
@@ -591,17 +688,17 @@ body * {
 }
 
 .timeNavigator-timeline * {
-  z-index: 700;
+  /* z-index: 700; */
 }
 
 .preview-main {
-  width: 90vw;
-  height: 90vh;
+  width: 100%;
+  height: 100%;
   position: relative;
 }
 
 .preview-main * {
-  z-index: 300;
+  /* z-index: 300; */
 }
 
 .preview-overlay-update {
@@ -617,11 +714,11 @@ body * {
 }
 
 .preview-overlay {
-  /* width: 100%; */
-  /* height: 100%; */
+  width: 100%;
+  height: 100%;
   position: absolute;
   top: 0px;
-  overflow: hidden;
+  overflow: scroll;
   /* pointer-events: none; */
   /* box-sizing: border-box; */
   /* pointer-events: none; */
@@ -635,9 +732,31 @@ body * {
   background-color: rgba(100, 100, 200, 0);
   position: absolute;
   overflow: hidden;
-  z-index: 301;
+  /* z-index: 301; */
 }
 .preview-overlay-shape:hover {
   background-color: rgba(100, 100, 200, 0.3);
+}
+
+.preview_overlay_navigator {
+  position: absolute;
+  right: 0px;
+  top: 0px;
+
+  width: 100px;
+  height: 100%;
+}
+
+.preview_overlay_navigator_block,
+.preview_overlay_navigator_thentime_block {
+  position: absolute;
+}
+
+.preview_overlay_navigator_gray_overlay {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  background-color: rgba(100, 100, 100, 0.3);
 }
 
