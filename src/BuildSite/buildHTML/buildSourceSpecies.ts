@@ -75,7 +75,9 @@ export const sourceSpeciesFunctionComposite = (
     const htmlAttributePreviewFixed: { [name: string]: string } = { id: "previewFixed" };
     const newHtmlIDPreviewFixed = buildQue.pushHtmlElementQue(new buildQue.htmlElementBlockClass("div", htmlAttributePreviewFixed), downParentID);
 
-    buildHtmlMain.parseComposite(jsonDataCentral, newHtmlIDPreviewFixed, targetCompositeID, compositePreviewTime); //ほかのコンポジットを呼び出す。向こうの関数でビルドキューに登録するので戻り値がない
+    const htmlAttributeComposite: { [name: string]: string } = { id: targetCompositeID };
+    const newHtmlIDComposite = buildQue.pushHtmlElementQue(new buildQue.htmlElementBlockClass("div", htmlAttributeComposite), newHtmlIDPreviewFixed);
+    buildHtmlMain.parseComposite(jsonDataCentral, newHtmlIDComposite, targetCompositeID, compositePreviewTime); //ほかのコンポジットを呼び出す。向こうの関数でビルドキューに登録するので戻り値がない
     return;
   }
 

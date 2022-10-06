@@ -13,6 +13,7 @@
 .editor-layout {
   width: 100%;
   height: calc(100vh - var(--toolBar-layout-size));
+  position: relative;
 }
 
 .composite_editor-layout {

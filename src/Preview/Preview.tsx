@@ -66,12 +66,18 @@ const PreviewComponent = () => {
   const TimeNavigatorContextValue = useContext(TimeNavigatorContext);
 
   const setPreviewNavigator = (state: PreviewContext.TypePreviewNavigator, action: any): PreviewContext.TypePreviewNavigator => {
-    if (action.type === "scroll") {
+    if (action.type === "iframeOnLoad") {
       return { scrollX: action.scrollX, scrollY: action.scrollY, iframeWidth: action.iframeWidth, iframeHeight: action.iframeHeight };
+    }
+    if (action.type === "overlayScroll") {
+      const iframeWindow = previewIframeElement.current.contentWindow;
+      iframeWindow.scrollTo(state.scrollX, state.scrollY);
+      return { scrollX: action.scrollX, scrollY: action.scrollY, iframeWidth: state.iframeWidth, iframeHeight: state.iframeHeight };
     }
   };
 
   const [previewNavigator, previewNavigatorSetState] = useReducer(setPreviewNavigator, { scrollX: 0, scrollY: 0, iframeWidth: 0, iframeHeight: 0 });
+  //これは
 
   useEffect(() => {
     const htmlStr = AppContextValue.previewMiddleDataHtml(SetupEditorContextValue.choiceComposite);
@@ -86,18 +92,15 @@ const PreviewComponent = () => {
       const rootElement: HTMLInputElement = iframeDocument.getElementById("root");
       previewOverlayUpdate({ type: "mouseMove", thenPreviewOverlay: {}, rootElement: rootElement });
 
-      const iframeScroll = () => {
-        const scrollX = Number(iframeWindow.scrollX);
-        const scrollY = Number(iframeWindow.scrollY);
-        const iframeWidth = Number(iframeWindow.innerWidth);
-        const iframeHeight = Number(iframeWindow.innerHeight);
-        console.log("iframeDocumentScroll", scrollY, previewIframeElement.current.contentWindow.scrollY, SetupEditorContextValue.choiceComposite, iframeHeight);
+      const scrollX = Number(iframeWindow.scrollX);
+      const scrollY = Number(iframeWindow.scrollY);
+      const iframeWidth = Number(iframeWindow.innerWidth);
+      const iframeHeight = Number(iframeWindow.innerHeight);
+      console.log("iframeDocumentScroll", scrollY, previewIframeElement.current.contentWindow.scrollY, SetupEditorContextValue.choiceComposite, iframeHeight);
 
-        previewNavigatorSetState({ type: "scroll", scrollX: scrollX, scrollY: scrollY, iframeWidth: iframeWidth, iframeHeight: iframeHeight });
-      };
+      previewNavigatorSetState({ type: "iframeOnLoad", scrollX: scrollX, scrollY: scrollY, iframeWidth: iframeWidth, iframeHeight: iframeHeight });
 
-      iframeDocument.onscroll = iframeScroll;
-      iframeScroll();
+      iframeWindow.scrollTo(previewNavigator.scrollX, previewNavigator.scrollY);
     };
 
     // scrollbarWidthSetState();
@@ -140,6 +143,7 @@ const PreviewComponent = () => {
       if (!action.rootElement) {
         return {};
       }
+
       action.thenPreviewOverlay = {};
 
       const compositeElements: Element = action.rootElement.firstElementChild;
@@ -179,8 +183,6 @@ const PreviewComponent = () => {
     return { x: action.x, y: action.y };
   };
 
-  const [previewScroll, previewScrollSetState] = useReducer(setPreviewScroll, { x: 0, y: 0 });
-
   const componentConvertPreviewOverlay = () => {
     return Object.values(previewOverlay);
   };
@@ -197,7 +199,7 @@ const PreviewComponent = () => {
     const xP = previeOverlayElement.current.scrollLeft;
     const yP = previeOverlayElement.current.scrollTop;
     console.log("onSS", xP, yP);
-    previewScrollSetState({ x: xP, y: yP });
+    previewNavigatorSetState({ type: "overlayScroll", scrollX: xP, scrollY: yP });
   };
 
   return (
