@@ -11,6 +11,8 @@ import { SetupUndoContext } from "./../SetupEditor/SetupUndoContext";
 
 import * as buildSourceSpecies from "../BuildSite/buildHTML/buildSourceSpecies";
 
+import template2022_10_04 from "./../template/20221004.json";
+
 // import templateA from "./../template/20221004.json";
 
 const ToolBarDetailSingleComponent = (props: any) => {
@@ -125,7 +127,10 @@ const toolBarComponent = (props: any) => {
     SetupConfigContextValue.configSwitchGUISetState(SetupConfigContextValue.configSwitchGUIList[1]);
   };
 
-  const toolBarInputTemplate = (funcdata: { [name: string]: any }) => {};
+  const toolBarInputTemplate = (funcdata: { [name: string]: any }) => {
+    console.log("template2022_10_04", template2022_10_04);
+    AppContextValue.replaceDataCentral(template2022_10_04);
+  };
 
   useEffect(() => {
     let toolBar1 = "fileEdit";

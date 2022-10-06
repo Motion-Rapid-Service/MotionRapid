@@ -25,7 +25,6 @@ const config = {
     }),
 
     new MiniCssExtractPlugin(),
-
   ],
   module: {
     rules: [
@@ -44,8 +43,9 @@ const config = {
       },
       {
         test: /\.txt$/i,
-        use: 'raw-loader',
-      },      {
+        use: "raw-loader",
+      },
+      {
         test: /\.html$/i,
         loader: "html-loader",
       },
@@ -53,7 +53,7 @@ const config = {
         test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
         type: "asset",
       },
-
+      { test: /\.json$/i, loader: "json-loader", type: "javascript/auto" }, //追加
       // Add your rules for custom modules here
       // Learn more about loaders from https://webpack.js.org/loaders/
     ],
