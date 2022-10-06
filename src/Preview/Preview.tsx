@@ -7,7 +7,7 @@ import { SetupEditorContext } from "./../SetupEditor/SetupEditorContext";
 import { SetupToolbarContext } from "./../SetupEditor/SetupToolbarContext";
 import * as middleDataClass from "./../MiddleData/middleDataClass";
 import * as timelineMousePosition from "./../timeline/timeLineMousePosition";
-import UUID from "uuidjs";
+
 import * as UserHand from "./../UserHand";
 import * as AnimatorGroupFormat from "./../AnimatorGroupFormat/AnimatorGroupFormat";
 import * as AnimatorGroupPropertyFormat from "./../AnimatorGroupFormat/AnimatorGroupPropertyFormat";
@@ -21,24 +21,6 @@ import PreviewOverlayNavigator from "./PreviewOverlayNavigator";
 import * as PreviewContext from "./PreviewContext";
 
 //src/timeline/TimeNavigator/TimeNavigatorTimeline.tsx
-
-class PreviewOverlay {
-  left: number;
-  top: number;
-  width: number;
-  height: number;
-  previewOverlayID: string;
-  mediaObjectID: string;
-
-  constructor(send_left: number, send_top: number, send_width: number, send_height: number, send_mediaObjectID: string) {
-    this.left = send_left;
-    this.top = send_top;
-    this.width = send_width;
-    this.height = send_height;
-    this.previewOverlayID = "previewOverlay_" + String(UUID.generate());
-    this.mediaObjectID = send_mediaObjectID;
-  }
-}
 
 const searchMaxSizeElement = (targetElement: Element) => {
   let thenWidth = targetElement.scrollWidth;
@@ -58,25 +40,86 @@ const searchMaxSizeElement = (targetElement: Element) => {
 };
 
 const PreviewComponent = () => {
-  const previewOverlayUpdateElement = useRef(null);
   const previewIframeElement = useRef(null);
+  const previeOverlayShapeElement = useRef(null);
+  const previeOverlayScrollElement = useRef(null);
   const previeOverlayElement = useRef(null);
   const AppContextValue = useContext(AppContext);
   const SetupEditorContextValue = useContext(SetupEditorContext);
   const TimeNavigatorContextValue = useContext(TimeNavigatorContext);
 
+  const createPreviewOverlayDict = () => {
+    const iframeDocument = previewIframeElement.current.contentDocument || previewIframeElement.current.contentWindow.document;
+    const iframeWindow = previewIframeElement.current.contentWindow;
+    const rootElement: HTMLInputElement = iframeDocument.getElementById("root");
+
+    if (!rootElement) {
+      return {};
+    }
+
+    let previewOverlayDict: { [name: string]: PreviewContext.PreviewOverlay } = {};
+
+    const compositeElements: Element = rootElement.firstElementChild;
+    const inElements: HTMLCollection = compositeElements.children;
+
+    for (let ce = 0; ce < inElements.length; ce++) {
+      const thenElements: Element = inElements[ce]; //これでcomposite要素直下を取得できる
+      const thenID = thenElements.getAttribute("id");
+      let thenStyle = iframeWindow.getComputedStyle(thenElements);
+
+      const thenZindex = thenStyle.getPropertyValue("z-index");
+
+      console.log("thenElements", thenElements, thenID, thenZindex);
+
+      const maxSize = searchMaxSizeElement(thenElements);
+
+      const inRect = thenElements.getBoundingClientRect();
+      const inLeft = inRect.left;
+      const inTop = inRect.top;
+      const newPreviewOverlay = new PreviewContext.PreviewOverlay(inLeft, inTop, maxSize[0], maxSize[1], thenID, thenZindex);
+      previewOverlayDict[newPreviewOverlay.previewOverlayID] = newPreviewOverlay;
+    }
+
+    return previewOverlayDict;
+  };
+
   const setPreviewNavigator = (state: PreviewContext.TypePreviewNavigator, action: any): PreviewContext.TypePreviewNavigator => {
     if (action.type === "iframeOnLoad") {
-      return { scrollX: action.scrollX, scrollY: action.scrollY, iframeWidth: action.iframeWidth, iframeHeight: action.iframeHeight };
+      return {
+        scrollX: action.scrollX,
+        scrollY: action.scrollY,
+        iframeWidth: action.iframeWidth,
+        iframeHeight: action.iframeHeight,
+        iframeScrollWidth: action.iframeScrollWidth,
+        iframeScrollHeight: action.iframeScrollHeight,
+        previewOverlayDict: createPreviewOverlayDict(),
+      };
     }
     if (action.type === "overlayScroll") {
       const iframeWindow = previewIframeElement.current.contentWindow;
       iframeWindow.scrollTo(state.scrollX, state.scrollY);
-      return { scrollX: action.scrollX, scrollY: action.scrollY, iframeWidth: state.iframeWidth, iframeHeight: state.iframeHeight };
+      createPreviewOverlayDict();
+      return {
+        scrollX: action.scrollX,
+        scrollY: action.scrollY,
+        iframeWidth: state.iframeWidth,
+        iframeHeight: state.iframeHeight,
+        iframeScrollWidth: state.iframeScrollWidth,
+        iframeScrollHeight: state.iframeScrollHeight,
+        previewOverlayDict: createPreviewOverlayDict(),
+      };
     }
   };
 
-  const [previewNavigator, previewNavigatorSetState] = useReducer(setPreviewNavigator, { scrollX: 0, scrollY: 0, iframeWidth: 0, iframeHeight: 0 });
+  const [previewNavigator, previewNavigatorSetState] = useReducer(setPreviewNavigator, {
+    scrollX: 0,
+    scrollY: 0,
+    iframeWidth: 0,
+    iframeHeight: 0,
+    iframeScrollWidth: 0,
+    iframeScrollHeight: 0,
+    previewOverlayDict: {},
+  });
   //これは
 
   useEffect(() => {
@@ -90,15 +133,34 @@ const PreviewComponent = () => {
       const iframeDocument = previewIframeElement.current.contentDocument || previewIframeElement.current.contentWindow.document;
       const iframeWindow = previewIframeElement.current.contentWindow;
       const rootElement: HTMLInputElement = iframeDocument.getElementById("root");
-      previewOverlayUpdate({ type: "mouseMove", thenPreviewOverlay: {}, rootElement: rootElement });
+      // previewOverlayUpdate({ type: "searchIframe", thenPreviewOverlay: {}, rootElement: rootElement });
 
       const scrollX = Number(iframeWindow.scrollX);
       const scrollY = Number(iframeWindow.scrollY);
       const iframeWidth = Number(iframeWindow.innerWidth);
       const iframeHeight = Number(iframeWindow.innerHeight);
-      console.log("iframeDocumentScroll", scrollY, previewIframeElement.current.contentWindow.scrollY, SetupEditorContextValue.choiceComposite, iframeHeight);
 
-      previewNavigatorSetState({ type: "iframeOnLoad", scrollX: scrollX, scrollY: scrollY, iframeWidth: iframeWidth, iframeHeight: iframeHeight });
+      const iframeScrollWidth = iframeDocument.body.scrollWidth;
+      const iframeScrollHeight = iframeDocument.body.scrollHeight;
+      console.log(
+        "iframeDocumentScroll",
+        iframeScrollWidth,
+        iframeScrollHeight,
+        scrollY,
+        previewIframeElement.current.contentWindow.scrollY,
+        SetupEditorContextValue.choiceComposite,
+        iframeHeight
+      );
+
+      previewNavigatorSetState({
+        type: "iframeOnLoad",
+        scrollX: scrollX,
+        scrollY: scrollY,
+        iframeWidth: iframeWidth,
+        iframeHeight: iframeHeight,
+        iframeScrollWidth: iframeScrollWidth,
+        iframeScrollHeight: iframeScrollHeight,
+      });
 
       iframeWindow.scrollTo(previewNavigator.scrollX, previewNavigator.scrollY);
     };
@@ -114,90 +176,21 @@ const PreviewComponent = () => {
     // };
   }, [SetupEditorContextValue.choiceComposite]);
 
-  const setPreviewOverlay = (state: any, action: any): { [name: string]: PreviewOverlay } => {
-    // console.log("setPreviewOverlay");
-    // if (!action.previewIframeElement) {
-    //   return {};
-    // }
-
-    console.log("action.type", action.type);
-    if (action.type === "delete") {
-      return {};
-    }
-
-    // if (action.type === "drag") {
-    //   const newPVO = JSON.parse(JSON.stringify(action.thenPreviewOverlay));
-    //   const newL = action.left + newPVO[action.thenPreviewOverlayID].left;
-    //   const newT = action.top + newPVO[action.thenPreviewOverlayID].top;
-    //   newPVO[action.thenPreviewOverlayID].left = newL;
-    //   newPVO[action.thenPreviewOverlayID].top = newT;
-
-    //   console.log("userhand - newLT", action.thenPreviewOverlayID, newL, newT, action.left, action.top);
-
-    //   return newPVO;
-    // }
-
-    if (action.type === "mouseMove") {
-      console.log("userhand - mouseMove", action.rootElement);
-
-      if (!action.rootElement) {
-        return {};
-      }
-
-      action.thenPreviewOverlay = {};
-
-      const compositeElements: Element = action.rootElement.firstElementChild;
-      const inElements: HTMLCollection = compositeElements.children;
-
-      for (let ce = 0; ce < inElements.length; ce++) {
-        const thenElements: Element = inElements[ce]; //これでcomposite要素直下を取得できる
-        const thenID = thenElements.getAttribute("id");
-        console.log("thenElements", thenElements, thenID);
-
-        const maxSize = searchMaxSizeElement(thenElements);
-
-        const inRect = thenElements.getBoundingClientRect();
-        const inLeft = inRect.left;
-        const inTop = inRect.top;
-        const newPreviewOverlay = new PreviewOverlay(inLeft, inTop, maxSize[0], maxSize[1], thenID);
-        action.thenPreviewOverlay[newPreviewOverlay.previewOverlayID] = newPreviewOverlay;
-        // }
-        console.log("searchMaxSizeElement", maxSize, inLeft, inTop, action.thenPreviewOverlay);
-      }
-    }
-
-    // const returnDict: { [name: string]: PreviewOverlay } = {};
-
-    return action.thenPreviewOverlay;
-  };
-
-  const [previewOverlay, previewOverlayUpdate] = useReducer(setPreviewOverlay, {});
-
-  const previewOverlayRef = useRef(null);
-  previewOverlayRef.current = previewOverlay;
-
-  const setPreviewScroll = (state: { x: number; y: number }, action: any): { x: number; y: number } => {
-    const iframeWindow = previewIframeElement.current.contentWindow;
-    iframeWindow.scrollTo(action.x, action.y);
-
-    return { x: action.x, y: action.y };
-  };
+  // const [previewOverlay, previewOverlayUpdate] = useReducer(setPreviewOverlay, {});
 
   const componentConvertPreviewOverlay = () => {
-    return Object.values(previewOverlay);
-  };
+    // const eventX = event.clientX;
+    // const eventY = event.clientY;
+    const previewOverlayDictValue = Object.values(previewNavigator.previewOverlayDict);
 
-  const widthHeightText = () => {
-    const scrollbarSizeWidth = String(window.innerWidth - document.body.clientWidth);
-    const text = "calc(100% - " + scrollbarSizeWidth + "px)";
-    return text;
+    return previewOverlayDictValue;
   };
 
   const onMouseMove = () => {};
 
   const onScroll = (event: any) => {
-    const xP = previeOverlayElement.current.scrollLeft;
-    const yP = previeOverlayElement.current.scrollTop;
+    const xP = previeOverlayScrollElement.current.scrollLeft;
+    const yP = previeOverlayScrollElement.current.scrollTop;
     console.log("onSS", xP, yP);
     previewNavigatorSetState({ type: "overlayScroll", scrollX: xP, scrollY: yP });
   };
@@ -205,26 +198,31 @@ const PreviewComponent = () => {
   return (
     <div className="preview-main">
       {" "}
-      <div className="preview-overlay-update" ref={previewOverlayUpdateElement}>
+      <div className="preview-overlay-update">
         <iframe className="preview-replace" ref={previewIframeElement}>
           <p>html p</p>
         </iframe>
       </div>
       <PreviewOverlayNavigator previewNavigator={previewNavigator} />
-      <div className="preview-overlay" onScroll={onScroll} ref={previeOverlayElement}>
-        <div className="preview-overlay-scroll" onMouseMove={onMouseMove} style={{ width: widthHeightText(), height: widthHeightText() }}>
+      <div className="preview-overlay" ref={previeOverlayElement}>
+        <div className="preview-overlay-shape" ref={previeOverlayShapeElement}>
           {componentConvertPreviewOverlay().map((output: any, index: number) => (
             // <>{fruit}</> //SurfaceControlIndividualを追加するmap (list_surface_controlに入っている)
-
             <PreviewOverlayShape
               DownstreamShapePreviewOverlay={output}
-              previewOverlay={previewOverlay}
-              previewOverlayUpdate={previewOverlayUpdate}
               key={index}
               previeOverlayElement={previeOverlayElement}
-              previewOverlayRef={previewOverlayRef}
+              previeOverlayShapeElement={previeOverlayShapeElement}
             />
           ))}
+        </div>
+
+        <div className="preview-overlay-scroll-out" onScroll={onScroll} ref={previeOverlayScrollElement}>
+          <div
+            className="preview-overlay-scroll-in"
+            onMouseMove={onMouseMove}
+            style={{ width: previewNavigator.iframeScrollWidth, height: previewNavigator.iframeScrollHeight }}
+          ></div>
         </div>
       </div>
     </div>
