@@ -12,6 +12,11 @@
   /* z-index: 500; */
 }
 
+.timelime-body {
+  height: calc(100% - 60px);
+  position: relative;
+}
+
 .timeline-area {
   /* position: absolute; */
 

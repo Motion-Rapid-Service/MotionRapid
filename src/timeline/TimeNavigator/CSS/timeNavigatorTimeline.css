@@ -4,6 +4,8 @@
   width: 100%;
   overflow: hidden;
   pointer-events: none;
+  position: absolute;
+  top: 0px;
 }
 
 .timeNavigator-timeline-layer_panel {

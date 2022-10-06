@@ -4,7 +4,7 @@ import { MediaObjectContext, TimelineAreaDivContext, TimelineAreaRightContext, L
 
 import { SetupEditorContext } from "./../SetupEditor/SetupEditorContext";
 import { SetupUndoContext } from "./../SetupEditor/SetupUndoContext";
-
+import { SetupConfigContext } from "../SetupEditor/SetupConfigContext";
 import * as UserHand from "./../UserHand";
 import * as UserCopy from "./../UserCopy";
 
@@ -29,6 +29,8 @@ export const MediaObjectScrollComponent = () => {
   const MediaObjectContextValue = useContext(MediaObjectContext);
   const TimelineAreaDivContextValue = useContext(TimelineAreaDivContext);
   const LayerDurationContextValue = useContext(LayerDurationContext);
+
+  const SetupConfigContextValue = useContext(SetupConfigContext);
 
   const TimeNavigatorContextValue = useContext(TimeNavigatorContext);
 
@@ -107,7 +109,32 @@ export const MediaObjectScrollComponent = () => {
   };
 
   const MouseDoubleClick = (event: any) => {
-    animatorOpenSetState(!animatorOpen);
+    const clientX = event.clientX;
+    const clientY = event.clientY;
+
+    SetupConfigContextValue.cssLeftSetState(clientX + 10);
+    SetupConfigContextValue.cssTopSetState(clientY + 10);
+    const thenSourceSpeciesClass: buildSourceSpecies.SourceSpeciesClass = AppContextValue.getMediaObjectSourceSpecies(MediaObjectContextValue.mediaObjectUUID);
+
+    if (thenSourceSpeciesClass.sourceSpecies === buildSourceSpecies.sourceSpeciesList[1]) {
+      //テキストの時
+      SetupConfigContextValue.setConfigModeArgsOption({ MediaObject_ID: MediaObjectContextValue.mediaObjectUUID });
+      SetupConfigContextValue.configModeSetState(SetupConfigContextValue.configModeList[4]);
+    }
+
+    if (thenSourceSpeciesClass.sourceSpecies === buildSourceSpecies.sourceSpeciesList[2]) {
+      //ほかコンポジット呼び出しの時
+      SetupConfigContextValue.setConfigModeArgsOption({ MediaObject_ID: MediaObjectContextValue.mediaObjectUUID });
+      SetupConfigContextValue.configModeSetState(SetupConfigContextValue.configModeList[6]);
+    }
+
+    if (thenSourceSpeciesClass.sourceSpecies === buildSourceSpecies.sourceSpeciesList[3]) {
+      //画像の時
+      SetupConfigContextValue.setConfigModeArgsOption({ MediaObject_ID: MediaObjectContextValue.mediaObjectUUID });
+      SetupConfigContextValue.configModeSetState(SetupConfigContextValue.configModeList[5]);
+    }
+
+    SetupConfigContextValue.configSwitchGUISetState(SetupConfigContextValue.configSwitchGUIList[2]);
   };
 
   const copyMediaObject = () => {

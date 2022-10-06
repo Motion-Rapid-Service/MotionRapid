@@ -287,46 +287,47 @@ const TimelineComponent = () => {
           }}
         >
           <TimeNavigatorHeader />
-
-          <div className="timeline-area" draggable="false" ref={timelineAreaElement}>
+          <div className="timelime-body">
             <TimeNavigatorTimeline />
-            <div
-              className="timeline-area-scroll"
-              ref={timelineScrollElement}
-              draggable="false"
-              // style={{ width: elementLayerPanelWidth + elementLayerDurationWidth + "px" }}
+            <div className="timeline-area" draggable="false" ref={timelineAreaElement}>
+              <div
+                className="timeline-area-scroll"
+                ref={timelineScrollElement}
+                draggable="false"
+                // style={{ width: elementLayerPanelWidth + elementLayerDurationWidth + "px" }}
 
-              // onScroll={TimeLineAreaMove}
-            >
-              <TimelineAreaDivContext.Provider
-                value={{
-                  timelineMainElement: timelineMainElement,
-                  timelineAreaElement: timelineAreaElement,
-                  timelineScrollElement: timelineScrollElement,
-                  timelineUpdate: timelineUpdate,
-                  timelineUpdateDOM: timelineUpdateDOM,
-                  animationOpenUpdateDOM: animationOpenUpdateDOM,
-                  animationOpenUpdate: animationOpenUpdate,
-                  mediaObejctDivHeightSetStateValue: mediaObejctDivHeightSetStateValue,
-                  // middleDataOperation: middleDataOperation,
-                  // MouseSelectedSetValue: MouseSelectedSetValue,
-                  // MouseUnselectedSetValue: MouseUnselectedSetValue,
-                  mediaObjectSwopInsertionDestination: mediaObjectSwopInsertionDestination,
-                  focusMediaObjectSpace: focusMediaObjectSpace,
-                  focusMediaObjectSpaceSetState: focusMediaObjectSpaceSetState,
-                }}
+                // onScroll={TimeLineAreaMove}
               >
-                <>
-                  <MediaObjectAreaSpaceComponent.SwitchMediaObjectAreaSpace spaceIndex={0} />
+                <TimelineAreaDivContext.Provider
+                  value={{
+                    timelineMainElement: timelineMainElement,
+                    timelineAreaElement: timelineAreaElement,
+                    timelineScrollElement: timelineScrollElement,
+                    timelineUpdate: timelineUpdate,
+                    timelineUpdateDOM: timelineUpdateDOM,
+                    animationOpenUpdateDOM: animationOpenUpdateDOM,
+                    animationOpenUpdate: animationOpenUpdate,
+                    mediaObejctDivHeightSetStateValue: mediaObejctDivHeightSetStateValue,
+                    // middleDataOperation: middleDataOperation,
+                    // MouseSelectedSetValue: MouseSelectedSetValue,
+                    // MouseUnselectedSetValue: MouseUnselectedSetValue,
+                    mediaObjectSwopInsertionDestination: mediaObjectSwopInsertionDestination,
+                    focusMediaObjectSpace: focusMediaObjectSpace,
+                    focusMediaObjectSpaceSetState: focusMediaObjectSpaceSetState,
+                  }}
+                >
+                  <>
+                    <MediaObjectAreaSpaceComponent.SwitchMediaObjectAreaSpace spaceIndex={0} />
 
-                  {/* {componentGenerateMediaObjectAreaSpace(-1)} */}
-                  {AppContextValue.componentConvertMediaObjectArea(SetupEditorContextValue.choiceComposite).map((output: any, index: number) => (
-                    // <>{fruit}</> //SurfaceControlIndividualを追加するmap (list_surface_controlに入っている)
+                    {/* {componentGenerateMediaObjectAreaSpace(-1)} */}
+                    {AppContextValue.componentConvertMediaObjectArea(SetupEditorContextValue.choiceComposite).map((output: any, index: number) => (
+                      // <>{fruit}</> //SurfaceControlIndividualを追加するmap (list_surface_controlに入っている)
 
-                    <MediaObjectAreaComponent DownstreamMiddleDataMediaObject={output} indexMediaObejct={index} key={index} />
-                  ))}
-                </>
-              </TimelineAreaDivContext.Provider>
+                      <MediaObjectAreaComponent DownstreamMiddleDataMediaObject={output} indexMediaObejct={index} key={index} />
+                    ))}
+                  </>
+                </TimelineAreaDivContext.Provider>
+              </div>
             </div>
           </div>
         </TimeNavigatorContext.Provider>

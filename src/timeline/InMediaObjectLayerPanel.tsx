@@ -46,7 +46,7 @@ const SwitchTimelineAreaLayerPanelComponent = (props: any) => {
   const TimelineAreaDivContextValue = useContext(TimelineAreaDivContext);
   const LayerPanelContextValue = useContext(LayerPanelContext);
   const animatorOpen = MediaObjectContextValue.animatorOpen as boolean;
-
+  const animatorOpenSetState = MediaObjectContextValue.animatorOpenSetState;
   useEffect(() => {
     const positon = timelineMousePosition.mediaObjectTimelinePostion(
       TimelineAreaDivContextValue.timelineScrollElement,
@@ -82,8 +82,11 @@ export const TimelineAreaLayerPanelComponent = (props: any) => {
   const TimelineAreaDivContextValue = useContext(TimelineAreaDivContext);
   const timelineAreaLayerPanelElement = useRef(null);
   const SetupEditorContextValue = useContext(SetupEditorContext);
-  const animatorOpen = MediaObjectContextValue.animatorOpen as boolean;
   const SetupUndoContextValue = useContext(SetupUndoContext);
+
+  const animatorOpen = MediaObjectContextValue.animatorOpen as boolean;
+  const animatorOpenSetState = MediaObjectContextValue.animatorOpenSetState;
+
   const mouseUp = (event: any) => {
     if (!(MediaObjectContextValue.mediaObjectUUID in UserHandLayerPanelList)) {
       return;
@@ -149,36 +152,14 @@ export const LayerPanelMediaObjectComponent = (props: any) => {
   const MediaObjectContextValue = useContext(MediaObjectContext);
   const SetupConfigContextValue = useContext(SetupConfigContext);
   // const MediaObjectContextValue = useContext(MediaObjectContext);
-  const mouseDoubleClick = (event: any) => {
-    const clientX = event.clientX;
-    const clientY = event.clientY;
-
-    SetupConfigContextValue.cssLeftSetState(clientX + 10);
-    SetupConfigContextValue.cssTopSetState(clientY + 10);
-    const thenSourceSpeciesClass: buildSourceSpecies.SourceSpeciesClass = AppContextValue.getMediaObjectSourceSpecies(MediaObjectContextValue.mediaObjectUUID);
-
-    if (thenSourceSpeciesClass.sourceSpecies === buildSourceSpecies.sourceSpeciesList[1]) {
-      //テキストの時
-      SetupConfigContextValue.setConfigModeArgsOption({ MediaObject_ID: MediaObjectContextValue.mediaObjectUUID });
-      SetupConfigContextValue.configModeSetState(SetupConfigContextValue.configModeList[4]);
-    }
-
-    if (thenSourceSpeciesClass.sourceSpecies === buildSourceSpecies.sourceSpeciesList[2]) {
-      //ほかコンポジット呼び出しの時
-      SetupConfigContextValue.setConfigModeArgsOption({ MediaObject_ID: MediaObjectContextValue.mediaObjectUUID });
-      SetupConfigContextValue.configModeSetState(SetupConfigContextValue.configModeList[6]);
-    }
-
-    if (thenSourceSpeciesClass.sourceSpecies === buildSourceSpecies.sourceSpeciesList[3]) {
-      //画像の時
-      SetupConfigContextValue.setConfigModeArgsOption({ MediaObject_ID: MediaObjectContextValue.mediaObjectUUID });
-      SetupConfigContextValue.configModeSetState(SetupConfigContextValue.configModeList[5]);
-    }
-
-    SetupConfigContextValue.configSwitchGUISetState(SetupConfigContextValue.configSwitchGUIList[2]);
+  const animatorOpen = MediaObjectContextValue.animatorOpen as boolean;
+  const animatorOpenSetState = MediaObjectContextValue.animatorOpenSetState;
+  const MouseDoubleClick = (event: any) => {
+    animatorOpenSetState(!animatorOpen);
   };
+
   return (
-    <div className="layer_panel-entity" onDoubleClick={mouseDoubleClick}>
+    <div className="layer_panel-entity" onDoubleClick={MouseDoubleClick}>
       <p>{AppContextValue.getMediaObjectName(MediaObjectContextValue.mediaObjectUUID)}</p>
       <MediaObjectFixedCheckBox MediaObject_ID={MediaObjectContextValue.mediaObjectUUID} />
     </div>
