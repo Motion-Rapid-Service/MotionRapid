@@ -87,9 +87,9 @@ export class htmlElementBlockClass extends htmlElement {
     for (let attributeKey in this.attribute) {
       staText += testJoin([attributeKey, "=", this.attribute[attributeKey]]);
     }
-    staText += testJoin([">", "\n"]);
+    staText += testJoin([">"]);
 
-    const endText = testJoin(["</", this.htmlTag, ">", "\n"]);
+    const endText = testJoin(["</", this.htmlTag, ">"]);
     return [staText, endText];
   };
 }
@@ -157,7 +157,7 @@ export class cssElementDefault extends cssElement {
   }
 
   getText = () => {
-    const rsta = testJoin([this.selectorSymbol, this.selectorName, "{", "\n"]);
+    const rsta = testJoin([this.selectorSymbol, this.selectorName, "{"]);
     const rend = testJoin(["}"]);
     return [rsta, rend];
   };

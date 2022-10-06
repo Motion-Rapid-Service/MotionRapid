@@ -48,17 +48,40 @@ export const sourceSpeciesFunctionComposite = (
   jsonDataCentral: Function,
   downParentID: string,
   targetCompositeID: string,
+  rootHtmlID: string,
   cssDownParentID: string,
-  compositePreviewTime: number
+  compositePreviewTime: number,
+  compositeTimeFlag: boolean
 ) => {
   const dataCentral: middleDataClass.DataCentral = jsonDataCentral();
   const thenCompositeClass = dataCentral.OwnedClass_Composite[targetCompositeID];
 
+  //コンポジットによるdivのサイズを設定する 範囲外に出た時のどうするかは未決定
+  const newCssID = buildQue.pushCSSElementQue(new buildQue.cssElementDefault(targetCompositeID, "#"), cssDownParentID);
+  const cssTextWidth = "width : " + thenCompositeClass.Composite_Width + thenCompositeClass.Composite_WidthUnit + ";";
+  buildQue.pushCSSElementQue(new buildQue.cssElementSubstance(cssTextWidth), newCssID);
+  const cssTextHeight = "height : " + thenCompositeClass.Composite_Height + thenCompositeClass.Composite_HeightUnit + ";";
+  buildQue.pushCSSElementQue(new buildQue.cssElementSubstance(cssTextHeight), newCssID);
+
+  //position : fixedかつプレビューだった時の処理
+  console.log(
+    "posFixed ",
+    thenCompositeClass.Composite_LocationMode === middleDataClass.Composite_LocationMode[3],
+    thenCompositeClass.Composite_ID,
+    compositeTimeFlag,
+    downParentID
+  );
+  if (thenCompositeClass.Composite_LocationMode === middleDataClass.Composite_LocationMode[3] && compositeTimeFlag) {
+    const htmlAttributePreviewFixed: { [name: string]: string } = { id: "previewFixed" };
+    const newHtmlIDPreviewFixed = buildQue.pushHtmlElementQue(new buildQue.htmlElementBlockClass("div", htmlAttributePreviewFixed), downParentID);
+
+    buildHtmlMain.parseComposite(jsonDataCentral, newHtmlIDPreviewFixed, targetCompositeID, compositePreviewTime); //ほかのコンポジットを呼び出す。向こうの関数でビルドキューに登録するので戻り値がない
+    return;
+  }
+
   const htmlAttribute: { [name: string]: string } = { id: targetCompositeID };
   const newHtmlID = buildQue.pushHtmlElementQue(new buildQue.htmlElementBlockClass("div", htmlAttribute), downParentID);
-  buildHtmlMain.parseComposite(jsonDataCentral, newHtmlID, targetCompositeID, compositePreviewTime);
-
-  const newCssID = buildQue.pushCSSElementQue(new buildQue.cssElementDefault(targetCompositeID, "#"), cssDownParentID);
+  buildHtmlMain.parseComposite(jsonDataCentral, newHtmlID, targetCompositeID, compositePreviewTime); //ほかのコンポジットを呼び出す。向こうの関数でビルドキューに登録するので戻り値がない
 
   if (thenCompositeClass.Composite_LocationMode === middleDataClass.Composite_LocationMode[0]) {
     //文書配置
@@ -70,17 +93,13 @@ export const sourceSpeciesFunctionComposite = (
     const cssText = "position : relative;";
     buildQue.pushCSSElementQue(new buildQue.cssElementSubstance(cssText), newCssID);
   }
-
   if (thenCompositeClass.Composite_LocationMode === middleDataClass.Composite_LocationMode[3]) {
     //座標固定
+
     const cssText = "position : fixed;";
     buildQue.pushCSSElementQue(new buildQue.cssElementSubstance(cssText), newCssID);
   }
 
-  const cssTextWidth = "width : " + thenCompositeClass.Composite_Width + thenCompositeClass.Composite_WidthUnit + ";";
-  buildQue.pushCSSElementQue(new buildQue.cssElementSubstance(cssTextWidth), newCssID);
-  const cssTextHeight = "height : " + thenCompositeClass.Composite_Height + thenCompositeClass.Composite_HeightUnit + ";";
-  buildQue.pushCSSElementQue(new buildQue.cssElementSubstance(cssTextHeight), newCssID);
   // const cssTextWidth = "width : 100%;";
   // buildQue.pushCSSElementQue(new buildQue.cssElementSubstance(cssText), newCssID);
   return;

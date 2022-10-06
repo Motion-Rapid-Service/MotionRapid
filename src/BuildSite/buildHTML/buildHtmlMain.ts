@@ -36,8 +36,10 @@ const htmlBuildMain = (jsonDataCentral: any, compositeID: string, send_composite
     compositePreviewTime = thenComposite.playheadTimePos;
   } else {
     htmlText = String(require("./../buildFormat/htmlFormat.txt")["default"]);
-    compositePreviewTime = null;
+    compositePreviewTime = 0;
   }
+
+  console.log("posFixed", compositePreviewTime);
 
   //htmlFormatPreview
 
@@ -74,7 +76,19 @@ const htmlBuildMain = (jsonDataCentral: any, compositeID: string, send_composite
   const rootHeigth = "height :" + thenComposite.Composite_Duration + "px" + ";";
   buildQue.pushCSSElementQue(new buildQue.cssElementSubstance(rootHeigth), newRootHeightText);
 
-  buildSourceSpecies.sourceSpeciesFunctionComposite(getJsonDataCentral, rootHtmlID, thenComposite.Composite_ID, rootStyleID, compositePreviewTime);
+  const newRootPreviewFixedText = buildQue.pushCSSElementQue(new buildQue.cssElementDefault("previewFixed", "#"), rootStyleID);
+  const rootPreviewFixed = "width : 0px ; height : 0px ; left : 0px ; top : 0px; position : absolute;";
+  buildQue.pushCSSElementQue(new buildQue.cssElementSubstance(rootPreviewFixed), newRootPreviewFixedText);
+
+  buildSourceSpecies.sourceSpeciesFunctionComposite(
+    getJsonDataCentral,
+    rootHtmlID,
+    thenComposite.Composite_ID,
+    rootHtmlID,
+    rootStyleID,
+    compositePreviewTime,
+    compositeTimeFlag
+  );
 
   const outputHtml = recursiveHtml(rootHtmlID);
   const outputStyle = recursiveCSS(rootStyleID);
@@ -90,6 +104,7 @@ const htmlBuildMain = (jsonDataCentral: any, compositeID: string, send_composite
     "%rootTitle%": "TestMotionRapid",
     "%rootStyle%": outputStyle,
     "%rootScript%": outputScript,
+    "\n": "",
   };
   const htmlTextReplace = textReplace(htmlText, replaceData);
 
@@ -118,7 +133,7 @@ const recursiveScript = (jsID: string) => {
 
   if (jsElement.species === buildQue.javascriptElementSpeciesList[2]) {
     for (let i = 0; i < childIDArray.length; i++) {
-      const returnText = "\n" + recursiveScript(childIDArray[i]) + "\n";
+      const returnText = recursiveScript(childIDArray[i]);
       recursiveText += returnText;
     }
   }
@@ -143,7 +158,7 @@ const recursiveCSS = (cssID: string) => {
   if (cssElement.species === buildQue.cssElementSpeciesList[1]) {
     recursiveText += newTextArray[0];
     for (let i = 0; i < childIDArray.length; i++) {
-      const returnText = "\n" + recursiveCSS(childIDArray[i]) + "\n";
+      const returnText = recursiveCSS(childIDArray[i]);
       recursiveText += returnText;
     }
     recursiveText += newTextArray[1];
@@ -155,7 +170,7 @@ const recursiveCSS = (cssID: string) => {
 
   if (cssElement.species === buildQue.cssElementSpeciesList[3]) {
     for (let i = 0; i < childIDArray.length; i++) {
-      const returnText = "\n" + recursiveCSS(childIDArray[i]) + "\n";
+      const returnText = recursiveCSS(childIDArray[i]);
       recursiveText += returnText;
     }
   }
@@ -171,22 +186,22 @@ const recursiveHtml = (htmlID: string) => {
   let recursiveText = "";
 
   if (htmlElement.species === buildQue.htmlElementSpeciesList[1]) {
-    recursiveText += "\n";
+    // recursiveText += "\n";
     recursiveText += newTextArray[0];
 
     for (let i = 0; i < childIDArray.length; i++) {
-      const returnText = "\n" + recursiveHtml(childIDArray[i]) + "\n";
+      const returnText = recursiveHtml(childIDArray[i]);
       recursiveText += returnText;
     }
     recursiveText += newTextArray[1];
-    recursiveText += "\n";
+    // recursiveText += "\n";
   }
   if (htmlElement.species === buildQue.htmlElementSpeciesList[2]) {
     recursiveText += newTextArray[0];
   }
   if (htmlElement.species === buildQue.htmlElementSpeciesList[3]) {
     for (let i = 0; i < childIDArray.length; i++) {
-      const returnText = "\n" + recursiveHtml(childIDArray[i]) + "\n";
+      const returnText = recursiveHtml(childIDArray[i]);
       recursiveText += returnText;
     }
   }
@@ -271,8 +286,10 @@ const parseMediaObject = (
         getJsonDataCentral,
         newHtmlID,
         thenSourceSpeciesCompositeClass.compositeID,
+        rootHtmlID,
         rootStyleID,
-        newCompositePreviewTime
+        newCompositePreviewTime,
+        compositeTimeFlag
       );
     }
   }

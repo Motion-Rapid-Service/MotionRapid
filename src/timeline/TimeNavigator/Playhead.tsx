@@ -47,7 +47,7 @@ export const TimeNavigatorPlayheadComponent = () => {
   return (
     <div className="timeNavigator-playhead-area" ref={timeNavigatorPlayheadAreaElement}>
       <div className="timeNavigator-playhead" style={{ left: playheadViewPos - 21 }}>
-        <p>{Math.round(AppContextValue.getCompositePlayheadTimePos(SetupEditorContextValue.choiceComposite))}</p>
+        <p>{Math.floor(AppContextValue.getCompositePlayheadTimePos(SetupEditorContextValue.choiceComposite))}</p>
       </div>
     </div>
   );

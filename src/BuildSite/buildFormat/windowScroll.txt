@@ -6,12 +6,9 @@ function %SCROLLFUNCTIONNAME%() {
 
   let scroll_y = Number(window.scrollY);
 
-  //console.log("scroll_y",scroll_y)
-
   let cssValue;
 
   if (scroll_y <= POINTTIME[0]) {
-    //最初のキーフレームの場所より手前だった時
 
     let nPointValue = POINTVALUE[0];
 
@@ -46,13 +43,10 @@ function %SCROLLFUNCTIONNAME%() {
     let nowTimeSection = scroll_y - aPointTime;
     let valueSection = bPointValue - aPointValue;
 
-    let timeRate = nowTimeSection / timeSection; //進行度を計算する
+    let timeRate = nowTimeSection / timeSection; 
     let valueSectionRate = valueSection * timeRate;
 
     cssValue = valueSectionRate + aPointValue;
-
-    //console.log(scroll_y,aPoint,bPoint,aPointTime,bPointTime,aPointValue,bPointValue,timeSection,nowTimeSection,valueSection,timeRate,valueSectionRate,cssValue)
-
   }
 
   document.getElementById("root").style.setProperty(SETPROPERTYNAME, String(cssValue) + UNIT);
