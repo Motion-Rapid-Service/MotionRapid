@@ -143,8 +143,10 @@ const PreviewComponent = () => {
         action.mouseDownPreviewShapeStyle
       );
 
-      newPreviewOverlayData[action.previewOverlayID].left = action.leftDifference + action.mouseDownPreviewShapeStyle[0];
-      newPreviewOverlayData[action.previewOverlayID].top = action.topDifference + action.mouseDownPreviewShapeStyle[1];
+      if (newPreviewOverlayData[action.previewOverlayID] !== null && newPreviewOverlayData[action.previewOverlayID] !== undefined) {
+        newPreviewOverlayData[action.previewOverlayID].left = action.leftDifference + action.mouseDownPreviewShapeStyle[0];
+        newPreviewOverlayData[action.previewOverlayID].top = action.topDifference + action.mouseDownPreviewShapeStyle[1];
+      }
 
       return {
         scrollX: state.scrollX,

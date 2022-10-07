@@ -39,7 +39,7 @@ const PreviewOverlayNavigatorGrayOverlay = (props: any) => {
     <div
       className="preview_overlay_navigator_gray_overlay"
       style={{
-        height: PreviewOverlayNavigatorContextValue.thenTimeStylePos,
+        height: Math.max(PreviewOverlayNavigatorContextValue.thenTimeStylePos, 0),
       }}
     ></div>
   );

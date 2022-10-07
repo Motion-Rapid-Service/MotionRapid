@@ -180,7 +180,7 @@ const PreviewOverlayShapeComponent = (props: any) => {
   const mouseDown = (event: any) => {
     const mousePushPos = Object.assign(timelineMousePosition.mediaObjectMousePosition(event, props.previeOverlayShapeElement));
 
-    if (!checkShapeArea(mousePushPos)) {
+    if (!checkShapeArea(mousePushPos) || !UserHand.hasUserHandMediaObject(DownstreamShapePreviewOverlay.mediaObjectID)) {
       return;
     }
 
@@ -196,6 +196,15 @@ const PreviewOverlayShapeComponent = (props: any) => {
     UserHand.insertUserHandPreviewShape(previewOverlayID, 1, mousePushPos, [left, top], DownstreamShapePreviewOverlay.zIndex);
     console.log("userhand - insertUserHandPreviewShape", previewOverlayID, 1, mousePushPos, [left, top]);
   };
+
+  const mouseView = () => {
+    if (UserHand.hasUserHandMediaObject(DownstreamShapePreviewOverlay.mediaObjectID) && UserHand.getUserHandPreviewShapeIDArray().length === 0) {
+      opacityStyleSetState(0.1);
+    } else if (UserHand.getUserHandPreviewShapeIDArray().length === 0) {
+      opacityStyleSetState(0);
+    }
+  };
+
   const mouseMove = (event: any) => {
     const mouseXY = timelineMousePosition.mediaObjectMousePosition(event, props.previeOverlayShapeElement);
     // if (checkShapeArea(mouseXY) && UserHand.getUserHandPreviewShapeIDArray().length === 0) {
@@ -205,7 +214,7 @@ const PreviewOverlayShapeComponent = (props: any) => {
     // }
 
     if (!UserHand.hasUserHandPreviewShape(previewOverlayID)) {
-      opacityStyleSetState(0);
+      // opacityStyleSetState(0);
       return;
     }
 
@@ -255,14 +264,24 @@ const PreviewOverlayShapeComponent = (props: any) => {
 
     SetupEditorContextValue.previewUpdateDOM();
     props.previewNavigatorSetState({ type: "reLoad" });
+
+    opacityStyleSetState(0);
   };
 
   useEffect(() => {
     props.previeOverlayElement.current.addEventListener("mousedown", mouseDown);
+
+    window.addEventListener("mousedown", mouseView);
+    window.addEventListener("mousemove", mouseView);
+
     window.addEventListener("mousemove", mouseMove);
     window.addEventListener("mouseup", mouseUp);
     return () => {
       props.previeOverlayElement.current.removeEventListener("mousedown", mouseDown);
+
+      window.removeEventListener("mousedown", mouseView);
+      window.removeEventListener("mousemove", mouseView);
+
       window.removeEventListener("mousemove", mouseMove);
       window.removeEventListener("mouseup", mouseUp);
     };
