@@ -198,13 +198,14 @@ const PreviewOverlayShapeComponent = (props: any) => {
   };
   const mouseMove = (event: any) => {
     const mouseXY = timelineMousePosition.mediaObjectMousePosition(event, props.previeOverlayShapeElement);
-    if (checkShapeArea(mouseXY) && UserHand.getUserHandPreviewShapeIDArray().length === 0) {
-      opacityStyleSetState(0.1);
-    } else {
-      opacityStyleSetState(0);
-    }
+    // if (checkShapeArea(mouseXY) && UserHand.getUserHandPreviewShapeIDArray().length === 0) {
+    //   opacityStyleSetState(0.1);
+    // } else {
+    //   opacityStyleSetState(0);
+    // }
 
     if (!UserHand.hasUserHandPreviewShape(previewOverlayID)) {
+      opacityStyleSetState(0);
       return;
     }
 

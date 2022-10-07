@@ -2,6 +2,7 @@ import * as React from "react";
 const { createContext } = React;
 import UUID from "uuidjs";
 export class PreviewOverlay {
+  className: string;
   left: number;
   top: number;
   width: number;
@@ -10,7 +11,16 @@ export class PreviewOverlay {
   mediaObjectID: string;
   zIndex: number;
 
-  constructor(send_left: number, send_top: number, send_width: number, send_height: number, send_mediaObjectID: string, send_zIndex: number) {
+  constructor(
+    className: string,
+    send_left: number,
+    send_top: number,
+    send_width: number,
+    send_height: number,
+    send_mediaObjectID: string,
+    send_zIndex: number
+  ) {
+    this.className = className;
     this.left = send_left;
     this.top = send_top;
     this.width = send_width;

@@ -66,6 +66,7 @@ const PreviewComponent = () => {
       const thenElements: Element = inElements[ce]; //これでcomposite要素直下を取得できる
       const thenID = thenElements.getAttribute("id");
       let thenStyle = iframeWindow.getComputedStyle(thenElements);
+      const className = thenElements.className; //class名取得
 
       const thenZindex = thenStyle.getPropertyValue("z-index");
 
@@ -77,7 +78,7 @@ const PreviewComponent = () => {
 
       console.log("thenElements", thenID, inLeft, inTop, inRect.left, iframeWindow.pageXOffset);
 
-      const newPreviewOverlay = new PreviewContext.PreviewOverlay(inLeft, inTop, maxSize[0], maxSize[1], thenID, thenZindex);
+      const newPreviewOverlay = new PreviewContext.PreviewOverlay(className, inLeft, inTop, maxSize[0], maxSize[1], thenID, thenZindex);
       previewOverlayDict[newPreviewOverlay.previewOverlayID] = newPreviewOverlay;
     }
 
