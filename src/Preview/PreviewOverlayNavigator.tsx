@@ -70,8 +70,10 @@ const PreviewOverlayNavigatorComponent = (props: any) => {
   const distance = 100;
   const navigatorSurplus = props.previewNavigator.scrollY % distance;
   const navigatorStart = props.previewNavigator.scrollY - navigatorSurplus;
-  const quantity = Math.ceil(props.previewNavigator.iframeHeight / distance);
+  const quantity = Math.ceil(props.previewNavigator.iframeHeight / distance) + 1;
   const thenTimeStylePos = playheadTime - props.previewNavigator.scrollY;
+
+  console.log("thenTimeStylePos", thenTimeStylePos, props.previewNavigator.scrollY);
 
   const componentConvertPreviewNavigator = () => {
     let returnTemp: Array<TypeDownstreamPreviewNavigatorBlock> = [];

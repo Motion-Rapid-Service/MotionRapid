@@ -35,35 +35,6 @@ const PreviewOverlayShapeComponent = (props: any) => {
 
   const [opacityStyle, opacityStyleSetState] = useState<number>(0);
 
-  const setPreviewOverlayShapeStylePos = (state: TypeSetPreviewOverlayShapeStylePos, action: any): TypeSetPreviewOverlayShapeStylePos => {
-    // const newX = action.leftDifference + state.x;
-    // const newY = action.topDifference + state.y;
-
-    if (action.type === "mouseMove") {
-      //  マウスカーソルによってシームレスに移動できるように計算するもの
-      const newX = action.leftDifference + action.mouseDownPreviewShapeStyle[0];
-      const newY = action.topDifference + action.mouseDownPreviewShapeStyle[1];
-      console.log("newXnewY", newX, newY);
-      return { leftStyle: newX, topStyle: newY, widthStyle: width, heightStyle: height };
-    }
-
-    if (action.type === "useEffect") {
-      return { leftStyle: left, topStyle: top, widthStyle: width, heightStyle: height };
-    }
-  };
-
-  const [previewOverlayShapeStylePos, previewOverlayShapeStylePosSetState] = useReducer(setPreviewOverlayShapeStylePos, {
-    leftStyle: left,
-    topStyle: top,
-    widthStyle: width,
-    heightStyle: height,
-  });
-
-  useEffect(() => {
-    console.log("PreviewOverlayShapeComponent", previewOverlayShapeStylePos);
-    previewOverlayShapeStylePosSetState({ type: "useEffect" });
-  }, [left, top, width, height, mediaObjectID, previewOverlayID]);
-
   const newKeyframe = () => {};
 
   const newAnimatorGroup = (newAnimatorGroupSpecies: string) => {
@@ -73,7 +44,7 @@ const PreviewOverlayShapeComponent = (props: any) => {
     return animatorGroupID;
   };
 
-  const extractAnimator = () => {
+  const extractAnimator = (): { x: string; y: string } => {
     const leftAnimatorGroupID: Array<string> = AppContextValue.searchSpecificAnimatorGroupSpecies(mediaObjectID, "left");
     const topAnimatorGroupID: Array<string> = AppContextValue.searchSpecificAnimatorGroupSpecies(mediaObjectID, "top");
     const rightAnimatorGroupID: Array<string> = AppContextValue.searchSpecificAnimatorGroupSpecies(mediaObjectID, "right");
@@ -120,7 +91,7 @@ const PreviewOverlayShapeComponent = (props: any) => {
       case middleDataClass.Composite_LocationMode[2]:
         return;
       case middleDataClass.Composite_LocationMode[3]: //背景固定
-        return { x: 0, y: 0 };
+        return { x: "0", y: "0" };
     }
   };
 
@@ -129,10 +100,10 @@ const PreviewOverlayShapeComponent = (props: any) => {
     console.log("idDict", idDictAnimator);
     const idListAnimator = [idDictAnimator.x, idDictAnimator.y];
 
-    const newL = leftDifference + DownstreamShapePreviewOverlay.left;
-    const newT = topDifference + DownstreamShapePreviewOverlay.top;
+    const newL = DownstreamShapePreviewOverlay.left;
+    const newT = DownstreamShapePreviewOverlay.top;
     const differenceList = [newL, newT];
-    console.log("differenceList", leftDifference, topDifference, differenceList);
+    console.log("differenceList", DownstreamShapePreviewOverlay.left, DownstreamShapePreviewOverlay.top, leftDifference, topDifference, differenceList);
 
     for (let i = 0; i < 2; i++) {
       const animatorID = idListAnimator[i];
@@ -191,26 +162,17 @@ const PreviewOverlayShapeComponent = (props: any) => {
   };
 
   const checkShapeArea = (eventXY: Array<number>) => {
-    const leftScroll = previewOverlayShapeStylePos.leftStyle - previewNavigator.scrollX;
-    const topScroll = previewOverlayShapeStylePos.topStyle - previewNavigator.scrollY;
+    const leftScroll = left - previewNavigator.scrollX;
+    const topScroll = top - previewNavigator.scrollY;
 
     const eventX = eventXY[0];
     const eventY = eventXY[1];
-    const xjudge = leftScroll <= eventX && eventX <= leftScroll + previewOverlayShapeStylePos.widthStyle;
-    const yjudge = topScroll <= eventY && eventY <= topScroll + previewOverlayShapeStylePos.heightStyle;
+    const xjudge = leftScroll <= eventX && eventX <= leftScroll + width;
+    const yjudge = topScroll <= eventY && eventY <= topScroll + height;
 
     const ans = xjudge && yjudge;
 
-    console.log(
-      "checkShapeArea",
-      eventX,
-      eventY,
-      ans,
-      previewOverlayShapeStylePos.leftStyle,
-      previewOverlayShapeStylePos.topStyle,
-      previewOverlayShapeStylePos.widthStyle,
-      previewOverlayShapeStylePos.heightStyle
-    );
+    console.log("checkShapeArea", eventX, eventY, ans);
 
     return ans;
   };
@@ -257,8 +219,9 @@ const PreviewOverlayShapeComponent = (props: any) => {
 
         console.log("previewMoveA", leftDifference, topDifference, TimeNavigatorContextValue.getPlayheadTime, TimeNavigatorContextValue.playheadViewPos);
 
-        previewOverlayShapeStylePosSetState({
+        props.previewNavigatorSetState({
           type: "mouseMove",
+          previewOverlayID: previewOverlayID,
           leftDifference: leftDifference,
           topDifference: topDifference,
           mouseDownPreviewShapeStyle: userrHandPreview.mouseDownPreviewShapeStyle,
@@ -309,10 +272,10 @@ const PreviewOverlayShapeComponent = (props: any) => {
       className="preview-overlay-shape-block"
       // onMouseDown={mouseDown}
       style={{
-        left: previewOverlayShapeStylePos.leftStyle - previewNavigator.scrollX,
-        top: previewOverlayShapeStylePos.topStyle - previewNavigator.scrollY,
-        width: previewOverlayShapeStylePos.widthStyle,
-        height: previewOverlayShapeStylePos.heightStyle,
+        left: left - previewNavigator.scrollX,
+        top: top - previewNavigator.scrollY,
+        width: width,
+        height: height,
         opacity: opacityStyle,
       }}
     ></div>

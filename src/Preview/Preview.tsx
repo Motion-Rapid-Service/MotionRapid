@@ -86,9 +86,10 @@ const PreviewComponent = () => {
 
   const setPreviewNavigator = (state: PreviewContext.TypePreviewNavigator, action: any): PreviewContext.TypePreviewNavigator => {
     if (action.type === "iframeOnLoad") {
+      console.log("iframeOnLoad action.scrollY", action.scrollY);
       return {
-        scrollX: action.scrollX,
-        scrollY: action.scrollY,
+        scrollX: state.scrollX,
+        scrollY: state.scrollY,
         iframeWidth: action.iframeWidth,
         iframeHeight: action.iframeHeight,
         iframeScrollWidth: action.iframeScrollWidth,
@@ -98,7 +99,8 @@ const PreviewComponent = () => {
     }
     if (action.type === "overlayScroll") {
       const iframeWindow = previewIframeElement.current.contentWindow;
-      iframeWindow.scrollTo(state.scrollX, state.scrollY);
+      iframeWindow.scrollTo(action.scrollX, action.scrollY);
+      console.log("overlayScroll action.scrollY", action.scrollY);
       return {
         scrollX: action.scrollX,
         scrollY: action.scrollY,
@@ -109,6 +111,7 @@ const PreviewComponent = () => {
         previewOverlayDict: createPreviewOverlayDict(),
       };
     }
+
     if (action.type === "reLoad") {
       return {
         scrollX: state.scrollX,
@@ -118,6 +121,38 @@ const PreviewComponent = () => {
         iframeScrollWidth: state.iframeScrollWidth,
         iframeScrollHeight: state.iframeScrollHeight,
         previewOverlayDict: createPreviewOverlayDict(),
+      };
+    }
+
+    if (action.type === "mouseMove") {
+      const iframeWindow = previewIframeElement.current.contentWindow;
+      iframeWindow.scrollTo(state.scrollX, state.scrollY);
+
+      let newPreviewOverlayData = state.previewOverlayDict;
+
+      // const newX = action.leftDifference + action.mouseDownPreviewShapeStyle[0];
+      // const newY = action.topDifference + action.mouseDownPreviewShapeStyle[1];
+
+      console.log(
+        "newPreviewOverlayData",
+        action.previewOverlayID,
+        newPreviewOverlayData[action.previewOverlayID],
+        action.leftDifference,
+        action.topDifference,
+        action.mouseDownPreviewShapeStyle
+      );
+
+      newPreviewOverlayData[action.previewOverlayID].left = action.leftDifference + action.mouseDownPreviewShapeStyle[0];
+      newPreviewOverlayData[action.previewOverlayID].top = action.topDifference + action.mouseDownPreviewShapeStyle[1];
+
+      return {
+        scrollX: state.scrollX,
+        scrollY: state.scrollY,
+        iframeWidth: state.iframeWidth,
+        iframeHeight: state.iframeHeight,
+        iframeScrollWidth: state.iframeScrollWidth,
+        iframeScrollHeight: state.iframeScrollHeight,
+        previewOverlayDict: newPreviewOverlayData,
       };
     }
   };
@@ -165,8 +200,6 @@ const PreviewComponent = () => {
 
       previewNavigatorSetState({
         type: "iframeOnLoad",
-        scrollX: scrollX,
-        scrollY: scrollY,
         iframeWidth: iframeWidth,
         iframeHeight: iframeHeight,
         iframeScrollWidth: iframeScrollWidth,
@@ -190,14 +223,10 @@ const PreviewComponent = () => {
   // const [previewOverlay, previewOverlayUpdate] = useReducer(setPreviewOverlay, {});
 
   const componentConvertPreviewOverlay = () => {
-    // const eventX = event.clientX;
-    // const eventY = event.clientY;
     const previewOverlayDictValue = Object.values(previewNavigator.previewOverlayDict);
 
     return previewOverlayDictValue;
   };
-
-  const onMouseMove = () => {};
 
   const onScroll = (event: any) => {
     const xP = previeOverlayScrollElement.current.scrollLeft;
@@ -208,7 +237,6 @@ const PreviewComponent = () => {
 
   return (
     <div className="preview-main">
-      {" "}
       <div className="preview-overlay-update">
         <iframe className="preview-replace" ref={previewIframeElement}>
           <p>html p</p>
@@ -231,11 +259,7 @@ const PreviewComponent = () => {
         </div>
 
         <div className="preview-overlay-scroll-out" onScroll={onScroll} ref={previeOverlayScrollElement}>
-          <div
-            className="preview-overlay-scroll-in"
-            onMouseMove={onMouseMove}
-            style={{ width: previewNavigator.iframeScrollWidth, height: previewNavigator.iframeScrollHeight }}
-          ></div>
+          <div className="preview-overlay-scroll-in" style={{ width: previewNavigator.iframeScrollWidth, height: previewNavigator.iframeScrollHeight }}></div>
         </div>
       </div>
     </div>
