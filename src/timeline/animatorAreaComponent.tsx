@@ -82,7 +82,7 @@ export const KeyFrameComponent = (props: any) => {
   };
 
   useEffect(() => {
-    if (!keyframeStylePos) {
+    if (!keyframeStylePos || !isFinite(keyframeStylePos)) {
       return;
     }
 
