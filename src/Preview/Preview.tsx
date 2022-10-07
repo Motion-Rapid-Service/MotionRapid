@@ -69,13 +69,14 @@ const PreviewComponent = () => {
 
       const thenZindex = thenStyle.getPropertyValue("z-index");
 
-      console.log("thenElements", thenElements, thenID, thenZindex);
-
       const maxSize = searchMaxSizeElement(thenElements);
 
       const inRect = thenElements.getBoundingClientRect();
-      const inLeft = inRect.left;
-      const inTop = inRect.top;
+      const inLeft = inRect.left + iframeWindow.pageXOffset;
+      const inTop = inRect.top + iframeWindow.pageYOffset;
+
+      console.log("thenElements", thenID, inLeft, inTop, inRect.left, iframeWindow.pageXOffset);
+
       const newPreviewOverlay = new PreviewContext.PreviewOverlay(inLeft, inTop, maxSize[0], maxSize[1], thenID, thenZindex);
       previewOverlayDict[newPreviewOverlay.previewOverlayID] = newPreviewOverlay;
     }
@@ -98,10 +99,20 @@ const PreviewComponent = () => {
     if (action.type === "overlayScroll") {
       const iframeWindow = previewIframeElement.current.contentWindow;
       iframeWindow.scrollTo(state.scrollX, state.scrollY);
-      createPreviewOverlayDict();
       return {
         scrollX: action.scrollX,
         scrollY: action.scrollY,
+        iframeWidth: state.iframeWidth,
+        iframeHeight: state.iframeHeight,
+        iframeScrollWidth: state.iframeScrollWidth,
+        iframeScrollHeight: state.iframeScrollHeight,
+        previewOverlayDict: createPreviewOverlayDict(),
+      };
+    }
+    if (action.type === "reLoad") {
+      return {
+        scrollX: state.scrollX,
+        scrollY: state.scrollY,
         iframeWidth: state.iframeWidth,
         iframeHeight: state.iframeHeight,
         iframeScrollWidth: state.iframeScrollWidth,
@@ -210,9 +221,11 @@ const PreviewComponent = () => {
             // <>{fruit}</> //SurfaceControlIndividualを追加するmap (list_surface_controlに入っている)
             <PreviewOverlayShape
               DownstreamShapePreviewOverlay={output}
+              previewNavigator={previewNavigator}
               key={index}
               previeOverlayElement={previeOverlayElement}
               previeOverlayShapeElement={previeOverlayShapeElement}
+              previewNavigatorSetState={previewNavigatorSetState}
             />
           ))}
         </div>

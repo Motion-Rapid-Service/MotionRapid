@@ -24,6 +24,7 @@ const PreviewOverlayShapeComponent = (props: any) => {
   const TimeNavigatorContextValue = useContext(TimeNavigatorContext);
 
   const DownstreamShapePreviewOverlay: PreviewContext.PreviewOverlay = props.DownstreamShapePreviewOverlay;
+  const previewNavigator: PreviewContext.TypePreviewNavigator = props.previewNavigator;
   const left = DownstreamShapePreviewOverlay.left;
   const top = DownstreamShapePreviewOverlay.top;
   const width = DownstreamShapePreviewOverlay.width;
@@ -190,10 +191,13 @@ const PreviewOverlayShapeComponent = (props: any) => {
   };
 
   const checkShapeArea = (eventXY: Array<number>) => {
+    const leftScroll = previewOverlayShapeStylePos.leftStyle - previewNavigator.scrollX;
+    const topScroll = previewOverlayShapeStylePos.topStyle - previewNavigator.scrollY;
+
     const eventX = eventXY[0];
     const eventY = eventXY[1];
-    const xjudge = previewOverlayShapeStylePos.leftStyle <= eventX && eventX <= previewOverlayShapeStylePos.leftStyle + previewOverlayShapeStylePos.widthStyle;
-    const yjudge = previewOverlayShapeStylePos.topStyle <= eventY && eventY <= previewOverlayShapeStylePos.topStyle + previewOverlayShapeStylePos.heightStyle;
+    const xjudge = leftScroll <= eventX && eventX <= leftScroll + previewOverlayShapeStylePos.widthStyle;
+    const yjudge = topScroll <= eventY && eventY <= topScroll + previewOverlayShapeStylePos.heightStyle;
 
     const ans = xjudge && yjudge;
 
@@ -286,6 +290,7 @@ const PreviewOverlayShapeComponent = (props: any) => {
     UserHand.alldeleteUserHandPreviewShape();
 
     SetupEditorContextValue.previewUpdateDOM();
+    props.previewNavigatorSetState({ type: "reLoad" });
   };
 
   useEffect(() => {
@@ -304,8 +309,8 @@ const PreviewOverlayShapeComponent = (props: any) => {
       className="preview-overlay-shape-block"
       // onMouseDown={mouseDown}
       style={{
-        left: previewOverlayShapeStylePos.leftStyle,
-        top: previewOverlayShapeStylePos.topStyle,
+        left: previewOverlayShapeStylePos.leftStyle - previewNavigator.scrollX,
+        top: previewOverlayShapeStylePos.topStyle - previewNavigator.scrollY,
         width: previewOverlayShapeStylePos.widthStyle,
         height: previewOverlayShapeStylePos.heightStyle,
         opacity: opacityStyle,
