@@ -675,6 +675,11 @@ const ComponentOptionConvertConfigMode = (props: any) => {
     SetupEditorContextValue.previewUpdateDOM();
   };
 
+  const itemMediaObjectShapeMode = () => {
+    let settingItemsTemp: Array<ToolConfigContext.settingItemsData> = [];
+    return settingItemsTemp;
+  };
+
   const buttonDeleteFuncMediaObject = (sendConfigContent: { [name: string]: string | number | boolean }) => {
     SetupUndoContextValue.pushEditHistory();
     const configModeArgsOption = SetupConfigContextValue.getConfigModeArgsOption();
@@ -774,6 +779,12 @@ const ComponentOptionConvertConfigMode = (props: any) => {
       buttonDeleteFunc = buttonDeleteFuncAnimatorGroup;
 
       break;
+    case configModeList[10]: //メディアオブジェクトコンポジットモードの設定
+      settingItemsTemp = itemMediaObjectShapeMode();
+      buttonOperationFunc = () => {};
+      buttonDeleteFunc = buttonDeleteFuncMediaObject;
+      break;
+
     default:
       break;
   }

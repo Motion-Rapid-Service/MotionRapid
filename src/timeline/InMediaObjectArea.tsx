@@ -143,6 +143,14 @@ export const MediaObjectScrollComponent = () => {
       SetupConfigContextValue.configModeSetState(SetupConfigContextValue.configModeList[5]);
     }
 
+    if (thenSourceSpeciesClass.sourceSpecies === buildSourceSpecies.sourceSpeciesList[4]) {
+      //shapeの時
+      SetupConfigContextValue.setConfigModeArgsOption({
+        MediaObject_ID: MediaObjectContextValue.mediaObjectUUID,
+        Composite_ID: SetupEditorContextValue.choiceComposite,
+      });
+      SetupConfigContextValue.configModeSetState(SetupConfigContextValue.configModeList[10]);
+    }
     SetupConfigContextValue.configSwitchGUISetState(SetupConfigContextValue.configSwitchGUIList[2]);
   };
 
