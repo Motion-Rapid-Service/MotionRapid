@@ -60,11 +60,13 @@ const ConfigSettingItemsCompositeEntity = (props: any) => {
   // const [configInput, configInputSetState] = useState<string | number | boolean>(settingItemsData.exposeValue[0]); //設定項目の選択状況を保持
   // const ConfigModeContextValue = useContext(ToolConfigContext.ConfigModeContext);
 
-  configContent[settingItemsData.configItem] = settingItemsData.exposeValue.initialValue;
-
   const setConfigInput = (configInput: string | number | boolean) => {
     configContent[settingItemsData.configItem] = configInput;
   };
+
+  useEffect(() => {
+    configContent[settingItemsData.configItem] = settingItemsData.exposeValue.initialValue;
+  }, []);
 
   // };
 
