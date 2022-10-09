@@ -16,18 +16,26 @@
   position: relative;
 }
 
+.editor-layout * {
+  user-select: none;
+  /* z-index: 500; */
+}
+
 .composite_editor-layout {
   position: absolute;
   height: 100%;
   overflow: hidden;
   display: flex;
 }
+
 .preview-layout {
   position: absolute;
-  width: 100%;
-  height: 100%;
+  margin-left: var(--layout-expand-min_size);
+  width: calc(100% - var(--layout-expand-min_size) * 2);
+  height: calc(100% - var(--layout-expand-min_size));
   overflow: hidden;
 }
+
 .timeline-layout {
   position: absolute;
   width: 100%;

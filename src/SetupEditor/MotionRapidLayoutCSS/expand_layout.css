@@ -11,6 +11,8 @@
   width: var(--layout-expand-min_size);
   height: var(--layout-expand-max_size);
   background-color: var(--layout-expand-color);
+
+  cursor: col-resize;
 }
 .preview-layout-expand {
 }
@@ -18,4 +20,5 @@
   width: var(--layout-expand-max_size);
   height: var(--layout-expand-min_size);
   background-color: var(--layout-expand-color);
+  cursor: row-resize;
 }

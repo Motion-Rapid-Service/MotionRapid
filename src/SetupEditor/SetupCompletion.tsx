@@ -1,5 +1,5 @@
 import * as React from "react";
-const { useContext, useReducer, createContext, useEffect, useState } = React;
+const { useContext, useReducer, createContext, useEffect, useState, useRef } = React;
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import TimelineComponent from "./../timeline/timeline";
@@ -15,6 +15,13 @@ import { SetupConfigContext } from "./SetupConfigContext";
 type TypeLayoutState = {
   layoutSize: number;
   expandFlag: boolean; //展開しているとtrue
+  mouseMoveLayout: TypeMouseMoveLayout;
+};
+
+type TypeMouseMoveLayout = {
+  mouseFlag: boolean;
+  mousePushPos: number;
+  mousePushLayoutStyle: number;
 };
 
 const SetupCompletion = () => {
@@ -27,6 +34,24 @@ const SetupCompletion = () => {
   const configSwitchGUIList = SetupConfigContextValue.configSwitchGUIList;
 
   const [configStyle, configStyleSetState] = useState<React.CSSProperties>({});
+
+  const editorLayoutElement = useRef(null);
+
+  const getMousePostion = (
+    //タイムラインに対してのマウスを取得
+    event: any
+  ) => {
+    const clientX = event.clientX;
+    const clientY = event.clientY;
+    const elementBoundingClientRect = editorLayoutElement.current.getBoundingClientRect();
+    const elementLeft = elementBoundingClientRect.left;
+    const elementTop = elementBoundingClientRect.top;
+
+    //console.log("timelineMousePostion",timelineElementLeft,timelineElementTop)
+    const x = clientX - elementLeft;
+    const y = clientY - elementTop;
+    return [x, y];
+  };
 
   useEffect(() => {
     //configSwitchGUIによる、ほかのdiv要素内への影響について設定をする
@@ -44,42 +69,134 @@ const SetupCompletion = () => {
   const setLayoutState = (state: TypeLayoutState, action: any): TypeLayoutState => {
     console.log("setLayoutState");
     if (action.type === "move") {
-      return { layoutSize: action.layoutSize, expandFlag: true };
+      return { layoutSize: action.layoutSize, expandFlag: true, mouseMoveLayout: state.mouseMoveLayout };
     }
     if (action.type === "collapse") {
-      return { layoutSize: state.layoutSize, expandFlag: false };
+      return { layoutSize: state.layoutSize, expandFlag: true, mouseMoveLayout: state.mouseMoveLayout };
     }
     if (action.type === "expand") {
-      return { layoutSize: state.layoutSize, expandFlag: true };
+      return { layoutSize: state.layoutSize, expandFlag: true, mouseMoveLayout: state.mouseMoveLayout };
     }
     if (action.type === "toggle") {
-      return { layoutSize: state.layoutSize, expandFlag: !state.expandFlag };
+      return { layoutSize: state.layoutSize, expandFlag: !state.expandFlag, mouseMoveLayout: state.mouseMoveLayout };
+    }
+
+    if (action.type === "mouseDown") {
+      const newMouseMoveLayout = state.mouseMoveLayout;
+      newMouseMoveLayout.mouseFlag = true;
+
+      newMouseMoveLayout.mousePushPos = action.nowMousePos;
+
+      if (state.expandFlag) {
+        newMouseMoveLayout.mousePushLayoutStyle = state.layoutSize;
+      } else {
+        newMouseMoveLayout.mousePushLayoutStyle = 0;
+        return { layoutSize: 0, expandFlag: true, mouseMoveLayout: newMouseMoveLayout };
+      }
+
+      console.log("MouseMoveLayout A", newMouseMoveLayout, action.nowMousePos);
+      return { layoutSize: state.layoutSize, expandFlag: true, mouseMoveLayout: newMouseMoveLayout };
+    }
+
+    if (action.type === "mouseMove") {
+      if (!state.mouseMoveLayout.mouseFlag) {
+        return { layoutSize: state.layoutSize, expandFlag: state.expandFlag, mouseMoveLayout: state.mouseMoveLayout };
+      }
+
+      const move = action.nowMousePos - state.mouseMoveLayout.mousePushPos;
+      const layoutSizeMove = Math.max(state.mouseMoveLayout.mousePushLayoutStyle + move, 0);
+      console.log("MouseMoveLayout B", layoutSizeMove, state.mouseMoveLayout.mousePushLayoutStyle, move);
+
+      return { layoutSize: layoutSizeMove, expandFlag: state.expandFlag, mouseMoveLayout: state.mouseMoveLayout };
+    }
+
+    if (action.type === "mouseUp") {
+      const newMouseMoveLayout = state.mouseMoveLayout;
+      newMouseMoveLayout.mouseFlag = false;
+      newMouseMoveLayout.mousePushLayoutStyle = null;
+      newMouseMoveLayout.mousePushPos = null;
+      return { layoutSize: state.layoutSize, expandFlag: state.expandFlag, mouseMoveLayout: newMouseMoveLayout };
     }
   };
 
-  const [compositeEditorLayoutState, compositeEditorLayoutSetState] = useReducer(setLayoutState, { layoutSize: 30, expandFlag: false });
-  const [timelineLayoutState, timelineLayoutSetState] = useReducer(setLayoutState, { layoutSize: 60, expandFlag: false });
+  const [compositeEditorLayoutState, compositeEditorLayoutSetState] = useReducer(setLayoutState, {
+    layoutSize: 30,
+    expandFlag: true,
+    mouseMoveLayout: { mouseFlag: false, mousePushPos: null, mousePushLayoutStyle: null },
+  });
+  const [timelineLayoutState, timelineLayoutSetState] = useReducer(setLayoutState, {
+    layoutSize: 60,
+    expandFlag: true,
+    mouseMoveLayout: { mouseFlag: false, mousePushPos: null, mousePushLayoutStyle: null },
+  });
 
   const getCompositeEditorLayoutSize = () => {
     if (!compositeEditorLayoutState.expandFlag) {
       return 0;
     }
-    return compositeEditorLayoutState.layoutSize + "vw";
+
+    return compositeEditorLayoutState.layoutSize + "px";
   };
   const getTimelineLayoutState = () => {
     if (!timelineLayoutState.expandFlag) {
       return 0;
     }
-    return timelineLayoutState.layoutSize + "vh";
+
+    return timelineLayoutState.layoutSize + "px";
   };
 
-  const compositeEditorLayoutExpand = () => {
+  const mouseDoubleClickCompositeEditor = (event: any) => {
     compositeEditorLayoutSetState({ type: "toggle" });
   };
 
-  const timelineLayoutExpandClick = () => {
+  const mouseDoubleClickTimelineEditor = (event: any) => {
     timelineLayoutSetState({ type: "toggle" });
   };
+  const mouseDownCompositeEditor = (event: any) => {
+    compositeEditorLayoutSetState({ type: "mouseDown", nowMousePos: getMousePostion(event)[0] });
+  };
+  const mouseMoveCompositeEditor = (event: any) => {
+    compositeEditorLayoutSetState({ type: "mouseMove", nowMousePos: getMousePostion(event)[0] });
+  };
+  const mouseUpCompositeEditor = (event: any) => {
+    compositeEditorLayoutSetState({ type: "mouseUp", nowMousePos: getMousePostion(event)[0] });
+  };
+
+  const timelimeSizeY = (event: any) => {
+    const elementBoundingClientRect = editorLayoutElement.current.getBoundingClientRect();
+    const elementLeft = elementBoundingClientRect.left;
+    const elementTop = elementBoundingClientRect.top;
+
+    const size = elementTop - getMousePostion(event)[1];
+    return size;
+  };
+
+  const mouseDownTimelineEditor = (event: any) => {
+    timelineLayoutSetState({ type: "mouseDown", nowMousePos: timelimeSizeY(event) });
+  };
+  const mouseMoveTimelineEditor = (event: any) => {
+    timelineLayoutSetState({ type: "mouseMove", nowMousePos: timelimeSizeY(event) });
+  };
+  const mouseUpTimelineEditor = (event: any) => {
+    timelineLayoutSetState({ type: "mouseUp", nowMousePos: timelimeSizeY(event) });
+  };
+
+  useEffect(() => {
+    window.addEventListener("mousemove", mouseMoveCompositeEditor);
+    window.addEventListener("mouseup", mouseUpCompositeEditor);
+
+    window.addEventListener("mousemove", mouseMoveTimelineEditor);
+    window.addEventListener("mouseup", mouseUpTimelineEditor);
+
+    return () => {
+      window.removeEventListener("mousemove", mouseMoveCompositeEditor);
+      window.removeEventListener("mouseup", mouseUpCompositeEditor);
+
+      window.removeEventListener("mousemove", mouseMoveTimelineEditor);
+      window.removeEventListener("mouseup", mouseUpTimelineEditor);
+    };
+  }, []);
+
   return (
     <>
       <div style={configStyle}>
@@ -89,19 +206,19 @@ const SetupCompletion = () => {
 
             <ToolBarComponent />
           </div>
-          <div className="editor-layout">
+          <div className="editor-layout" ref={editorLayoutElement}>
             <div className="composite_editor-layout">
               <div style={{ width: getCompositeEditorLayoutSize() }}>
                 <CompositeEditorComponent />
               </div>
-              <div className="composite_editor-layout-expand" onClick={compositeEditorLayoutExpand}></div>
+              <div className="composite_editor-layout-expand" onMouseDown={mouseDownCompositeEditor} onDoubleClick={mouseDoubleClickCompositeEditor}></div>
             </div>
             <div className="preview-layout">
               <div className="preview-layout-expand"></div>
               <PreviewComponent />
             </div>
             <div className="timeline-layout">
-              <div className="timeline-layout-expand" onClick={timelineLayoutExpandClick}></div>
+              <div className="timeline-layout-expand" onMouseDown={mouseDownTimelineEditor} onDoubleClick={mouseDoubleClickTimelineEditor}></div>
 
               <div style={{ height: getTimelineLayoutState() }}>
                 <TimelineComponent />
