@@ -9,15 +9,20 @@ import * as ToolConfigContext from "./ToolConfigContext";
 export const ConfigSelect = () => {
   const SwitchConfigSettingItemsCompositeContextValue = useContext(ToolConfigContext.SwitchConfigSettingItemsCompositeContext);
 
+  const exposeValue = SwitchConfigSettingItemsCompositeContextValue.exposeValue as ToolConfigContext.typeExposeValueListBox;
+
+  const [textState, textSetState] = useState<string>(exposeValue.initialValue);
+
   const onChange = (event: any) => {
-    const selectValue = Number(event.target.value);
-    const thisExposeValue = SwitchConfigSettingItemsCompositeContextValue.exposeValue[selectValue];
-    SwitchConfigSettingItemsCompositeContextValue.configInputSetState(thisExposeValue);
+    const selectValue = String(event.target.value);
+    textSetState(selectValue);
+    // const thisExposeValue = exposeValue.candidateList[selectValue];
+    SwitchConfigSettingItemsCompositeContextValue.configInputSetState(selectValue);
   };
 
   return (
-    <select onChange={onChange}>
-      {SwitchConfigSettingItemsCompositeContextValue.exposeValue.map((output, index: number) => (
+    <select onChange={onChange} value={textState}>
+      {exposeValue.candidateList.map((output: string, index: number) => (
         <ConfigSelectOption output={output} index={Number(index)} key={index} />
       ))}
     </select>
@@ -25,18 +30,23 @@ export const ConfigSelect = () => {
 };
 
 const ConfigSelectOption = (props: any) => {
-  return <option value={props.index}>{props.output}</option>;
+  return <option value={props.output}>{props.output}</option>;
 };
 
 export const ConfigTextBox = () => {
   const SwitchConfigSettingItemsCompositeContextValue = useContext(ToolConfigContext.SwitchConfigSettingItemsCompositeContext);
+  const exposeValue = SwitchConfigSettingItemsCompositeContextValue.exposeValue as ToolConfigContext.typeExposeValueTextBox;
+
+  const [textState, textSetState] = useState(exposeValue.initialValue);
+
   const onChange = (event: any) => {
     const text = event.target.value;
+    textSetState(String(text));
     SwitchConfigSettingItemsCompositeContextValue.configInputSetState(String(text));
   };
   return (
     <div className="config_parts-textbox ">
-      <input className="text_box_common" type="text" value={SwitchConfigSettingItemsCompositeContextValue.configInput} onChange={onChange} />
+      <input className="text_box_common" type="text" value={textState} onChange={onChange} />
     </div>
   );
 };
@@ -48,7 +58,11 @@ export const ConfigButton = (props: any) => {
   const mouseDown = () => {
     //マウスがクリックされたとき
     SetupConfigContextValue.configModeSetState(SetupConfigContextValue.configModeList[0]);
-    props.buttonOperationFunc(props.configContent);
+
+    if (props.buttonOperationFunc !== null) {
+      props.buttonOperationFunc(props.configContent);
+    }
+
     ConfigModeContextValue.configContentInit();
   };
 

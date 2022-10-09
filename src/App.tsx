@@ -318,6 +318,8 @@ const App = () => {
           getMediaObjectSourceSpecies: middleDataOperation.getMediaObjectSourceSpecies,
           getKeyframeTime: middleDataOperation.getKeyframeTime,
 
+          getOwnedClassComposite: middleDataOperation.getOwnedClassComposite,
+
           getCompositeHorizontalMode: middleDataOperation.getCompositeHorizontalMode,
           getCompositeLocationMode: middleDataOperation.getCompositeLocationMode,
 
@@ -359,6 +361,14 @@ const App = () => {
 
           setCompositeStyleViewPos: middleDataOperation.setCompositeStyleViewPos,
           getCompositeStyleViewPos: middleDataOperation.getCompositeStyleViewPos,
+
+          setCompositeName: middleDataOperation.setCompositeName,
+          setCompositeHorizontalMode: middleDataOperation.setCompositeHorizontalMode,
+          setCompositeLocationMode: middleDataOperation.setCompositeLocationMode,
+          setCompositeWidth: middleDataOperation.setCompositeWidth,
+          setCompositeWidthUnit: middleDataOperation.setCompositeWidthUnit,
+          setCompositeHeight: middleDataOperation.setCompositeHeight,
+          setCompositeHeightUnit: middleDataOperation.setCompositeHeightUnit,
 
           createComposite: middleDataOperation.createComposite,
           createMediaObject: middleDataOperation.createMediaObject,

@@ -5,12 +5,15 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AppContext } from "../AppContext";
 import { SetupEditorContext } from "./../SetupEditor/SetupEditorContext";
 import { SetupToolbarContext } from "./../SetupEditor/SetupToolbarContext";
+import { SetupConfigContext } from "../SetupEditor/SetupConfigContext";
+import { SetupUndoContext } from "./../SetupEditor/SetupUndoContext";
 
 //SetupToolbarContext
 
 const CompositeChoiceListIndexComponent = (props: any) => {
   const SetupEditorContextValue = useContext(SetupEditorContext);
   const SetupToolbarContextValue = useContext(SetupToolbarContext);
+  const SetupConfigContextValue = useContext(SetupConfigContext);
   const Composite_ID = props.DownstreamMiddleDataComposite["Composite_ID"];
   const Composite_Name = props.DownstreamMiddleDataComposite["Composite_Name"];
 
@@ -18,8 +21,14 @@ const CompositeChoiceListIndexComponent = (props: any) => {
     SetupEditorContextValue.choiceCompositeSetState(Composite_ID);
   };
 
+  const MouseDoubleClick = () => {
+    SetupConfigContextValue.setConfigModeArgsOption({ compositeID: props.DownstreamMiddleDataComposite["Composite_ID"] });
+    SetupConfigContextValue.configModeSetState(SetupConfigContextValue.configModeList[8]);
+    SetupConfigContextValue.configSwitchGUISetState(SetupConfigContextValue.configSwitchGUIList[1]);
+  };
+
   return (
-    <div className="composite_choice-listindex-area" onMouseDown={MouseDown}>
+    <div className="composite_choice-listindex-area" onMouseDown={MouseDown} onDoubleClick={MouseDoubleClick}>
       <p>
         {Composite_Name} / {Composite_ID}
       </p>

@@ -4,10 +4,14 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 export const configSettingGUIparts: Array<string> = ["notExist", "textbox", "textboxNumber", "listBox", "checkBox", "radiobutton", "inputImage", "inputJson"];
 
+export type typeExposeValueListBox = { initialValue: string; candidateList: Array<string> };
+export type typeExposeValueTextBox = { initialValue: string | number };
+export type typeExposeValueUpload = { initialValue: string };
+
 type SwitchConfigSettingItemsCompositeContextValue = {
   configInput: string;
   configInputSetState: Function;
-  exposeValue: Array<string> | Array<number> | Array<boolean>;
+  exposeValue: typeExposeValueListBox | typeExposeValueTextBox;
 };
 
 export const SwitchConfigSettingItemsCompositeContext = createContext<SwitchConfigSettingItemsCompositeContextValue>(
@@ -20,7 +24,7 @@ export type settingItemsData = {
   settingMessage: string;
   //   buttonFunc: Function;
   thenConfigSettingGUIparts: string;
-  exposeValue: Array<string> | Array<number> | Array<boolean>; //exposeは公開という意味があるけど、正しいのか
+  exposeValue: typeExposeValueListBox | typeExposeValueTextBox; //exposeは公開という意味があるけど、正しいのか
   configItem: string;
 };
 

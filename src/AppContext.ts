@@ -60,6 +60,8 @@ type AppContextValue = {
   getMediaObejctCSSFixed: Function;
   setMediaObejctCSSFixed: Function;
 
+  getOwnedClassComposite: Function;
+
   getMediaObjectTime: Function;
   getMediaObjectSourceSpecies: Function;
   getKeyframeTime: Function;
@@ -91,6 +93,14 @@ type AppContextValue = {
 
   getCompositePlayheadTimePos: Function;
   setCompositePlayheadTimePos: Function;
+
+  setCompositeName: Function;
+  setCompositeHorizontalMode: Function;
+  setCompositeLocationMode: Function;
+  setCompositeWidth: Function;
+  setCompositeWidthUnit: Function;
+  setCompositeHeight: Function;
+  setCompositeHeightUnit: Function;
 
   createComposite: Function;
   createMediaObject: Function;

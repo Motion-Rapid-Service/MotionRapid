@@ -24,11 +24,13 @@ body * {
   font-size: 16px; /*フォントサイズ*/
   border: 0px solid #00000000; /*ボーダー*/
   margin: auto;
+
   /*padding: 2px; パディング*/
-  border-radius: 3px; /*角丸にする*/
+  border-radius: 8px; /*角丸にする*/
   /*box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.1) inset; 影を付ける*/
-  background-color: rgb(60, 60, 60);
-  color: rgb(240, 240, 240);
+  background-color: rgb(250, 250, 250);
+  padding-left: 4px;
+  color: rgb(10, 10, 10);
 }
 
 .text_box_common:focus {

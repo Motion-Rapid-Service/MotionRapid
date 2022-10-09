@@ -371,36 +371,6 @@ export default class MiddleDataOperation {
     return Object.assign(this.DataCentral.OwnedClass_CSSProperty[CSSPropertySpeciesID]);
   };
 
-  getCompositeHorizontalMode = (compositeID: string) => {
-    if (!hasKeyFound(compositeID, this.DataCentral.OwnedClass_Composite)) {
-      return "";
-    }
-
-    const thenComposite = this.DataCentral.OwnedClass_Composite[compositeID];
-    //console.log("thenComposite", thenComposite);
-    return thenComposite.Composite_HorizontalMode;
-  };
-
-  getCompositeLocationMode = (compositeID: string) => {
-    if (!hasKeyFound(compositeID, this.DataCentral.OwnedClass_Composite)) {
-      return "";
-    }
-
-    const thenComposite = this.DataCentral.OwnedClass_Composite[compositeID];
-    //console.log("thenComposite", thenComposite);
-
-    return thenComposite.Composite_LocationMode;
-  };
-
-  getCompositeName = (compositeID: string) => {
-    if (!hasKeyFound(compositeID, this.DataCentral.OwnedClass_Composite)) {
-      return "";
-    }
-
-    const thenComposite = this.DataCentral.OwnedClass_Composite[compositeID];
-    //console.log("thenComposite", thenComposite);
-    return thenComposite.Composite_Name;
-  };
   getMediaObjectTime = (mediaObjectID: string) => {
     return [
       this.DataCentral.OwnedClass_MediaObject[mediaObjectID].MediaObject_StartTime,
@@ -443,19 +413,40 @@ export default class MiddleDataOperation {
     this.DataCentral.OwnedClass_MediaObject[mediaObjectID].MediaObject_Color = color;
   };
 
+  getCompositeHorizontalMode = (compositeID: string) => {
+    if (!hasKeyFound(compositeID, this.DataCentral.OwnedClass_Composite)) {
+      return "";
+    }
+
+    const thenComposite = this.DataCentral.OwnedClass_Composite[compositeID];
+    //console.log("thenComposite", thenComposite);
+    return thenComposite.Composite_HorizontalMode;
+  };
+  getCompositeLocationMode = (compositeID: string) => {
+    if (!hasKeyFound(compositeID, this.DataCentral.OwnedClass_Composite)) {
+      return "";
+    }
+
+    const thenComposite = this.DataCentral.OwnedClass_Composite[compositeID];
+    //console.log("thenComposite", thenComposite);
+
+    return thenComposite.Composite_LocationMode;
+  };
+
+  getCompositeName = (compositeID: string) => {
+    if (!hasKeyFound(compositeID, this.DataCentral.OwnedClass_Composite)) {
+      return "";
+    }
+
+    const thenComposite = this.DataCentral.OwnedClass_Composite[compositeID];
+    //console.log("thenComposite", thenComposite);
+    return thenComposite.Composite_Name;
+  };
   getCompositeDuration = (compositeID: string) => {
     if (!hasKeyFound(compositeID, this.DataCentral.OwnedClass_Composite)) {
       return;
     }
     return this.DataCentral.OwnedClass_Composite[compositeID].Composite_Duration;
-  };
-
-  setCompositeStyleViewPos = (compositeID: string, viewPos: Array<number>) => {
-    if (!hasKeyFound(compositeID, this.DataCentral.OwnedClass_Composite)) {
-      return;
-    }
-    this.DataCentral.OwnedClass_Composite[compositeID].staStyleViewPos = viewPos[0];
-    this.DataCentral.OwnedClass_Composite[compositeID].endStyleViewPos = viewPos[1];
   };
 
   getCompositeStyleViewPos = (compositeID: string) => {
@@ -478,13 +469,6 @@ export default class MiddleDataOperation {
     return viewPos;
   };
 
-  setCompositePlayheadTimePos = (compositeID: string, time: number) => {
-    if (!hasKeyFound(compositeID, this.DataCentral.OwnedClass_Composite)) {
-      return;
-    }
-    this.DataCentral.OwnedClass_Composite[compositeID].playheadTimePos = time;
-  };
-
   getCompositePreviewViewPos = (compositeID: string): { x: number; y: number } => {
     if (!hasKeyFound(compositeID, this.DataCentral.OwnedClass_Composite)) {
       return;
@@ -498,6 +482,70 @@ export default class MiddleDataOperation {
     const viewPosY: number = this.DataCentral.OwnedClass_Composite[compositeID].previewViewPosY;
     // console.log("getCompositePlayheadTimePos", viewPos);
     return { x: viewPosX, y: viewPosY };
+  };
+
+  setCompositeName = (compositeID: string, compositeName: string) => {
+    if (!hasKeyFound(compositeID, this.DataCentral.OwnedClass_Composite)) {
+      return;
+    }
+    this.DataCentral.OwnedClass_Composite[compositeID].Composite_Name = compositeName;
+  };
+
+  setCompositeHorizontalMode = (compositeID: string, compositeHorizontalMode: string) => {
+    if (!hasKeyFound(compositeID, this.DataCentral.OwnedClass_Composite)) {
+      return;
+    }
+    this.DataCentral.OwnedClass_Composite[compositeID].Composite_HorizontalMode = compositeHorizontalMode;
+  };
+
+  setCompositeLocationMode = (compositeID: string, compositeLocationMode: string) => {
+    if (!hasKeyFound(compositeID, this.DataCentral.OwnedClass_Composite)) {
+      return;
+    }
+    this.DataCentral.OwnedClass_Composite[compositeID].Composite_LocationMode = compositeLocationMode;
+  };
+
+  setCompositeWidth = (compositeID: string, compositeWidth: number) => {
+    if (!hasKeyFound(compositeID, this.DataCentral.OwnedClass_Composite)) {
+      return;
+    }
+    this.DataCentral.OwnedClass_Composite[compositeID].Composite_Width = compositeWidth;
+  };
+
+  setCompositeWidthUnit = (compositeID: string, compositeWidthUnit: string) => {
+    if (!hasKeyFound(compositeID, this.DataCentral.OwnedClass_Composite)) {
+      return;
+    }
+    this.DataCentral.OwnedClass_Composite[compositeID].Composite_WidthUnit = compositeWidthUnit;
+  };
+
+  setCompositeHeight = (compositeID: string, compositeHeight: number) => {
+    if (!hasKeyFound(compositeID, this.DataCentral.OwnedClass_Composite)) {
+      return;
+    }
+    this.DataCentral.OwnedClass_Composite[compositeID].Composite_Height = compositeHeight;
+  };
+
+  setCompositeHeightUnit = (compositeID: string, compositeHeightUnit: string) => {
+    if (!hasKeyFound(compositeID, this.DataCentral.OwnedClass_Composite)) {
+      return;
+    }
+    this.DataCentral.OwnedClass_Composite[compositeID].Composite_HeightUnit = compositeHeightUnit;
+  };
+
+  setCompositeStyleViewPos = (compositeID: string, viewPos: Array<number>) => {
+    if (!hasKeyFound(compositeID, this.DataCentral.OwnedClass_Composite)) {
+      return;
+    }
+    this.DataCentral.OwnedClass_Composite[compositeID].staStyleViewPos = viewPos[0];
+    this.DataCentral.OwnedClass_Composite[compositeID].endStyleViewPos = viewPos[1];
+  };
+
+  setCompositePlayheadTimePos = (compositeID: string, time: number) => {
+    if (!hasKeyFound(compositeID, this.DataCentral.OwnedClass_Composite)) {
+      return;
+    }
+    this.DataCentral.OwnedClass_Composite[compositeID].playheadTimePos = time;
   };
 
   setCompositePreviewViewPos = (compositeID: string, pos: { x: number; y: number }) => {
