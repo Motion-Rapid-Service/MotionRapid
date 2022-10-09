@@ -17,7 +17,7 @@ export const ConfigSelect = () => {
     const selectValue = String(event.target.value);
     textSetState(selectValue);
     // const thisExposeValue = exposeValue.candidateList[selectValue];
-    SwitchConfigSettingItemsCompositeContextValue.configInputSetState(selectValue);
+    SwitchConfigSettingItemsCompositeContextValue.setConfigInput(selectValue);
   };
 
   return (
@@ -44,7 +44,7 @@ export const ConfigSelectComposite = () => {
     const selectValue = String(event.target.value);
     textSetState(selectValue);
     // const thisExposeValue = exposeValue.candidateList[selectValue];
-    SwitchConfigSettingItemsCompositeContextValue.configInputSetState(selectValue);
+    SwitchConfigSettingItemsCompositeContextValue.setConfigInput(selectValue);
   };
 
   return (
@@ -75,7 +75,7 @@ export const ConfigTextBox = () => {
   const onChange = (event: any) => {
     const text = event.target.value;
     textSetState(String(text));
-    SwitchConfigSettingItemsCompositeContextValue.configInputSetState(String(text));
+    SwitchConfigSettingItemsCompositeContextValue.setConfigInput(String(text));
   };
   return (
     <div className="config_parts-textbox ">
@@ -119,7 +119,7 @@ export const ConfigImageUpload = (props: any) => {
     console.log("ConfigImageUpload", imageID);
 
     const text = event.target.value;
-    SwitchConfigSettingItemsCompositeContextValue.configInputSetState(String(imageID));
+    SwitchConfigSettingItemsCompositeContextValue.setConfigInput(String(imageID));
   };
   return (
     <>
@@ -137,7 +137,7 @@ export const ConfigJsonUpload = (props: any) => {
     if (!files || files?.length === 0) return; //選択されたファイルが存在しないとき
     const file = files[0];
     console.log("file:", file);
-    SwitchConfigSettingItemsCompositeContextValue.configInputSetState(file);
+    SwitchConfigSettingItemsCompositeContextValue.setConfigInput(file);
   };
   return (
     <>

@@ -62,7 +62,7 @@ const ConfigSettingItemsCompositeEntity = (props: any) => {
 
   configContent[settingItemsData.configItem] = settingItemsData.exposeValue.initialValue;
 
-  const configInputSetState = (configInput: string | number | boolean) => {
+  const setConfigInput = (configInput: string | number | boolean) => {
     configContent[settingItemsData.configItem] = configInput;
   };
 
@@ -77,7 +77,7 @@ const ConfigSettingItemsCompositeEntity = (props: any) => {
     <ToolConfigContext.SwitchConfigSettingItemsCompositeContext.Provider
       value={{
         // configInput: String(configInput),
-        configInputSetState: configInputSetState,
+        setConfigInput: setConfigInput,
         exposeValue: settingItemsData.exposeValue,
       }}
     >

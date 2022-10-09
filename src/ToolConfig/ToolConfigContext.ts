@@ -20,7 +20,7 @@ export type typeExposeValueUpload = { initialValue: string };
 
 type SwitchConfigSettingItemsCompositeContextValue = {
   // configInput: string;
-  configInputSetState: Function;
+  setConfigInput: Function;
   exposeValue: typeExposeValueListBox | typeExposeValueTextBox;
 };
 
