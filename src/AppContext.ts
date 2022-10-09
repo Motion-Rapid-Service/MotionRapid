@@ -101,6 +101,7 @@ type AppContextValue = {
   setCompositeWidthUnit: Function;
   setCompositeHeight: Function;
   setCompositeHeightUnit: Function;
+  setCompositeDuration: Function;
 
   createComposite: Function;
   createMediaObject: Function;

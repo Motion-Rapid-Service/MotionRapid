@@ -53,14 +53,15 @@ export class Composite {
     send_Composite_Width: number,
     send_Composite_WidthUnit: string,
     send_Composite_Height: number,
-    send_Composite_HeightUnit: string
+    send_Composite_HeightUnit: string,
+    send_Composite_Duration: number
   ) {
     this.Composite_ID = send_Composite_ID;
     this.Composite_Name = send_Composite_Name;
     this.OwnedID_MediaObject = [];
     this.Composite_HorizontalMode = send_Composite_HorizontalMode;
     this.Composite_LocationMode = send_Composite_LocationMode;
-    this.Composite_Duration = 3000;
+    this.Composite_Duration = send_Composite_Duration;
 
     this.Composite_Width = send_Composite_Width;
     this.Composite_WidthUnit = send_Composite_WidthUnit;

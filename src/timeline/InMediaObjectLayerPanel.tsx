@@ -262,7 +262,7 @@ export const LayerPanelAnimaterComponent = (props: any) => {
         {/* <AnimaterLeftKeyframeMoveButton /> */}
         <AnimaterInsertKeyframeButton Animator_ID={Animator_ID} />
         {/* <AnimaterRightKeyframeMoveButton /> */}
-        <p>{Animator_propertySpecies}</p>
+        <p className="layer_panel-animator-entity-animator_name">{Animator_propertySpecies}</p>
         <AnimaterCSSproperty Animator_ID={Animator_ID} />
       </div>
     </LayerPanelAnimaterContext.Provider>
@@ -328,6 +328,15 @@ const AnimaterCSSproperty = (props: any) => {
   const CSSPropertyValue: string = AppContextValue.getCSSPropertyValue(AnimatorCSSPropertyID);
   const TimeNavigatorContextValue = useContext(TimeNavigatorContext);
   const SetupEditorContextValue = useContext(SetupEditorContext);
+
+  const animatorGroupFormat: AnimatorGroupPropertyFormat.PropertyFormatSpecies = AnimatorGroupFormat.getAnimatorGroupFormatList(
+    LayerPanelAnimaterContextValue.AnimatorGroup_Species
+  ); //cssのpropertyによる
+
+  const cssPropertySpeciesList = animatorGroupFormat.cssPropertySpeciesList; //そのpropertyに指定できるvalue一覧
+  const cssPropertySpecies = cssPropertySpeciesList[LayerPanelAnimaterContextValue.Animator_propertySpecies]; //そのvalueはどのような指定方法をするか 文字列か数値か
+  const cssValueUnitList: Array<string> = Object.assign(AnimatorGroupPropertyFormat.cssValueUnit[cssPropertySpecies]); //そのcssのpropertyがどのような値をとりえるか
+
   //初期値設定用+
 
   const setCSSpropertyValue = (state: any, action: TypeSetCSSpropertyValueAction): string => {
@@ -420,6 +429,18 @@ const AnimaterCSSproperty = (props: any) => {
     });
   }, [SetupEditorContextValue.previewUpdate]);
 
+  let unitMessage = "";
+  if (
+    cssPropertySpecies === AnimatorGroupPropertyFormat.propertySpeciesUnitList[2] ||
+    cssPropertySpecies === AnimatorGroupPropertyFormat.propertySpeciesUnitList[3]
+  ) {
+    unitMessage = "0~255";
+  }
+
+  if (cssPropertySpecies === AnimatorGroupPropertyFormat.propertySpeciesUnitList[8]) {
+    unitMessage = "0~1の小数数値";
+  }
+
   return (
     <div className="layer_panel-animator-entity-css_property">
       <AnimaterCSSpropertyContext.Provider
@@ -432,6 +453,7 @@ const AnimaterCSSproperty = (props: any) => {
       >
         <AnimaterCSSpropertyValue />
         <AnimaterCSSpropertyUnit />
+        <p className="layer_panel-animator-entity-css_property-unit_message">{unitMessage}</p>
       </AnimaterCSSpropertyContext.Provider>
     </div>
   );
@@ -475,17 +497,17 @@ const AnimaterCSSpropertyUnit = () => {
 
     // TimelineAreaDivContextValue.focusMediaObjectSpaceSetState(-1);
   };
-
   if (cssValueUnitList.length === 0) {
     return <></>;
   }
-
   return (
-    <select className="select_common" onChange={onChange} value={AnimaterCSSpropertyContextValue.animaterCSSpropertyUnit}>
-      {cssValueUnitList.map((output: string, index: number) => (
-        <AnimaterCSSpropertyUnitOption output={output} index={index} key={index} />
-      ))}
-    </select>
+    <>
+      <select className="select_common" onChange={onChange} value={AnimaterCSSpropertyContextValue.animaterCSSpropertyUnit}>
+        {cssValueUnitList.map((output: string, index: number) => (
+          <AnimaterCSSpropertyUnitOption output={output} index={index} key={index} />
+        ))}
+      </select>
+    </>
   );
 };
 const AnimaterCSSpropertyUnitOption = (props: any) => {

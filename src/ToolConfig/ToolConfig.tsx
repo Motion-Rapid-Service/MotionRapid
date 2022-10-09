@@ -145,6 +145,7 @@ const ComponentOptionConvertConfigMode = (props: any) => {
     const configItemCompositeWidthUnit: string = ToolConfigContext.ConfigItemNewComposite[5];
     const configItemCompositeHeight: string = ToolConfigContext.ConfigItemNewComposite[6];
     const configItemCompositeHeightUnit: string = ToolConfigContext.ConfigItemNewComposite[7];
+    const configItemCompositeDuration: string = ToolConfigContext.ConfigItemNewComposite[8];
     let settingItemsTemp: Array<ToolConfigContext.settingItemsData> = [];
 
     const settingItemsDataCompositeName: ToolConfigContext.settingItemsData = {
@@ -160,7 +161,7 @@ const ComponentOptionConvertConfigMode = (props: any) => {
       settingMessage: "選択してください",
       thenConfigSettingGUIparts: ToolConfigContext.configSettingGUIparts[3],
       // exposeValue: Object.assign(middleDataClass.Composite_HorizontalMode),
-      exposeValue: { initialValue: middleDataClass.Composite_HorizontalMode[1], candidateList: middleDataClass.Composite_HorizontalMode },
+      exposeValue: { initialValue: middleDataClass.Composite_HorizontalMode[1], candidateList: [middleDataClass.Composite_HorizontalMode[1]] },
       configItem: configItemCompositeHorizontalMode,
     };
 
@@ -186,7 +187,7 @@ const ComponentOptionConvertConfigMode = (props: any) => {
       settingTitle: "幅単位",
       settingMessage: "選択してください",
       thenConfigSettingGUIparts: ToolConfigContext.configSettingGUIparts[3],
-      exposeValue: { initialValue: cssValueUnitList[0], candidateList: cssValueUnitList },
+      exposeValue: { initialValue: cssValueUnitList[1], candidateList: cssValueUnitList },
       configItem: configItemCompositeWidthUnit,
     };
 
@@ -202,9 +203,18 @@ const ComponentOptionConvertConfigMode = (props: any) => {
       settingTitle: "高さ単位",
       settingMessage: "選択してください",
       thenConfigSettingGUIparts: ToolConfigContext.configSettingGUIparts[3],
-      exposeValue: { initialValue: cssValueUnitList[0], candidateList: cssValueUnitList },
+      exposeValue: { initialValue: cssValueUnitList[2], candidateList: cssValueUnitList },
       configItem: configItemCompositeHeightUnit,
     };
+
+    const settingItemsDataCompositeName6: ToolConfigContext.settingItemsData = {
+      settingTitle: "長さ",
+      settingMessage: "選択してください",
+      thenConfigSettingGUIparts: ToolConfigContext.configSettingGUIparts[1],
+      exposeValue: { initialValue: 3000 },
+      configItem: configItemCompositeDuration,
+    };
+
     settingItemsTemp.push(settingItemsDataCompositeName);
     settingItemsTemp.push(settingItemsDataCompositeName2);
     settingItemsTemp.push(settingItemsDataCompositeName3);
@@ -212,7 +222,7 @@ const ComponentOptionConvertConfigMode = (props: any) => {
     settingItemsTemp.push(settingItemsDataCompositeName4b);
     settingItemsTemp.push(settingItemsDataCompositeName5a);
     settingItemsTemp.push(settingItemsDataCompositeName5b);
-
+    settingItemsTemp.push(settingItemsDataCompositeName6);
     return settingItemsTemp;
   };
 
@@ -226,6 +236,7 @@ const ComponentOptionConvertConfigMode = (props: any) => {
     const configItemCompositeWidthUnit: string = ToolConfigContext.ConfigItemNewComposite[5];
     const configItemCompositeHeight: string = ToolConfigContext.ConfigItemNewComposite[6];
     const configItemCompositeHeightUnit: string = ToolConfigContext.ConfigItemNewComposite[7];
+    const configItemCompositeDuration: string = ToolConfigContext.ConfigItemNewComposite[8];
 
     AppContextValue.createComposite(
       sendConfigContent[configItemCompositeName],
@@ -234,7 +245,8 @@ const ComponentOptionConvertConfigMode = (props: any) => {
       sendConfigContent[configItemCompositeWidth],
       sendConfigContent[configItemCompositeWidthUnit],
       sendConfigContent[configItemCompositeHeight],
-      sendConfigContent[configItemCompositeHeightUnit]
+      sendConfigContent[configItemCompositeHeightUnit],
+      sendConfigContent[configItemCompositeDuration]
     );
     console.log("buttonOperationFunc", sendConfigContent);
   };
@@ -247,6 +259,7 @@ const ComponentOptionConvertConfigMode = (props: any) => {
     const configItemCompositeWidthUnit: string = ToolConfigContext.ConfigItemNewComposite[5];
     const configItemCompositeHeight: string = ToolConfigContext.ConfigItemNewComposite[6];
     const configItemCompositeHeightUnit: string = ToolConfigContext.ConfigItemNewComposite[7];
+    const configItemCompositeDuration: string = ToolConfigContext.ConfigItemNewComposite[8];
 
     const configModeArgsOption = SetupConfigContextValue.getConfigModeArgsOption();
     const compositeID: string = configModeArgsOption["compositeID"];
@@ -268,7 +281,7 @@ const ComponentOptionConvertConfigMode = (props: any) => {
       settingMessage: "選択してください",
       thenConfigSettingGUIparts: ToolConfigContext.configSettingGUIparts[3],
       // exposeValue: Object.assign(middleDataClass.Composite_HorizontalMode),
-      exposeValue: { initialValue: compositeClass.Composite_HorizontalMode, candidateList: middleDataClass.Composite_HorizontalMode },
+      exposeValue: { initialValue: compositeClass.Composite_HorizontalMode, candidateList: [middleDataClass.Composite_HorizontalMode[1]] },
       configItem: configItemCompositeHorizontalMode,
     };
 
@@ -313,6 +326,15 @@ const ComponentOptionConvertConfigMode = (props: any) => {
       exposeValue: { initialValue: compositeClass.Composite_HeightUnit, candidateList: cssValueUnitList },
       configItem: configItemCompositeHeightUnit,
     };
+
+    const settingItemsDataCompositeName6: ToolConfigContext.settingItemsData = {
+      settingTitle: "長さ",
+      settingMessage: "選択してください",
+      thenConfigSettingGUIparts: ToolConfigContext.configSettingGUIparts[1],
+      exposeValue: { initialValue: compositeClass.Composite_Duration },
+      configItem: configItemCompositeHeight,
+    };
+
     settingItemsTemp.push(settingItemsDataCompositeName);
     settingItemsTemp.push(settingItemsDataCompositeName2);
     settingItemsTemp.push(settingItemsDataCompositeName3);
@@ -320,7 +342,7 @@ const ComponentOptionConvertConfigMode = (props: any) => {
     settingItemsTemp.push(settingItemsDataCompositeName4b);
     settingItemsTemp.push(settingItemsDataCompositeName5a);
     settingItemsTemp.push(settingItemsDataCompositeName5b);
-
+    settingItemsTemp.push(settingItemsDataCompositeName6);
     return settingItemsTemp;
   };
 
@@ -334,6 +356,7 @@ const ComponentOptionConvertConfigMode = (props: any) => {
     const configItemCompositeWidthUnit: string = ToolConfigContext.ConfigItemNewComposite[5];
     const configItemCompositeHeight: string = ToolConfigContext.ConfigItemNewComposite[6];
     const configItemCompositeHeightUnit: string = ToolConfigContext.ConfigItemNewComposite[7];
+    const configItemCompositeDuration: string = ToolConfigContext.ConfigItemNewComposite[8];
 
     const configModeArgsOption = SetupConfigContextValue.getConfigModeArgsOption();
     const compositeID: string = configModeArgsOption["compositeID"];
@@ -345,6 +368,7 @@ const ComponentOptionConvertConfigMode = (props: any) => {
     AppContextValue.setCompositeWidthUnit(compositeID, sendConfigContent[configItemCompositeWidthUnit]);
     AppContextValue.setCompositeHeight(compositeID, sendConfigContent[configItemCompositeHeight]);
     AppContextValue.setCompositeHeightUnit(compositeID, sendConfigContent[configItemCompositeHeightUnit]);
+    AppContextValue.setCompositeDuration(compositeID, sendConfigContent[configItemCompositeDuration]);
     // AppContextValue.createComposite(
     //   sendConfigContent[configItemCompositeName],
     //   sendConfigContent[configItemCompositeHorizontalMode],

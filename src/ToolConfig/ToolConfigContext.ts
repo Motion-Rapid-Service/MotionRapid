@@ -64,6 +64,7 @@ export const ConfigItemNewComposite: Array<string> = [
   "compositeWidthUnit",
   "compositeHeight",
   "compositeHeightUnit",
+  "compositeDuration",
 ];
 export const ConfigItemNewAnimatorGroup: Array<string> = ["animatorGroupFormatSpecies"];
 export const ConfigItemOperationKeyframe: Array<string> = ["time", "value"];

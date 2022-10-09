@@ -106,6 +106,15 @@ const toolBarComponent = (props: any) => {
     const addClass = new buildSourceSpecies.SourceSpeciesTextClass("( 'ω')", "'Noto Sans JP', sans-serif");
     const t_MediaObjectID = AppContextValue.createMediaObject(addClass);
     AppContextValue.linkMediaObject(funcdata["choiceComposite"], t_MediaObjectID);
+
+    const addAnimatorGroup = ["blockSize", "font"];
+
+    for (let i = 0; i < addAnimatorGroup.length; i++) {
+      const thenAddAnimatorGroup = addAnimatorGroup[i];
+      const animatorGroupID = AppContextValue.createAnimatorGroup(thenAddAnimatorGroup);
+      AppContextValue.linkAnimatorGroup(t_MediaObjectID, animatorGroupID);
+      AppContextValue.operationLinkAnimatorGroup(animatorGroupID, thenAddAnimatorGroup);
+    }
   };
 
   const toolBarCreateMediaObjectComposite = (funcdata: { [name: string]: any }) => {
@@ -120,6 +129,15 @@ const toolBarComponent = (props: any) => {
     const addClass = new buildSourceSpecies.SourceSpeciesImageClass(null);
     const t_MediaObjectID = AppContextValue.createMediaObject(addClass);
     AppContextValue.linkMediaObject(funcdata["choiceComposite"], t_MediaObjectID);
+
+    const addAnimatorGroup = ["blockSize", "filter"];
+
+    for (let i = 0; i < addAnimatorGroup.length; i++) {
+      const thenAddAnimatorGroup = addAnimatorGroup[i];
+      const animatorGroupID = AppContextValue.createAnimatorGroup(thenAddAnimatorGroup);
+      AppContextValue.linkAnimatorGroup(t_MediaObjectID, animatorGroupID);
+      AppContextValue.operationLinkAnimatorGroup(animatorGroupID, thenAddAnimatorGroup);
+    }
   };
 
   const toolBarCreateMediaObjectShape = (funcdata: { [name: string]: any }) => {
@@ -136,8 +154,6 @@ const toolBarComponent = (props: any) => {
       AppContextValue.linkAnimatorGroup(t_MediaObjectID, animatorGroupID);
       AppContextValue.operationLinkAnimatorGroup(animatorGroupID, thenAddAnimatorGroup);
     }
-
-    AppContextValue.updateDOM();
   };
 
   const toolBarCreateAnimatorGroup = (funcdata: { [name: string]: any }) => {

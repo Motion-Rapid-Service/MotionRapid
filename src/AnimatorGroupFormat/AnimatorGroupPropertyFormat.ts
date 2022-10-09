@@ -7,7 +7,7 @@ export type PropertyFormatSpecies = {
   cssApplieTags: Array<string>;
 };
 
-export const propertySpeciesUnitList: Array<string> = ["not", "number", "rgb", "rgba", "text", "image", "rotate", "rate"]; //ここで設定画面の方式を決定
+export const propertySpeciesUnitList: Array<string> = ["not", "number", "rgb", "rgba", "text", "image", "rotate", "rate", "opacityA"]; //ここで設定画面の方式を決定
 export const cssValueUnit: { [name: string]: Array<string> } = {
   not: [],
   number: ["px", "vw", "vh", "%"],
@@ -16,6 +16,7 @@ export const cssValueUnit: { [name: string]: Array<string> } = {
   text: [],
   rotate: ["deg"],
   rate: ["%"],
+  opacityA: [],
 };
 
 export const PropertyFormat_margin: PropertyFormatSpecies = {
@@ -49,7 +50,7 @@ export const PropertyFormat_backgroundColor: PropertyFormatSpecies = {
     r: propertySpeciesUnitList[3],
     g: propertySpeciesUnitList[3],
     b: propertySpeciesUnitList[3],
-    a: propertySpeciesUnitList[3],
+    a: propertySpeciesUnitList[8],
   },
 
   cssWriteFunction: (send_propertyName: string, send_cssPropertySpeciesList: { [name: string]: string }) => {
@@ -126,7 +127,7 @@ export const PropertyFormat_blockBorder: PropertyFormatSpecies = {
     r: propertySpeciesUnitList[3],
     g: propertySpeciesUnitList[3],
     b: propertySpeciesUnitList[3],
-    a: propertySpeciesUnitList[3],
+    a: propertySpeciesUnitList[8],
   },
 
   cssWriteFunction: (send_propertyName: string, send_cssPropertySpeciesList: { [name: string]: string }) => {
@@ -200,7 +201,7 @@ export const PropertyFormat_opacity: PropertyFormatSpecies = {
   cssPropertyName: "透明度(1~100)",
   cssApplieTags: [],
   cssPropertySpeciesList: {
-    opacity: propertySpeciesUnitList[0],
+    opacity: propertySpeciesUnitList[8],
   },
 
   cssWriteFunction: (send_propertyName: string, send_cssPropertySpeciesList: { [name: string]: string }) => {
@@ -221,7 +222,7 @@ export const PropertyFormat_Color: PropertyFormatSpecies = {
     r: propertySpeciesUnitList[3],
     g: propertySpeciesUnitList[3],
     b: propertySpeciesUnitList[3],
-    a: propertySpeciesUnitList[3],
+    a: propertySpeciesUnitList[8],
   },
 
   cssWriteFunction: (send_propertyName: string, send_cssPropertySpeciesList: { [name: string]: string }) => {
@@ -249,12 +250,12 @@ export const PropertyFormat_GradationColor: PropertyFormatSpecies = {
     r1: propertySpeciesUnitList[3],
     g1: propertySpeciesUnitList[3],
     b1: propertySpeciesUnitList[3],
-    a1: propertySpeciesUnitList[3],
+    a1: propertySpeciesUnitList[8],
 
     r2: propertySpeciesUnitList[3],
     g2: propertySpeciesUnitList[3],
     b2: propertySpeciesUnitList[3],
-    a2: propertySpeciesUnitList[3],
+    a2: propertySpeciesUnitList[8],
   },
 
   //background: linear-gradient(-90deg, rgb(80, 80, 80), rgb(100, 100, 100));
@@ -348,7 +349,7 @@ export const PropertyFormat_textBorderShadow: PropertyFormatSpecies = {
     r: propertySpeciesUnitList[3],
     g: propertySpeciesUnitList[3],
     b: propertySpeciesUnitList[3],
-    a: propertySpeciesUnitList[3],
+    a: propertySpeciesUnitList[8],
   },
 
   cssWriteFunction: (send_propertyName: string, send_cssPropertySpeciesList: { [name: string]: string }) => {

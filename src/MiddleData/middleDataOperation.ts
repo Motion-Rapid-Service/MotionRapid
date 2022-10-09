@@ -53,7 +53,8 @@ export default class MiddleDataOperation {
     composite_Width: number = 0,
     composite_WidthUnit: string = "px",
     composite_Height: number = 0,
-    composite_HeightUnit: string = "px"
+    composite_HeightUnit: string = "px",
+    composite_Duration: number = 3000
   ) => {
     const newID = "Composite_" + getUUID();
     const newObj = new middleDataClass.Composite(
@@ -65,7 +66,8 @@ export default class MiddleDataOperation {
       composite_Width,
       composite_WidthUnit,
       composite_Height,
-      composite_HeightUnit
+      composite_HeightUnit,
+      composite_Duration
 
       // middleDataClass.Composite_HorizontalMode[1]
     );
@@ -548,6 +550,12 @@ export default class MiddleDataOperation {
     this.DataCentral.OwnedClass_Composite[compositeID].playheadTimePos = time;
   };
 
+  setCompositeDuration = (compositeID: string, time: number) => {
+    if (!hasKeyFound(compositeID, this.DataCentral.OwnedClass_Composite)) {
+      return;
+    }
+    this.DataCentral.OwnedClass_Composite[compositeID].Composite_Duration = time;
+  };
   setCompositePreviewViewPos = (compositeID: string, pos: { x: number; y: number }) => {
     if (!hasKeyFound(compositeID, this.DataCentral.OwnedClass_Composite)) {
       return;

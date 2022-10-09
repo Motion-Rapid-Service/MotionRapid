@@ -69,7 +69,6 @@
 }
 
 .layer_panel-animator .layer_panel-animator-entity p {
-  width: 60px;
   padding-left: 4px;
 }
 
@@ -82,6 +81,10 @@
   background-repeat: no-repeat;
 
   margin-right: 3px;
+}
+
+.layer_panel-animator-entity-animator_name {
+  width: 100px;
 }
 
 .layer_panel-animator-entity .layer_panel-animator-entity-css_property {
@@ -105,4 +108,8 @@
   line-height: 18px;
   font-size: 12px; /*フォントサイズ*/
   margin-left: 5px;
+}
+
+.layer_panel-animator-entity-css_property-unit_message {
+  width: 80px;
 }

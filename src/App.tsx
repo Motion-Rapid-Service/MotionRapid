@@ -370,6 +370,7 @@ const App = () => {
           setCompositeHeight: middleDataOperation.setCompositeHeight,
           setCompositeHeightUnit: middleDataOperation.setCompositeHeightUnit,
 
+          setCompositeDuration: middleDataOperation.setCompositeDuration,
           createComposite: middleDataOperation.createComposite,
           createMediaObject: middleDataOperation.createMediaObject,
           createAnimatorGroup: middleDataOperation.createAnimatorGroup,
