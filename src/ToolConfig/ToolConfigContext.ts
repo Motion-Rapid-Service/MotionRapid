@@ -2,14 +2,24 @@ import * as React from "react";
 const { useContext, useReducer, createContext, useEffect, useState } = React;
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-export const configSettingGUIparts: Array<string> = ["notExist", "textbox", "textboxNumber", "listBox", "checkBox", "radiobutton", "inputImage", "inputJson"];
+export const configSettingGUIparts: Array<string> = [
+  "notExist",
+  "textbox",
+  "textboxNumber",
+  "listBox",
+  "checkBox",
+  "radiobutton",
+  "inputImage",
+  "inputJson",
+  "compositeSelect",
+];
 
 export type typeExposeValueListBox = { initialValue: string; candidateList: Array<string> };
 export type typeExposeValueTextBox = { initialValue: string | number };
 export type typeExposeValueUpload = { initialValue: string };
 
 type SwitchConfigSettingItemsCompositeContextValue = {
-  configInput: string;
+  // configInput: string;
   configInputSetState: Function;
   exposeValue: typeExposeValueListBox | typeExposeValueTextBox;
 };

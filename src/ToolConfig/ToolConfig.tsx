@@ -49,24 +49,34 @@ const SwitchConfigSettingItemsComposite = (props: any) => {
   if (settingItemsData.thenConfigSettingGUIparts == ToolConfigContext.configSettingGUIparts[7]) {
     return <ToolConfigParts.ConfigJsonUpload />;
   }
+  if (settingItemsData.thenConfigSettingGUIparts == ToolConfigContext.configSettingGUIparts[8]) {
+    return <ToolConfigParts.ConfigSelectComposite />;
+  }
 };
 
 const ConfigSettingItemsCompositeEntity = (props: any) => {
   //設定項目ごとに分けているコンポーネント
-  const settingItemsData = props.output;
-  const [configInput, configInputSetState] = useState<string | number | boolean>(settingItemsData.exposeValue[0]); //設定項目の選択状況を保持
-  const ConfigModeContextValue = useContext(ToolConfigContext.ConfigModeContext);
+  const settingItemsData: ToolConfigContext.settingItemsData = props.output;
+  // const [configInput, configInputSetState] = useState<string | number | boolean>(settingItemsData.exposeValue[0]); //設定項目の選択状況を保持
+  // const ConfigModeContextValue = useContext(ToolConfigContext.ConfigModeContext);
 
-  useEffect(() => {
+  configContent[settingItemsData.configItem] = settingItemsData.exposeValue.initialValue;
+
+  const configInputSetState = (configInput: string | number | boolean) => {
     configContent[settingItemsData.configItem] = configInput;
-    //console.log("configInput UseEffect",configInput,configContent)
-    // ConfigModeContextValue.configContentSetStateValue(settingItemsData.configItem, configInput);
-  }, [configInput]);
+  };
+
+  // };
+
+  // useEffect(() => {
+  //   //console.log("configInput UseEffect",configInput,configContent)
+  //   // ConfigModeContextValue.configContentSetStateValue(settingItemsData.configItem, configInput);
+  // }, [configInput]);
 
   return (
     <ToolConfigContext.SwitchConfigSettingItemsCompositeContext.Provider
       value={{
-        configInput: String(configInput),
+        // configInput: String(configInput),
         configInputSetState: configInputSetState,
         exposeValue: settingItemsData.exposeValue,
       }}
@@ -592,17 +602,21 @@ const ComponentOptionConvertConfigMode = (props: any) => {
 
     const OwnedID_Composite: Array<string> = AppContextValue.getOwnedID_Composite();
 
-    const settingItemsDataImage: ToolConfigContext.settingItemsData = {
-      settingTitle: "対象コンポジット",
-      settingMessage: "選択してください",
-      thenConfigSettingGUIparts: ToolConfigContext.configSettingGUIparts[3],
-      exposeValue: { initialValue: OwnedID_Composite[0], candidateList: OwnedID_Composite },
-      configItem: configItemMediaObjextCompositeModeComposite,
-    };
-
     const configItemMediaObjectName: string = ToolConfigContext.ConfigItemMediaObjextCompositeMode[1];
     const configModeArgsOption = SetupConfigContextValue.getConfigModeArgsOption();
     const mediaObjectName: string = AppContextValue.getMediaObjectName(configModeArgsOption.MediaObject_ID);
+
+    console.log("itemMediaObjectCompositeMode mediaObjectNameA", mediaObjectName);
+
+    const SourceSpeciesClass: buildSourceSpecies.SourceSpeciesCompositeClass = AppContextValue.getMediaObjectSourceSpecies(configModeArgsOption.MediaObject_ID);
+
+    const settingItemsDataImage: ToolConfigContext.settingItemsData = {
+      settingTitle: "対象コンポジット",
+      settingMessage: "選択してください",
+      thenConfigSettingGUIparts: ToolConfigContext.configSettingGUIparts[8],
+      exposeValue: { initialValue: SourceSpeciesClass.compositeID, candidateList: OwnedID_Composite },
+      configItem: configItemMediaObjextCompositeModeComposite,
+    };
 
     const settingItemsDataImage2: ToolConfigContext.settingItemsData = {
       settingTitle: "メディアオブジェクトの名前",
@@ -623,11 +637,16 @@ const ComponentOptionConvertConfigMode = (props: any) => {
     const configItemMediaObjextCompositeModeComposite: string = ToolConfigContext.ConfigItemMediaObjextCompositeMode[0];
     const configModeArgsOption = SetupConfigContextValue.getConfigModeArgsOption();
     const addClass = new buildSourceSpecies.SourceSpeciesCompositeClass(String(sendConfigContent[configItemMediaObjextCompositeModeComposite]));
+
     AppContextValue.operationMediaObjectSourceSpeciesClass(configModeArgsOption.MediaObject_ID, addClass);
 
     const configItemMediaObjectName: string = ToolConfigContext.ConfigItemMediaObjextCompositeMode[1];
 
+    console.log("itemMediaObjectCompositeMode mediaObjectNameB", sendConfigContent, sendConfigContent[configItemMediaObjectName], configItemMediaObjectName);
+
     AppContextValue.setMediaObjectName(configModeArgsOption.MediaObject_ID, sendConfigContent[configItemMediaObjectName]);
+
+    SetupEditorContextValue.previewUpdateDOM();
   };
 
   const buttonDeleteFuncMediaObject = (sendConfigContent: { [name: string]: string | number | boolean }) => {
@@ -683,6 +702,7 @@ const ComponentOptionConvertConfigMode = (props: any) => {
   let settingItemsTemp: Array<ToolConfigContext.settingItemsData>; //上書きされる
   let buttonOperationFunc: Function; //上書きされる
   let buttonDeleteFunc: Function = null;
+  let buttonOpenFunc: Function = null;
 
   switch (configMode) {
     case configModeList[1]: //コンポジットの設定

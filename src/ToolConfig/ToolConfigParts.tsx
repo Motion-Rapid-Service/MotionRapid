@@ -33,6 +33,39 @@ const ConfigSelectOption = (props: any) => {
   return <option value={props.output}>{props.output}</option>;
 };
 
+export const ConfigSelectComposite = () => {
+  const SwitchConfigSettingItemsCompositeContextValue = useContext(ToolConfigContext.SwitchConfigSettingItemsCompositeContext);
+
+  const exposeValue = SwitchConfigSettingItemsCompositeContextValue.exposeValue as ToolConfigContext.typeExposeValueListBox;
+
+  const [textState, textSetState] = useState<string>(exposeValue.initialValue);
+
+  const onChange = (event: any) => {
+    const selectValue = String(event.target.value);
+    textSetState(selectValue);
+    // const thisExposeValue = exposeValue.candidateList[selectValue];
+    SwitchConfigSettingItemsCompositeContextValue.configInputSetState(selectValue);
+  };
+
+  return (
+    <select onChange={onChange} value={textState}>
+      {exposeValue.candidateList.map((output: string, index: number) => (
+        <ConfigSelectOptionComposite output={output} index={Number(index)} key={index} />
+      ))}
+    </select>
+  );
+};
+
+const ConfigSelectOptionComposite = (props: any) => {
+  const AppContextValue = useContext(AppContext);
+  const compositeName = AppContextValue.getCompositeName(props.output);
+  return (
+    <option value={props.output}>
+      {compositeName} / {props.output}
+    </option>
+  );
+};
+
 export const ConfigTextBox = () => {
   const SwitchConfigSettingItemsCompositeContextValue = useContext(ToolConfigContext.SwitchConfigSettingItemsCompositeContext);
   const exposeValue = SwitchConfigSettingItemsCompositeContextValue.exposeValue as ToolConfigContext.typeExposeValueTextBox;
