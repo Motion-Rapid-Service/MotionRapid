@@ -122,6 +122,24 @@ const toolBarComponent = (props: any) => {
     AppContextValue.linkMediaObject(funcdata["choiceComposite"], t_MediaObjectID);
   };
 
+  const toolBarCreateMediaObjectShape = (funcdata: { [name: string]: any }) => {
+    SetupUndoContextValue.pushEditHistory();
+    const addClass = new buildSourceSpecies.SourceSpeciesChapeClass();
+    const t_MediaObjectID = AppContextValue.createMediaObject(addClass);
+    AppContextValue.linkMediaObject(funcdata["choiceComposite"], t_MediaObjectID);
+
+    const addAnimatorGroup = ["blockSize", "backgroundColor", "opacity"];
+
+    for (let i = 0; i < addAnimatorGroup.length; i++) {
+      const thenAddAnimatorGroup = addAnimatorGroup[i];
+      const animatorGroupID = AppContextValue.createAnimatorGroup(thenAddAnimatorGroup);
+      AppContextValue.linkAnimatorGroup(t_MediaObjectID, animatorGroupID);
+      AppContextValue.operationLinkAnimatorGroup(animatorGroupID, thenAddAnimatorGroup);
+    }
+
+    AppContextValue.updateDOM();
+  };
+
   const toolBarCreateAnimatorGroup = (funcdata: { [name: string]: any }) => {
     SetupConfigContextValue.configModeSetState(SetupConfigContextValue.configModeList[2]);
     SetupConfigContextValue.configSwitchGUISetState(SetupConfigContextValue.configSwitchGUIList[1]);
@@ -151,7 +169,8 @@ const toolBarComponent = (props: any) => {
     insertToolBarEditorDictSetStateValue(toolBar4, "4A", "テキスト挿入", toolBarCreateMediaObjectText, false);
     insertToolBarEditorDictSetStateValue(toolBar4, "4B", "コンポジット挿入", toolBarCreateMediaObjectComposite, false);
     insertToolBarEditorDictSetStateValue(toolBar4, "4C", "画像挿入", toolBarCreateMediaObjectImage, false);
-    insertToolBarEditorDictSetStateValue(toolBar4, "4D", "エフェクトを追加する", toolBarCreateAnimatorGroup, false);
+    insertToolBarEditorDictSetStateValue(toolBar4, "4D", "図形挿入", toolBarCreateMediaObjectShape, false);
+    insertToolBarEditorDictSetStateValue(toolBar4, "4E", "エフェクトを追加する", toolBarCreateAnimatorGroup, false);
 
     let toolBar5 = "templateInput";
     insertToolBarClassificationArraySetStateValue(toolBar5, "テンプレート読込", false);

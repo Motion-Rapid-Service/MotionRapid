@@ -8,6 +8,7 @@ export const sourceSpeciesList = [
   "text", //テキスト
   "composite", //他のコンポジットを呼びだす,
   "image", //画像をCSSに適用する
+  "shape",
 ];
 
 export const writeIndentHTML = (indentHTML: number) => {
@@ -21,6 +22,8 @@ export const writeIndentHTML = (indentHTML: number) => {
 };
 
 export const sourceSpeciesFunctionDefault = () => {};
+
+export const sourceSpeciesFunctionShape = () => {};
 
 export const sourceSpeciesFunctionText = (
   jsonDataCentral: Function,
@@ -189,5 +192,17 @@ export class SourceSpeciesImageClass extends SourceSpeciesClass {
   constructor(send_mediaTableID: string) {
     super();
     this.mediaTableID = send_mediaTableID;
+  }
+}
+
+export class SourceSpeciesChapeClass extends SourceSpeciesClass {
+  sourceSpecies = sourceSpeciesList[4];
+  mediaObejctDefaultColor = [150, 50, 150];
+  mediaObejctSelectColor = [200, 100, 200];
+
+  //DataCentral_MediaTableに入っているID
+
+  constructor() {
+    super();
   }
 }

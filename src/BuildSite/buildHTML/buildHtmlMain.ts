@@ -302,6 +302,10 @@ const parseMediaObject = (
       rootStyleID
     );
   }
+
+  if (thenSourceSpecies === buildSourceSpecies.sourceSpeciesList[4]) {
+    buildSourceSpecies.sourceSpeciesFunctionShape();
+  }
   CSSBuildMain(getJsonDataCentral(), rootStyleID, rootScriptID, compositeID, mediaObjectID, compositeTimeFlag, compositePreviewTime);
 
   return;

@@ -27,7 +27,7 @@ body * {
   /*padding: 2px; パディング*/
   border-radius: 3px; /*角丸にする*/
   /*box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.1) inset; 影を付ける*/
-  background-color: rgb(60, 60, 60);
+  background-color: rgb(80, 80, 80);
   color: rgb(240, 240, 240);
 }
 
@@ -63,18 +63,26 @@ body * {
   position: relative;
 }
 
+.editor-layout * {
+  user-select: none;
+  /* z-index: 500; */
+}
+
 .composite_editor-layout {
   position: absolute;
   height: 100%;
   overflow: hidden;
   display: flex;
 }
+
 .preview-layout {
   position: absolute;
-  width: 100%;
-  height: 100%;
+  margin-left: var(--layout-expand-min_size);
+  width: calc(100% - var(--layout-expand-min_size) * 2);
+  height: calc(100% - var(--layout-expand-min_size));
   overflow: hidden;
 }
+
 .timeline-layout {
   position: absolute;
   width: 100%;
@@ -107,6 +115,8 @@ body * {
   width: var(--layout-expand-min_size);
   height: var(--layout-expand-max_size);
   background-color: var(--layout-expand-color);
+
+  cursor: col-resize;
 }
 .preview-layout-expand {
 }
@@ -114,6 +124,7 @@ body * {
   width: var(--layout-expand-max_size);
   height: var(--layout-expand-min_size);
   background-color: var(--layout-expand-color);
+  cursor: row-resize;
 }
 
 .timeline-main {
@@ -574,10 +585,9 @@ body * {
   /* position: relative; */
   border-radius: 20px;
   margin-right: 10px;
-  min-width: 160px;
+
   padding-left: 10px;
   padding-right: 10px;
-  height: 30px;
 
   display: flex;
   align-items: center;
@@ -587,10 +597,33 @@ body * {
 
   border-color: rgb(255, 255, 255);
 }
+
+.tool_config-large .config_parts-button {
+  width: 160px;
+  height: 30px;
+}
+
+.tool_config-popup .config_parts-button {
+  width: 80px;
+  height: 30px;
+}
+
 .config_parts-button p {
   color: rgb(255, 255, 255);
   /* position: absolute; */
   margin: 0px;
+}
+
+.config_parts-textbox {
+  margin-top: 3px;
+}
+
+.config_parts-textbox .text_box_common {
+  border-radius: 8px; /*角丸にする*/
+  /*box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.1) inset; 影を付ける*/
+  background-color: rgb(250, 250, 250);
+  color: rgb(10, 10, 10);
+  padding-left: 4px;
 }
 
 .timeNavigator-header {

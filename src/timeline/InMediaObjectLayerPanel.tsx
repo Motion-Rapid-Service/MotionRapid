@@ -123,16 +123,17 @@ export const TimelineAreaLayerPanelComponent = (props: any) => {
 
     TimelineAreaDivContextValue.focusMediaObjectSpaceSetState(spaceNumber);
   };
+
   const mouseDown = (event: any) => {
     if (SetupConfigContextValue.configMode !== SetupConfigContextValue.configModeList[0]) {
       return;
     }
 
-    const mousePushPosY = timelineMousePosition.timelineMousePostion(event, TimelineAreaDivContextValue.timelineScrollElement)[1];
-
-    UserHandLayerPanelList[MediaObjectContextValue.mediaObjectUUID] = new UserHandLayerPanelOperation(mousePushPosY);
+    if (event.ctrlKey || event.metaKey) {
+      const mousePushPosY = timelineMousePosition.timelineMousePostion(event, TimelineAreaDivContextValue.timelineScrollElement)[1];
+      UserHandLayerPanelList[MediaObjectContextValue.mediaObjectUUID] = new UserHandLayerPanelOperation(mousePushPosY);
+    }
   };
-
   useEffect(() => {
     window.addEventListener("mousemove", mouseMove);
     window.addEventListener("mouseup", mouseUp);
@@ -159,8 +160,11 @@ export const LayerPanelMediaObjectComponent = (props: any) => {
   // const MediaObjectContextValue = useContext(MediaObjectContext);
   const animatorOpen = MediaObjectContextValue.animatorOpen as boolean;
   const animatorOpenSetState = MediaObjectContextValue.animatorOpenSetState;
+  const TimelineAreaDivContextValue = useContext(TimelineAreaDivContext);
   const MouseDoubleClick = (event: any) => {
     animatorOpenSetState(!animatorOpen);
+
+    TimelineAreaDivContextValue.focusMediaObjectSpaceSetState(-1);
   };
 
   return (
@@ -269,6 +273,8 @@ const AnimaterInsertKeyframeButton = (props: any) => {
   const AppContextValue = useContext(AppContext);
   const SetupUndoContextValue = useContext(SetupUndoContext);
 
+  const TimelineAreaDivContextValue = useContext(TimelineAreaDivContext);
+
   const mouseDown = () => {
     SetupUndoContextValue.pushEditHistory();
 
@@ -278,7 +284,10 @@ const AnimaterInsertKeyframeButton = (props: any) => {
 
     const temp: MiddleDataOperationType.OperationKeyframeTimeType = { KeyframeID: keyframeID, time: 100 };
 
+    // TimelineAreaDivContextValue.focusMediaObjectSpaceSetState(-1);
+
     AppContextValue.operationKeyframeTime(temp);
+
     AppContextValue.updateDOM();
   };
   return <div className="layer_panel-animator-entity-insert_keyframe_button" onMouseDown={mouseDown}></div>;
@@ -431,12 +440,17 @@ const AnimaterCSSproperty = (props: any) => {
 const AnimaterCSSpropertyValue = () => {
   const LayerPanelAnimaterContextValue = useContext(LayerPanelAnimaterContext);
   const AnimaterCSSpropertyContextValue = useContext(AnimaterCSSpropertyContext);
+
+  const TimelineAreaDivContextValue = useContext(TimelineAreaDivContext);
+
   const onChange = (event: any) => {
     const text = event.target.value;
     console.log("onChangeAnimater");
     // AnimaterCSSpropertyContextValue.animaterCSSpropertyValueSetState(String(text));
 
     AnimaterCSSpropertyContextValue.animaterCSSpropertyValueUpdate({ actionType: "user", cssValue: String(text) });
+
+    // TimelineAreaDivContextValue.focusMediaObjectSpaceSetState(-1);
   };
   return <input className="text_box_common" type="number" value={AnimaterCSSpropertyContextValue.animaterCSSpropertyValue} onChange={onChange} />;
 };
@@ -452,10 +466,14 @@ const AnimaterCSSpropertyUnit = () => {
   const cssPropertySpecies = cssPropertySpeciesList[LayerPanelAnimaterContextValue.Animator_propertySpecies]; //そのvalueはどのような指定方法をするか 文字列か数値か
   const cssValueUnitList: Array<string> = Object.assign(AnimatorGroupPropertyFormat.cssValueUnit[cssPropertySpecies]); //そのcssのpropertyがどのような値をとりえるか
 
+  const TimelineAreaDivContextValue = useContext(TimelineAreaDivContext);
+
   const onChange = (event: any) => {
     const selectValue = String(event.target.value);
     console.log("selectValue", selectValue, event.target.value);
     AnimaterCSSpropertyContextValue.animaterCSSpropertyUnitUpdate({ actionType: "", cssUnit: selectValue });
+
+    // TimelineAreaDivContextValue.focusMediaObjectSpaceSetState(-1);
   };
 
   if (cssValueUnitList.length === 0) {
