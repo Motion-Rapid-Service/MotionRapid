@@ -146,7 +146,7 @@ const toolBarComponent = (props: any) => {
     const t_MediaObjectID = AppContextValue.createMediaObject(addClass);
     AppContextValue.linkMediaObject(funcdata["choiceComposite"], t_MediaObjectID);
 
-    const addAnimatorGroup = ["blockSize", "backgroundColor", "opacity"];
+    const addAnimatorGroup = ["blockSize", "backgroundColor"];
 
     for (let i = 0; i < addAnimatorGroup.length; i++) {
       const thenAddAnimatorGroup = addAnimatorGroup[i];
