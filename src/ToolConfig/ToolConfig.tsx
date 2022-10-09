@@ -332,7 +332,7 @@ const ComponentOptionConvertConfigMode = (props: any) => {
       settingMessage: "選択してください",
       thenConfigSettingGUIparts: ToolConfigContext.configSettingGUIparts[1],
       exposeValue: { initialValue: compositeClass.Composite_Duration },
-      configItem: configItemCompositeHeight,
+      configItem: configItemCompositeDuration,
     };
 
     settingItemsTemp.push(settingItemsDataCompositeName);
