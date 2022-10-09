@@ -5,10 +5,9 @@
   /* position: relative; */
   border-radius: 20px;
   margin-right: 10px;
-  min-width: 160px;
+
   padding-left: 10px;
   padding-right: 10px;
-  height: 30px;
 
   display: flex;
   align-items: center;
@@ -18,6 +17,17 @@
 
   border-color: rgb(255, 255, 255);
 }
+
+.tool_config-large .config_parts-button {
+  width: 160px;
+  height: 30px;
+}
+
+.tool_config-popup .config_parts-button {
+  width: 80px;
+  height: 30px;
+}
+
 .config_parts-button p {
   color: rgb(255, 255, 255);
   /* position: absolute; */
@@ -26,4 +36,12 @@
 
 .config_parts-textbox {
   margin-top: 3px;
+}
+
+.config_parts-textbox .text_box_common {
+  border-radius: 8px; /*角丸にする*/
+  /*box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.1) inset; 影を付ける*/
+  background-color: rgb(250, 250, 250);
+  color: rgb(10, 10, 10);
+  padding-left: 4px;
 }

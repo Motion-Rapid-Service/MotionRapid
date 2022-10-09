@@ -28,6 +28,7 @@ const SetupConfig = () => {
     "mediaObjectImageMode", //メディアオブジェクトがイメージ設定モードの時の設定画面を呼び出すようにする
     "mediaObjectJsonMode",
     "editComposite",
+    "editAnimatorGroup",
   ];
   const [configMode, configModeSetState] = useState<string>(configModeList[0]);
 

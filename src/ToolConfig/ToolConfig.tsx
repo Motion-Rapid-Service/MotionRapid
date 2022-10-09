@@ -98,6 +98,16 @@ const ConfigButtonBottm = (props: any) => {
   //右下の決定button
   const ConfigModeContextValue = useContext(ToolConfigContext.ConfigModeContext);
 
+  if (ConfigModeContextValue.buttonDeleteFunc !== null) {
+    return (
+      <div className="tool_config-area-bottom-area">
+        <ToolConfigParts.ConfigButton text={"削除"} buttonOperationFunc={ConfigModeContextValue.buttonDeleteFunc} configContent={configContent} />
+        <ToolConfigParts.ConfigButton text={"決定"} buttonOperationFunc={ConfigModeContextValue.buttonOperationFunc} configContent={configContent} />
+        <ToolConfigParts.ConfigButton text={"キャンセル"} />
+      </div>
+    );
+  }
+
   return (
     <div className="tool_config-area-bottom-area">
       <ToolConfigParts.ConfigButton text={"決定"} buttonOperationFunc={ConfigModeContextValue.buttonOperationFunc} configContent={configContent} />
@@ -335,6 +345,18 @@ const ComponentOptionConvertConfigMode = (props: any) => {
     console.log("buttonOperationFunc", sendConfigContent);
   };
 
+  const buttonDeleteFuncEditComposite = (sendConfigContent: { [name: string]: string | number | boolean }) => {
+    SetupUndoContextValue.pushEditHistory();
+
+    console.log("buttonDeleteFuncEditComposite");
+
+    const configModeArgsOption = SetupConfigContextValue.getConfigModeArgsOption();
+    const compositeID: string = configModeArgsOption["compositeID"];
+
+    AppContextValue.deleteComposite(compositeID);
+    SetupEditorContextValue.previewUpdateDOM();
+  };
+
   const itemNewAnimatorGroup = () => {
     let settingItemsTemp: Array<ToolConfigContext.settingItemsData> = [];
 
@@ -448,6 +470,18 @@ const ComponentOptionConvertConfigMode = (props: any) => {
     }
 
     AppContextValue.updateDOM();
+  };
+
+  const buttonDeleteFuncKeyframe = (sendConfigContent: { [name: string]: string | number | boolean }) => {
+    SetupUndoContextValue.pushEditHistory();
+    const userHandKeyframeIDArray: Array<string> = UserHand.getUserHandKeyframeIDArray();
+
+    for (let i = 0; i < userHandKeyframeIDArray.length; i++) {
+      const thenUserHandKeyframeID = userHandKeyframeIDArray[i];
+      AppContextValue.deleteKeyframe(thenUserHandKeyframeID);
+    }
+
+    SetupEditorContextValue.previewUpdateDOM();
   };
 
   const itemMediaObjectTextMode = () => {
@@ -596,6 +630,13 @@ const ComponentOptionConvertConfigMode = (props: any) => {
     AppContextValue.setMediaObjectName(configModeArgsOption.MediaObject_ID, sendConfigContent[configItemMediaObjectName]);
   };
 
+  const buttonDeleteFuncMediaObject = (sendConfigContent: { [name: string]: string | number | boolean }) => {
+    SetupUndoContextValue.pushEditHistory();
+    const configModeArgsOption = SetupConfigContextValue.getConfigModeArgsOption();
+    AppContextValue.deleteMediaObject(configModeArgsOption.Composite_ID, configModeArgsOption.MediaObject_ID);
+    SetupEditorContextValue.previewUpdateDOM();
+  };
+
   const itemUploadProject = () => {
     const configItemUploadProjectFile: string = ToolConfigContext.ConfigItemUploadProject[0];
     let settingItemsTemp: Array<ToolConfigContext.settingItemsData> = [];
@@ -627,8 +668,21 @@ const ComponentOptionConvertConfigMode = (props: any) => {
     };
   };
 
+  const itemOperationAnimatorGroup = () => {
+    let settingItemsTemp: Array<ToolConfigContext.settingItemsData> = [];
+    return settingItemsTemp;
+  };
+
+  const buttonDeleteFuncAnimatorGroup = (sendConfigContent: { [name: string]: string | number | boolean }) => {
+    SetupUndoContextValue.pushEditHistory();
+    const configModeArgsOption = SetupConfigContextValue.getConfigModeArgsOption();
+    AppContextValue.deleteAnimatorGroup(configModeArgsOption.MediaObject_ID, configModeArgsOption.AnimatorGroup_ID);
+    SetupEditorContextValue.previewUpdateDOM();
+  };
+
   let settingItemsTemp: Array<ToolConfigContext.settingItemsData>; //上書きされる
   let buttonOperationFunc: Function; //上書きされる
+  let buttonDeleteFunc: Function = null;
 
   switch (configMode) {
     case configModeList[1]: //コンポジットの設定
@@ -642,18 +696,22 @@ const ComponentOptionConvertConfigMode = (props: any) => {
     case configModeList[3]: //キーフレームの設定
       settingItemsTemp = itemOperationKeyframe();
       buttonOperationFunc = buttonOperationFuncOperationKeyframe;
+      buttonDeleteFunc = buttonDeleteFuncKeyframe;
       break;
     case configModeList[4]: //メディアオブジェクトテキストモードの設定
       settingItemsTemp = itemMediaObjectTextMode();
       buttonOperationFunc = buttonOperationFuncMediaObjectTextMode;
+      buttonDeleteFunc = buttonDeleteFuncMediaObject;
       break;
     case configModeList[5]: //メディアオブジェクト画像モードの設定
       settingItemsTemp = itemMediaObjectImageMode();
       buttonOperationFunc = buttonOperationFuncMediaObjectImageMode;
+      buttonDeleteFunc = buttonDeleteFuncMediaObject;
       break;
     case configModeList[6]: //メディアオブジェクトコンポジットモードの設定
       settingItemsTemp = itemMediaObjectCompositeMode();
       buttonOperationFunc = buttonOperationFuncMediaObjectCompositeMode;
+      buttonDeleteFunc = buttonDeleteFuncMediaObject;
       break;
     case configModeList[7]: //ファイルデータをアップロードする時
       settingItemsTemp = itemUploadProject();
@@ -662,6 +720,13 @@ const ComponentOptionConvertConfigMode = (props: any) => {
     case configModeList[8]: //compositeを変更する
       settingItemsTemp = itemEditComposite();
       buttonOperationFunc = buttonOperationFuncEditComposite;
+      buttonDeleteFunc = buttonDeleteFuncEditComposite;
+      break;
+    case configModeList[9]: //animatorgroup
+      settingItemsTemp = itemOperationAnimatorGroup();
+      buttonOperationFunc = () => {};
+      buttonDeleteFunc = buttonDeleteFuncAnimatorGroup;
+
       break;
     default:
       break;
@@ -678,6 +743,7 @@ const ComponentOptionConvertConfigMode = (props: any) => {
           // configContent: configContent,
           // configContentSetStateValue: configContentSetStateValue,
           buttonOperationFunc: buttonOperationFunc,
+          buttonDeleteFunc: buttonDeleteFunc,
         }}
       >
         <div

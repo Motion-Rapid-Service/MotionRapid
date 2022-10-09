@@ -382,6 +382,11 @@ const App = () => {
           linkAnimator: middleDataOperation.linkAnimator,
           linkKeyframe: middleDataOperation.linkKeyframe,
 
+          deleteComposite: middleDataOperation.deleteComposite,
+          deleteMediaObject: middleDataOperation.deleteMediaObject,
+          deleteAnimatorGroup: middleDataOperation.deleteAnimatorGroup,
+          deleteKeyframe: middleDataOperation.deleteKeyframe,
+
           linkCSSPropertyHasAnimator: middleDataOperation.linkCSSPropertyHasAnimator,
           linkCSSPropertyHasKeyframe: middleDataOperation.linkCSSPropertyHasKeyframe,
 

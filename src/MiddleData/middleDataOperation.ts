@@ -605,9 +605,54 @@ export default class MiddleDataOperation {
     return tempAnimatorIDArray;
   };
 
-  deleteMediaObject = () => {};
-  deleteAnimator = () => {};
-  deleteKeyframe = () => {};
+  deleteComposite = (compositeID: string) => {
+    if (!hasKeyFound(compositeID, this.DataCentral.OwnedClass_Composite)) {
+      return;
+    }
+    delete this.DataCentral.OwnedClass_Composite[compositeID];
+  };
+  deleteMediaObject = (compositeID: string, mediaObjectID: string) => {
+    if (!hasKeyFound(compositeID, this.DataCentral.OwnedClass_Composite)) {
+      return;
+    }
+
+    const OwnedID_MediaObject = this.DataCentral.OwnedClass_Composite[compositeID].OwnedID_MediaObject;
+
+    const index = OwnedID_MediaObject.indexOf(mediaObjectID);
+    console.log("deleteMediaObjectA", index);
+    if (index > -1) {
+      this.DataCentral.OwnedClass_Composite[compositeID].OwnedID_MediaObject.splice(index, 1);
+    }
+
+    console.log("deleteMediaObjectB", index);
+  };
+  deleteAnimatorGroup = (mediaObjectID: string, animatorGroupID: string) => {
+    if (!hasKeyFound(mediaObjectID, this.DataCentral.OwnedClass_MediaObject)) {
+      return;
+    }
+
+    const OwnedID_AnimatorGroup = this.DataCentral.OwnedClass_MediaObject[mediaObjectID].OwnedID_AnimatorGroup;
+
+    const index = OwnedID_AnimatorGroup.indexOf(animatorGroupID);
+    console.log("deleteAnimatorGroupA", index);
+    if (index > -1) {
+      this.DataCentral.OwnedClass_MediaObject[mediaObjectID].OwnedID_AnimatorGroup.splice(index, 1);
+    }
+  };
+  deleteKeyframe = (keyframeID: string) => {
+    const animatorClass = Object.values(this.DataCentral.OwnedClass_Animator);
+    const alen = animatorClass.length;
+
+    for (let i = 0; i < alen; i++) {
+      const ownedID_keyframe = animatorClass[i].OwnedID_Keyframe;
+
+      const index = ownedID_keyframe.indexOf(keyframeID);
+      console.log("deletekeyframeA", index);
+      if (index > -1) {
+        this.DataCentral.OwnedClass_Animator[animatorClass[i].Animator_ID].OwnedID_Keyframe.splice(index, 1);
+      }
+    }
+  };
 
   layerMaximum = (compositeID: string) => {
     const targetMediaObjectLengh = this.DataCentral.OwnedClass_Composite[compositeID].OwnedID_MediaObject.length;

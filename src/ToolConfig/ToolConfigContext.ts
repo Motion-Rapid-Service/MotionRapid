@@ -34,6 +34,7 @@ type ConfigModeContextValue = {
   // configContent: ConfigItemType;
   // configContentSetStateValue: Function;
   buttonOperationFunc: Function;
+  buttonDeleteFunc: Function;
 };
 
 export const ConfigModeContext = createContext<ConfigModeContextValue>({} as ConfigModeContextValue);

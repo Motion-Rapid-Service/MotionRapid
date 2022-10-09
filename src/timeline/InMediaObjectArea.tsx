@@ -118,19 +118,28 @@ export const MediaObjectScrollComponent = () => {
 
     if (thenSourceSpeciesClass.sourceSpecies === buildSourceSpecies.sourceSpeciesList[1]) {
       //テキストの時
-      SetupConfigContextValue.setConfigModeArgsOption({ MediaObject_ID: MediaObjectContextValue.mediaObjectUUID });
+      SetupConfigContextValue.setConfigModeArgsOption({
+        MediaObject_ID: MediaObjectContextValue.mediaObjectUUID,
+        Composite_ID: SetupEditorContextValue.choiceComposite,
+      });
       SetupConfigContextValue.configModeSetState(SetupConfigContextValue.configModeList[4]);
     }
 
     if (thenSourceSpeciesClass.sourceSpecies === buildSourceSpecies.sourceSpeciesList[2]) {
       //ほかコンポジット呼び出しの時
-      SetupConfigContextValue.setConfigModeArgsOption({ MediaObject_ID: MediaObjectContextValue.mediaObjectUUID });
+      SetupConfigContextValue.setConfigModeArgsOption({
+        MediaObject_ID: MediaObjectContextValue.mediaObjectUUID,
+        Composite_ID: SetupEditorContextValue.choiceComposite,
+      });
       SetupConfigContextValue.configModeSetState(SetupConfigContextValue.configModeList[6]);
     }
 
     if (thenSourceSpeciesClass.sourceSpecies === buildSourceSpecies.sourceSpeciesList[3]) {
       //画像の時
-      SetupConfigContextValue.setConfigModeArgsOption({ MediaObject_ID: MediaObjectContextValue.mediaObjectUUID });
+      SetupConfigContextValue.setConfigModeArgsOption({
+        MediaObject_ID: MediaObjectContextValue.mediaObjectUUID,
+        Composite_ID: SetupEditorContextValue.choiceComposite,
+      });
       SetupConfigContextValue.configModeSetState(SetupConfigContextValue.configModeList[5]);
     }
 

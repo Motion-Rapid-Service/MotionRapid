@@ -83,6 +83,7 @@ export const TimelineAreaLayerPanelComponent = (props: any) => {
   const timelineAreaLayerPanelElement = useRef(null);
   const SetupEditorContextValue = useContext(SetupEditorContext);
   const SetupUndoContextValue = useContext(SetupUndoContext);
+  const SetupConfigContextValue = useContext(SetupConfigContext);
 
   const animatorOpen = MediaObjectContextValue.animatorOpen as boolean;
   const animatorOpenSetState = MediaObjectContextValue.animatorOpenSetState;
@@ -123,6 +124,10 @@ export const TimelineAreaLayerPanelComponent = (props: any) => {
     TimelineAreaDivContextValue.focusMediaObjectSpaceSetState(spaceNumber);
   };
   const mouseDown = (event: any) => {
+    if (SetupConfigContextValue.configMode !== SetupConfigContextValue.configModeList[0]) {
+      return;
+    }
+
     const mousePushPosY = timelineMousePosition.timelineMousePostion(event, TimelineAreaDivContextValue.timelineScrollElement)[1];
 
     UserHandLayerPanelList[MediaObjectContextValue.mediaObjectUUID] = new UserHandLayerPanelOperation(mousePushPosY);
@@ -194,9 +199,26 @@ export const LayerPanelAnimaterGroupComponent = (props: any) => {
   const DownstreamMiddleDataAnimator: ComponentConvertAnimatorGroupType = props.DownstreamMiddleDataAnimator;
   const AnimatorGroup_ID: string = DownstreamMiddleDataAnimator.AnimatorGroup_ID;
   const AnimatorGroup_Species: string = DownstreamMiddleDataAnimator.AnimatorGroup_Species;
+  const MediaObjectContextValue = useContext(MediaObjectContext);
+  const SetupConfigContextValue = useContext(SetupConfigContext);
+
+  const mouseDoubleClick = (event: any) => {
+    const clientX = event.clientX;
+    const clientY = event.clientY;
+
+    SetupConfigContextValue.cssLeftSetState(clientX + 10);
+    SetupConfigContextValue.cssTopSetState(clientY + 10);
+
+    SetupConfigContextValue.setConfigModeArgsOption({
+      AnimatorGroup_ID: AnimatorGroup_ID,
+      MediaObject_ID: MediaObjectContextValue.mediaObjectUUID,
+    });
+    SetupConfigContextValue.configModeSetState(SetupConfigContextValue.configModeList[9]);
+    SetupConfigContextValue.configSwitchGUISetState(SetupConfigContextValue.configSwitchGUIList[2]);
+  };
 
   return (
-    <div className="layer_panel-animator_group-entity">
+    <div className="layer_panel-animator_group-entity" onDoubleClick={mouseDoubleClick}>
       <p>{AnimatorGroup_Species}</p>
     </div>
   );
@@ -210,19 +232,29 @@ export const LayerPanelAnimaterComponent = (props: any) => {
   const AppContextValue = useContext(AppContext);
   const TimelineAreaDivContextValue = useContext(TimelineAreaDivContext);
   const MediaObjectContextValue = useContext(MediaObjectContext);
-  const onClick = () => {
-    //イベント開放用
-    console.log("LayerPanelAnimaterComponent Onclick");
+  const SetupConfigContextValue = useContext(SetupConfigContext);
 
-    delete UserHandLayerPanelList[MediaObjectContextValue.mediaObjectUUID];
-    TimelineAreaDivContextValue.focusMediaObjectSpaceSetState(-1);
-    AppContextValue.updateDOM();
-  };
+  useEffect(() => {
+    if (SetupConfigContextValue.configMode !== SetupConfigContextValue.configModeList[0]) {
+      delete UserHandLayerPanelList[MediaObjectContextValue.mediaObjectUUID];
+      TimelineAreaDivContextValue.focusMediaObjectSpaceSetState(-1);
+      AppContextValue.updateDOM();
+    }
+  }, [SetupConfigContextValue.configMode]);
+
+  // const onClick = () => {
+  //   //イベント開放用
+  //   console.log("LayerPanelAnimaterComponent Onclick");
+
+  //   delete UserHandLayerPanelList[MediaObjectContextValue.mediaObjectUUID];
+  //   TimelineAreaDivContextValue.focusMediaObjectSpaceSetState(-1);
+  //   AppContextValue.updateDOM();
+  // };
   return (
     <LayerPanelAnimaterContext.Provider
       value={{ Animator_ID: Animator_ID, Animator_propertySpecies: Animator_propertySpecies, AnimatorGroup_Species: AnimatorGroup_Species }}
     >
-      <div className="layer_panel-animator-entity" onClick={onClick}>
+      <div className="layer_panel-animator-entity">
         {/* <AnimaterLeftKeyframeMoveButton /> */}
         <AnimaterInsertKeyframeButton Animator_ID={Animator_ID} />
         {/* <AnimaterRightKeyframeMoveButton /> */}

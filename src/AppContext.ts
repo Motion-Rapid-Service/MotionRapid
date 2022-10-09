@@ -117,6 +117,11 @@ type AppContextValue = {
   linkCSSPropertyHasKeyframe: Function;
 
   equalsKeyframeTime: Function;
+
+  deleteComposite: Function;
+  deleteMediaObject: Function;
+  deleteAnimatorGroup: Function;
+  deleteKeyframe: Function;
 };
 
 export const AppContext = createContext<AppContextValue>({} as AppContextValue);
