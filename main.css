@@ -276,9 +276,15 @@ body * {
 }
 
 .layer_panel-entity {
-  display: flex;
+  /* display: flex;
   justify-content: flex-start;
-  align-items: center;
+  align-items: center; */
+  width: 100%;
+  cursor: cell;
+}
+
+.layer_panel-entity > p {
+  padding-left: 40px;
 }
 
 .layer_panel-entity .layer_panel-entity-fixed_flag {
