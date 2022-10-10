@@ -12,7 +12,7 @@ import { SetupUndoContext } from "./../SetupEditor/SetupUndoContext";
 import * as buildSourceSpecies from "../BuildSite/buildHTML/buildSourceSpecies";
 
 import template2022_10_04 from "./../template/20221004.json";
-
+import template2022_10_10 from "./../template/20221010.json";
 // import templateA from "./../template/20221004.json";
 
 const ToolBarDetailSingleComponent = (props: any) => {
@@ -162,8 +162,8 @@ const toolBarComponent = (props: any) => {
   };
 
   const toolBarInputTemplate = (funcdata: { [name: string]: any }) => {
-    console.log("template2022_10_04", template2022_10_04);
-    AppContextValue.replaceDataCentral(template2022_10_04);
+    console.log("template2022_10_10", template2022_10_10);
+    AppContextValue.replaceDataCentral(template2022_10_10);
   };
 
   useEffect(() => {
