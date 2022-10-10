@@ -16,9 +16,13 @@ export const ConfigSelect = () => {
   const onChange = (event: any) => {
     const selectValue = String(event.target.value);
     textSetState(selectValue);
-    // const thisExposeValue = exposeValue.candidateList[selectValue];
     SwitchConfigSettingItemsCompositeContextValue.setConfigInput(selectValue);
+    // const thisExposeValue = exposeValue.candidateList[selectValue];
   };
+
+  useEffect(() => {
+    SwitchConfigSettingItemsCompositeContextValue.setConfigInput(exposeValue.initialValue);
+  }, []);
 
   return (
     <select onChange={onChange} value={textState}>
@@ -46,6 +50,10 @@ export const ConfigSelectComposite = () => {
     // const thisExposeValue = exposeValue.candidateList[selectValue];
     SwitchConfigSettingItemsCompositeContextValue.setConfigInput(selectValue);
   };
+
+  useEffect(() => {
+    SwitchConfigSettingItemsCompositeContextValue.setConfigInput(exposeValue.initialValue);
+  }, []);
 
   return (
     <select onChange={onChange} value={textState}>
@@ -77,6 +85,11 @@ export const ConfigTextBox = () => {
     textSetState(String(text));
     SwitchConfigSettingItemsCompositeContextValue.setConfigInput(String(text));
   };
+
+  useEffect(() => {
+    SwitchConfigSettingItemsCompositeContextValue.setConfigInput(exposeValue.initialValue);
+  }, []);
+
   return (
     <div className="config_parts-textbox ">
       <input className="text_box_common" type="text" value={textState} onChange={onChange} />

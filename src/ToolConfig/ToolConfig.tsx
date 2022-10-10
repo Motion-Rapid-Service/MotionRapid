@@ -61,12 +61,13 @@ const ConfigSettingItemsCompositeEntity = (props: any) => {
   // const ConfigModeContextValue = useContext(ToolConfigContext.ConfigModeContext);
 
   const setConfigInput = (configInput: string | number | boolean) => {
+    console.log("setConfigInput", settingItemsData.configItem, configInput);
     configContent[settingItemsData.configItem] = configInput;
   };
 
-  useEffect(() => {
-    configContent[settingItemsData.configItem] = settingItemsData.exposeValue.initialValue;
-  }, []);
+  // useEffect(() => {
+  //   configContent[settingItemsData.configItem] = settingItemsData.exposeValue.initialValue;
+  // }, [settingItemsData.configItem]);
 
   // };
 
@@ -632,9 +633,9 @@ const ComponentOptionConvertConfigMode = (props: any) => {
     const configModeArgsOption = SetupConfigContextValue.getConfigModeArgsOption();
     const mediaObjectName: string = AppContextValue.getMediaObjectName(configModeArgsOption.MediaObject_ID);
 
-    console.log("itemMediaObjectCompositeMode mediaObjectNameA", mediaObjectName);
-
     const SourceSpeciesClass: buildSourceSpecies.SourceSpeciesCompositeClass = AppContextValue.getMediaObjectSourceSpecies(configModeArgsOption.MediaObject_ID);
+
+    console.log("itemMediaObjectCompositeMode mediaObjectNameA", mediaObjectName, SourceSpeciesClass.compositeID, SourceSpeciesClass);
 
     const settingItemsDataImage: ToolConfigContext.settingItemsData = {
       settingTitle: "対象コンポジット",
@@ -663,6 +664,8 @@ const ComponentOptionConvertConfigMode = (props: any) => {
     const configItemMediaObjextCompositeModeComposite: string = ToolConfigContext.ConfigItemMediaObjextCompositeMode[0];
     const configModeArgsOption = SetupConfigContextValue.getConfigModeArgsOption();
     const addClass = new buildSourceSpecies.SourceSpeciesCompositeClass(String(sendConfigContent[configItemMediaObjextCompositeModeComposite]));
+
+    console.log("itemMediaObjectCompositeMode sendConfigContent", sendConfigContent, configItemMediaObjextCompositeModeComposite);
 
     AppContextValue.operationMediaObjectSourceSpeciesClass(configModeArgsOption.MediaObject_ID, addClass);
 

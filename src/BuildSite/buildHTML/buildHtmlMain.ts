@@ -226,6 +226,7 @@ export const parseComposite = (
 
   for (let i = 0; i < OwnedID_MediaObject.length; i++) {
     const thenMediaObjectID = OwnedID_MediaObject[i];
+    console.log("解析(c) : ", thenMediaObjectID);
     parseMediaObject(getJsonDataCentral, parentID, compositeID, thenMediaObjectID, compositePreviewTime);
   }
   return;
@@ -262,6 +263,8 @@ const parseMediaObject = (
   const cssZindexText = "z-index :" + zIndex + ";";
   buildQue.pushCSSElementQue(new buildQue.cssElementSubstance(cssZindexText), newZindexID);
 
+  console.log("解析(m) ; ", thenSourceSpecies, buildSourceSpecies.sourceSpeciesList);
+
   if (thenSourceSpecies === buildSourceSpecies.sourceSpeciesList[0]) {
     //default
   }
@@ -280,18 +283,20 @@ const parseMediaObject = (
 
     const thenSourceSpeciesCompositeClass = thenSourceSpeciesClass as buildSourceSpecies.SourceSpeciesCompositeClass;
 
-    if (hasKeyFound(thenSourceSpeciesCompositeClass.compositeID, OwnedClass_Composite)) {
-      const newCompositePreviewTime = compositePreviewTime - thenMediaObject.MediaObject_StartTime;
-      buildSourceSpecies.sourceSpeciesFunctionComposite(
-        getJsonDataCentral,
-        newHtmlID,
-        thenSourceSpeciesCompositeClass.compositeID,
-        rootHtmlID,
-        rootStyleID,
-        newCompositePreviewTime,
-        compositeTimeFlag
-      );
+    if (!hasKeyFound(thenSourceSpeciesCompositeClass.compositeID, OwnedClass_Composite)) {
+      console.log("解析 : 破棄", thenSourceSpeciesCompositeClass.compositeID, OwnedClass_Composite);
+      return;
     }
+    const newCompositePreviewTime = compositePreviewTime - thenMediaObject.MediaObject_StartTime;
+    buildSourceSpecies.sourceSpeciesFunctionComposite(
+      getJsonDataCentral,
+      newHtmlID,
+      thenSourceSpeciesCompositeClass.compositeID,
+      rootHtmlID,
+      rootStyleID,
+      newCompositePreviewTime,
+      compositeTimeFlag
+    );
   }
   if (thenSourceSpecies === buildSourceSpecies.sourceSpeciesList[3]) {
     //Image

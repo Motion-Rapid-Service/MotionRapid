@@ -88,6 +88,8 @@ export const sourceSpeciesFunctionComposite = (
   const newHtmlID = buildQue.pushHtmlElementQue(new buildQue.htmlElementBlockClass("div", htmlAttribute), downParentID);
   buildHtmlMain.parseComposite(jsonDataCentral, newHtmlID, targetCompositeID, compositePreviewTime); //ほかのコンポジットを呼び出す。向こうの関数でビルドキューに登録するので戻り値がない
 
+  console.log("thenCompositeClass.Composite_LocationMode", thenCompositeClass.Composite_LocationMode, middleDataClass.Composite_LocationMode[3]);
+
   if (thenCompositeClass.Composite_LocationMode === middleDataClass.Composite_LocationMode[0]) {
     //文書配置
     const cssText = "position : static;";
