@@ -4,8 +4,10 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import { AppContext } from "../AppContext";
 import { SetupEditorContext } from "./SetupEditorContext";
+import SetupHelpScene from "./SetupHelpScene";
+
 import * as buildCalculationTimeInterpolation from "./../BuildSite/buildCalculationTimeInterpolation";
-import SetupUndo from "./SetupUndo";
+
 const Editor = () => {
   const AppContextValue = useContext(AppContext);
   console.log("previewUpdate C");
@@ -55,7 +57,8 @@ const Editor = () => {
         getKeyframeValue: getKeyframeValue,
       }}
     >
-      <SetupUndo />
+        <SetupHelpScene/>
+
     </SetupEditorContext.Provider>
   );
 };

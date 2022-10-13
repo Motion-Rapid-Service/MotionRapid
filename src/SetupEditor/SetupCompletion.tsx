@@ -5,6 +5,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import TimelineComponent from "./../timeline/timeline";
 import ToolBarComponent from "./../ToolBar/ToolBar";
 import ToolConfigComponent from "./../ToolConfig/ToolConfig";
+
 import CompositeEditorComponent from "./../CompositeChoice/CompositeChoice";
 import PreviewComponent from "./../Preview/Preview";
 
@@ -229,6 +230,7 @@ const SetupCompletion = () => {
       </div>
       <div>
         <ToolConfigComponent />
+
       </div>
     </>
   );
