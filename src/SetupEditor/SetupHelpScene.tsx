@@ -7,11 +7,18 @@ import { SetupEditorContext } from "./SetupEditorContext";
 import { SetupHelpSceneContext } from "./SetupHelpSceneContext";
 import SetupUndo from "./SetupUndo";
 const SetupHelpScene = () => {
+  const helpSwitchGUIList = ["notExist"];
+  const [helpSwitchGUI, helpSwitchGUISetState] = useState<string>(helpSwitchGUIList[0]);
   return (
-    <SetupHelpSceneContext.Provider value={{}}>
+    <SetupHelpSceneContext.Provider
+      value={{ helpSwitchGUI: helpSwitchGUI, helpSwitchGUISetState: helpSwitchGUISetState, helpSwitchGUIList: helpSwitchGUIList }}
+    >
       <SetupUndo />
     </SetupHelpSceneContext.Provider>
   );
 };
 
 export default SetupHelpScene;
+
+
+//来週以降、MotionRapidのフィールドバックでお時間いただけることってできますかね・・・？

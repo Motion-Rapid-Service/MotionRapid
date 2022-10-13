@@ -5,11 +5,14 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import TimelineComponent from "./../timeline/timeline";
 import ToolBarComponent from "./../ToolBar/ToolBar";
 import ToolConfigComponent from "./../ToolConfig/ToolConfig";
+import ToolHelpScreen from "./../ToolHelpScreen/ToolHelpScreen";
 
 import CompositeEditorComponent from "./../CompositeChoice/CompositeChoice";
 import PreviewComponent from "./../Preview/Preview";
 
 import { SetupConfigContext } from "./SetupConfigContext";
+
+import { SetupHelpSceneContext } from "./SetupHelpSceneContext";
 //ここを画面結合専用層にする予定
 //ここから ツールバー処理用のクラス
 
@@ -27,12 +30,16 @@ type TypeMouseMoveLayout = {
 
 const SetupCompletion = () => {
   const SetupConfigContextValue = useContext(SetupConfigContext);
+  const SetupHelpSceneContextValue = useContext(SetupHelpSceneContext)
 
   const configMode = SetupConfigContextValue.configMode;
   const configModeList = SetupConfigContextValue.configModeList;
 
   const configSwitchGUI = SetupConfigContextValue.configSwitchGUI;
   const configSwitchGUIList = SetupConfigContextValue.configSwitchGUIList;
+
+  const helpSwitchGUI = SetupHelpSceneContextValue.helpSwitchGUI
+  const helpSwitchGUIList = SetupHelpSceneContextValue.helpSwitchGUIList
 
   const [configStyle, configStyleSetState] = useState<React.CSSProperties>({});
 
@@ -56,10 +63,10 @@ const SetupCompletion = () => {
 
   useEffect(() => {
     //configSwitchGUIによる、ほかのdiv要素内への影響について設定をする
-    if (configMode === configSwitchGUIList[0]) {
+    if (configMode === configSwitchGUIList[0] || helpSwitchGUI === helpSwitchGUIList[0]) {
       const styleTemp: React.CSSProperties = {};
       configStyleSetState(styleTemp);
-    } else if (configSwitchGUI === configSwitchGUIList[1]) {
+    } else if (configSwitchGUI === configSwitchGUIList[1] || helpSwitchGUI === helpSwitchGUIList[1]) {
       const styleTemp: React.CSSProperties = {
         position: "fixed",
       };
@@ -230,9 +237,10 @@ const SetupCompletion = () => {
       </div>
       <div>
         <ToolConfigComponent />
-
+        <ToolHelpScreen />
       </div>
     </>
   );
 };
 export default SetupCompletion;
+
