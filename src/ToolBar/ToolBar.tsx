@@ -13,6 +13,7 @@ import * as buildSourceSpecies from "../BuildSite/buildHTML/buildSourceSpecies";
 
 import template2022_10_04 from "./../template/20221004.json";
 import template2022_10_10 from "./../template/20221010.json";
+import template2022_10_16 from "./../template/20221016.json";
 // import templateA from "./../template/20221004.json";
 
 const ToolBarDetailSingleComponent = (props: any) => {
@@ -166,6 +167,10 @@ const toolBarComponent = (props: any) => {
     AppContextValue.replaceDataCentral(template2022_10_10);
   };
 
+  const toolBarInputTemplate2 = (funcdata: { [name: string]: any }) => {
+    console.log("template2022_10_16", template2022_10_16);
+    AppContextValue.replaceDataCentral(template2022_10_16);
+  };
   useEffect(() => {
     let toolBar1 = "fileEdit";
     insertToolBarClassificationArraySetStateValue(toolBar1, "ファイル操作", false);
@@ -191,6 +196,7 @@ const toolBarComponent = (props: any) => {
     let toolBar5 = "templateInput";
     insertToolBarClassificationArraySetStateValue(toolBar5, "テンプレート読込", false);
     insertToolBarEditorDictSetStateValue(toolBar5, "5A", "テンプレート1", toolBarInputTemplate, false);
+    insertToolBarEditorDictSetStateValue(toolBar5, "5B", "テンプレート2", toolBarInputTemplate2, false);
 
     switchToolBarDetailSetState(toolBar1);
     AppContextValue.updateDOM();

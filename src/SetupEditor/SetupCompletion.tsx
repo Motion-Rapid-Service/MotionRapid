@@ -30,7 +30,7 @@ type TypeMouseMoveLayout = {
 
 const SetupCompletion = () => {
   const SetupConfigContextValue = useContext(SetupConfigContext);
-  const SetupHelpSceneContextValue = useContext(SetupHelpSceneContext)
+  const SetupHelpSceneContextValue = useContext(SetupHelpSceneContext);
 
   const configMode = SetupConfigContextValue.configMode;
   const configModeList = SetupConfigContextValue.configModeList;
@@ -38,8 +38,8 @@ const SetupCompletion = () => {
   const configSwitchGUI = SetupConfigContextValue.configSwitchGUI;
   const configSwitchGUIList = SetupConfigContextValue.configSwitchGUIList;
 
-  const helpSwitchGUI = SetupHelpSceneContextValue.helpSwitchGUI
-  const helpSwitchGUIList = SetupHelpSceneContextValue.helpSwitchGUIList
+  const helpSwitchGUI = SetupHelpSceneContextValue.helpSwitchGUI;
+  const helpSwitchGUIList = SetupHelpSceneContextValue.helpSwitchGUIList;
 
   const [configStyle, configStyleSetState] = useState<React.CSSProperties>({});
 
@@ -237,10 +237,9 @@ const SetupCompletion = () => {
       </div>
       <div>
         <ToolConfigComponent />
-        <ToolHelpScreen />
+        {/* <ToolHelpScreen /> */}
       </div>
     </>
   );
 };
 export default SetupCompletion;
-
