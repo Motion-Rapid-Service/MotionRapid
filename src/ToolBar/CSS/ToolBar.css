@@ -1,12 +1,14 @@
 .toolBar {
   margin-bottom: 5px;
+
+  margin-left: 12px;
 }
 
 .toolBar-area {
   background-color: rgb(255, 255, 255);
   width: auto;
-  height: 50px;
-  margin: 2px 2px 0px 2px;
+  height: 30px;
+  margin: 12px 2px 0px 2px;
   /* overflow: scroll; */
   display: flex;
   align-items: flex-end;
@@ -14,7 +16,7 @@
 }
 
 .toolBar-area .toolBar_single-area {
-  background-color: rgb(255, 255, 255);
+  background-color: rgb(230, 230, 230);
   /* width: 100px; */
   margin-left: 2px;
   margin-right: 2px;
@@ -25,15 +27,15 @@
 }
 
 .toolBar-area .toolBar_single-area .toolBar_single-area-title {
-  width: 50px;
-  height: 50px;
+  width: 120px;
+  height: 30px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .toolBar_single-area-title p {
-  font-size: 10px;
+  font-size: 11px;
   margin: 0px;
 }
 

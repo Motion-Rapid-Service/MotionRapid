@@ -5,7 +5,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AppContext } from "../AppContext";
 import { SetupEditorContext } from "./SetupEditorContext";
 import { SetupHelpSceneContext } from "./SetupHelpSceneContext";
-import SetupUndo from "./SetupUndo";
+import SetupPractice from "./SetupPractice";
 const SetupHelpScene = () => {
   const helpSwitchGUIList = ["notExist"];
   const [helpSwitchGUI, helpSwitchGUISetState] = useState<string>(helpSwitchGUIList[0]);
@@ -13,12 +13,11 @@ const SetupHelpScene = () => {
     <SetupHelpSceneContext.Provider
       value={{ helpSwitchGUI: helpSwitchGUI, helpSwitchGUISetState: helpSwitchGUISetState, helpSwitchGUIList: helpSwitchGUIList }}
     >
-      <SetupUndo />
+      <SetupPractice />
     </SetupHelpSceneContext.Provider>
   );
 };
 
 export default SetupHelpScene;
-
 
 //来週以降、MotionRapidのフィールドバックでお時間いただけることってできますかね・・・？

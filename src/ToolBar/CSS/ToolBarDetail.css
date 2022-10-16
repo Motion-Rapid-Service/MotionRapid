@@ -1,16 +1,16 @@
 .toolBarDetail-area {
   background-color: rgb(255, 255, 255);
   width: 50px;
-  height: 50px;
+  height: 30px;
   margin: 2px 2px 0px 2px;
   /* overflow: scroll; */
   display: flex;
-  align-items: flex-end;
+  align-items: flex-start;
   justify-content: flex-start;
 }
 
 .toolBarDetail-area .toolBarDetail_single-area {
-  background-color: rgb(10, 255, 255);
+  background-color: rgb(230, 230, 230);
   /* width: 100px; */
 
   margin-left: 2px;
@@ -21,17 +21,15 @@
   background-color: rgb(240, 240, 240);
 }
 
-.toolBarDetail-area
-  .toolBarDetail_single-area
-  .toolBarDetail_single-area-title {
-  width: 50px;
-  height: 50px;
+.toolBarDetail-area .toolBarDetail_single-area .toolBarDetail_single-area-title {
+  width: 120px;
+  height: 30px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .toolBarDetail_single-area-title p {
-  font-size: 10px;
+  font-size: 11px;
   margin: 0px;
 }

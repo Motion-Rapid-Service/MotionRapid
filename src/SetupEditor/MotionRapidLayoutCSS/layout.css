@@ -2,12 +2,13 @@
   width: 100vw;
   height: 100vh;
   position: relative;
-  --toolBar-layout-size: 160px;
+  --toolBar-layout-size: 120px;
   overflow: hidden;
 }
 
 .toolBar-layout {
   height: var(--toolBar-layout-size);
+  position: relative;
 }
 
 .editor-layout {
@@ -21,11 +22,26 @@
   /* z-index: 500; */
 }
 
+.layout-glow {
+  background: linear-gradient(90deg, #03a9f4, #f441a5, #ffeb3b, #03a9f4);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1200;
+  opacity: 0.5;
+  user-select: none;
+  pointer-events: none;
+}
+
 .composite_editor-layout {
   position: absolute;
   height: 100%;
   overflow: hidden;
   display: flex;
+
+  /* opacity: 0.78; */
 }
 
 .preview-layout {

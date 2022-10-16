@@ -219,6 +219,9 @@ const toolBarComponent = (props: any) => {
     insertToolBarEditorDictSetStateValue(toolBar5, "5A", "テンプレート1", toolBarInputTemplate, false);
     insertToolBarEditorDictSetStateValue(toolBar5, "5B", "テンプレート2", toolBarInputTemplate2, false);
 
+    let toolBar6 = "practice";
+    insertToolBarClassificationArraySetStateValue(toolBar6, "学習", false);
+    insertToolBarEditorDictSetStateValue(toolBar6, "6A", "学習を開始する", toolBarInputTemplate, false);
     switchToolBarDetailSetState(toolBar1);
     AppContextValue.updateDOM();
   }, []);

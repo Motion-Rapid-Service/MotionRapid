@@ -26,6 +26,8 @@ import "./timeline/TimeNavigator/CSS/timeaxis.css";
 import "./timeline/TimeNavigator/CSS/timeNavigatorTimeline.css";
 
 import "./Preview/CSS/preview.css";
+
+import "./Practice/CSS/practice.css";
 import * as buildSourceType from "./BuildSite/buildHTML/buildSourceSpecies";
 
 import SetupEditor from "./SetupEditor/SetupEditor";

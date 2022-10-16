@@ -1,0 +1,36 @@
+.practice_background {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  user-select: none;
+  pointer-events: none;
+  z-index: 1300;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.practice_popup {
+  width: 1000px;
+  height: 200px;
+  background-color: white;
+  border-radius: 3px;
+  box-shadow: 0 0 5px rgb(100, 100, 100);
+
+  user-select: all;
+  pointer-events: all;
+
+  padding: 4px 2px 2px 2px;
+
+  margin-top: 20px;
+  margin-right: 20px;
+}
+.practice_popup-title {
+  display: flex;
+  justify-content: flex-start;
+}
+.practice_popup-title p {
+  margin: 0;
+  margin-left: 4px;
+}

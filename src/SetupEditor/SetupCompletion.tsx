@@ -6,7 +6,7 @@ import TimelineComponent from "./../timeline/timeline";
 import ToolBarComponent from "./../ToolBar/ToolBar";
 import ToolConfigComponent from "./../ToolConfig/ToolConfig";
 import ToolHelpScreen from "./../ToolHelpScreen/ToolHelpScreen";
-
+import Practice from "./../Practice/Practice";
 import CompositeEditorComponent from "./../CompositeChoice/CompositeChoice";
 import PreviewComponent from "./../Preview/Preview";
 
@@ -210,22 +210,26 @@ const SetupCompletion = () => {
       <div style={configStyle}>
         <div className="motion_rapid-layout">
           <div className="toolBar-layout">
+            <div className="layout-glow"></div>
             <div className="toolBar-layout-expand"></div>
 
             <ToolBarComponent />
           </div>
           <div className="editor-layout" ref={editorLayoutElement}>
             <div className="composite_editor-layout">
+              <div className="layout-glow"></div>
               <div style={{ width: getCompositeEditorLayoutSize() }}>
                 <CompositeEditorComponent />
               </div>
               <div className="composite_editor-layout-expand" onMouseDown={mouseDownCompositeEditor} onDoubleClick={mouseDoubleClickCompositeEditor}></div>
             </div>
             <div className="preview-layout">
+              <div className="layout-glow"></div>
               <div className="preview-layout-expand"></div>
               <PreviewComponent />
             </div>
             <div className="timeline-layout">
+              <div className="layout-glow"></div>
               <div className="timeline-layout-expand" onMouseDown={mouseDownTimelineEditor} onDoubleClick={mouseDoubleClickTimelineEditor}></div>
 
               <div style={{ height: getTimelineLayoutState() }}>
@@ -237,6 +241,7 @@ const SetupCompletion = () => {
       </div>
       <div>
         <ToolConfigComponent />
+        <Practice />
         {/* <ToolHelpScreen /> */}
       </div>
     </>

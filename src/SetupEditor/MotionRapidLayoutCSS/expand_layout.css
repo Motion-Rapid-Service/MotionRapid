@@ -1,7 +1,7 @@
 .motion_rapid-layout {
   --layout-expand-min_size: 10px;
   --layout-expand-max_size: 100%;
-  --layout-expand-color: rgb(200, 200, 200);
+  --layout-expand-color: rgb(240, 200, 100);
 }
 
 .toolBar-layout-expand {
