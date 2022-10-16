@@ -150,7 +150,7 @@ const ComponentOptionConvertConfigMode = (props: any) => {
     let settingItemsTemp: Array<ToolConfigContext.settingItemsData> = [];
 
     const settingItemsDataCompositeName: ToolConfigContext.settingItemsData = {
-      settingTitle: "コンポジット名",
+      settingTitle: "コンポジション名",
       settingMessage: "入力してください",
       thenConfigSettingGUIparts: ToolConfigContext.configSettingGUIparts[1],
       exposeValue: { initialValue: "newComposite" },
@@ -158,7 +158,7 @@ const ComponentOptionConvertConfigMode = (props: any) => {
     };
 
     const settingItemsDataCompositeName2: ToolConfigContext.settingItemsData = {
-      settingTitle: "コンポジット横軸",
+      settingTitle: "コンポジション横軸",
       settingMessage: "選択してください",
       thenConfigSettingGUIparts: ToolConfigContext.configSettingGUIparts[3],
       // exposeValue: Object.assign(middleDataClass.Composite_HorizontalMode),
@@ -270,7 +270,7 @@ const ComponentOptionConvertConfigMode = (props: any) => {
     let settingItemsTemp: Array<ToolConfigContext.settingItemsData> = [];
 
     const settingItemsDataCompositeName: ToolConfigContext.settingItemsData = {
-      settingTitle: "コンポジット名",
+      settingTitle: "コンポジション名",
       settingMessage: "入力してください",
       thenConfigSettingGUIparts: ToolConfigContext.configSettingGUIparts[1],
       exposeValue: { initialValue: compositeClass.Composite_Name },
@@ -278,7 +278,7 @@ const ComponentOptionConvertConfigMode = (props: any) => {
     };
 
     const settingItemsDataCompositeName2: ToolConfigContext.settingItemsData = {
-      settingTitle: "コンポジット横軸",
+      settingTitle: "コンポジション横軸",
       settingMessage: "選択してください",
       thenConfigSettingGUIparts: ToolConfigContext.configSettingGUIparts[3],
       // exposeValue: Object.assign(middleDataClass.Composite_HorizontalMode),
@@ -638,7 +638,7 @@ const ComponentOptionConvertConfigMode = (props: any) => {
     console.log("itemMediaObjectCompositeMode mediaObjectNameA", mediaObjectName, SourceSpeciesClass.compositeID, SourceSpeciesClass);
 
     const settingItemsDataImage: ToolConfigContext.settingItemsData = {
-      settingTitle: "対象コンポジット",
+      settingTitle: "対象コンポジション",
       settingMessage: "選択してください",
       thenConfigSettingGUIparts: ToolConfigContext.configSettingGUIparts[8],
       exposeValue: { initialValue: SourceSpeciesClass.compositeID, candidateList: OwnedID_Composite },

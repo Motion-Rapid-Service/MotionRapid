@@ -182,13 +182,13 @@ const toolBarComponent = (props: any) => {
     insertToolBarEditorDictSetStateValue(toolBar2, "2A", "html出力", buildHtml, false);
 
     let toolBar3 = "compositeEdit";
-    insertToolBarClassificationArraySetStateValue(toolBar3, "コンポジット", false);
+    insertToolBarClassificationArraySetStateValue(toolBar3, "コンポジション", false);
     insertToolBarEditorDictSetStateValue(toolBar3, "3A", "新規作成", toolBarCreateComposite, false);
 
     let toolBar4 = "mediaObjectEdit";
     insertToolBarClassificationArraySetStateValue(toolBar4, "メディアオブジェクト", false);
     insertToolBarEditorDictSetStateValue(toolBar4, "4A", "テキスト挿入", toolBarCreateMediaObjectText, false);
-    insertToolBarEditorDictSetStateValue(toolBar4, "4B", "コンポジット挿入", toolBarCreateMediaObjectComposite, false);
+    insertToolBarEditorDictSetStateValue(toolBar4, "4B", "コンポジション挿入", toolBarCreateMediaObjectComposite, false);
     insertToolBarEditorDictSetStateValue(toolBar4, "4C", "画像挿入", toolBarCreateMediaObjectImage, false);
     insertToolBarEditorDictSetStateValue(toolBar4, "4D", "図形挿入", toolBarCreateMediaObjectShape, false);
     insertToolBarEditorDictSetStateValue(toolBar4, "4E", "エフェクトを追加する", toolBarCreateAnimatorGroup, false);
@@ -219,10 +219,11 @@ const toolBarComponent = (props: any) => {
         </>
       </div>
       <div className="toolBar-composite">
-        <p>選択中のコンポジット</p>
+        <p>選択中のコンポジション</p>
         <p>Name : {AppContextValue.getCompositeName(SetupEditorContextValue.choiceComposite)}</p>
         <p>ID : {SetupEditorContextValue.choiceComposite}</p>
       </div>
+      <span>タイムナビゲーターの色 黄色：描画範囲 / 灰色：描画範囲外 / 黄緑：上位コンポジションが固定配置モードになっている場合の描画範囲</span>
     </div>
   );
 };

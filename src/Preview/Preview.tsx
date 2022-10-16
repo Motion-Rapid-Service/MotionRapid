@@ -22,21 +22,35 @@ import * as PreviewContext from "./PreviewContext";
 
 //src/timeline/TimeNavigator/TimeNavigatorTimeline.tsx
 
-const searchMaxSizeElement = (targetElement: Element) => {
+const searchMaxSizeElement = (targetElement: Element, iframeWindow: any) => {
   let thenWidth = targetElement.scrollWidth;
   let thenHeight = targetElement.scrollHeight;
+  let previewFixedLeft = 0;
+  let previewFixedTop = 0;
 
   const childrenElement: HTMLCollection = targetElement.children;
 
   for (let ce = 0; ce < childrenElement.length; ce++) {
     const childElement: Element = childrenElement[ce]; //これでcomposite要素直下を取得できる
-    const childMaxWidthHeight = searchMaxSizeElement(childElement);
+    const childMaxWidthHeight = searchMaxSizeElement(childElement, iframeWindow);
+
+    const thenID = childElement.getAttribute("id");
+
+    if (thenID === "previewFixed") {
+      let thenStyle = iframeWindow.getComputedStyle(childElement);
+      previewFixedLeft = thenStyle.getPropertyValue("left").replace(/[^0-9]/g, "");
+      previewFixedTop = thenStyle.getPropertyValue("top").replace(/[^0-9]/g, "");
+      console.log("previewFixedA", previewFixedLeft, previewFixedTop);
+    } else {
+      previewFixedLeft = Math.max(previewFixedLeft, childMaxWidthHeight[2]);
+      previewFixedTop = Math.max(previewFixedTop, childMaxWidthHeight[3]);
+    }
 
     thenWidth = Math.max(thenWidth, childMaxWidthHeight[0]);
     thenHeight = Math.max(thenHeight, childMaxWidthHeight[1]);
   }
 
-  return [thenWidth, thenHeight];
+  return [thenWidth, thenHeight, previewFixedLeft, previewFixedTop];
 };
 
 const PreviewComponent = () => {
@@ -71,13 +85,13 @@ const PreviewComponent = () => {
 
       const thenZindex = thenStyle.getPropertyValue("z-index");
 
-      const maxSize = searchMaxSizeElement(thenElements);
+      const maxSize = searchMaxSizeElement(thenElements, iframeWindow);
 
       const inRect = thenElements.getBoundingClientRect();
-      const inLeft = inRect.left + iframeWindow.pageXOffset;
-      const inTop = inRect.top + iframeWindow.pageYOffset;
+      const inLeft = Number(inRect.left + iframeWindow.pageXOffset) + Number(maxSize[2]);
+      const inTop = Number(inRect.top + iframeWindow.pageYOffset) + Number(maxSize[3]);
 
-      console.log("thenElements", thenID, inLeft, inTop, inRect.left, iframeWindow.pageXOffset);
+      console.log("thenElementsA", thenID, inLeft, inTop, inRect.left, iframeWindow.pageXOffset, maxSize[2], maxSize[3]);
 
       const newPreviewOverlay = new PreviewContext.PreviewOverlay(className, inLeft, inTop, maxSize[0], maxSize[1], thenID, thenZindex);
       previewOverlayDict[newPreviewOverlay.previewOverlayID] = newPreviewOverlay;
