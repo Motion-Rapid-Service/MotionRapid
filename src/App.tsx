@@ -250,7 +250,7 @@ const equalsKeyframeTime = (playheadTime: number, Animator_ID: string): string =
     //キーフレーム
     const thenkeyframeID = OwnedID_Keyframe[ki];
     const Keyframe_AbsoluteTime = Number(middleDataOperation.getKeyframeTime(thenkeyframeID));
-    if (playheadTime === Keyframe_AbsoluteTime) {
+    if (playheadTime - 1 <= Keyframe_AbsoluteTime && Keyframe_AbsoluteTime <= playheadTime + 1) {
       return thenkeyframeID;
     }
   }

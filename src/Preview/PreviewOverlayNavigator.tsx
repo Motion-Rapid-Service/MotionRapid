@@ -50,7 +50,7 @@ const PreviewOverlayNavigatorGrayOverlay = (props: any) => {
           height: PreviewOverlayNavigatorContextValue.previewMainElementHeight,
           // height: Math.max(PreviewOverlayNavigatorContextValue.iframeHeight, 0),
         }}
-      ></div>{" "}
+      ></div>
       <div
         className="preview_overlay_navigator_green_overlay"
         style={{

@@ -272,7 +272,7 @@ export const LayerPanelAnimaterComponent = (props: any) => {
 const AnimaterInsertKeyframeButton = (props: any) => {
   const AppContextValue = useContext(AppContext);
   const SetupUndoContextValue = useContext(SetupUndoContext);
-
+  const SetupEditorContextValue = useContext(SetupEditorContext);
   const TimelineAreaDivContextValue = useContext(TimelineAreaDivContext);
 
   const mouseDown = () => {
@@ -282,7 +282,10 @@ const AnimaterInsertKeyframeButton = (props: any) => {
     const keyframeID: string = AppContextValue.operationCreateKeyframe();
     AppContextValue.linkKeyframe(Animator_ID, keyframeID);
 
-    const temp: MiddleDataOperationType.OperationKeyframeTimeType = { KeyframeID: keyframeID, time: 100 };
+    const temp: MiddleDataOperationType.OperationKeyframeTimeType = {
+      KeyframeID: keyframeID,
+      time: AppContextValue.getCompositePlayheadTimePos(SetupEditorContextValue.choiceComposite),
+    };
 
     // TimelineAreaDivContextValue.focusMediaObjectSpaceSetState(-1);
 
