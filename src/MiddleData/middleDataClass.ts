@@ -92,8 +92,8 @@ export class MediaObject {
 
   constructor(send_MediaObject_ID: string, send_MediaObject_Name: string, send_sourceSpecies: buildSourceSpecies.SourceSpeciesClass) {
     this.MediaObject_ID = send_MediaObject_ID;
-    this.MediaObject_StartTime = 500;
-    this.MediaObject_EndTime = 750;
+    this.MediaObject_StartTime = 0;
+    this.MediaObject_EndTime = 1000;
     this.MediaObject_LayerNumber = 0;
     this.MediaObject_Color = [50, 150, 50];
     this.MediaObject_Name = send_MediaObject_Name;

@@ -108,6 +108,13 @@ const toolBarComponent = (props: any) => {
     const t_MediaObjectID = AppContextValue.createMediaObject(addClass);
     AppContextValue.linkMediaObject(funcdata["choiceComposite"], t_MediaObjectID);
 
+    const duration = AppContextValue.getCompositeDuration(funcdata["choiceComposite"]);
+    AppContextValue.operationMediaObjectTime({
+      mediaObjectID: t_MediaObjectID,
+      sta: 0,
+      end: duration,
+    });
+
     const addAnimatorGroup = ["blockSize", "font"];
 
     for (let i = 0; i < addAnimatorGroup.length; i++) {
@@ -123,6 +130,13 @@ const toolBarComponent = (props: any) => {
     const addClass = new buildSourceSpecies.SourceSpeciesCompositeClass("");
     const t_MediaObjectID = AppContextValue.createMediaObject(addClass);
     AppContextValue.linkMediaObject(funcdata["choiceComposite"], t_MediaObjectID);
+
+    const duration = AppContextValue.getCompositeDuration(funcdata["choiceComposite"]);
+    AppContextValue.operationMediaObjectTime({
+      mediaObjectID: t_MediaObjectID,
+      sta: 0,
+      end: duration,
+    });
   };
 
   const toolBarCreateMediaObjectImage = (funcdata: { [name: string]: any }) => {
@@ -130,6 +144,13 @@ const toolBarComponent = (props: any) => {
     const addClass = new buildSourceSpecies.SourceSpeciesImageClass(null);
     const t_MediaObjectID = AppContextValue.createMediaObject(addClass);
     AppContextValue.linkMediaObject(funcdata["choiceComposite"], t_MediaObjectID);
+
+    const duration = AppContextValue.getCompositeDuration(funcdata["choiceComposite"]);
+    AppContextValue.operationMediaObjectTime({
+      mediaObjectID: t_MediaObjectID,
+      sta: 0,
+      end: duration,
+    });
 
     const addAnimatorGroup = ["blockSize", "filter"];
 
