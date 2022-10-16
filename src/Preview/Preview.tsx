@@ -44,6 +44,7 @@ const PreviewComponent = () => {
   const previeOverlayShapeElement = useRef(null);
   const previeOverlayScrollElement = useRef(null);
   const previeOverlayElement = useRef(null);
+  const previewMainElement = useRef(null);
   const AppContextValue = useContext(AppContext);
   const SetupEditorContextValue = useContext(SetupEditorContext);
   const TimeNavigatorContextValue = useContext(TimeNavigatorContext);
@@ -239,13 +240,13 @@ const PreviewComponent = () => {
   };
 
   return (
-    <div className="preview-main">
+    <div className="preview-main" ref={previewMainElement}>
       <div className="preview-overlay-update">
         <iframe className="preview-replace" ref={previewIframeElement}>
           <p>html p</p>
         </iframe>
       </div>
-      <PreviewOverlayNavigator previewNavigator={previewNavigator} />
+      <PreviewOverlayNavigator previewNavigator={previewNavigator} previewMainElement={previewMainElement} />
       <div className="preview-overlay" ref={previeOverlayElement}>
         <div className="preview-overlay-shape" ref={previeOverlayShapeElement}>
           {componentConvertPreviewOverlay().map((output: any, index: number) => (

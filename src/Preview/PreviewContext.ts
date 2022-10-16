@@ -46,5 +46,8 @@ type PreviewOverlayNavigatorContextValue = {
   playheadTime: number;
   scrollY: number;
   thenTimeStylePos: number;
+  iframeHeight: number;
+  iframeScrollHeight: number;
+  previewMainElementHeight: number;
 };
 export const PreviewOverlayNavigatorContext = createContext<PreviewOverlayNavigatorContextValue>({} as PreviewOverlayNavigatorContextValue);

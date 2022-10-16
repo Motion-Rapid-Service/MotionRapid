@@ -29,19 +29,37 @@ const PreviewOverlayNavigatorThenTimeBlock = (props: any) => {
         top: PreviewOverlayNavigatorContextValue.thenTimeStylePos,
       }}
     >
-      {PreviewOverlayNavigatorContextValue.playheadTime}
+      <p>{PreviewOverlayNavigatorContextValue.playheadTime}</p>
     </div>
   );
 };
 const PreviewOverlayNavigatorGrayOverlay = (props: any) => {
   const PreviewOverlayNavigatorContextValue = useContext(PreviewContext.PreviewOverlayNavigatorContext);
   return (
-    <div
-      className="preview_overlay_navigator_gray_overlay"
-      style={{
-        height: Math.max(PreviewOverlayNavigatorContextValue.thenTimeStylePos, 0),
-      }}
-    ></div>
+    <>
+      <div
+        className="preview_overlay_navigator_gray_overlay"
+        style={{
+          height: Math.max(PreviewOverlayNavigatorContextValue.thenTimeStylePos, 0),
+        }}
+      ></div>
+      <div
+        className="preview_overlay_navigator_yellow_overlay"
+        style={{
+          top: PreviewOverlayNavigatorContextValue.thenTimeStylePos,
+          height: PreviewOverlayNavigatorContextValue.previewMainElementHeight,
+          // height: Math.max(PreviewOverlayNavigatorContextValue.iframeHeight, 0),
+        }}
+      ></div>{" "}
+      <div
+        className="preview_overlay_navigator_green_overlay"
+        style={{
+          top: 0,
+          height: Math.max(PreviewOverlayNavigatorContextValue.previewMainElementHeight - PreviewOverlayNavigatorContextValue.scrollY, 0),
+          // height: Math.max(PreviewOverlayNavigatorContextValue.iframeHeight, 0),
+        }}
+      ></div>
+    </>
   );
 };
 
@@ -56,9 +74,21 @@ const PreviewOverlayNavigatorBlock = (props: any) => {
         top: outY,
       }}
     >
-      {inY}
+      <p>{inY}</p>
     </div>
   );
+};
+
+const getWidthHeight = (previewMainElement: any) => {
+  if (!previewMainElement.current) {
+    return [0, 0];
+  }
+  const previewMainElementBoundingClientRect = previewMainElement.current.getBoundingClientRect();
+
+  const previewMainElementWidth = previewMainElementBoundingClientRect.width;
+  const previewMainElementHeight = previewMainElementBoundingClientRect.height;
+
+  return [previewMainElementWidth, previewMainElementHeight];
 };
 
 const PreviewOverlayNavigatorComponent = (props: any) => {
@@ -72,6 +102,7 @@ const PreviewOverlayNavigatorComponent = (props: any) => {
   const navigatorStart = props.previewNavigator.scrollY - navigatorSurplus;
   const quantity = Math.ceil(props.previewNavigator.iframeHeight / distance) + 1;
   const thenTimeStylePos = playheadTime - props.previewNavigator.scrollY;
+  const previewMainElement = props.previewMainElement;
 
   console.log("thenTimeStylePos", thenTimeStylePos, props.previewNavigator.scrollY);
 
@@ -93,17 +124,19 @@ const PreviewOverlayNavigatorComponent = (props: any) => {
         playheadTime: playheadTime,
         scrollY: props.previewNavigator.scrollY,
         thenTimeStylePos: thenTimeStylePos,
+        iframeHeight: props.previewNavigator.iframeHeight,
+        iframeScrollHeight: props.previewNavigator.iframeScrollHeight,
+        previewMainElementHeight: getWidthHeight(previewMainElement)[1],
       }}
     >
       <div className="preview_overlay_navigator">
-        <PreviewOverlayNavigatorThenTimeBlock />
-
+        <PreviewOverlayNavigatorGrayOverlay />
         {componentConvertPreviewNavigator().map((output: any, index: number) => (
           // <>{fruit}</> //SurfaceControlIndividualを追加するmap (list_surface_controlに入っている)
           <PreviewOverlayNavigatorBlock DownstreamPreviewNavigatorBlock={output} key={index} />
-        ))}
-        <PreviewOverlayNavigatorGrayOverlay />
-      </div>
+        ))}{" "}
+        <PreviewOverlayNavigatorThenTimeBlock />
+      </div>{" "}
     </PreviewContext.PreviewOverlayNavigatorContext.Provider>
   );
 };

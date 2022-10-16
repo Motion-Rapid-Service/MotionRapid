@@ -2,7 +2,7 @@
   width: 100vw;
   height: 100vh;
   position: relative;
-  --toolBar-layout-size: 130px;
+  --toolBar-layout-size: 160px;
   overflow: hidden;
 }
 

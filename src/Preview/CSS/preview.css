@@ -2,6 +2,8 @@
   width: 100%;
   height: 100%;
   position: relative;
+
+  --navigator-width: 80px;
 }
 
 .preview-main * {
@@ -9,7 +11,7 @@
 }
 
 .preview-overlay-update {
-  width: 100%;
+  width: calc(100% - var(--navigator-width) - 10px);
   height: 100%;
   position: absolute;
   top: 0px;
@@ -21,7 +23,7 @@
 }
 
 .preview-overlay {
-  width: 100%;
+  width: calc(100%);
   height: 100%;
   position: absolute;
   top: 0px;
@@ -66,19 +68,56 @@
   right: 0px;
   top: 0px;
 
-  width: 100px;
+  width: var(--navigator-width);
   height: 100%;
 }
 
 .preview_overlay_navigator_block,
 .preview_overlay_navigator_thentime_block {
   position: absolute;
+
+  width: 60px;
+  border-radius: 4px; /*角丸にする*/
 }
 
+.preview_overlay_navigator_thentime_block p,
+.preview_overlay_navigator_block p {
+  color: rgb(255, 255, 255);
+  text-align: center;
+  margin: 0px;
+}
+
+.preview_overlay_navigator_thentime_block {
+  background-color: brown;
+}
+
+.preview_overlay_navigator_block {
+  background-color: rgba(100, 100, 100, 1);
+}
+
+.preview_overlay_navigator_yellow_overlay,
+.preview_overlay_navigator_gray_overlay,
+.preview_overlay_navigator_green_overlay {
+  width: 20px;
+}
+.preview_overlay_navigator_yellow_overlay {
+  position: absolute;
+  top: 0px;
+  left: 5px;
+  /* height: 100%; */
+
+  background-color: rgba(205, 236, 24, 0.89);
+}
 .preview_overlay_navigator_gray_overlay {
   position: absolute;
   top: 0px;
-  left: 0px;
-  width: 100%;
+  left: 5px;
   background-color: rgba(100, 100, 100, 0.3);
+}
+.preview_overlay_navigator_green_overlay {
+  position: absolute;
+  top: 0px;
+  left: 25px;
+  /* height: 100%; */
+  background-color: rgba(45, 205, 24, 0.89);
 }

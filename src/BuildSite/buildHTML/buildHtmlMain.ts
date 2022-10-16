@@ -77,7 +77,7 @@ const htmlBuildMain = (jsonDataCentral: any, compositeID: string, send_composite
   buildQue.pushCSSElementQue(new buildQue.cssElementSubstance(rootHeigth), newRootHeightText);
 
   const newRootPreviewFixedText = buildQue.pushCSSElementQue(new buildQue.cssElementDefault("previewFixed", "#"), rootStyleID);
-  const rootPreviewFixed = "width : 0px ; height : 0px ; left : 0px ; top : 0px; position : absolute;";
+  const rootPreviewFixed = "width : 0px ; height : 9px ; left : 0px ; top : " + compositePreviewTime + "px; position : absolute;";
   buildQue.pushCSSElementQue(new buildQue.cssElementSubstance(rootPreviewFixed), newRootPreviewFixedText);
 
   buildSourceSpecies.sourceSpeciesFunctionComposite(
