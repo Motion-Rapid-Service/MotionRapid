@@ -14,7 +14,7 @@ import * as MiddleDataOperationType from "./../MiddleData/middleDataOperationTyp
 import * as UserHand from "./../UserHand";
 
 import { TimeNavigatorContext } from "./TimeNavigator/TimeNavigatorContext";
-
+import { SetupPracticeContext, TypePracticeHistory, layoutGlowClass } from "./../SetupEditor/SetupPracticeContext";
 export const KeyFrameComponent = (props: any) => {
   const keyframeUUID = props.DownstreamMiddleDataKeyframe["Keyframe_ID"];
   const Animator_propertySpecies = props.DownstreamMiddleDataKeyframe["Animator_propertySpecies"];
@@ -22,6 +22,8 @@ export const KeyFrameComponent = (props: any) => {
   const AppContextValue = useContext(AppContext);
 
   const TimeNavigatorContextValue = useContext(TimeNavigatorContext);
+
+  const SetupPracticeContextValue = useContext(SetupPracticeContext);
 
   const [keyframeStylePos, KeyframePosSetState] = useState<number>(
     AppContextValue.conversionTimeToStyle(
@@ -164,6 +166,9 @@ export const KeyFrameComponent = (props: any) => {
   return (
     <div className="keyframe-area" onMouseDown={MouseDown}>
       <div className="keyframe-entity" draggable="false" onDoubleClick={mouseDoubleClick} style={{ left: keyframeStylePos }}></div>
+      <div style={{ left: keyframeStylePos - 6, position: "absolute", width: "100%", height: "100%", pointerEvents: "none", userSelect: "none" }}>
+        {SetupPracticeContextValue.LayerGlow(SetupPracticeContextValue.getLayoutGlow().keyframe)}
+      </div>
     </div>
   );
   // } else {

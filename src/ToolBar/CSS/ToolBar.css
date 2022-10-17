@@ -20,6 +20,8 @@
   /* width: 100px; */
   margin-left: 2px;
   margin-right: 2px;
+
+  position: relative;
 }
 
 .toolBar-area .toolBar_single-area:hover {

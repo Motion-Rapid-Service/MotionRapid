@@ -27,7 +27,7 @@ import * as middleDataClass from "./../MiddleData/middleDataClass";
 import * as AnimatorGroupFormat from "./../AnimatorGroupFormat/AnimatorGroupFormat";
 import * as AnimatorGroupPropertyFormat from "./../AnimatorGroupFormat/AnimatorGroupPropertyFormat";
 import * as MiddleDataOperationType from "./../MiddleData/middleDataOperationType";
-
+import { SetupPracticeContext, TypePracticeHistory, layoutGlowClass } from "./../SetupEditor/SetupPracticeContext";
 // import generateCSSproperty from "../BuildSite/generateCSSproperty";
 class UserHandLayerPanelOperation {
   mousePushPos: number; //マウスが押された時のマウス座標
@@ -84,7 +84,7 @@ export const TimelineAreaLayerPanelComponent = (props: any) => {
   const SetupEditorContextValue = useContext(SetupEditorContext);
   const SetupUndoContextValue = useContext(SetupUndoContext);
   const SetupConfigContextValue = useContext(SetupConfigContext);
-
+  const SetupPracticeContextValue = useContext(SetupPracticeContext);
   const animatorOpen = MediaObjectContextValue.animatorOpen as boolean;
   const animatorOpenSetState = MediaObjectContextValue.animatorOpenSetState;
 
@@ -148,6 +148,7 @@ export const TimelineAreaLayerPanelComponent = (props: any) => {
       <LayerPanelContext.Provider value={{ timelineAreaLayerPanelElement: timelineAreaLayerPanelElement }}>
         <LayerPanelMediaObjectComponent />
         <SwitchTimelineAreaLayerPanelComponent />
+        {SetupPracticeContextValue.LayerGlow(SetupPracticeContextValue.getLayoutGlow().layerPanel)}
       </LayerPanelContext.Provider>
     </div>
   );
@@ -274,7 +275,7 @@ const AnimaterInsertKeyframeButton = (props: any) => {
   const SetupUndoContextValue = useContext(SetupUndoContext);
   const SetupEditorContextValue = useContext(SetupEditorContext);
   const TimelineAreaDivContextValue = useContext(TimelineAreaDivContext);
-
+  const SetupPracticeContextValue = useContext(SetupPracticeContext);
   const mouseDown = () => {
     SetupUndoContextValue.pushEditHistory();
 
@@ -293,7 +294,11 @@ const AnimaterInsertKeyframeButton = (props: any) => {
 
     AppContextValue.updateDOM();
   };
-  return <div className="layer_panel-animator-entity-insert_keyframe_button" onMouseDown={mouseDown}></div>;
+  return (
+    <div className="layer_panel-animator-entity-insert_keyframe_button" onMouseDown={mouseDown}>
+      {SetupPracticeContextValue.LayerGlow(SetupPracticeContextValue.getLayoutGlow().keyframeMakeButton)}
+    </div>
+  );
 };
 
 const AnimaterLeftKeyframeMoveButton = (props: any) => {

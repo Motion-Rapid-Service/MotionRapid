@@ -20,7 +20,7 @@ import { AppContext } from "../AppContext";
 import * as buildSourceSpecies from "../BuildSite/buildHTML/buildSourceSpecies";
 
 import { TimeNavigatorContext } from "./TimeNavigator/TimeNavigatorContext";
-
+import { SetupPracticeContext, TypePracticeHistory, layoutGlowClass } from "./../SetupEditor/SetupPracticeContext";
 // const defaultColor = [50, 150, 50];
 // const selectColor = [100, 200, 100];
 
@@ -47,6 +47,7 @@ export const MediaObjectScrollComponent = () => {
 
   const animatorOpenSetState = MediaObjectContextValue.animatorOpenSetState;
   const animatorOpen = MediaObjectContextValue.animatorOpen;
+  const SetupPracticeContextValue = useContext(SetupPracticeContext);
 
   // const [areaFocus, areaFocusSetState] = useState<boolean>(false);
   const staStylePos = MediaObjectContextValue.staStylePos;
@@ -326,7 +327,9 @@ export const MediaObjectScrollComponent = () => {
           backgroundColor: backgroundColor(),
         }}
         onDoubleClick={MouseDoubleClick}
-      ></div>
+      >
+        {SetupPracticeContextValue.LayerGlow(SetupPracticeContextValue.getLayoutGlow().mediaObejct)}
+      </div>
     </div>
   );
 };
@@ -336,7 +339,7 @@ export const MediaObjectScrollComponent = () => {
 const SwitchTimelineAreaLayerDurationComponent = () => {
   const MediaObjectContextValue = useContext(MediaObjectContext);
   const animatorOpen = MediaObjectContextValue.animatorOpen as boolean;
-
+  const SetupPracticeContextValue = useContext(SetupPracticeContext);
   if (animatorOpen) {
     return (
       <>
@@ -345,11 +348,17 @@ const SwitchTimelineAreaLayerDurationComponent = () => {
       </>
     );
   } else {
-    return <MediaObjectScrollComponent />;
+    return (
+      <>
+        <MediaObjectScrollComponent />
+      </>
+    );
   }
 };
 
 export const TimelineAreaLayerDurationComponent = () => {
+  const SetupPracticeContextValue = useContext(SetupPracticeContext);
+
   const timelineAreaLayerDurationElement = useRef(null);
   const TimelineAreaDivContextValue = useContext(TimelineAreaDivContext);
   return (

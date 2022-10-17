@@ -10,7 +10,7 @@ import { SetupConfigContext } from "../SetupEditor/SetupConfigContext";
 import { SetupUndoContext } from "./../SetupEditor/SetupUndoContext";
 
 import * as buildSourceSpecies from "../BuildSite/buildHTML/buildSourceSpecies";
-
+import { SetupPracticeContext, TypePracticeHistory, layoutGlowClass } from "./../SetupEditor/SetupPracticeContext";
 import template2022_10_04 from "./../template/20221004.json";
 import template2022_10_10 from "./../template/20221010.json";
 import template2022_10_16 from "./../template/20221016.json";
@@ -22,6 +22,7 @@ const ToolBarDetailSingleComponent = (props: any) => {
   // const componentConvertToolBarEditor =
   //   AppContextValue.componentConvertToolBarEditor;
   // const toolBarClassificationArray = AppContextValue.toolBarClassificationArray;
+  const SetupPracticeContextValue = useContext(SetupPracticeContext);
 
   const MouseDown = () => {
     props.DownstreamToolBarEditorData.editorFunction({
@@ -30,17 +31,27 @@ const ToolBarDetailSingleComponent = (props: any) => {
     AppContextValue.updateDOM();
   };
 
+  const getLayoutGlowToulBar = () => {
+    if (SetupPracticeContextValue.getLayoutGlow().containstoolBarDetail(props.DownstreamToolBarEditorData.toolBarEditorName)) {
+      return <>{SetupPracticeContextValue.LayerGlow(true)}</>;
+    } else {
+      return <></>;
+    }
+  };
+
   return (
     <div className="toolBarDetail_single-area" onMouseDown={MouseDown}>
       <div className="toolBarDetail_single-area-title">
         <p>{props.DownstreamToolBarEditorData.editorLogo}</p>
       </div>
+      {getLayoutGlowToulBar()}
     </div>
   );
 };
 
 const ToolBarSingleComponent = (props: any) => {
   // ここでhooksを使える
+  const SetupPracticeContextValue = useContext(SetupPracticeContext);
 
   const MouseDown = () => {
     const toolBarClassificationName = props.DownstreamToolBarClassificationData.toolBarClassificationName;
@@ -48,12 +59,25 @@ const ToolBarSingleComponent = (props: any) => {
     props.switchToolBarDetailSetState(toolBarClassificationName);
   };
 
+  const getLayoutGlowToulBar = () => {
+    console.log(
+      "SetupPracticeContextValue.getLayoutGlow().toolBar",
+      SetupPracticeContextValue.getLayoutGlow().toulBar,
+      SetupPracticeContextValue.getLayoutGlow()
+    );
+    if (SetupPracticeContextValue.getLayoutGlow().containsToulBar(props.DownstreamToolBarClassificationData.toolBarClassificationName)) {
+      return <>{SetupPracticeContextValue.LayerGlow(true)}</>;
+    } else {
+      return <></>;
+    }
+  };
+
   return (
     <div className="toolBar_single-area" onMouseDown={MouseDown}>
       <div className="toolBar_single-area-title">
         <p>{props.DownstreamToolBarClassificationData.toolBarClassificationLogo}</p>
       </div>
-
+      {getLayoutGlowToulBar()}
       {/* <TimelineComponent /> */}
     </div>
   );

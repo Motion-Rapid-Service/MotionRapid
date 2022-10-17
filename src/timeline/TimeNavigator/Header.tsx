@@ -10,11 +10,13 @@ import { TimeNavigatorPlayheadComponent, TimelinePlayheadComponent } from "./Pla
 import TimeNavigatorScrollBarComponent from "./ScrollBar";
 import TimeNavigatorTimeAxisComponent from "./TimeAxis";
 import * as timelineMousePosition from "./../timeLineMousePosition";
-
+import { SetupPracticeContext, TypePracticeHistory, layoutGlowClass } from "./../../SetupEditor/SetupPracticeContext";
 const TimeNavigatorHeaderComponent = () => {
   const SetupEditorContextValue = useContext(SetupEditorContext);
   const TimeNavigatorContextValue = useContext(TimeNavigatorContext);
   const TimeNavigatorLayerDurationElement = useRef(null);
+
+  const SetupPracticeContextValue = useContext(SetupPracticeContext);
 
   const windowSizeEvent = () => {
     const size = timelineMousePosition.elementSize(TimeNavigatorLayerDurationElement);
@@ -41,6 +43,7 @@ const TimeNavigatorHeaderComponent = () => {
 
           <TimeNavigatorPlayheadComponent />
         </TimeNavigatorLayerDurationContext.Provider>
+        {SetupPracticeContextValue.LayerGlow(SetupPracticeContextValue.getLayoutGlow().layoutTimelineNavigator)}
       </div>
     </div>
   );

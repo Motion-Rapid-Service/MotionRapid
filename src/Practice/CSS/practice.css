@@ -9,6 +9,9 @@
   z-index: 1300;
   display: flex;
   justify-content: flex-end;
+
+  --practice-button-area-height: 35px;
+  --practice-title-area-height: 30px;
 }
 
 .practice_popup {
@@ -25,12 +28,71 @@
 
   margin-top: 20px;
   margin-right: 20px;
+
+  position: relative;
+}
+.practice_popup-title * {
+  user-select: none;
 }
 .practice_popup-title {
   display: flex;
   justify-content: flex-start;
+  height: var(--practice-title-area-height);
 }
+
 .practice_popup-title p {
   margin: 0;
   margin-left: 4px;
+}
+
+.practice_popup-title-text {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.practice_popup-button {
+  margin-top: 4px;
+  display: flex;
+  justify-content: flex-start;
+  /* position: absolute; */
+  /* 
+  right: 12px;
+  top: 4px; */
+  /* left: 20px; */
+
+  margin-left: 8px;
+  height: var(--practice-button-area-height);
+  user-select: none;
+}
+
+.practice_popup-button-single {
+  width: 60px;
+  height: 25px;
+
+  margin-left: 4px;
+
+  display: flex;
+  justify-content: center;
+
+  border: 2px rgb(100, 100, 100) solid;
+  border-radius: 8px;
+}
+
+.practice_popup-button-single:hover {
+  background-color: rgb(200, 200, 200);
+
+  border: 2px rgba(100, 100, 100, 0) solid;
+}
+
+.practice_popup-main {
+  height: calc(100% - var(--practice-button-area-height) - var(--practice-title-area-height));
+  overflow-y: scroll;
+}
+
+.practice_popup-main-scroll {
+  height: 1000px;
+}
+
+.practice_popup-button span {
+  margin-left: 12px;
 }

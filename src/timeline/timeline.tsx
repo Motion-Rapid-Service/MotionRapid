@@ -17,7 +17,7 @@ import TimeNavigatorHeader from "./TimeNavigator/Header";
 import TimeNavigatorTimeline from "./TimeNavigator/TimeNavigatorTimeline";
 
 import { TimeNavigatorContext } from "./TimeNavigator/TimeNavigatorContext";
-
+import { SetupPracticeContext, TypePracticeHistory, layoutGlowClass } from "./../SetupEditor/SetupPracticeContext";
 const TimelineComponent = () => {
   // ここでhooksを使える
 

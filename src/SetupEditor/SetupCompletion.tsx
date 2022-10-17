@@ -13,6 +13,7 @@ import PreviewComponent from "./../Preview/Preview";
 import { SetupConfigContext } from "./SetupConfigContext";
 
 import { SetupHelpSceneContext } from "./SetupHelpSceneContext";
+import { SetupPracticeContext, TypePracticeHistory, layoutGlowClass } from "./SetupPracticeContext";
 //ここを画面結合専用層にする予定
 //ここから ツールバー処理用のクラス
 
@@ -44,6 +45,8 @@ const SetupCompletion = () => {
   const [configStyle, configStyleSetState] = useState<React.CSSProperties>({});
 
   const editorLayoutElement = useRef(null);
+
+  const SetupPracticeContextValue = useContext(SetupPracticeContext);
 
   const getMousePostion = (
     //タイムラインに対してのマウスを取得
@@ -210,26 +213,26 @@ const SetupCompletion = () => {
       <div style={configStyle}>
         <div className="motion_rapid-layout">
           <div className="toolBar-layout">
-            <div className="layout-glow"></div>
+            {SetupPracticeContextValue.LayerGlow(SetupPracticeContextValue.getLayoutGlow().layoutToulBar)}
             <div className="toolBar-layout-expand"></div>
 
             <ToolBarComponent />
           </div>
           <div className="editor-layout" ref={editorLayoutElement}>
             <div className="composite_editor-layout">
-              <div className="layout-glow"></div>
+              {SetupPracticeContextValue.LayerGlow(SetupPracticeContextValue.getLayoutGlow().layoutComposite)}
               <div style={{ width: getCompositeEditorLayoutSize() }}>
                 <CompositeEditorComponent />
               </div>
               <div className="composite_editor-layout-expand" onMouseDown={mouseDownCompositeEditor} onDoubleClick={mouseDoubleClickCompositeEditor}></div>
             </div>
             <div className="preview-layout">
-              <div className="layout-glow"></div>
+              {SetupPracticeContextValue.LayerGlow(SetupPracticeContextValue.getLayoutGlow().layoutPreview)}
               <div className="preview-layout-expand"></div>
               <PreviewComponent />
             </div>
             <div className="timeline-layout">
-              <div className="layout-glow"></div>
+              {SetupPracticeContextValue.LayerGlow(SetupPracticeContextValue.getLayoutGlow().layoutTimelime)}
               <div className="timeline-layout-expand" onMouseDown={mouseDownTimelineEditor} onDoubleClick={mouseDoubleClickTimelineEditor}></div>
 
               <div style={{ height: getTimelineLayoutState() }}>

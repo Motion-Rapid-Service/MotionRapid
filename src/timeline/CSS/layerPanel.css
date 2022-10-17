@@ -2,6 +2,9 @@
   color: rgb(240, 240, 240);
 }
 
+.media_object-area-layer_panel {
+  position: relative;
+}
 .media_object-area-layer_panel .layer_panel-entity {
   height: var(--media_object-height);
   padding-left: 4px;
@@ -81,6 +84,8 @@
   background-repeat: no-repeat;
 
   margin-right: 3px;
+
+  position: relative;
 }
 
 .layer_panel-animator-entity-animator_name {
