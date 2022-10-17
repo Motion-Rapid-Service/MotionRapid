@@ -92,6 +92,8 @@ const toolBarComponent = (props: any) => {
   const SetupUndoContextValue = useContext(SetupUndoContext);
   const SetupConfigContextValue = useContext(SetupConfigContext);
 
+  const SetupPracticeContextValue = useContext(SetupPracticeContext);
+
   const insertToolBarClassificationArraySetStateValue = SetupToolbarContextValue.insertToolBarClassificationArraySetStateValue;
   const insertToolBarEditorDictSetStateValue = SetupToolbarContextValue.insertToolBarEditorDictSetStateValue;
   const operationEditorStatus = SetupToolbarContextValue.operationEditorStatus;
@@ -216,6 +218,11 @@ const toolBarComponent = (props: any) => {
     console.log("template2022_10_16", template2022_10_16);
     AppContextValue.replaceDataCentral(template2022_10_16);
   };
+
+  const practiceStart = (funcdata: { [name: string]: any }) => {
+    SetupPracticeContextValue.practiceModeSetState(SetupPracticeContextValue.practiceModeList[1]);
+    SetupPracticeContextValue.practiceViewSetState(true);
+  };
   useEffect(() => {
     let toolBar1 = "fileEdit";
     insertToolBarClassificationArraySetStateValue(toolBar1, "ファイル操作", false);
@@ -245,7 +252,7 @@ const toolBarComponent = (props: any) => {
 
     let toolBar6 = "practice";
     insertToolBarClassificationArraySetStateValue(toolBar6, "学習", false);
-    insertToolBarEditorDictSetStateValue(toolBar6, "6A", "学習を開始する", toolBarInputTemplate, false);
+    insertToolBarEditorDictSetStateValue(toolBar6, "6A", "学習を開始する", practiceStart, false);
     switchToolBarDetailSetState(toolBar1);
     AppContextValue.updateDOM();
   }, []);

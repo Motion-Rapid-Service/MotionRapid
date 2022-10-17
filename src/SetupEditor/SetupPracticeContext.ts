@@ -25,6 +25,7 @@ export class layoutGlowClass {
   layoutToulBar: boolean;
   layoutTimelime: boolean;
   layoutTimelineNavigator: boolean;
+  layoutPreviewNavigator: boolean;
   mediaObejct: boolean;
   layerPanel: boolean;
   keyframe: boolean;
@@ -38,6 +39,7 @@ export class layoutGlowClass {
     layoutPreview: boolean = false,
     layoutTimelime: boolean = false,
     layoutTimelineNavigator: boolean = false,
+    layoutPreviewNavigator: boolean = false,
     mediaObejct: boolean = false,
     layerPanel: boolean = false,
     keyframe: boolean = false,
@@ -50,6 +52,7 @@ export class layoutGlowClass {
     this.layoutToulBar = layoutToulBar;
     this.layoutTimelime = layoutTimelime;
     this.layoutTimelineNavigator = layoutTimelineNavigator;
+    this.layoutPreviewNavigator = layoutPreviewNavigator;
     this.layerPanel = layerPanel;
     this.mediaObejct = mediaObejct;
     this.keyframe = keyframe;

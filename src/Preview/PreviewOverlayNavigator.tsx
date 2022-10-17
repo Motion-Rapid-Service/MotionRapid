@@ -16,7 +16,7 @@ import * as AnimatorGroupAuxiliaryFunction from "./../AnimatorGroupFormat/Animat
 import { TimeNavigatorContext } from "./../timeline/TimeNavigator/TimeNavigatorContext";
 import * as MiddleDataOperationType from "./../MiddleData/middleDataOperationType";
 import * as PreviewContext from "./PreviewContext";
-
+import { SetupPracticeContext, TypePracticeHistory, layoutGlowClass } from "./../SetupEditor/SetupPracticeContext";
 type TypeDownstreamPreviewNavigatorBlock = { iFrameInStypeY: number; iFrameOutStypeY: number };
 
 const PreviewOverlayNavigatorThenTimeBlock = (props: any) => {
@@ -95,6 +95,8 @@ const PreviewOverlayNavigatorComponent = (props: any) => {
   const AppContextValue = useContext(AppContext);
   const SetupEditorContextValue = useContext(SetupEditorContext);
 
+  const SetupPracticeContextValue = useContext(SetupPracticeContext);
+
   const playheadTime = AppContextValue.getCompositePlayheadTimePos(SetupEditorContextValue.choiceComposite);
 
   const distance = 100;
@@ -134,9 +136,10 @@ const PreviewOverlayNavigatorComponent = (props: any) => {
         {componentConvertPreviewNavigator().map((output: any, index: number) => (
           // <>{fruit}</> //SurfaceControlIndividualを追加するmap (list_surface_controlに入っている)
           <PreviewOverlayNavigatorBlock DownstreamPreviewNavigatorBlock={output} key={index} />
-        ))}{" "}
+        ))}
         <PreviewOverlayNavigatorThenTimeBlock />
-      </div>{" "}
+        {SetupPracticeContextValue.LayerGlow(SetupPracticeContextValue.getLayoutGlow().layoutPreviewNavigator)}
+      </div>
     </PreviewContext.PreviewOverlayNavigatorContext.Provider>
   );
 };

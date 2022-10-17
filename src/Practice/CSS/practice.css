@@ -90,7 +90,14 @@
 }
 
 .practice_popup-main-scroll {
-  height: 1000px;
+  width: 90%;
+  margin-left: 5px;
+  margin-right: 0px;
+}
+
+.practice_popup-main-scroll {
+  margin-right: 0px;
+  width: 95%;
 }
 
 .practice_popup-button span {
