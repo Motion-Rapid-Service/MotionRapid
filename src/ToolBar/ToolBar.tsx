@@ -223,6 +223,10 @@ const toolBarComponent = (props: any) => {
     SetupPracticeContextValue.practiceModeSetState(SetupPracticeContextValue.practiceModeList[1]);
     SetupPracticeContextValue.practiceViewSetState(true);
   };
+  const practiceStart2 = (funcdata: { [name: string]: any }) => {
+    SetupPracticeContextValue.practiceModeSetState(SetupPracticeContextValue.practiceModeList[2]);
+    SetupPracticeContextValue.practiceViewSetState(true);
+  };
   useEffect(() => {
     let toolBar1 = "fileEdit";
     insertToolBarClassificationArraySetStateValue(toolBar1, "ファイル操作", false);
@@ -253,6 +257,7 @@ const toolBarComponent = (props: any) => {
     let toolBar6 = "practice";
     insertToolBarClassificationArraySetStateValue(toolBar6, "学習", false);
     insertToolBarEditorDictSetStateValue(toolBar6, "6A", "学習を開始する", practiceStart, false);
+    insertToolBarEditorDictSetStateValue(toolBar6, "6B", "背景が変わるLP", practiceStart2, false);
     switchToolBarDetailSetState(toolBar1);
     AppContextValue.updateDOM();
   }, []);

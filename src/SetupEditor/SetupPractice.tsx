@@ -7,6 +7,13 @@ import { SetupEditorContext } from "./SetupEditorContext";
 import { SetupPracticeContext, TypePracticeHistory, layoutGlowClass } from "./SetupPracticeContext";
 import SetupUndo from "./SetupUndo";
 
+const notExistPractice: Array<TypePracticeHistory> = [
+  {
+    title: "(´・ω・`)",
+    main: "",
+    layoutGlow: new layoutGlowClass([], [], false, false, false, false, false, false, false, false, false, false),
+  },
+];
 const basicPractice: Array<TypePracticeHistory> = [
   {
     title: "はじめよう",
@@ -32,7 +39,7 @@ const basicPractice: Array<TypePracticeHistory> = [
 
   {
     title: "画面の紹介 - タイムライン",
-    main: "コンポジションに関する設定ができます。クリックで当該コンポジションに移動します。ダブルクリックで設定画面が開きます",
+    main: "各要素を配置したり、重なりを変えたり、アニメーションの設定をすることができます。",
     layoutGlow: new layoutGlowClass([], [], false, false, false, true, false, false, false, false, false, false),
   },
   {
@@ -72,7 +79,7 @@ const basicPractice: Array<TypePracticeHistory> = [
   },
   {
     title: "メディアオブジェクトの長さを変更してみよう(準備中)",
-    main: "現在、メディアオブジェクトの長さを変更することはできますが、影響があるのは、赤色のコンポジションメディアオブジェクトだけで、他コンポジション呼び出し開始時刻に反映されることのみです。AfterEffectsなどの編集ソフトでは各要素の表示期間に影響を与えますが、実装を後回しにしているのため影響を与えません",
+    main: "メディアオブジェクトの長さを変えても何も置きません。実装中です。",
     layoutGlow: new layoutGlowClass([], [], false, false, false, false, false, false, true, false, false, false),
   },
   {
@@ -93,7 +100,7 @@ const basicPractice: Array<TypePracticeHistory> = [
   },
   {
     title: "レイヤーパネルを操作してみよう",
-    main: "ダブルクリックでアニメーター操作エリアを折りたたむことができます。ctrlキーを押しながらドラッグすることでメディアオブジェクトを上下に入れ替えることができます。MotionRapidでは、タイムラインにて下のほうが、重なりが上になります",
+    main: "ダブルクリックでアニメーター操作エリアを折りたたむことができます。ctrlキーを押しながらドラッグすることでメディアオブジェクトを上下に入れ替えることができます。MotionRapidでは、タイムラインにて下のほうが、重なりが上になります(AviUtl方式)",
     layoutGlow: new layoutGlowClass([], [], false, false, false, false, false, false, false, false, false, false),
   },
   {
@@ -107,16 +114,111 @@ const basicPractice: Array<TypePracticeHistory> = [
     layoutGlow: new layoutGlowClass([], [], false, false, false, false, false, false, false, false, false, false),
   },
   {
+    title: "注意事項 & 現在できないこと",
+    main: "MotionRapidはまだ開発途上です。",
+    layoutGlow: new layoutGlowClass([], [], false, false, false, false, false, false, false, false, false, false),
+  },
+  {
     title: "テンプレートを読み込んでみよう",
     main: "初見で新しいLPをゼロから作成するのは大変だと思うので、LPを用意しておきました。",
     layoutGlow: new layoutGlowClass(["templateInput"], ["5A", "5B"], false, false, false, false, false, false, false, false, false, false),
   },
 ];
 
+const backgroundChangePractice: Array<TypePracticeHistory> = [
+  {
+    title: "背景が徐々に変化していくLPを作成してみよう",
+    main: "この学習では、画面いっぱいの画像が、スクロールに合わせて徐々に変化していくLPを作成します",
+    layoutGlow: new layoutGlowClass([], [], false, false, false, false, false, false, false, false, false, false),
+  },
+  {
+    title: "コンポジションを作成しよう",
+    main: "コンポジションを作成しましょう。\n1.コンポジション名を「背景」に変更してください\n2.配置方法を「文書配置」から「背景固定」に変更してください\n文書配置モード:要素を順に配置します\n固定背景モード:コンポジション内のすべての要素を画面左上基準で配置します",
+    layoutGlow: new layoutGlowClass(["compositeEdit"], ["3A"], false, false, false, false, false, false, false, false, false, false),
+  },
+  {
+    title: "コンポジションを開こう",
+    main: "コンポジションを作成しましょう。\n1.コンポジション操作画面の「背景」を選択してください",
+    layoutGlow: new layoutGlowClass([], [], true, false, false, false, false, false, false, false, false, false),
+  },
+  {
+    title: "メディアオブジェクトを追加しよう",
+    main: "メディアオブジェクトを追加しましょう。\n1.ツールバーのメディアオブジェクト→画像挿入",
+    layoutGlow: new layoutGlowClass(["mediaObjectEdit"], ["4C"], false, false, false, false, false, false, false, false, false, false),
+  },
+  {
+    title: "メディアオブジェクトの設定を変更しよう",
+    main: "メディアオブジェクトの名前と、表示される画像を変更してみよう。\n1.メディアオブジェクトをダブルクリックして設定画面を開いてみよう\n2画像をアップロードしよう\n3メディアオブジェクトの名前を「背景画像1」に変更しよう.\nメディアオブジェクト設定画面はポップアップ上部(白い場所)をドラッグすることで移動できます",
+    layoutGlow: new layoutGlowClass([], [], false, false, false, false, false, false, false, false, false, false),
+  },
+  {
+    title: "表示サイズを設定しよう",
+    main: "画像の表示サイズを別途設定する必要があります。\n1.widthの数値設定を100に、単位をvwにする\n2.heightの数値設定を100に、単位をvhにする\nMotionRapidでは画像を設定サイズいっぱいにできるだけ大きく拡大縮小し、必要に応じて画像を引き伸ばします。画像の比率が要素と異なる場合は、何もない空間が残らないように、上下または左右が切り取られます。(background-size: cover)",
+    layoutGlow: new layoutGlowClass([], [], false, false, false, false, false, false, false, false, false, false),
+  },
+  {
+    title: "コピーしたメディアオブジェクトの設定を変更しよう",
+    main: "1.コピーしたメディアオブジェクトの名前を「背景画像2」に変更しよう",
+    layoutGlow: new layoutGlowClass([], [], false, false, false, false, false, false, false, false, false, false),
+  },
+  //もう2回
+
+  {
+    title: "透明度を変更しよう",
+    main: "「背景画像2」を選択した状態で、「メディアオブジェクト→エフェクトを追加する」「opacity」(透明度)を選択",
+    layoutGlow: new layoutGlowClass([], [], false, false, false, false, false, false, false, false, false, false),
+  },
+  {
+    title: "キーフレームを追加しよう",
+    main: "1.プレイヘッドを1000付近に移動しよう\n2.「背景画像2」のキーフレーム追加ボタンからキーフレームを追加する",
+    layoutGlow: new layoutGlowClass([], [], false, false, false, false, false, false, false, false, false, false),
+  },
+  {
+    title: "キーフレームの設定を変更しよう",
+    main: "1.作成したキーフレームをダブルクリックしてキーフレーム設定を開く\n2.「配置数値」を0にする",
+    layoutGlow: new layoutGlowClass([], [], false, false, false, false, false, false, false, false, false, false),
+  },
+  {
+    title: "キーフレームを追加しよう(1)",
+    main: "1.プレイヘッドを2000付近に移動しよう\n2.「背景画像2」のキーフレーム追加ボタンからキーフレームを追加する",
+    layoutGlow: new layoutGlowClass([], [], false, false, false, false, false, false, false, false, false, false),
+  },
+  {
+    title: "キーフレームの設定を変更しよう(2)",
+    main: "1.作成したキーフレームをダブルクリックしてキーフレーム設定を開く\n2.「配置数値」を1にする",
+    layoutGlow: new layoutGlowClass([], [], false, false, false, false, false, false, false, false, false, false),
+  },
+  {
+    title: "コピーしたメディアオブジェクトの設定を変更しよう",
+    main: "1.メディアオブジェクトの名前を「背景画像3」に変更しよう",
+    layoutGlow: new layoutGlowClass([], [], false, false, false, false, false, false, false, false, false, false),
+  },
+  //コピー
+  {
+    title: "コピーしたメディアオブジェクトの設定を変更しよう",
+    main: "1.コピーしたメディアオブジェクトの名前を「背景画像3」に変更しよう",
+    layoutGlow: new layoutGlowClass([], [], false, false, false, false, false, false, false, false, false, false),
+  },
+  {
+    title: "キーフレームを移動しよう",
+    main: "1つ目のキーフレームをダブルクリックして2100へ、2つめのキーフレームをダブルクリックして3000に変更しよう",
+    layoutGlow: new layoutGlowClass([], [], false, false, false, false, false, false, false, false, false, false),
+  },
+  {
+    title: "HTMLを描きだしてみよう",
+    main: "HTMLを出力して確認してみましょう!",
+    layoutGlow: new layoutGlowClass([], [], false, false, false, false, false, false, false, false, false, false),
+  },
+];
+
 const SetupPractice = () => {
-  const practiceModeList = ["notExist", "basic"];
+  const practiceModeList = ["notExist", "basic", "backgroundChange"];
   const [practiceMode, practiceModeSetState] = useState<string>(practiceModeList[0]);
-  const practiceModeHistory: { [name: string]: Array<TypePracticeHistory> } = { basic: basicPractice };
+  const practiceModeHistory: { [name: string]: Array<TypePracticeHistory> } = {
+    notExist: notExistPractice,
+    basic: basicPractice,
+    backgroundChange: backgroundChangePractice,
+  };
   const setPracticeView = (state: boolean) => {
     return !state;
   };
@@ -126,10 +228,13 @@ const SetupPractice = () => {
 
   const setPracticeHistoryNumber = (state: number, action: string) => {
     let now = state;
+    console.log("setPracticeHistoryNumberPA", now, action);
 
-    if (!practiceModeHistory[practiceMode]) {
+    if (!practiceModeHistory[practiceMode] || practiceMode === "notExist" || action === "reset") {
       return 0;
     }
+
+    console.log("setPracticeHistoryNumberPB", now, action);
 
     if (action === "next") {
       now += 1;

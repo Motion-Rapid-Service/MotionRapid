@@ -81,6 +81,12 @@ export const sourceSpeciesFunctionComposite = (
     const htmlAttributeComposite: { [name: string]: string } = { id: targetCompositeID };
     const newHtmlIDComposite = buildQue.pushHtmlElementQue(new buildQue.htmlElementBlockClass("div", htmlAttributeComposite), newHtmlIDPreviewFixed);
     buildHtmlMain.parseComposite(jsonDataCentral, newHtmlIDComposite, targetCompositeID, compositePreviewTime); //ほかのコンポジットを呼び出す。向こうの関数でビルドキューに登録するので戻り値がない
+
+    const targetCompositeIDAllCSS = buildQue.pushCSSElementQue(new buildQue.cssElementDefault(targetCompositeID + " > *", "#"), cssDownParentID);
+
+    buildQue.pushCSSElementQue(new buildQue.cssElementSubstance("position : relative;"), newCssID);
+    const targetCompositeIDAllCSSText = "position : absolute;";
+    buildQue.pushCSSElementQue(new buildQue.cssElementSubstance(targetCompositeIDAllCSSText), targetCompositeIDAllCSS);
     return;
   }
 
@@ -105,6 +111,10 @@ export const sourceSpeciesFunctionComposite = (
 
     const cssText = "position : fixed;";
     buildQue.pushCSSElementQue(new buildQue.cssElementSubstance(cssText), newCssID);
+
+    const targetCompositeIDAllCSS = buildQue.pushCSSElementQue(new buildQue.cssElementDefault(targetCompositeID + " > *", "#"), cssDownParentID);
+    const targetCompositeIDAllCSSText = "position : absolute;";
+    buildQue.pushCSSElementQue(new buildQue.cssElementSubstance(targetCompositeIDAllCSSText), targetCompositeIDAllCSS);
   }
 
   // const cssTextWidth = "width : 100%;";

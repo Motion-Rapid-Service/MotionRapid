@@ -5,7 +5,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AppContext } from "../AppContext";
 import { SetupConfigContext } from "./../SetupEditor/SetupConfigContext";
 import * as ToolConfigContext from "./ToolConfigContext";
-
+import { SetupEditorContext } from "./../SetupEditor/SetupEditorContext";
+import { SetupUndoContext } from "./../SetupEditor/SetupUndoContext";
 export const ConfigSelect = () => {
   const SwitchConfigSettingItemsCompositeContextValue = useContext(ToolConfigContext.SwitchConfigSettingItemsCompositeContext);
 
@@ -100,6 +101,8 @@ export const ConfigTextBox = () => {
 export const ConfigButton = (props: any) => {
   const SetupConfigContextValue = useContext(SetupConfigContext);
   const ConfigModeContextValue = useContext(ToolConfigContext.ConfigModeContext);
+  const SetupEditorContextValue = useContext(SetupEditorContext);
+  const SetupUndoContextValue = useContext(SetupUndoContext);
 
   const mouseDown = () => {
     //マウスがクリックされたとき
@@ -110,6 +113,8 @@ export const ConfigButton = (props: any) => {
     }
 
     ConfigModeContextValue.configContentInit();
+    SetupUndoContextValue.pushEditHistory();
+    SetupEditorContextValue.previewUpdateDOM();
   };
 
   return (

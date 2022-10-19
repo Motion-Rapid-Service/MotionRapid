@@ -49,12 +49,13 @@ body * {
   width: 100vw;
   height: 100vh;
   position: relative;
-  --toolBar-layout-size: 160px;
+  --toolBar-layout-size: 120px;
   overflow: hidden;
 }
 
 .toolBar-layout {
   height: var(--toolBar-layout-size);
+  position: relative;
 }
 
 .editor-layout {
@@ -68,11 +69,26 @@ body * {
   /* z-index: 500; */
 }
 
+.layout-glow {
+  background: linear-gradient(90deg, #03a9f4, #f441a5, #ffeb3b, #03a9f4);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1200;
+  opacity: 0.5;
+  user-select: none;
+  pointer-events: none;
+}
+
 .composite_editor-layout {
   position: absolute;
   height: 100%;
   overflow: hidden;
   display: flex;
+
+  /* opacity: 0.78; */
 }
 
 .preview-layout {
@@ -105,7 +121,7 @@ body * {
 .motion_rapid-layout {
   --layout-expand-min_size: 10px;
   --layout-expand-max_size: 100%;
-  --layout-expand-color: rgb(200, 200, 200);
+  --layout-expand-color: rgb(240, 200, 100);
 }
 
 .toolBar-layout-expand {
@@ -255,6 +271,9 @@ body * {
   color: rgb(240, 240, 240);
 }
 
+.media_object-area-layer_panel {
+  position: relative;
+}
 .media_object-area-layer_panel .layer_panel-entity {
   height: var(--media_object-height);
   padding-left: 4px;
@@ -334,6 +353,8 @@ body * {
   background-repeat: no-repeat;
 
   margin-right: 3px;
+
+  position: relative;
 }
 
 .layer_panel-animator-entity-animator_name {
@@ -374,13 +395,15 @@ body * {
 
 .toolBar {
   margin-bottom: 5px;
+
+  margin-left: 12px;
 }
 
 .toolBar-area {
   background-color: rgb(255, 255, 255);
   width: auto;
-  height: 50px;
-  margin: 2px 2px 0px 2px;
+  height: 30px;
+  margin: 12px 2px 0px 2px;
   /* overflow: scroll; */
   display: flex;
   align-items: flex-end;
@@ -388,10 +411,12 @@ body * {
 }
 
 .toolBar-area .toolBar_single-area {
-  background-color: rgb(255, 255, 255);
+  background-color: rgb(230, 230, 230);
   /* width: 100px; */
   margin-left: 2px;
   margin-right: 2px;
+
+  position: relative;
 }
 
 .toolBar-area .toolBar_single-area:hover {
@@ -399,15 +424,15 @@ body * {
 }
 
 .toolBar-area .toolBar_single-area .toolBar_single-area-title {
-  width: 50px;
-  height: 50px;
+  width: 120px;
+  height: 30px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .toolBar_single-area-title p {
-  font-size: 10px;
+  font-size: 11px;
   margin: 0px;
 }
 
@@ -422,38 +447,38 @@ body * {
 .toolBarDetail-area {
   background-color: rgb(255, 255, 255);
   width: 50px;
-  height: 50px;
+  height: 30px;
   margin: 2px 2px 0px 2px;
   /* overflow: scroll; */
   display: flex;
-  align-items: flex-end;
+  align-items: flex-start;
   justify-content: flex-start;
 }
 
 .toolBarDetail-area .toolBarDetail_single-area {
-  background-color: rgb(10, 255, 255);
+  background-color: rgb(230, 230, 230);
   /* width: 100px; */
 
   margin-left: 2px;
   margin-right: 2px;
+
+  position: relative;
 }
 
 .toolBarDetail-area .toolBarDetail_single-area:hover {
   background-color: rgb(240, 240, 240);
 }
 
-.toolBarDetail-area
-  .toolBarDetail_single-area
-  .toolBarDetail_single-area-title {
-  width: 50px;
-  height: 50px;
+.toolBarDetail-area .toolBarDetail_single-area .toolBarDetail_single-area-title {
+  width: 120px;
+  height: 30px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .toolBarDetail_single-area-title p {
-  font-size: 10px;
+  font-size: 11px;
   margin: 0px;
 }
 
@@ -867,5 +892,111 @@ body * {
   left: 25px;
   /* height: 100%; */
   background-color: rgba(45, 205, 24, 0.89);
+}
+
+.practice_background {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  user-select: none;
+  pointer-events: none;
+  z-index: 1300;
+  display: flex;
+  justify-content: flex-end;
+
+  --practice-button-area-height: 35px;
+  --practice-title-area-height: 30px;
+}
+
+.practice_popup {
+  width: 1000px;
+  height: 200px;
+  background-color: white;
+  border-radius: 3px;
+  box-shadow: 0 0 5px rgb(100, 100, 100);
+
+  user-select: all;
+  pointer-events: all;
+
+  padding: 4px 2px 2px 2px;
+
+  margin-top: 20px;
+  margin-right: 20px;
+
+  position: relative;
+}
+.practice_popup-title * {
+  user-select: none;
+}
+.practice_popup-title {
+  display: flex;
+  justify-content: flex-start;
+  height: var(--practice-title-area-height);
+}
+
+.practice_popup-title p {
+  margin: 0;
+  margin-left: 4px;
+}
+
+.practice_popup-title-text {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.practice_popup-button {
+  margin-top: 4px;
+  display: flex;
+  justify-content: flex-start;
+  /* position: absolute; */
+  /* 
+  right: 12px;
+  top: 4px; */
+  /* left: 20px; */
+
+  margin-left: 8px;
+  height: var(--practice-button-area-height);
+  user-select: none;
+}
+
+.practice_popup-button-single {
+  width: 60px;
+  height: 25px;
+
+  margin-left: 4px;
+
+  display: flex;
+  justify-content: center;
+
+  border: 2px rgb(100, 100, 100) solid;
+  border-radius: 8px;
+}
+
+.practice_popup-button-single:hover {
+  background-color: rgb(200, 200, 200);
+
+  border: 2px rgba(100, 100, 100, 0) solid;
+}
+
+.practice_popup-main {
+  height: calc(100% - var(--practice-button-area-height) - var(--practice-title-area-height));
+  overflow-y: scroll;
+}
+
+.practice_popup-main-scroll {
+  width: 90%;
+  margin-left: 5px;
+  margin-right: 0px;
+}
+
+.practice_popup-main-scroll {
+  margin-right: 0px;
+  width: 95%;
+}
+
+.practice_popup-button span {
+  margin-left: 12px;
 }
 

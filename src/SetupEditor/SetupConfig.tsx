@@ -21,12 +21,12 @@ const getConfigModeArgsOption = () => {
 const SetupConfig = () => {
   const configModeList = [
     "notExist",
-    "newComposite", //新しいコンポジットの設定
-    "newAnimatorGroup", //新しいAnimatorGroupの設定
-    "operationKeyframe", //keyframeをダブルクリックした時の設定
-    "mediaObjectTextMode", //メディアオブジェクトがテキストモードの時の設定画面を呼び出すようにする
-    "mediaObjectImageMode", //メディアオブジェクトがイメージ設定モードの時の設定画面を呼び出すようにする
-    "mediaObjectCompositeMode", //メディアオブジェクトがイメージ設定モードの時の設定画面を呼び出すようにする    ,
+    "新規コンポジション設定", //新しいコンポジットの設定
+    "新規アニメーターグループ", //新しいAnimatorGroupの設定
+    "キーフレーム設定", //keyframeをダブルクリックした時の設定
+    "メディアオブジェクト設定(テキスト)", //メディアオブジェクトがテキストモードの時の設定画面を呼び出すようにする
+    "メディアオブジェクト設定(画像)", //メディアオブジェクトがイメージ設定モードの時の設定画面を呼び出すようにする
+    "メディアオブジェクト設定(コンポジション)", //メディアオブジェクトがイメージ設定モードの時の設定画面を呼び出すようにする    ,
     "mediaObjectJsonMode",
     "editComposite",
     "editAnimatorGroup",
@@ -67,7 +67,6 @@ const SetupConfig = () => {
       }}
     >
       <SetupToolbar />
-
     </SetupConfigContext.Provider>
   );
 };

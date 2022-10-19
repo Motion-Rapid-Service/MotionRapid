@@ -18,9 +18,9 @@ const PracticeButton = () => {
     SetupPracticeContextValue.practiceHistoryNumberSetState("next");
   };
   const onClickEnd = () => {
+    SetupPracticeContextValue.practiceModeSetState(SetupPracticeContextValue.practiceModeList[0]);
     SetupPracticeContextValue.practiceHistoryNumberSetState("reset");
     SetupPracticeContextValue.practiceViewSetState(false);
-    SetupPracticeContextValue.practiceModeSetState(SetupPracticeContextValue.practiceModeList[0]);
   };
   return (
     <>
@@ -35,6 +35,17 @@ const PracticeButton = () => {
       </div>
     </>
   );
+};
+
+const PracticeMainBr = (text: string) => {
+  const mainTextSplit = text.split("\n");
+  return mainTextSplit.map((output: any, index: number) => (
+    // <>{fruit}</> //SurfaceControlIndividualを追加するmap (list_surface_controlに入っている)
+    <>
+      {output}
+      <br />
+    </>
+  ));
 };
 
 const PracticeMain = () => {
@@ -54,7 +65,7 @@ const PracticeMain = () => {
     <>
       <span>{thenHistoryBlock.title}</span>
       <br />
-      <span> {thenHistoryBlock.main}</span>
+      <span>{PracticeMainBr(thenHistoryBlock.main)}</span>
     </>
   );
 };

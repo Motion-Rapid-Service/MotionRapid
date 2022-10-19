@@ -15,7 +15,7 @@ import * as UserCopy from "./../UserCopy";
 import TimeNavigatorHeader from "./TimeNavigator/Header";
 
 import TimeNavigatorTimeline from "./TimeNavigator/TimeNavigatorTimeline";
-
+import { SetupUndoContext } from "./../SetupEditor/SetupUndoContext";
 import { TimeNavigatorContext } from "./TimeNavigator/TimeNavigatorContext";
 import { SetupPracticeContext, TypePracticeHistory, layoutGlowClass } from "./../SetupEditor/SetupPracticeContext";
 const TimelineComponent = () => {
@@ -46,6 +46,8 @@ const TimelineComponent = () => {
   // useEffect(() => {
   //   AppContextValue.updateDOM();
   // }, []);
+
+  const SetupUndoContextValue = useContext(SetupUndoContext);
 
   const timelineMainElement = useRef(null);
   const timelineAreaElement = useRef(null);
@@ -244,6 +246,8 @@ const TimelineComponent = () => {
       console.log("paste", userCopyData.copyTargetID[i], thencomposite);
       AppContextValue.copyMediaObject(userCopyData.copyTargetID[i], thencomposite);
     }
+
+    SetupUndoContextValue.pushEditHistory();
     SetupEditorContextValue.previewUpdateDOM();
   };
 

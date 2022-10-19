@@ -180,7 +180,7 @@ export const MediaObjectScrollComponent = () => {
     return () => {
       window.removeEventListener("keydown", KeyDown);
     };
-  }, []);
+  }, [mediaObjectUUID]);
 
   const MouseDown = (event: any) => {
     //マウスでクリックされた時に、メディアオブジェクトの操作を開始するか検証し、マウスのデータを格納する
