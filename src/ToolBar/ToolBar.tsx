@@ -13,7 +13,8 @@ import * as buildSourceSpecies from "../BuildSite/buildHTML/buildSourceSpecies";
 import { SetupPracticeContext, TypePracticeHistory, layoutGlowClass } from "./../SetupEditor/SetupPracticeContext";
 import template2022_10_04 from "./../template/20221004.json";
 import template2022_10_10 from "./../template/20221010.json";
-import template2022_10_16 from "./../template/20221016.json";
+// import template2022_10_16 from "./../template/20221016.json";
+import template2022_10_19 from "./../template/20221019.json";
 // import templateA from "./../template/20221004.json";
 
 const ToolBarDetailSingleComponent = (props: any) => {
@@ -215,8 +216,8 @@ const toolBarComponent = (props: any) => {
   };
 
   const toolBarInputTemplate2 = (funcdata: { [name: string]: any }) => {
-    console.log("template2022_10_16", template2022_10_16);
-    AppContextValue.replaceDataCentral(template2022_10_16);
+    console.log("template2022_10_19", template2022_10_19);
+    AppContextValue.replaceDataCentral(template2022_10_19);
   };
 
   const practiceStart = (funcdata: { [name: string]: any }) => {

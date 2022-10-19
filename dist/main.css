@@ -795,7 +795,7 @@ body * {
 }
 
 .preview-overlay {
-  width: calc(100%);
+  width: calc(100% - 80px);
   height: 100%;
   position: absolute;
   top: 0px;
@@ -817,6 +817,7 @@ body * {
 
 .preview-overlay * {
   user-select: none;
+  /* overflow: hidden; */
 }
 
 .preview-overlay-shape {
