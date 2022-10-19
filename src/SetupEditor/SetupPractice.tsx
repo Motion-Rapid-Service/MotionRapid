@@ -152,6 +152,12 @@ const backgroundChangePractice: Array<TypePracticeHistory> = [
     layoutGlow: new layoutGlowClass([], [], false, false, false, false, false, false, false, false, false, false),
   },
   {
+    title: "プレビューナビゲーターを追従モードにしよう",
+    main: "1.プレビューナビゲーター上のプレイヘッドをクリックして切り替える。\nプレビュー画面を出力時に表示される位置に追従することができます。\nもう一度クリックすることで解除することができます",
+    layoutGlow: new layoutGlowClass([], [], false, false, false, false, false, false, false, false, false, false),
+  },
+
+  {
     title: "表示サイズを設定しよう",
     main: "画像の表示サイズを別途設定する必要があります。\n1.widthの数値設定を100に、単位をvwにする\n2.heightの数値設定を100に、単位をvhにする\nMotionRapidでは画像を設定サイズいっぱいにできるだけ大きく拡大縮小し、必要に応じて画像を引き伸ばします。画像の比率が要素と異なる場合は、何もない空間が残らないように、上下または左右が切り取られます。(background-size: cover)",
     layoutGlow: new layoutGlowClass([], [], false, false, false, false, false, false, false, false, false, false),
@@ -170,7 +176,7 @@ const backgroundChangePractice: Array<TypePracticeHistory> = [
   },
   {
     title: "キーフレームを追加しよう",
-    main: "1.プレイヘッドを1000付近に移動しよう\n2.「背景画像2」のキーフレーム追加ボタンからキーフレームを追加する",
+    main: "1.プレイヘッドを500付近に移動しよう\n2.「背景画像2」のキーフレーム追加ボタンからキーフレームを追加する",
     layoutGlow: new layoutGlowClass([], [], false, false, false, false, false, false, false, false, false, false),
   },
   {
@@ -180,7 +186,7 @@ const backgroundChangePractice: Array<TypePracticeHistory> = [
   },
   {
     title: "キーフレームを追加しよう(1)",
-    main: "1.プレイヘッドを2000付近に移動しよう\n2.「背景画像2」のキーフレーム追加ボタンからキーフレームを追加する",
+    main: "1.プレイヘッドを1000付近に移動しよう\n2.「背景画像2」のキーフレーム追加ボタンからキーフレームを追加する",
     layoutGlow: new layoutGlowClass([], [], false, false, false, false, false, false, false, false, false, false),
   },
   {
@@ -201,7 +207,7 @@ const backgroundChangePractice: Array<TypePracticeHistory> = [
   },
   {
     title: "キーフレームを移動しよう",
-    main: "1つ目のキーフレームをダブルクリックして2100へ、2つめのキーフレームをダブルクリックして3000に変更しよう",
+    main: "1つ目のキーフレームをダブルクリックして1100へ、2つめのキーフレームをダブルクリックして2000に変更しよう",
     layoutGlow: new layoutGlowClass([], [], false, false, false, false, false, false, false, false, false, false),
   },
   {

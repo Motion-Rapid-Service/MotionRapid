@@ -21,15 +21,29 @@ type TypeDownstreamPreviewNavigatorBlock = { iFrameInStypeY: number; iFrameOutSt
 
 const PreviewOverlayNavigatorThenTimeBlock = (props: any) => {
   const PreviewOverlayNavigatorContextValue = useContext(PreviewContext.PreviewOverlayNavigatorContext);
+  const SetupEditorContextValue = useContext(SetupEditorContext);
+
+  const onClick = () => {
+    SetupEditorContextValue.trackingPreviewSetState("change");
+  };
+
+  const text = () => {
+    if (SetupEditorContextValue.trackingPreview) {
+      return "追従";
+    } else {
+      return PreviewOverlayNavigatorContextValue.playheadTime;
+    }
+  };
 
   return (
     <div
       className="preview_overlay_navigator_thentime_block"
+      onClick={onClick}
       style={{
         top: PreviewOverlayNavigatorContextValue.thenTimeStylePos,
       }}
     >
-      <p>{PreviewOverlayNavigatorContextValue.playheadTime}</p>
+      <p>{text()}</p>
     </div>
   );
 };

@@ -27,6 +27,22 @@ const Editor = () => {
     console.log("previewUpdate 再レンダリング B");
   }, [previewUpdate]);
 
+  // const [trackingPreview, trackingPreviewSetState] = useState(false)
+
+  const setTrackingPreview = (state: boolean, action: string) => {
+    if (action === "change") {
+      return !state;
+    }
+    if (action === "on") {
+      return true;
+    }
+    if (action === "off") {
+      return false;
+    }
+  };
+
+  const [trackingPreview, trackingPreviewSetState] = useReducer(setTrackingPreview, false);
+
   // **************************************************************
 
   const getKeyframeValue = (OwnedID_Keyframe: Array<string>, playheadTime: number): string => {
@@ -55,10 +71,11 @@ const Editor = () => {
         previewUpdate: previewUpdate,
         previewUpdateDOM: previewUpdateDOM,
         getKeyframeValue: getKeyframeValue,
+        trackingPreview: trackingPreview,
+        trackingPreviewSetState: trackingPreviewSetState,
       }}
     >
-        <SetupHelpScene/>
-
+      <SetupHelpScene />
     </SetupEditorContext.Provider>
   );
 };

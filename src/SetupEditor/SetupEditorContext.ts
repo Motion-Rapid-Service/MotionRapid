@@ -7,6 +7,8 @@ type SetupEditorContextValue = {
   previewUpdate: boolean;
   previewUpdateDOM: Function;
   getKeyframeValue: Function;
+  trackingPreview: boolean;
+  trackingPreviewSetState: Function;
 };
 
 export const SetupEditorContext = createContext<SetupEditorContextValue>({} as SetupEditorContextValue);

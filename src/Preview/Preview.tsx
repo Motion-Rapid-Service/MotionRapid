@@ -127,7 +127,20 @@ const PreviewComponent = () => {
         previewOverlayDict: createPreviewOverlayDict(),
       };
     }
-
+    if (action.type === "overlayScrollY") {
+      const iframeWindow = previewIframeElement.current.contentWindow;
+      iframeWindow.scrollTo(action.scrollX, action.scrollY);
+      console.log("overlayScroll action.scrollY-ko", action.scrollY);
+      return {
+        scrollX: state.scrollX,
+        scrollY: action.scrollY,
+        iframeWidth: state.iframeWidth,
+        iframeHeight: state.iframeHeight,
+        iframeScrollWidth: state.iframeScrollWidth,
+        iframeScrollHeight: state.iframeScrollHeight,
+        previewOverlayDict: createPreviewOverlayDict(),
+      };
+    }
     if (action.type === "reLoad") {
       return {
         scrollX: state.scrollX,
@@ -240,6 +253,14 @@ const PreviewComponent = () => {
 
   // const [previewOverlay, previewOverlayUpdate] = useReducer(setPreviewOverlay, {});
 
+  useEffect(() => {
+    if (!SetupEditorContextValue.trackingPreview) {
+      return;
+    }
+    const playheadTime = AppContextValue.getCompositePlayheadTimePos(SetupEditorContextValue.choiceComposite);
+    previewNavigatorSetState({ type: "overlayScrollY", scrollY: playheadTime });
+  }, [SetupEditorContextValue.trackingPreview, TimeNavigatorContextValue.playheadViewPos, SetupEditorContextValue.previewUpdate]);
+
   const componentConvertPreviewOverlay = () => {
     const previewOverlayDictValue = Object.values(previewNavigator.previewOverlayDict);
 
@@ -250,6 +271,7 @@ const PreviewComponent = () => {
     const xP = previeOverlayScrollElement.current.scrollLeft;
     const yP = previeOverlayScrollElement.current.scrollTop;
     console.log("onSS", xP, yP);
+    SetupEditorContextValue.trackingPreviewSetState("off");
     previewNavigatorSetState({ type: "overlayScroll", scrollX: xP, scrollY: yP });
   };
 
@@ -260,7 +282,7 @@ const PreviewComponent = () => {
           <p>html p</p>
         </iframe>
       </div>
-      <PreviewOverlayNavigator previewNavigator={previewNavigator} previewMainElement={previewMainElement} />
+
       <div className="preview-overlay" ref={previeOverlayElement}>
         <div className="preview-overlay-shape" ref={previeOverlayShapeElement}>
           {componentConvertPreviewOverlay().map((output: any, index: number) => (
@@ -280,6 +302,7 @@ const PreviewComponent = () => {
           <div className="preview-overlay-scroll-in" style={{ width: previewNavigator.iframeScrollWidth, height: previewNavigator.iframeScrollHeight }}></div>
         </div>
       </div>
+      <PreviewOverlayNavigator previewNavigator={previewNavigator} previewMainElement={previewMainElement} />
     </div>
   );
 };
