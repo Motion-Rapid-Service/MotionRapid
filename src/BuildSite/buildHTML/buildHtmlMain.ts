@@ -287,10 +287,10 @@ const parseMediaObject = (
       console.log("解析 : 破棄", thenSourceSpeciesCompositeClass.compositeID, OwnedClass_Composite);
       return;
     }
-    // const newCompositePreviewTime = compositePreviewTime - thenMediaObject.MediaObject_StartTime;
+    const newCompositePreviewTime = compositePreviewTime - thenMediaObject.MediaObject_StartTime;
     // メディアオブジェクトの時間判定機能を一度削除するため(フィールドバックのため)
 
-    const newCompositePreviewTime = compositePreviewTime;
+    // const newCompositePreviewTime = compositePreviewTime;
     buildSourceSpecies.sourceSpeciesFunctionComposite(
       getJsonDataCentral,
       newHtmlID,
