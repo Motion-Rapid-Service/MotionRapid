@@ -78,8 +78,8 @@ const basicPractice: Array<TypePracticeHistory> = [
     layoutGlow: new layoutGlowClass(["mediaObjectEdit"], ["4D"], false, false, false, false, false, false, false, false, false, false),
   },
   {
-    title: "メディアオブジェクトの長さを変更してみよう(準備中)",
-    main: "メディアオブジェクトの長さを変えても何も置きません。実装中です。",
+    title: "メディアオブジェクトの長さを変更してみよう",
+    main: "各オブジェクトが表示される範囲を設定することができます。",
     layoutGlow: new layoutGlowClass([], [], false, false, false, false, false, false, true, false, false, false),
   },
   {
