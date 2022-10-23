@@ -24,30 +24,6 @@ const TimelineComponent = () => {
 
   console.log("TimelineComponent");
 
-  const [timelineUpdate, timelineSetUpdata] = useState<boolean>(false);
-
-  const timelineUpdateDOM = () => {
-    //強制再レンダリング関数
-    timelineSetUpdata(timelineUpdate ? false : true);
-  };
-
-  useEffect(() => {
-    console.log("timelineUpdate 再レンダリング");
-  }, [timelineUpdate]);
-
-  const [animationOpenUpdate, animationOpenSetUpdata] = useState<boolean>(false);
-  const animationOpenUpdateDOM = () => {
-    //強制再レンダリング関数
-    animationOpenSetUpdata(animationOpenUpdate ? false : true);
-  };
-  useEffect(() => {
-    console.log("animationOpenUpdate 再レンダリング");
-  }, [animationOpenUpdate]);
-
-  // useEffect(() => {
-  //   AppContextValue.updateDOM();
-  // }, []);
-
   const SetupUndoContextValue = useContext(SetupUndoContext);
 
   const timelineMainElement = useRef(null);
@@ -463,10 +439,6 @@ const TimelineComponent = () => {
                     timelineMainElement: timelineMainElement,
                     timelineAreaElement: timelineAreaElement,
                     timelineScrollElement: timelineScrollElement,
-                    timelineUpdate: timelineUpdate,
-                    timelineUpdateDOM: timelineUpdateDOM,
-                    animationOpenUpdateDOM: animationOpenUpdateDOM,
-                    animationOpenUpdate: animationOpenUpdate,
                     mediaObejctDivHeightSetStateValue: mediaObejctDivHeightSetStateValue,
                     // middleDataOperation: middleDataOperation,
                     // MouseSelectedSetValue: MouseSelectedSetValue,

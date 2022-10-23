@@ -28,7 +28,7 @@ export const SwitchMediaObjectAreaSpace = (props: any) => {
     } else {
       emphasisSpaceSetState(false);
     }
-  }, [TimelineAreaDivContextValue.focusMediaObjectSpace, MediaObjectContextValue.mediaObjectUUID, MediaObjectContextValue.animatorOpen]);
+  }, [TimelineAreaDivContextValue.focusMediaObjectSpace, MediaObjectContextValue.mediaObjectUUID, MediaObjectContextValue.mediaObjectRender]);
 
   return <MediaObjectAreaSpaceComponent emphasis={emphasisSpace} />;
 };

@@ -14,7 +14,7 @@ import { SetupEditorContext } from "./../SetupEditor/SetupEditorContext";
 import { SetupUndoContext } from "./../SetupEditor/SetupUndoContext";
 
 import { TimeNavigatorContext } from "./TimeNavigator/TimeNavigatorContext";
-
+import * as timelimeRender from "./timelimeRender";
 export const MediaObjectAreaComponent = (props: any) => {
   const mediaObjectAreaElement = useRef<HTMLDivElement>(null);
 
@@ -24,63 +24,141 @@ export const MediaObjectAreaComponent = (props: any) => {
 
   const TimelineAreaDivContextValue = useContext(TimelineAreaDivContext);
 
-  const [animatorOpen, animatorOpenSetState] = useState<boolean>(AppContextValue.getMediaObejctAnimatorOpen(MediaObject_ID));
-  const [staStylePos, StaSetState] = useState<number>(null);
-  const [endStylePos, EndSetState] = useState<number>(null);
-
   const TimeNavigatorContextValue = useContext(TimeNavigatorContext);
-
   const SetupEditorContextValue = useContext(SetupEditorContext);
 
-  useEffect(() => {
-    // const ElementBoundingClientRect =
-    // mediaObjectAreaElement.current.getBoundingClientRect();
-    // const ElementLeft = ElementBoundingClientRect.left;
-    // const ElementTop = ElementBoundingClientRect.top;
-  }, []);
+  // const [animatorOpen, animatorOpenSetState] = useState<boolean>(AppContextValue.getMediaObejctAnimatorOpen(MediaObject_ID));
+  // const [staStylePos, StaSetState] = useState<number>(null);
+  // const [endStylePos, EndSetState] = useState<number>(null);
 
-  useEffect(() => {
-    if (!staStylePos || !endStylePos || TimeNavigatorContextValue.timelimeRender.timeNavigatorFlag) {
-      return;
-    }
-
+  const setMediaObjectRender = (
+    state: timelimeRender.TypeMediaObjectRender,
+    action:
+      | timelimeRender.TypeMediaObjectRenderActionStyle
+      | timelimeRender.TypeMediaObjectRenderActionAnimatorOpen
+      | timelimeRender.TypeMediaObjectRenderActionUpdate
+  ): timelimeRender.TypeMediaObjectRender => {
     const compositeDuration: number = AppContextValue.getCompositeDuration(SetupEditorContextValue.choiceComposite);
-    if (!compositeDuration) {
-      return;
+    console.log("setMediaObjectRender action.type", action);
+    switch (action.type) {
+      case "update":
+        {
+          const mediaObjectTime = AppContextValue.getMediaObjectTime(MediaObject_ID);
+          const styleStaStyle = AppContextValue.conversionTimeToStyle(
+            mediaObjectTime[0],
+            TimeNavigatorContextValue.timelimeRender.staViewTime,
+            TimeNavigatorContextValue.timelimeRender.endViewTime,
+            TimeNavigatorContextValue.timelimeRender.durationWidth
+          );
+          const styleEndStyle = AppContextValue.conversionTimeToStyle(
+            mediaObjectTime[1],
+            TimeNavigatorContextValue.timelimeRender.staViewTime,
+            TimeNavigatorContextValue.timelimeRender.endViewTime,
+            TimeNavigatorContextValue.timelimeRender.durationWidth
+          );
+          if (!isFinite(styleStaStyle) || !isFinite(styleEndStyle)) {
+            break;
+          }
+          return {
+            staStylePos: styleStaStyle,
+            endStylePos: styleEndStyle,
+            animatorOpen: state.animatorOpen,
+          };
+        }
+        break;
+      case "mediaObjectStyle":
+        {
+          const thenAction = action as timelimeRender.TypeMediaObjectRenderActionStyle;
+          if (!compositeDuration) {
+            break;
+          }
+          const staStylePos = thenAction.staStylePos != null && isFinite(thenAction.staStylePos) ? thenAction.staStylePos : state.staStylePos;
+          const endStylePos = thenAction.endStylePos != null && isFinite(thenAction.endStylePos) ? thenAction.endStylePos : state.endStylePos;
+
+          const staTime: number = AppContextValue.conversionStyleToTime(
+            staStylePos,
+            TimeNavigatorContextValue.timelimeRender.staViewTime,
+            TimeNavigatorContextValue.timelimeRender.endViewTime,
+            TimeNavigatorContextValue.timelimeRender.durationWidth
+          );
+          const endTime: number = AppContextValue.conversionStyleToTime(
+            endStylePos,
+            TimeNavigatorContextValue.timelimeRender.staViewTime,
+            TimeNavigatorContextValue.timelimeRender.endViewTime,
+            TimeNavigatorContextValue.timelimeRender.durationWidth
+          );
+
+          if (isFinite(staStylePos) && isFinite(endStylePos)) {
+            AppContextValue.operationMediaObjectTime({
+              mediaObjectID: MediaObject_ID,
+              sta: staTime,
+              end: endTime,
+            });
+          }
+
+          return {
+            staStylePos: staStylePos,
+            endStylePos: endStylePos,
+            animatorOpen: state.animatorOpen,
+          };
+        }
+        break;
+
+      case "animatorOpen":
+        {
+          const thenAction = action as timelimeRender.TypeMediaObjectRenderActionAnimatorOpen;
+          AppContextValue.rewriteMediaObejctAnimatorOpen(MediaObject_ID, thenAction.animatorOpen);
+          return { staStylePos: state.staStylePos, endStylePos: state.endStylePos, animatorOpen: thenAction.animatorOpen };
+        }
+        break;
+
+      default:
+        break;
     }
 
-    const staTime: number = AppContextValue.conversionStyleToTime(
-      staStylePos,
-      TimeNavigatorContextValue.timelimeRender.staViewTime,
-      TimeNavigatorContextValue.timelimeRender.endViewTime,
-      TimeNavigatorContextValue.timelimeRender.durationWidth
-    );
-    const endTime: number = AppContextValue.conversionStyleToTime(
-      endStylePos,
-      TimeNavigatorContextValue.timelimeRender.staViewTime,
-      TimeNavigatorContextValue.timelimeRender.endViewTime,
-      TimeNavigatorContextValue.timelimeRender.durationWidth
-    );
+    return {
+      staStylePos: state.staStylePos,
+      endStylePos: state.endStylePos,
+      animatorOpen: state.animatorOpen,
+    };
+  };
 
-    console.log("MediaObjectAreaComponentUseEffect", staTime, staStylePos, endTime, endStylePos);
-
-    if (isFinite(staStylePos) && isFinite(endStylePos)) {
-      AppContextValue.operationMediaObjectTime({
-        mediaObjectID: MediaObject_ID,
-        sta: staTime,
-        end: endTime,
-      });
-    }
-  }, [staStylePos, endStylePos]);
+  const [mediaObjectRender, mediaObjectRenderSetState] = useReducer(setMediaObjectRender, { staStylePos: null, endStylePos: null, animatorOpen: true });
 
   useEffect(() => {
-    AppContextValue.rewriteMediaObejctAnimatorOpen(MediaObject_ID, animatorOpen);
-    TimelineAreaDivContextValue.animationOpenUpdateDOM();
-  }, [animatorOpen]);
-  useEffect(() => {
-    const openTemp = AppContextValue.getMediaObejctAnimatorOpen(MediaObject_ID);
-    animatorOpenSetState(openTemp);
-  }, [MediaObject_ID]);
+    mediaObjectRenderSetState({ type: "update" });
+  }, [TimeNavigatorContextValue.timelimeRender]);
+
+  // useEffect(() => {
+  // if (!mediaObjectRender.staStylePos || !mediaObjectRender.endStylePos || TimeNavigatorContextValue.timelimeRender.timeNavigatorFlag) {
+  //   return;
+  // }
+  // const compositeDuration: number = AppContextValue.getCompositeDuration(SetupEditorContextValue.choiceComposite);
+  // if (!compositeDuration) {
+  //   return;
+  // }
+  // const staTime: number = AppContextValue.conversionStyleToTime(
+  //   mediaObjectRender.staStylePos,
+  //   TimeNavigatorContextValue.timelimeRender.staViewTime,
+  //   TimeNavigatorContextValue.timelimeRender.endViewTime,
+  //   TimeNavigatorContextValue.timelimeRender.durationWidth
+  // );
+  // const endTime: number = AppContextValue.conversionStyleToTime(
+  //   mediaObjectRender.endStylePos,
+  //   TimeNavigatorContextValue.timelimeRender.staViewTime,
+  //   TimeNavigatorContextValue.timelimeRender.endViewTime,
+  //   TimeNavigatorContextValue.timelimeRender.durationWidth
+  // );
+  // }, [mediaObjectRender]);
+
+  // useEffect(() => {
+  //   AppContextValue.rewriteMediaObejctAnimatorOpen(MediaObject_ID, animatorOpen);
+  //   TimelineAreaDivContextValue.animationOpenUpdateDOM();
+  // }, [animatorOpen]);
+  // useEffect(() => {
+  //   const openTemp = AppContextValue.getMediaObejctAnimatorOpen(MediaObject_ID);
+  //   animatorOpenSetState(openTemp);
+  // }, [MediaObject_ID]);
 
   return (
     <>
@@ -88,12 +166,8 @@ export const MediaObjectAreaComponent = (props: any) => {
         <MediaObjectContext.Provider
           value={{
             mediaObjectAreaElement: mediaObjectAreaElement,
-            animatorOpen: animatorOpen,
-            animatorOpenSetState: animatorOpenSetState,
-            staStylePos: staStylePos,
-            StaSetState: StaSetState,
-            endStylePos: endStylePos,
-            EndSetState: EndSetState,
+            mediaObjectRender: mediaObjectRender,
+            mediaObjectRenderSetState: mediaObjectRenderSetState,
             mediaObjectUUID: MediaObject_ID,
             mediaObejctIndex: props.indexMediaObejct,
           }}

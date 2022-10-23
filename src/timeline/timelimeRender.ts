@@ -33,6 +33,21 @@ export type TypeTimelimeRenderActionWindowResize = {
   windowWidthSzie: number;
 };
 
-export type TypeMediaObjectRender = { staTime: number; endTime: number };
+export type TypeMediaObjectRender = { staStylePos: number; endStylePos: number; animatorOpen: boolean };
+
+export type TypeMediaObjectRenderActionUpdate = {
+  type: string;
+};
+
+export type TypeMediaObjectRenderActionStyle = {
+  type: string;
+  staStylePos: number;
+  endStylePos: number;
+};
+
+export type TypeMediaObjectRenderActionAnimatorOpen = {
+  type: string;
+  animatorOpen: boolean;
+};
 
 export type TypeAnimaterKeyframeRender = {};

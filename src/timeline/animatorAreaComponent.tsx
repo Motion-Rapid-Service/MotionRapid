@@ -36,7 +36,6 @@ export const KeyFrameComponent = (props: any) => {
 
   const MediaObjectContextValue = useContext(MediaObjectContext);
   const mediaObjectAreaElement = MediaObjectContextValue.mediaObjectAreaElement as any;
-  const animatorOpen = MediaObjectContextValue.animatorOpen as boolean;
   const LayerDurationContextValue = useContext(LayerDurationContext);
 
   const SetupConfigContextValue = useContext(SetupConfigContext);
@@ -142,7 +141,7 @@ export const KeyFrameComponent = (props: any) => {
 
   useEffect(() => {
     keyframeUpdate();
-  }, [TimelineAreaDivContextValue.timelineUpdate, SetupEditorContextValue.previewUpdate]);
+  }, [SetupEditorContextValue.previewUpdate]);
 
   const mouseDoubleClick = (event: any) => {
     const clientX = event.clientX;

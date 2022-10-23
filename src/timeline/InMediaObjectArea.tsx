@@ -45,24 +45,13 @@ export const MediaObjectScrollComponent = () => {
 
   const mediaObjectAreaElement = MediaObjectContextValue.mediaObjectAreaElement;
 
-  const animatorOpenSetState = MediaObjectContextValue.animatorOpenSetState;
-  const animatorOpen = MediaObjectContextValue.animatorOpen;
   const SetupPracticeContextValue = useContext(SetupPracticeContext);
 
   // const [areaFocus, areaFocusSetState] = useState<boolean>(false);
-  const staStylePos = MediaObjectContextValue.staStylePos;
-  const StaSetState = MediaObjectContextValue.StaSetState;
-  const endStylePos = MediaObjectContextValue.endStylePos;
-  const EndSetState = MediaObjectContextValue.EndSetState;
+
   const mediaObjectUUID = MediaObjectContextValue.mediaObjectUUID;
 
   const [mediaObjectColor, mediaObjectColorSetState] = useState<Array<number>>(AppContextValue.getMediaObjectColor(mediaObjectUUID));
-
-  const countStaRef = useRef(null); //  ref オブジェクト作成する
-  countStaRef.current = staStylePos; // countを.currentプロパティへ保持する
-
-  const countEndRef = useRef(null); //  ref オブジェクト作成する
-  countEndRef.current = endStylePos; // countを.currentプロパティへ保持する
 
   const mediObjectEdgeJudge = (judgeX: number, judgePos: number) => {
     return Math.abs(judgeX - judgePos) <= UserHandTolerance;
@@ -75,11 +64,11 @@ export const MediaObjectScrollComponent = () => {
   const timeLineMouseMoveAction = (event: any) => {
     const mouseX = timeLineMousePosition.mediaObjectMousePosition(event, LayerDurationContextValue.timelineAreaLayerDurationElement)[0];
 
-    if (mediObjectEdgeJudge(mouseX, countStaRef.current)) {
+    if (mediObjectEdgeJudge(mouseX, MediaObjectContextValue.mediaObjectRender.staStylePos)) {
       MouseUnselectedSetState("ew-resize");
-    } else if (mediObjectEdgeJudge(mouseX, countEndRef.current)) {
+    } else if (mediObjectEdgeJudge(mouseX, MediaObjectContextValue.mediaObjectRender.endStylePos)) {
       MouseUnselectedSetState("ew-resize");
-    } else if (mediObjectAreaJudge(mouseX, countStaRef.current, countEndRef.current)) {
+    } else if (mediObjectAreaJudge(mouseX, MediaObjectContextValue.mediaObjectRender.staStylePos, MediaObjectContextValue.mediaObjectRender.endStylePos)) {
       MouseUnselectedSetState("grab");
     } else {
       MouseUnselectedSetState("auto");
@@ -96,14 +85,26 @@ export const MediaObjectScrollComponent = () => {
 
     switch (userHandMediaObject.mouseDownFlag) {
       case 1:
-        StaSetState(mouseMoveX + userHandMediaObject.mouseDownStaStyle);
+        // StaSetState(mouseMoveX + userHandMediaObject.mouseDownStaStyle);
+        MediaObjectContextValue.mediaObjectRenderSetState({
+          type: "mediaObjectStyle",
+          staStylePos: mouseMoveX + userHandMediaObject.mouseDownStaStyle,
+          endStylePos: null,
+        });
         break;
       case 2:
-        EndSetState(mouseMoveX + userHandMediaObject.mouseDownEndStyle);
+        MediaObjectContextValue.mediaObjectRenderSetState({
+          type: "mediaObjectStyle",
+          staStylePos: null,
+          endStylePos: mouseMoveX + userHandMediaObject.mouseDownEndStyle,
+        });
         break;
       case 3:
-        StaSetState(mouseMoveX + userHandMediaObject.mouseDownStaStyle);
-        EndSetState(mouseMoveX + userHandMediaObject.mouseDownEndStyle);
+        MediaObjectContextValue.mediaObjectRenderSetState({
+          type: "mediaObjectStyle",
+          staStylePos: mouseMoveX + userHandMediaObject.mouseDownStaStyle,
+          endStylePos: mouseMoveX + userHandMediaObject.mouseDownEndStyle,
+        });
 
         break;
     }
@@ -189,13 +190,15 @@ export const MediaObjectScrollComponent = () => {
     const mousePushPos = timeLineMousePosition.mediaObjectMousePosition(event, LayerDurationContextValue.timelineAreaLayerDurationElement)[0];
 
     let stateUserHand = 0;
-    if (mediObjectEdgeJudge(mousePushPos, staStylePos)) {
+    if (mediObjectEdgeJudge(mousePushPos, MediaObjectContextValue.mediaObjectRender.staStylePos)) {
       stateUserHand = 1;
       MouseSelectedSetState("col-resize");
-    } else if (mediObjectEdgeJudge(mousePushPos, endStylePos)) {
+    } else if (mediObjectEdgeJudge(mousePushPos, MediaObjectContextValue.mediaObjectRender.endStylePos)) {
       stateUserHand = 2;
       MouseSelectedSetState("col-resize");
-    } else if (mediObjectAreaJudge(mousePushPos, staStylePos, endStylePos)) {
+    } else if (
+      mediObjectAreaJudge(mousePushPos, MediaObjectContextValue.mediaObjectRender.staStylePos, MediaObjectContextValue.mediaObjectRender.endStylePos)
+    ) {
       stateUserHand = 3;
       MouseSelectedSetState("grabbing");
     } else {
@@ -205,7 +208,13 @@ export const MediaObjectScrollComponent = () => {
 
     UserHand.alldeleteUserHandMediaObject();
 
-    UserHand.insertUserHandMediaObject(mediaObjectUUID, stateUserHand, mousePushPos, staStylePos, endStylePos);
+    UserHand.insertUserHandMediaObject(
+      mediaObjectUUID,
+      stateUserHand,
+      mousePushPos,
+      MediaObjectContextValue.mediaObjectRender.staStylePos,
+      MediaObjectContextValue.mediaObjectRender.endStylePos
+    );
   };
   const MouseRelease = (event: any) => {
     MouseSelectedSetState("auto");
@@ -222,40 +231,17 @@ export const MediaObjectScrollComponent = () => {
     // TimelineAreaDivContextValue.deleteUserHandMediaObjectList(mediaObjectUUID);
   };
 
-  const mediaObjectUpdate = () => {
-    const compositeDuration: number = AppContextValue.getCompositeDuration(SetupEditorContextValue.choiceComposite);
-    if (!compositeDuration) {
-      return;
-    }
+  // const mediaObjectUpdate = () => {
+  //   const compositeDuration: number = AppContextValue.getCompositeDuration(SetupEditorContextValue.choiceComposite);
+  //   if (!compositeDuration) {
+  //     return;
+  //   }
 
-    const mediaObjectTime = AppContextValue.getMediaObjectTime(mediaObjectUUID);
-
-    const styleStaTime = AppContextValue.conversionTimeToStyle(
-      mediaObjectTime[0],
-      TimeNavigatorContextValue.timelimeRender.staViewTime,
-      TimeNavigatorContextValue.timelimeRender.endViewTime,
-      TimeNavigatorContextValue.timelimeRender.durationWidth
-    );
-    const styleEndTime = AppContextValue.conversionTimeToStyle(
-      mediaObjectTime[1],
-      TimeNavigatorContextValue.timelimeRender.staViewTime,
-      TimeNavigatorContextValue.timelimeRender.endViewTime,
-      TimeNavigatorContextValue.timelimeRender.durationWidth
-    );
-
-    if (isFinite(styleStaTime) && isFinite(styleEndTime)) {
-      StaSetState(styleStaTime);
-      EndSetState(styleEndTime);
-    }
-
-    console.log("mediaObjectUpdate", styleStaTime, styleEndTime, mediaObjectTime);
-  };
+  //   console.log("mediaObjectUpdate", styleStaTime, styleEndTime, mediaObjectTime);
+  // };
 
   useEffect(() => {
     // const mediaObjectSourceSpecies = AppContextValue.getMediaObjectSourceSpecies(mediaObjectUUID);
-
-    mediaObjectUpdate();
-
     const thenSourceSpeciesClass: buildSourceSpecies.SourceSpeciesClass = AppContextValue.getMediaObjectSourceSpecies(mediaObjectUUID);
 
     mediaObjectColorSetState(thenSourceSpeciesClass.mediaObejctSelectColor);
@@ -275,9 +261,7 @@ export const MediaObjectScrollComponent = () => {
     };
   }, [mediaObjectUUID, SetupEditorContextValue.previewUpdate, SetupEditorContextValue.choiceComposite]);
 
-  useEffect(() => {
-    mediaObjectUpdate();
-  }, [TimelineAreaDivContextValue.timelineUpdate]);
+  // useEffect(() => {}, [TimelineAreaDivContextValue.timelineUpdate, TimeNavigatorContextValue.timelimeRender]);
 
   useEffect(() => {
     // if (!areaFocus){
@@ -322,8 +306,8 @@ export const MediaObjectScrollComponent = () => {
         className="media_object-area-scroll"
         draggable="false"
         style={{
-          left: staStylePos,
-          width: endStylePos - staStylePos,
+          left: MediaObjectContextValue.mediaObjectRender.staStylePos,
+          width: MediaObjectContextValue.mediaObjectRender.endStylePos - MediaObjectContextValue.mediaObjectRender.staStylePos,
           backgroundColor: backgroundColor(),
         }}
         onDoubleClick={MouseDoubleClick}
@@ -338,7 +322,7 @@ export const MediaObjectScrollComponent = () => {
 
 const SwitchTimelineAreaLayerDurationComponent = () => {
   const MediaObjectContextValue = useContext(MediaObjectContext);
-  const animatorOpen = MediaObjectContextValue.animatorOpen as boolean;
+  const animatorOpen = MediaObjectContextValue.mediaObjectRender.animatorOpen as boolean;
   const SetupPracticeContextValue = useContext(SetupPracticeContext);
   if (animatorOpen) {
     return (

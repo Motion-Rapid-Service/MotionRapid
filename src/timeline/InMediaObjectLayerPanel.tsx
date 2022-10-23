@@ -45,8 +45,8 @@ const SwitchTimelineAreaLayerPanelComponent = (props: any) => {
   const MediaObjectContextValue = useContext(MediaObjectContext);
   const TimelineAreaDivContextValue = useContext(TimelineAreaDivContext);
   const LayerPanelContextValue = useContext(LayerPanelContext);
-  const animatorOpen = MediaObjectContextValue.animatorOpen as boolean;
-  const animatorOpenSetState = MediaObjectContextValue.animatorOpenSetState;
+  const animatorOpen = MediaObjectContextValue.mediaObjectRender.animatorOpen as boolean;
+
   useEffect(() => {
     const positon = timelineMousePosition.mediaObjectTimelinePostion(
       TimelineAreaDivContextValue.timelineScrollElement,
@@ -58,7 +58,7 @@ const SwitchTimelineAreaLayerPanelComponent = (props: any) => {
     const yPosHeight = [positon[1], positon[1] + size[1]];
 
     TimelineAreaDivContextValue.mediaObejctDivHeightSetStateValue(MediaObjectContextValue.mediaObejctIndex, yPosHeight);
-  }, [AppContextValue.update, MediaObjectContextValue.mediaObjectUUID, animatorOpen, TimelineAreaDivContextValue.animationOpenUpdate]);
+  }, [AppContextValue.update, MediaObjectContextValue.mediaObjectUUID, animatorOpen]);
 
   if (animatorOpen) {
     return (
@@ -85,8 +85,7 @@ export const TimelineAreaLayerPanelComponent = (props: any) => {
   const SetupUndoContextValue = useContext(SetupUndoContext);
   const SetupConfigContextValue = useContext(SetupConfigContext);
   const SetupPracticeContextValue = useContext(SetupPracticeContext);
-  const animatorOpen = MediaObjectContextValue.animatorOpen as boolean;
-  const animatorOpenSetState = MediaObjectContextValue.animatorOpenSetState;
+  const animatorOpen = MediaObjectContextValue.mediaObjectRender.animatorOpen as boolean;
 
   const mouseUp = (event: any) => {
     if (!(MediaObjectContextValue.mediaObjectUUID in UserHandLayerPanelList)) {
@@ -159,11 +158,12 @@ export const LayerPanelMediaObjectComponent = (props: any) => {
   const MediaObjectContextValue = useContext(MediaObjectContext);
   const SetupConfigContextValue = useContext(SetupConfigContext);
   // const MediaObjectContextValue = useContext(MediaObjectContext);
-  const animatorOpen = MediaObjectContextValue.animatorOpen as boolean;
-  const animatorOpenSetState = MediaObjectContextValue.animatorOpenSetState;
+  const animatorOpen = MediaObjectContextValue.mediaObjectRender.animatorOpen as boolean;
   const TimelineAreaDivContextValue = useContext(TimelineAreaDivContext);
   const MouseDoubleClick = (event: any) => {
-    animatorOpenSetState(!animatorOpen);
+    // animatorOpenSetState(!animatorOpen);
+
+    MediaObjectContextValue.mediaObjectRenderSetState({ type: "animatorOpen", animatorOpen: !animatorOpen });
 
     TimelineAreaDivContextValue.focusMediaObjectSpaceSetState(-1);
   };

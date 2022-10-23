@@ -1,16 +1,12 @@
 import * as React from "react";
 const { createContext } = React;
-
+import * as timelimeRender from "./timelimeRender";
 type MediaObjectContextValue = {
   //   sta: Number;
   //   end: Number;
   mediaObjectAreaElement: any;
-  animatorOpen: boolean;
-  animatorOpenSetState: Function;
-  staStylePos: number;
-  StaSetState: Function;
-  endStylePos: number;
-  EndSetState: Function;
+  mediaObjectRender: timelimeRender.TypeMediaObjectRender;
+  mediaObjectRenderSetState: Function;
   mediaObjectUUID: string;
   mediaObejctIndex: number;
   // areaFocus:boolean;
@@ -22,10 +18,10 @@ type TimelineAreaDivContextValue = {
   timelineMainElement: any;
   timelineAreaElement: any;
   timelineScrollElement: any;
-  timelineUpdate: boolean;
-  timelineUpdateDOM: Function;
-  animationOpenUpdate: boolean;
-  animationOpenUpdateDOM: Function;
+  // timelineUpdate: boolean;
+  // timelineUpdateDOM: Function;
+  // animationOpenUpdate: boolean;
+  // animationOpenUpdateDOM: Function;
   mediaObejctDivHeightSetStateValue: Function;
   mediaObjectSwopInsertionDestination: Function;
   focusMediaObjectSpace: number;
