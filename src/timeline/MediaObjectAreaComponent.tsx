@@ -62,6 +62,8 @@ export const MediaObjectAreaComponent = (props: any) => {
       TimeNavigatorContextValue.durationWidth
     );
 
+    console.log("MediaObjectAreaComponentUseEffect", staTime, staStylePos, endTime, endStylePos);
+
     if (isFinite(staStylePos) && isFinite(endStylePos)) {
       AppContextValue.operationMediaObjectTime({
         mediaObjectID: MediaObject_ID,

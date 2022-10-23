@@ -289,7 +289,7 @@ export default class MiddleDataOperation {
   operationKeyframeTime = (sendData: MiddleDataOperationType.OperationKeyframeTimeType) => {
     const KeyframeID = sendData["KeyframeID"];
 
-    this.DataCentral.OwnedClass_Keyframe[KeyframeID].Keyframe_AbsoluteTime = sendData["time"];
+    this.DataCentral.OwnedClass_Keyframe[KeyframeID].Keyframe_AbsoluteTime = Number(sendData["time"]);
   };
 
   operationCSSPropertyValue = (sendData: MiddleDataOperationType.OoperationCSSPropertyValueType) => {
@@ -448,7 +448,7 @@ export default class MiddleDataOperation {
     if (!hasKeyFound(compositeID, this.DataCentral.OwnedClass_Composite)) {
       return;
     }
-    return this.DataCentral.OwnedClass_Composite[compositeID].Composite_Duration;
+    return Number(this.DataCentral.OwnedClass_Composite[compositeID].Composite_Duration);
   };
 
   getCompositeStyleViewPos = (compositeID: string) => {
@@ -554,7 +554,7 @@ export default class MiddleDataOperation {
     if (!hasKeyFound(compositeID, this.DataCentral.OwnedClass_Composite)) {
       return;
     }
-    this.DataCentral.OwnedClass_Composite[compositeID].Composite_Duration = time;
+    this.DataCentral.OwnedClass_Composite[compositeID].Composite_Duration = Number(time);
   };
   setCompositePreviewViewPos = (compositeID: string, pos: { x: number; y: number }) => {
     if (!hasKeyFound(compositeID, this.DataCentral.OwnedClass_Composite)) {

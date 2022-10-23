@@ -273,11 +273,11 @@ export const MediaObjectScrollComponent = () => {
       window.removeEventListener("mousemove", timeLineMouseMoveAction);
       window.removeEventListener("mouseup", MouseRelease);
     };
-  }, [mediaObjectUUID]);
+  }, [mediaObjectUUID, SetupEditorContextValue.previewUpdate]);
 
   useEffect(() => {
     mediaObjectUpdate();
-  }, [TimelineAreaDivContextValue.timelineUpdate, SetupEditorContextValue.previewUpdate]);
+  }, [TimelineAreaDivContextValue.timelineUpdate]);
 
   useEffect(() => {
     // if (!areaFocus){
