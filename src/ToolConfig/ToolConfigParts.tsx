@@ -58,6 +58,7 @@ export const ConfigSelectComposite = () => {
 
   return (
     <select onChange={onChange} value={textState}>
+      <option value={"notExist"}>未選択</option>
       {exposeValue.candidateList.map((output: string, index: number) => (
         <ConfigSelectOptionComposite output={output} index={Number(index)} key={index} />
       ))}

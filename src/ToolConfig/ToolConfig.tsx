@@ -629,6 +629,9 @@ const ComponentOptionConvertConfigMode = (props: any) => {
 
     const OwnedID_Composite: Array<string> = AppContextValue.getOwnedID_Composite();
 
+    const delIndex = OwnedID_Composite.indexOf("SourceSpeciesClass.compositeID");
+    OwnedID_Composite.splice(delIndex, 1);
+
     const configItemMediaObjectName: string = ToolConfigContext.ConfigItemMediaObjextCompositeMode[1];
     const configModeArgsOption = SetupConfigContextValue.getConfigModeArgsOption();
     const mediaObjectName: string = AppContextValue.getMediaObjectName(configModeArgsOption.MediaObject_ID);
