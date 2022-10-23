@@ -628,15 +628,16 @@ const ComponentOptionConvertConfigMode = (props: any) => {
     let settingItemsTemp: Array<ToolConfigContext.settingItemsData> = [];
 
     const OwnedID_Composite: Array<string> = AppContextValue.getOwnedID_Composite();
+    const configModeArgsOption = SetupConfigContextValue.getConfigModeArgsOption();
+    const SourceSpeciesClass: buildSourceSpecies.SourceSpeciesCompositeClass = AppContextValue.getMediaObjectSourceSpecies(configModeArgsOption.MediaObject_ID);
 
-    const delIndex = OwnedID_Composite.indexOf("SourceSpeciesClass.compositeID");
-    OwnedID_Composite.splice(delIndex, 1);
+    const delIndex = OwnedID_Composite.indexOf(configModeArgsOption.Composite_ID);
+    if (delIndex >= 0) {
+      OwnedID_Composite.splice(delIndex, 1);
+    }
 
     const configItemMediaObjectName: string = ToolConfigContext.ConfigItemMediaObjextCompositeMode[1];
-    const configModeArgsOption = SetupConfigContextValue.getConfigModeArgsOption();
     const mediaObjectName: string = AppContextValue.getMediaObjectName(configModeArgsOption.MediaObject_ID);
-
-    const SourceSpeciesClass: buildSourceSpecies.SourceSpeciesCompositeClass = AppContextValue.getMediaObjectSourceSpecies(configModeArgsOption.MediaObject_ID);
 
     console.log("itemMediaObjectCompositeMode mediaObjectNameA", mediaObjectName, SourceSpeciesClass.compositeID, SourceSpeciesClass);
 

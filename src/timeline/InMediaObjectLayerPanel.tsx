@@ -331,6 +331,8 @@ const AnimaterCSSproperty = (props: any) => {
   const LayerPanelAnimaterContextValue = useContext(LayerPanelAnimaterContext);
   const AnimaterCSSpropertyContextValue = useContext(AnimaterCSSpropertyContext);
 
+  const MediaObjectContextValue = useContext(MediaObjectContext);
+
   const OwnedID_Keyframe: Array<string> = AppContextValue.getOwnedID_Keyframe(LayerPanelAnimaterContextValue.Animator_ID);
   const isAnimator = OwnedID_Keyframe.length === 0;
 
@@ -431,14 +433,19 @@ const AnimaterCSSproperty = (props: any) => {
         cssValue: SetupEditorContextValue.getKeyframeValue(OwnedID_Keyframe, TimeNavigatorContextValue.getPlayheadTime()),
       });
     }
-  }, [TimeNavigatorContextValue.timelimeRender]);
-
-  useEffect(() => {
     animaterCSSpropertyValueUpdate({
       actionType: "previewUpdate",
       cssValue: null,
     });
-  }, [SetupEditorContextValue.previewUpdate]);
+
+    const thenAnimatorCSSPropertyID = AppContextValue.getOwnedID_CSSPropertySpeciesHasAnimator(LayerPanelAnimaterContextValue.Animator_ID);
+    const thenCSSPropertyUnit: string = AppContextValue.getCSSPropertyUnit(thenAnimatorCSSPropertyID);
+
+    animaterCSSpropertyUnitUpdate({
+      actionType: "",
+      cssUnit: thenCSSPropertyUnit,
+    });
+  }, [TimeNavigatorContextValue.timelimeRender, MediaObjectContextValue.mediaObjectRender]);
 
   let unitMessage = "";
   if (
