@@ -41,13 +41,9 @@ export const MediaObjectScrollComponent = () => {
   const [MouseUnselected, MouseUnselectedSetState] = useState<string>("auto");
   const [Mouselogic, MouselogicSetState] = useState<string>("auto");
 
-  // const [Mouselogic, MouselogicSetState] = useState<string>("auto");
-
   const mediaObjectAreaElement = MediaObjectContextValue.mediaObjectAreaElement;
 
   const SetupPracticeContextValue = useContext(SetupPracticeContext);
-
-  // const [areaFocus, areaFocusSetState] = useState<boolean>(false);
 
   const mediaObjectUUID = MediaObjectContextValue.mediaObjectUUID;
 
@@ -256,11 +252,6 @@ export const MediaObjectScrollComponent = () => {
   // useEffect(() => {}, [TimelineAreaDivContextValue.timelineUpdate, TimeNavigatorContextValue.timelimeRender]);
 
   useEffect(() => {
-    // if (!areaFocus){
-    //   MouselogicSetState("auto");
-    //   return
-    // }
-
     if (MouseSelected !== "auto") {
       MouselogicSetState(MouseSelected);
     } else if (MouseUnselected !== "auto") {

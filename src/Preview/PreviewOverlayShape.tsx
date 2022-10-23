@@ -70,7 +70,8 @@ const PreviewOverlayShapeComponent = (props: any) => {
         const animatorMarginTop = AppContextValue.searchSpecificAnimatorPropertySpecies(marginID, "top")[0];
         return { x: animatorMarginLeft, y: animatorMarginTop };
 
-      case middleDataClass.Composite_LocationMode[1] || middleDataClass.Composite_LocationMode[3]: //座標設定(左上)
+      case middleDataClass.Composite_LocationMode[1]: //座標設定(左上)
+      case middleDataClass.Composite_LocationMode[3]:
         let leftID: string;
         let topID: string;
 

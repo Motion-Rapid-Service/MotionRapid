@@ -48,17 +48,6 @@ const SwitchTimelineAreaLayerPanelComponent = (props: any) => {
   const animatorOpen = MediaObjectContextValue.mediaObjectRender.animatorOpen as boolean;
   const SetupEditorContextValue = useContext(SetupEditorContext);
 
-  useEffect(() => {
-    const positon = timelineMousePosition.mediaObjectTimelinePostion(
-      TimelineAreaDivContextValue.timelineScrollElement,
-      LayerPanelContextValue.timelineAreaLayerPanelElement
-    );
-    const size = timelineMousePosition.elementSize(LayerPanelContextValue.timelineAreaLayerPanelElement);
-    const yPosHeight = [positon[1], positon[1] + size[1]];
-
-    TimelineAreaDivContextValue.mediaObejctDivHeightSetStateValue(MediaObjectContextValue.mediaObejctIndex, yPosHeight);
-  }, [SetupEditorContextValue.previewUpdate, MediaObjectContextValue.mediaObjectUUID, animatorOpen]);
-
   if (animatorOpen) {
     return (
       <div className="layer_panel-animator">
@@ -85,6 +74,14 @@ export const TimelineAreaLayerPanelComponent = (props: any) => {
   const SetupConfigContextValue = useContext(SetupConfigContext);
   const SetupPracticeContextValue = useContext(SetupPracticeContext);
   const animatorOpen = MediaObjectContextValue.mediaObjectRender.animatorOpen as boolean;
+
+  useEffect(() => {
+    const positon = timelineMousePosition.mediaObjectTimelinePostion(TimelineAreaDivContextValue.timelineScrollElement, timelineAreaLayerPanelElement);
+    const size = timelineMousePosition.elementSize(timelineAreaLayerPanelElement);
+    const yPosHeight = [positon[1], positon[1] + size[1]];
+
+    TimelineAreaDivContextValue.mediaObejctDivHeightSetStateValue(MediaObjectContextValue.mediaObejctIndex, yPosHeight);
+  }, [MediaObjectContextValue.mediaObjectRender, animatorOpen]);
 
   const mouseUp = (event: any) => {
     if (!(MediaObjectContextValue.mediaObjectUUID in UserHandLayerPanelList)) {
@@ -440,12 +437,11 @@ const AnimaterCSSproperty = (props: any) => {
 
     const thenAnimatorCSSPropertyID = AppContextValue.getOwnedID_CSSPropertySpeciesHasAnimator(LayerPanelAnimaterContextValue.Animator_ID);
     const thenCSSPropertyUnit: string = AppContextValue.getCSSPropertyUnit(thenAnimatorCSSPropertyID);
-
     animaterCSSpropertyUnitUpdate({
       actionType: "",
       cssUnit: thenCSSPropertyUnit,
     });
-  }, [TimeNavigatorContextValue.timelimeRender, MediaObjectContextValue.mediaObjectRender]);
+  }, [LayerPanelAnimaterContextValue.Animator_ID]);
 
   let unitMessage = "";
   if (

@@ -117,6 +117,7 @@ const TimelineComponent = () => {
             compositeDuration * endRate,
             state.durationWidth
           );
+          AppContextValue.setCompositeStyleViewPos(SetupEditorContextValue.choiceComposite, [compositeDuration * staRate, compositeDuration * endRate]);
 
           console.log("timeNavigatorScroll", staRate, endRate);
           return {
@@ -195,8 +196,12 @@ const TimelineComponent = () => {
 
   useEffect(() => {
     timelimeRenderSetState({ type: "compositeMove" });
-    SetupEditorContextValue.previewUpdateDOM();
+    // SetupEditorContextValue.previewUpdateDOM();
   }, [SetupEditorContextValue.choiceComposite]);
+
+  useEffect(() => {
+    SetupEditorContextValue.previewUpdateDOM();
+  }, [timelimeRender]);
 
   const [mediaObejctDivHeight, mediaObejctDivHeightSetState] = useState<{
     [name: number]: Array<number>;

@@ -126,9 +126,12 @@ export const MediaObjectAreaComponent = (props: any) => {
   const [mediaObjectRender, mediaObjectRenderSetState] = useReducer(setMediaObjectRender, { staStylePos: null, endStylePos: null, animatorOpen: true });
 
   useEffect(() => {
-    mediaObjectRenderSetState({ type: "update" });
     SetupEditorContextValue.previewUpdateDOM();
   }, [TimeNavigatorContextValue.timelimeRender]);
+
+  useEffect(() => {
+    mediaObjectRenderSetState({ type: "update" });
+  }, [SetupEditorContextValue.previewUpdate]);
 
   // useEffect(() => {
   // if (!mediaObjectRender.staStylePos || !mediaObjectRender.endStylePos || TimeNavigatorContextValue.timelimeRender.timeNavigatorFlag) {
