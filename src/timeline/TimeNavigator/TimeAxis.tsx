@@ -27,7 +27,7 @@ const TimeAxisBlockComponent = (props: any) => {
     </div>
   );
 };
-const componentConvertTimeAxisBlock = (staStyleViewPos: number, endStyleViewPos: number) => {
+const componentConvertTimeAxisBlock = () => {
   let tempArray: Array<DownstreamTimeAxisBlockClass> = [];
   const AppContextValue = useContext(AppContext);
   const SetupEditorContextValue = useContext(SetupEditorContext);
@@ -37,7 +37,7 @@ const componentConvertTimeAxisBlock = (staStyleViewPos: number, endStyleViewPos:
     return [];
   }
 
-  const sectionViewStyle = endStyleViewPos - staStyleViewPos;
+  const sectionViewStyle = TimeNavigatorContextValue.timelimeRender.endViewTime - TimeNavigatorContextValue.timelimeRender.staViewTime;
 
   let sectionTemp = sectionViewStyle;
   let digit = 0;
@@ -54,11 +54,11 @@ const componentConvertTimeAxisBlock = (staStyleViewPos: number, endStyleViewPos:
     for (let i = 0; i < quantity; i++) {
       const thenTimeAxisPos = i * sectionBlockView;
 
-      if (staStyleViewPos <= thenTimeAxisPos && thenTimeAxisPos <= endStyleViewPos) {
+      if (TimeNavigatorContextValue.timelimeRender.staViewTime <= thenTimeAxisPos && thenTimeAxisPos <= TimeNavigatorContextValue.timelimeRender.endViewTime) {
         const stylePos = AppContextValue.conversionTimeToStyle(
           thenTimeAxisPos,
-          staStyleViewPos,
-          endStyleViewPos,
+          TimeNavigatorContextValue.timelimeRender.staViewTime,
+          TimeNavigatorContextValue.timelimeRender.endViewTime,
           TimeNavigatorContextValue.timelimeRender.durationWidth
         );
 
@@ -79,13 +79,11 @@ const TimeAxisComponent = () => {
 
   return (
     <div className="timeNavigator-timeaxis">
-      {componentConvertTimeAxisBlock(TimeNavigatorContextValue.timelimeRender.staViewTime, TimeNavigatorContextValue.timelimeRender.endViewTime).map(
-        (output: any, index: number) => (
-          // <>{fruit}</> //SurfaceControlIndividualを追加するmap (list_surface_controlに入っている)
+      {componentConvertTimeAxisBlock().map((output: any, index: number) => (
+        // <>{fruit}</> //SurfaceControlIndividualを追加するmap (list_surface_controlに入っている)
 
-          <TimeAxisBlockComponent DownstreamTimeAxisBlock={output} key={index} />
-        )
-      )}
+        <TimeAxisBlockComponent DownstreamTimeAxisBlock={output} key={index} />
+      ))}
     </div>
   );
 };

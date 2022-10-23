@@ -78,16 +78,22 @@ const TimelineComponent = () => {
     const compositeStyleViewPos: Array<number> = AppContextValue.getCompositeStyleViewPos(SetupEditorContextValue.choiceComposite);
     const compositeDuration: number = AppContextValue.getCompositeDuration(SetupEditorContextValue.choiceComposite);
 
+    console.log("action.type", action, state);
+
     switch (action.type) {
       case "compositeMove": {
         const thenAction = action as timelimeRender.TypeTimelimeRenderActionPlayheadMove;
         if (!compositeDuration || !compositeStyleViewPos) {
           break;
         }
+
         const playheadTime = AppContextValue.getCompositePlayheadTimePos(SetupEditorContextValue.choiceComposite);
-        const posStyle = AppContextValue.conversionTimeToStyle(playheadTime, compositeStyleViewPos[0], compositeStyleViewPos[1], state.durationWidth);
+        const playheadStylePos = AppContextValue.conversionTimeToStyle(playheadTime, compositeStyleViewPos[0], compositeStyleViewPos[1], state.durationWidth);
+
+        console.log("compositeMove", compositeStyleViewPos, compositeDuration);
+
         return {
-          playheadViewPos: posStyle,
+          playheadViewPos: playheadStylePos,
           staViewTime: compositeStyleViewPos[0],
           endViewTime: compositeStyleViewPos[1],
           staStyleRate: Math.max(compositeStyleViewPos[0] / compositeDuration, 0),
@@ -105,7 +111,16 @@ const TimelineComponent = () => {
           }
           const playheadTime = AppContextValue.conversionStyleToTime(thenAction.playheadViewPos, state.staViewTime, state.endViewTime, state.durationWidth);
           AppContextValue.setCompositePlayheadTimePos(SetupEditorContextValue.choiceComposite, playheadTime);
-          SetupEditorContextValue.previewUpdateDOM();
+
+          return {
+            playheadViewPos: thenAction.playheadViewPos,
+            staViewTime: state.staViewTime,
+            endViewTime: state.endViewTime,
+            staStyleRate: state.staStyleRate,
+            endStyleRate: state.endStyleRate,
+            timeNavigatorFlag: state.timeNavigatorFlag,
+            durationWidth: state.durationWidth,
+          };
         }
         break;
 
@@ -116,10 +131,20 @@ const TimelineComponent = () => {
             break;
           }
 
-          const staRate = isFinite(thenAction.staStyleRate) ? thenAction.staStyleRate : state.staStyleRate;
-          const endRate = isFinite(thenAction.endStyleRate) ? thenAction.endStyleRate : state.endStyleRate;
+          const staRate = thenAction.staStyleRate != null && isFinite(thenAction.staStyleRate) ? thenAction.staStyleRate : state.staStyleRate;
+          const endRate = thenAction.endStyleRate != null && isFinite(thenAction.endStyleRate) ? thenAction.endStyleRate : state.endStyleRate;
+
+          const playheadTime = AppContextValue.getCompositePlayheadTimePos(SetupEditorContextValue.choiceComposite);
+          const playheadStylePos = AppContextValue.conversionTimeToStyle(
+            playheadTime,
+            compositeDuration * staRate,
+            compositeDuration * endRate,
+            state.durationWidth
+          );
+
+          console.log("timeNavigatorScroll", staRate, endRate);
           return {
-            playheadViewPos: state.playheadViewPos,
+            playheadViewPos: playheadStylePos,
             staViewTime: compositeDuration * staRate,
             endViewTime: compositeDuration * endRate,
             staStyleRate: staRate,
@@ -130,35 +155,35 @@ const TimelineComponent = () => {
         }
         break;
 
-      case "windowResize":
-        {
-          const thenAction = action as timelimeRender.TypeTimelimeRenderActionWindowResize;
-          return {
-            playheadViewPos: state.playheadViewPos,
-            staViewTime: state.staViewTime,
-            endViewTime: state.endViewTime,
-            staStyleRate: state.staStyleRate,
-            endStyleRate: state.endStyleRate,
-            timeNavigatorFlag: state.timeNavigatorFlag,
-            durationWidth: thenAction.windowWidthSzie,
-          };
-        }
-        break;
+      case "windowResize": {
+        const thenAction = action as timelimeRender.TypeTimelimeRenderActionWindowResize;
 
-      case "timeNavigatorFlag":
-        {
-          const thenAction = action as timelimeRender.TypeTimelimeRenderActionTimeNavigatorFlag;
-          return {
-            playheadViewPos: state.playheadViewPos,
-            staViewTime: state.staViewTime,
-            endViewTime: state.endViewTime,
-            staStyleRate: state.staStyleRate,
-            endStyleRate: state.endStyleRate,
-            timeNavigatorFlag: thenAction.timeNavigatorFlag,
-            durationWidth: state.durationWidth,
-          };
-        }
-        break;
+        console.log("windowResize run", thenAction.windowWidthSzie);
+
+        return {
+          playheadViewPos: state.playheadViewPos,
+          staViewTime: state.staViewTime,
+          endViewTime: state.endViewTime,
+          staStyleRate: state.staStyleRate,
+          endStyleRate: state.endStyleRate,
+          timeNavigatorFlag: state.timeNavigatorFlag,
+          durationWidth: thenAction.windowWidthSzie,
+        };
+      }
+
+      case "timeNavigatorFlag": {
+        const thenAction = action as timelimeRender.TypeTimelimeRenderActionTimeNavigatorFlag;
+        console.log("timeNavigatorFlag run");
+        return {
+          playheadViewPos: state.playheadViewPos,
+          staViewTime: state.staViewTime,
+          endViewTime: state.endViewTime,
+          staStyleRate: state.staStyleRate,
+          endStyleRate: state.endStyleRate,
+          timeNavigatorFlag: thenAction.timeNavigatorFlag,
+          durationWidth: state.durationWidth,
+        };
+      }
 
       default:
         return {
@@ -171,15 +196,14 @@ const TimelineComponent = () => {
           durationWidth: state.durationWidth,
         };
     }
-
     return {
-      playheadViewPos: null,
-      staViewTime: null,
-      endViewTime: null,
-      staStyleRate: null,
-      endStyleRate: null,
-      timeNavigatorFlag: false,
-      durationWidth: null,
+      playheadViewPos: state.playheadViewPos,
+      staViewTime: state.staViewTime,
+      endViewTime: state.endViewTime,
+      staStyleRate: state.staStyleRate,
+      endStyleRate: state.endStyleRate,
+      timeNavigatorFlag: state.timeNavigatorFlag,
+      durationWidth: state.durationWidth,
     };
   };
 
@@ -192,6 +216,10 @@ const TimelineComponent = () => {
     timeNavigatorFlag: false,
     durationWidth: null,
   });
+
+  useEffect(() => {
+    console.log("timelimeRenderuseEffect", timelimeRender);
+  }, [timelimeRender]);
 
   // useEffect(() => {
   //   console.log("durationWidth", durationWidth);
@@ -262,6 +290,10 @@ const TimelineComponent = () => {
   // }, [playheadViewPos]);
 
   // ************************************************
+
+  useEffect(() => {
+    timelimeRenderSetState({ type: "compositeMove" });
+  }, [SetupEditorContextValue.choiceComposite]);
 
   const [mediaObejctDivHeight, mediaObejctDivHeightSetState] = useState<{
     [name: number]: Array<number>;
