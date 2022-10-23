@@ -247,7 +247,7 @@ export const MediaObjectScrollComponent = () => {
       window.removeEventListener("mousemove", timeLineMouseMoveAction);
       window.removeEventListener("mouseup", MouseRelease);
     };
-  }, [mediaObjectUUID, SetupEditorContextValue.previewUpdate, SetupEditorContextValue.choiceComposite]);
+  }, [mediaObjectUUID]);
 
   // useEffect(() => {}, [TimelineAreaDivContextValue.timelineUpdate, TimeNavigatorContextValue.timelimeRender]);
 

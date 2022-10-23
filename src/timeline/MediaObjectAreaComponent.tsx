@@ -63,6 +63,8 @@ export const MediaObjectAreaComponent = (props: any) => {
             staStylePos: styleStaStyle,
             endStylePos: styleEndStyle,
             animatorOpen: state.animatorOpen,
+            staTime: mediaObjectTime[0],
+            endTime: mediaObjectTime[1],
           };
         }
         break;
@@ -100,6 +102,8 @@ export const MediaObjectAreaComponent = (props: any) => {
             staStylePos: staStylePos,
             endStylePos: endStylePos,
             animatorOpen: state.animatorOpen,
+            staTime: staTime,
+            endTime: endTime,
           };
         }
         break;
@@ -108,7 +112,13 @@ export const MediaObjectAreaComponent = (props: any) => {
         {
           const thenAction = action as timelimeRender.TypeMediaObjectRenderActionAnimatorOpen;
           AppContextValue.rewriteMediaObejctAnimatorOpen(MediaObject_ID, thenAction.animatorOpen);
-          return { staStylePos: state.staStylePos, endStylePos: state.endStylePos, animatorOpen: thenAction.animatorOpen };
+          return {
+            staStylePos: state.staStylePos,
+            endStylePos: state.endStylePos,
+            animatorOpen: thenAction.animatorOpen,
+            staTime: state.staTime,
+            endTime: state.endTime,
+          };
         }
         break;
 
@@ -120,18 +130,31 @@ export const MediaObjectAreaComponent = (props: any) => {
       staStylePos: state.staStylePos,
       endStylePos: state.endStylePos,
       animatorOpen: state.animatorOpen,
+      staTime: state.staTime,
+      endTime: state.endTime,
     };
   };
 
-  const [mediaObjectRender, mediaObjectRenderSetState] = useReducer(setMediaObjectRender, { staStylePos: null, endStylePos: null, animatorOpen: true });
+  const [mediaObjectRender, mediaObjectRenderSetState] = useReducer(setMediaObjectRender, {
+    staStylePos: null,
+    endStylePos: null,
+    animatorOpen: true,
+    staTime: null,
+    endTime: null,
+  });
 
   useEffect(() => {
     SetupEditorContextValue.previewUpdateDOM();
-  }, [TimeNavigatorContextValue.timelimeRender]);
+  }, [mediaObjectRender.staTime, mediaObjectRender.endTime]);
 
   useEffect(() => {
     mediaObjectRenderSetState({ type: "update" });
-  }, [SetupEditorContextValue.previewUpdate]);
+  }, [
+    MediaObject_ID,
+    TimeNavigatorContextValue.timelimeRender.staViewTime,
+    TimeNavigatorContextValue.timelimeRender.endViewTime,
+    TimeNavigatorContextValue.timelimeRender.durationWidth,
+  ]);
 
   // useEffect(() => {
   // if (!mediaObjectRender.staStylePos || !mediaObjectRender.endStylePos || TimeNavigatorContextValue.timelimeRender.timeNavigatorFlag) {

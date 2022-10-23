@@ -1,5 +1,6 @@
 export type TypeTimelimeRender = {
   playheadViewPos: number;
+  playheadTime: number;
   staViewTime: number;
   endViewTime: number;
   staStyleRate: number;
@@ -33,7 +34,7 @@ export type TypeTimelimeRenderActionWindowResize = {
   windowWidthSzie: number;
 };
 
-export type TypeMediaObjectRender = { staStylePos: number; endStylePos: number; animatorOpen: boolean };
+export type TypeMediaObjectRender = { staStylePos: number; endStylePos: number; animatorOpen: boolean; staTime: number; endTime: number };
 
 export type TypeMediaObjectRenderActionUpdate = {
   type: string;
@@ -50,7 +51,7 @@ export type TypeMediaObjectRenderActionAnimatorOpen = {
   animatorOpen: boolean;
 };
 
-export type TypeAnimaterKeyframeRender = { stylePos: number };
+export type TypeAnimaterKeyframeRender = { stylePos: number; time: number };
 
 export type TypeAnimaterKeyframeRenderActionUpdate = {
   type: string;

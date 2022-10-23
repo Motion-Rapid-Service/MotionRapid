@@ -72,6 +72,7 @@ export const KeyFrameComponent = (props: any) => {
           }
           return {
             stylePos: tempKeyframeStylePos,
+            time: KeyframeTime,
           };
         }
         break;
@@ -103,6 +104,7 @@ export const KeyFrameComponent = (props: any) => {
 
         return {
           stylePos: thenAction.stylePos,
+          time: tempKeyframeTime,
         };
       }
 
@@ -112,10 +114,11 @@ export const KeyFrameComponent = (props: any) => {
 
     return {
       stylePos: state.stylePos,
+      time: state.time,
     };
   };
 
-  const [keyframeRender, keyframeRenderSetState] = useReducer(setKeyframeRender, { stylePos: null });
+  const [keyframeRender, keyframeRenderSetState] = useReducer(setKeyframeRender, { stylePos: null, time: null });
 
   const keyframeMouseMoveAction = (event: any) => {
     if (!UserHand.hasUserHandKeyframe(keyframeUUID)) {
@@ -158,11 +161,11 @@ export const KeyFrameComponent = (props: any) => {
 
   useEffect(() => {
     SetupEditorContextValue.previewUpdateDOM();
-  }, [keyframeRender]);
+  }, [keyframeRender.time]);
 
   useEffect(() => {
     keyframeRenderSetState({ type: "update" });
-  }, [SetupEditorContextValue.previewUpdate, MediaObjectContextValue.mediaObjectRender]);
+  }, [keyframeUUID, MediaObjectContextValue.mediaObjectRender.staStylePos, MediaObjectContextValue.mediaObjectRender.endStylePos]);
 
   useEffect(() => {
     window.addEventListener("mousemove", keyframeMouseMoveAction);

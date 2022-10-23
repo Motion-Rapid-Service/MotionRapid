@@ -70,6 +70,7 @@ const TimelineComponent = () => {
 
         return {
           playheadViewPos: playheadStylePos,
+          playheadTime: playheadTime,
           staViewTime: compositeStyleViewPos[0],
           endViewTime: compositeStyleViewPos[1],
           staStyleRate: Math.max(compositeStyleViewPos[0] / compositeDuration, 0),
@@ -90,6 +91,7 @@ const TimelineComponent = () => {
 
           return {
             playheadViewPos: thenAction.playheadViewPos,
+            playheadTime: playheadTime,
             staViewTime: state.staViewTime,
             endViewTime: state.endViewTime,
             staStyleRate: state.staStyleRate,
@@ -110,22 +112,34 @@ const TimelineComponent = () => {
           const staRate = thenAction.staStyleRate != null && isFinite(thenAction.staStyleRate) ? thenAction.staStyleRate : state.staStyleRate;
           const endRate = thenAction.endStyleRate != null && isFinite(thenAction.endStyleRate) ? thenAction.endStyleRate : state.endStyleRate;
 
+          const staRate0 = Math.max(staRate, 0);
+          const endRate1 = Math.min(endRate, 1);
+
           const playheadTime = AppContextValue.getCompositePlayheadTimePos(SetupEditorContextValue.choiceComposite);
           const playheadStylePos = AppContextValue.conversionTimeToStyle(
             playheadTime,
-            compositeDuration * staRate,
-            compositeDuration * endRate,
+            compositeDuration * staRate0,
+            compositeDuration * endRate1,
             state.durationWidth
           );
-          AppContextValue.setCompositeStyleViewPos(SetupEditorContextValue.choiceComposite, [compositeDuration * staRate, compositeDuration * endRate]);
 
-          console.log("timeNavigatorScroll", staRate, endRate);
+          const staViewTime = compositeDuration * staRate0;
+          const endViewTime = compositeDuration * endRate1;
+
+          if (endViewTime - staViewTime < 10) {
+            break;
+          }
+
+          AppContextValue.setCompositeStyleViewPos(SetupEditorContextValue.choiceComposite, [compositeDuration * staRate0, compositeDuration * endRate1]);
+
+          console.log("timeNavigatorScroll", staRate0, endRate1);
           return {
             playheadViewPos: playheadStylePos,
-            staViewTime: compositeDuration * staRate,
-            endViewTime: compositeDuration * endRate,
-            staStyleRate: staRate,
-            endStyleRate: endRate,
+            playheadTime: state.playheadTime,
+            staViewTime: staViewTime,
+            endViewTime: endViewTime,
+            staStyleRate: staRate0,
+            endStyleRate: endRate1,
             timeNavigatorFlag: state.timeNavigatorFlag,
             durationWidth: state.durationWidth,
           };
@@ -139,6 +153,7 @@ const TimelineComponent = () => {
 
         return {
           playheadViewPos: state.playheadViewPos,
+          playheadTime: state.playheadTime,
           staViewTime: state.staViewTime,
           endViewTime: state.endViewTime,
           staStyleRate: state.staStyleRate,
@@ -153,6 +168,7 @@ const TimelineComponent = () => {
         console.log("timeNavigatorFlag run");
         return {
           playheadViewPos: state.playheadViewPos,
+          playheadTime: state.playheadTime,
           staViewTime: state.staViewTime,
           endViewTime: state.endViewTime,
           staStyleRate: state.staStyleRate,
@@ -165,6 +181,7 @@ const TimelineComponent = () => {
       default:
         return {
           playheadViewPos: state.playheadViewPos,
+          playheadTime: state.playheadTime,
           staViewTime: state.staViewTime,
           endViewTime: state.endViewTime,
           staStyleRate: state.staStyleRate,
@@ -175,6 +192,7 @@ const TimelineComponent = () => {
     }
     return {
       playheadViewPos: state.playheadViewPos,
+      playheadTime: state.playheadTime,
       staViewTime: state.staViewTime,
       endViewTime: state.endViewTime,
       staStyleRate: state.staStyleRate,
@@ -186,6 +204,7 @@ const TimelineComponent = () => {
 
   const [timelimeRender, timelimeRenderSetState] = useReducer(setTimelimeRender, {
     playheadViewPos: null,
+    playheadTime: null,
     staViewTime: null,
     endViewTime: null,
     staStyleRate: null,
@@ -196,12 +215,11 @@ const TimelineComponent = () => {
 
   useEffect(() => {
     timelimeRenderSetState({ type: "compositeMove" });
-    // SetupEditorContextValue.previewUpdateDOM();
   }, [SetupEditorContextValue.choiceComposite]);
 
   useEffect(() => {
     SetupEditorContextValue.previewUpdateDOM();
-  }, [timelimeRender]);
+  }, [timelimeRender.playheadTime]);
 
   const [mediaObejctDivHeight, mediaObejctDivHeightSetState] = useState<{
     [name: number]: Array<number>;

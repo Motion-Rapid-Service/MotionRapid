@@ -131,31 +131,6 @@ const ScrollBarComponent = () => {
     };
   }, []);
 
-  // useEffect(() => {
-  //   const compositeDuration: number = AppContextValue.getCompositeDuration(SetupEditorContextValue.choiceComposite);
-  //   if (!compositeDuration || !TimeNavigatorContextValue.staStyleViewPos || !TimeNavigatorContextValue.endStyleViewPos) {
-  //     return;
-  //   }
-
-  //   console.log("staRateSetStateB", compositeDuration, TimeNavigatorContextValue.staStyleViewPos, TimeNavigatorContextValue.endStyleViewPos);
-
-  //   staRateSetState(Math.max(TimeNavigatorContextValue.staStyleViewPos / compositeDuration, 0));
-  //   endRateSetState(Math.min(TimeNavigatorContextValue.endStyleViewPos / compositeDuration, 1));
-  // }, [SetupEditorContextValue.choiceComposite, TimeNavigatorContextValue.staStyleViewPos, TimeNavigatorContextValue.endStyleViewPos]);
-
-  // useEffect(() => {
-  //   const compositeDuration: number = AppContextValue.getCompositeDuration(SetupEditorContextValue.choiceComposite);
-  //   if (!compositeDuration) {
-  //     return;
-  //   }
-  //   console.log("scrollbarB", compositeDuration * staRate, compositeDuration * endRate);
-
-  //   TimeNavigatorContextValue.staStyleViewPosSetState(compositeDuration * staRate);
-  //   TimeNavigatorContextValue.endStyleViewPosSetState(compositeDuration * endRate);
-
-  //   //console.log("staRate endRate");
-  // }, [staRate, endRate]);
-
   const styleLeft = () => {
     return TimeNavigatorContextValue.timelimeRender.staStyleRate * 100;
   };

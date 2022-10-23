@@ -81,7 +81,14 @@ export const TimelineAreaLayerPanelComponent = (props: any) => {
     const yPosHeight = [positon[1], positon[1] + size[1]];
 
     TimelineAreaDivContextValue.mediaObejctDivHeightSetStateValue(MediaObjectContextValue.mediaObejctIndex, yPosHeight);
-  }, [MediaObjectContextValue.mediaObjectRender, animatorOpen]);
+
+    window.addEventListener("mousemove", mouseMove);
+    window.addEventListener("mouseup", mouseUp);
+    return () => {
+      window.removeEventListener("mousemove", mouseMove);
+      window.removeEventListener("mouseup", mouseUp);
+    };
+  }, [MediaObjectContextValue.mediaObjectRender.animatorOpen, MediaObjectContextValue.mediaObjectUUID]);
 
   const mouseUp = (event: any) => {
     if (!(MediaObjectContextValue.mediaObjectUUID in UserHandLayerPanelList)) {
@@ -129,14 +136,6 @@ export const TimelineAreaLayerPanelComponent = (props: any) => {
       UserHandLayerPanelList[MediaObjectContextValue.mediaObjectUUID] = new UserHandLayerPanelOperation(mousePushPosY);
     }
   };
-  useEffect(() => {
-    window.addEventListener("mousemove", mouseMove);
-    window.addEventListener("mouseup", mouseUp);
-    return () => {
-      window.removeEventListener("mousemove", mouseMove);
-      window.removeEventListener("mouseup", mouseUp);
-    };
-  }, [MediaObjectContextValue.mediaObjectUUID, animatorOpen]);
 
   return (
     <div className="media_object-area-layer_panel" ref={timelineAreaLayerPanelElement} onMouseDown={mouseDown} style={{}}>
@@ -441,7 +440,7 @@ const AnimaterCSSproperty = (props: any) => {
       actionType: "",
       cssUnit: thenCSSPropertyUnit,
     });
-  }, [LayerPanelAnimaterContextValue.Animator_ID]);
+  }, [LayerPanelAnimaterContextValue.Animator_ID, TimeNavigatorContextValue.timelimeRender.playheadTime]);
 
   let unitMessage = "";
   if (
