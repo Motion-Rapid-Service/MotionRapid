@@ -40,7 +40,7 @@ export const MediaObjectAreaComponent = (props: any) => {
   }, []);
 
   useEffect(() => {
-    if (!staStylePos || !endStylePos || TimeNavigatorContextValue.timeNavigatorFlag) {
+    if (!staStylePos || !endStylePos || TimeNavigatorContextValue.timelimeRender.timeNavigatorFlag) {
       return;
     }
 
@@ -51,15 +51,15 @@ export const MediaObjectAreaComponent = (props: any) => {
 
     const staTime: number = AppContextValue.conversionStyleToTime(
       staStylePos,
-      TimeNavigatorContextValue.staStyleViewPos,
-      TimeNavigatorContextValue.endStyleViewPos,
-      TimeNavigatorContextValue.durationWidth
+      TimeNavigatorContextValue.timelimeRender.staViewTime,
+      TimeNavigatorContextValue.timelimeRender.endViewTime,
+      TimeNavigatorContextValue.timelimeRender.durationWidth
     );
     const endTime: number = AppContextValue.conversionStyleToTime(
       endStylePos,
-      TimeNavigatorContextValue.staStyleViewPos,
-      TimeNavigatorContextValue.endStyleViewPos,
-      TimeNavigatorContextValue.durationWidth
+      TimeNavigatorContextValue.timelimeRender.staViewTime,
+      TimeNavigatorContextValue.timelimeRender.endViewTime,
+      TimeNavigatorContextValue.timelimeRender.durationWidth
     );
 
     console.log("MediaObjectAreaComponentUseEffect", staTime, staStylePos, endTime, endStylePos);

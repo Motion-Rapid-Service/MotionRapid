@@ -18,6 +18,7 @@ import TimeNavigatorTimeline from "./TimeNavigator/TimeNavigatorTimeline";
 import { SetupUndoContext } from "./../SetupEditor/SetupUndoContext";
 import { TimeNavigatorContext } from "./TimeNavigator/TimeNavigatorContext";
 import { SetupPracticeContext, TypePracticeHistory, layoutGlowClass } from "./../SetupEditor/SetupPracticeContext";
+import * as timelimeRender from "./timelimeRender";
 const TimelineComponent = () => {
   // ここでhooksを使える
 
@@ -60,11 +61,137 @@ const TimelineComponent = () => {
   //getCompositePlayheadTimePos
 
   const [focusMediaObjectSpace, focusMediaObjectSpaceSetState] = useState<number>(-1);
-  const [playheadViewPos, playheadViewPosSetState] = useState<number>(100); //画面表示上の数値
-  const [staStyleViewPos, staStyleViewPosSetState] = useState<number>(0); //時間単位の数値
-  const [endStyleViewPos, endStyleViewPosSetState] = useState<number>(0); //時間単位の数値
-  const [timeNavigatorFlag, timeNavigatorFlagSetState] = useState<boolean>(false); //trueは操作中
-  const [durationWidth, durationWidthSetState] = useState<number>(0); //これは画面表示上の数値
+  // const [playheadViewPos, playheadViewPosSetState] = useState<number>(null); //画面表示上の数値
+  // const [staStyleViewPos, staStyleViewPosSetState] = useState<number>(null); //時間単位の数値
+  // const [endStyleViewPos, endStyleViewPosSetState] = useState<number>(null); //時間単位の数値
+  // const [timeNavigatorFlag, timeNavigatorFlagSetState] = useState<boolean>(false); //trueは操作中
+  // const [durationWidth, durationWidthSetState] = useState<number>(null); //これは画面表示上の数値
+
+  const setTimelimeRender = (
+    state: timelimeRender.TypeTimelimeRender,
+    action:
+      | timelimeRender.TypeTimelimeRenderActionCompositeMove
+      | timelimeRender.TypeTimelimeRenderActionPlayheadMove
+      | timelimeRender.TypeTimelimeRenderActionTimeNavigatorScroll
+      | timelimeRender.TypeTimelimeRenderActionWindowResize
+  ): timelimeRender.TypeTimelimeRender => {
+    const compositeStyleViewPos: Array<number> = AppContextValue.getCompositeStyleViewPos(SetupEditorContextValue.choiceComposite);
+    const compositeDuration: number = AppContextValue.getCompositeDuration(SetupEditorContextValue.choiceComposite);
+
+    switch (action.type) {
+      case "compositeMove": {
+        const thenAction = action as timelimeRender.TypeTimelimeRenderActionPlayheadMove;
+        if (!compositeDuration || !compositeStyleViewPos) {
+          break;
+        }
+        const playheadTime = AppContextValue.getCompositePlayheadTimePos(SetupEditorContextValue.choiceComposite);
+        const posStyle = AppContextValue.conversionTimeToStyle(playheadTime, compositeStyleViewPos[0], compositeStyleViewPos[1], state.durationWidth);
+        return {
+          playheadViewPos: posStyle,
+          staViewTime: compositeStyleViewPos[0],
+          endViewTime: compositeStyleViewPos[1],
+          staStyleRate: Math.max(compositeStyleViewPos[0] / compositeDuration, 0),
+          endStyleRate: Math.min(compositeStyleViewPos[1] / compositeDuration, 1),
+          timeNavigatorFlag: false,
+          durationWidth: state.durationWidth,
+        };
+      }
+
+      case "playheadMove":
+        {
+          const thenAction = action as timelimeRender.TypeTimelimeRenderActionPlayheadMove;
+          if (!compositeDuration || state.timeNavigatorFlag) {
+            break;
+          }
+          const playheadTime = AppContextValue.conversionStyleToTime(thenAction.playheadViewPos, state.staViewTime, state.endViewTime, state.durationWidth);
+          AppContextValue.setCompositePlayheadTimePos(SetupEditorContextValue.choiceComposite, playheadTime);
+          SetupEditorContextValue.previewUpdateDOM();
+        }
+        break;
+
+      case "timeNavigatorScroll":
+        {
+          const thenAction = action as timelimeRender.TypeTimelimeRenderActionTimeNavigatorScroll;
+          if (!compositeDuration) {
+            break;
+          }
+
+          const staRate = isFinite(thenAction.staStyleRate) ? thenAction.staStyleRate : state.staStyleRate;
+          const endRate = isFinite(thenAction.endStyleRate) ? thenAction.endStyleRate : state.endStyleRate;
+          return {
+            playheadViewPos: state.playheadViewPos,
+            staViewTime: compositeDuration * staRate,
+            endViewTime: compositeDuration * endRate,
+            staStyleRate: staRate,
+            endStyleRate: endRate,
+            timeNavigatorFlag: state.timeNavigatorFlag,
+            durationWidth: state.durationWidth,
+          };
+        }
+        break;
+
+      case "windowResize":
+        {
+          const thenAction = action as timelimeRender.TypeTimelimeRenderActionWindowResize;
+          return {
+            playheadViewPos: state.playheadViewPos,
+            staViewTime: state.staViewTime,
+            endViewTime: state.endViewTime,
+            staStyleRate: state.staStyleRate,
+            endStyleRate: state.endStyleRate,
+            timeNavigatorFlag: state.timeNavigatorFlag,
+            durationWidth: thenAction.windowWidthSzie,
+          };
+        }
+        break;
+
+      case "timeNavigatorFlag":
+        {
+          const thenAction = action as timelimeRender.TypeTimelimeRenderActionTimeNavigatorFlag;
+          return {
+            playheadViewPos: state.playheadViewPos,
+            staViewTime: state.staViewTime,
+            endViewTime: state.endViewTime,
+            staStyleRate: state.staStyleRate,
+            endStyleRate: state.endStyleRate,
+            timeNavigatorFlag: thenAction.timeNavigatorFlag,
+            durationWidth: state.durationWidth,
+          };
+        }
+        break;
+
+      default:
+        return {
+          playheadViewPos: state.playheadViewPos,
+          staViewTime: state.staViewTime,
+          endViewTime: state.endViewTime,
+          staStyleRate: state.staStyleRate,
+          endStyleRate: state.endStyleRate,
+          timeNavigatorFlag: state.timeNavigatorFlag,
+          durationWidth: state.durationWidth,
+        };
+    }
+
+    return {
+      playheadViewPos: null,
+      staViewTime: null,
+      endViewTime: null,
+      staStyleRate: null,
+      endStyleRate: null,
+      timeNavigatorFlag: false,
+      durationWidth: null,
+    };
+  };
+
+  const [timelimeRender, timelimeRenderSetState] = useReducer(setTimelimeRender, {
+    playheadViewPos: null,
+    staViewTime: null,
+    endViewTime: null,
+    staStyleRate: null,
+    endStyleRate: null,
+    timeNavigatorFlag: false,
+    durationWidth: null,
+  });
 
   // useEffect(() => {
   //   console.log("durationWidth", durationWidth);
@@ -72,67 +199,67 @@ const TimelineComponent = () => {
 
   //ここから 描画域のState設定
 
-  useEffect(() => {
-    const compositeStyleViewPos: Array<number> = AppContextValue.getCompositeStyleViewPos(SetupEditorContextValue.choiceComposite);
+  // useEffect(() => {
+  //   const compositeStyleViewPos: Array<number> = AppContextValue.getCompositeStyleViewPos(SetupEditorContextValue.choiceComposite);
+  //   const compositeDuration: number = AppContextValue.getCompositeDuration(SetupEditorContextValue.choiceComposite);
+  //   if (!compositeDuration || !compositeStyleViewPos) {
+  //     return;
+  //   }
+  //   console.log("compositeStyleViewPos", compositeStyleViewPos);
+  //   staStyleViewPosSetState(compositeStyleViewPos[0]);
+  //   endStyleViewPosSetState(compositeStyleViewPos[1]);
 
-    const compositeDuration: number = AppContextValue.getCompositeDuration(SetupEditorContextValue.choiceComposite);
-    if (!compositeDuration || !compositeStyleViewPos) {
-      return;
-    }
-    staStyleViewPosSetState(compositeStyleViewPos[0]);
-    endStyleViewPosSetState(compositeStyleViewPos[1]);
+  //   const posTime = AppContextValue.getCompositePlayheadTimePos(SetupEditorContextValue.choiceComposite);
+  //   const posStyle = AppContextValue.conversionTimeToStyle(posTime, staStyleViewPos, endStyleViewPos, durationWidth);
+  //   playheadViewPosSetState(posStyle);
 
-    const posTime = AppContextValue.getCompositePlayheadTimePos(SetupEditorContextValue.choiceComposite);
-    const posStyle = AppContextValue.conversionTimeToStyle(posTime, staStyleViewPos, endStyleViewPos, durationWidth);
-    playheadViewPosSetState(posStyle);
+  //   return () => {
+  //     const compositeDuration: number = AppContextValue.getCompositeDuration(SetupEditorContextValue.choiceComposite);
+  //     if (!compositeDuration || !staStyleViewPos || !endStyleViewPos) {
+  //       return;
+  //     }
+  //     //console.log("playheadTime B", playheadTime, staStyleViewPos, endStyleViewPos, compositeDuration);
+  //     const posTime = AppContextValue.conversionStyleToTime(playheadViewPos, staStyleViewPos, endStyleViewPos, durationWidth);
 
-    return () => {
-      const compositeDuration: number = AppContextValue.getCompositeDuration(SetupEditorContextValue.choiceComposite);
-      if (!compositeDuration || !staStyleViewPos || !endStyleViewPos) {
-        return;
-      }
-      //console.log("playheadTime B", playheadTime, staStyleViewPos, endStyleViewPos, compositeDuration);
-      const posTime = AppContextValue.conversionStyleToTime(playheadViewPos, staStyleViewPos, endStyleViewPos, durationWidth);
+  //     AppContextValue.setCompositeStyleViewPos(SetupEditorContextValue.choiceComposite, [staStyleViewPos, endStyleViewPos]);
+  //     AppContextValue.setCompositePlayheadTimePos(SetupEditorContextValue.choiceComposite, posTime);
+  //   };
+  // }, [SetupEditorContextValue.choiceComposite]);
 
-      AppContextValue.setCompositeStyleViewPos(SetupEditorContextValue.choiceComposite, [staStyleViewPos, endStyleViewPos]);
-      AppContextValue.setCompositePlayheadTimePos(SetupEditorContextValue.choiceComposite, posTime);
-    };
-  }, [SetupEditorContextValue.choiceComposite]);
+  // useEffect(() => {
+  //   console.log("scrollbarC", staStyleViewPos, endStyleViewPos);
+  //   const compositeDuration: number = AppContextValue.getCompositeDuration(SetupEditorContextValue.choiceComposite);
+  //   if (!compositeDuration) {
+  //     return;
+  //   }
 
-  useEffect(() => {
-    console.log("scrollbarC", staStyleViewPos, endStyleViewPos);
-    const compositeDuration: number = AppContextValue.getCompositeDuration(SetupEditorContextValue.choiceComposite);
-    if (!compositeDuration) {
-      return;
-    }
+  //   console.log("compositeDuration pass");
 
-    console.log("compositeDuration pass");
+  //   AppContextValue.setCompositeStyleViewPos(SetupEditorContextValue.choiceComposite, [staStyleViewPos, endStyleViewPos]);
+  //   const playheadPosTime = AppContextValue.getCompositePlayheadTimePos(SetupEditorContextValue.choiceComposite);
+  //   const playheadPosStyle = AppContextValue.conversionTimeToStyle(playheadPosTime, staStyleViewPos, endStyleViewPos, durationWidth);
+  //   playheadViewPosSetState(playheadPosStyle);
+  //   console.log("scrollbarDA t-s", playheadPosTime, playheadPosStyle);
 
-    AppContextValue.setCompositeStyleViewPos(SetupEditorContextValue.choiceComposite, [staStyleViewPos, endStyleViewPos]);
-    const playheadPosTime = AppContextValue.getCompositePlayheadTimePos(SetupEditorContextValue.choiceComposite);
-    const playheadPosStyle = AppContextValue.conversionTimeToStyle(playheadPosTime, staStyleViewPos, endStyleViewPos, durationWidth);
-    playheadViewPosSetState(playheadPosStyle);
-    console.log("scrollbarDA t-s", playheadPosTime, playheadPosStyle);
-
-    timelineUpdateDOM();
-  }, [staStyleViewPos, endStyleViewPos, durationWidth]);
+  //   timelineUpdateDOM();
+  // }, [staStyleViewPos, endStyleViewPos, durationWidth]);
 
   //ここから プレイヘッド数値の設定
 
-  useEffect(() => {
-    //uiのplayhedが変化したときにjsonデータに差し込む
+  // useEffect(() => {
+  //   //uiのplayhedが変化したときにjsonデータに差し込む
 
-    const compositeDuration: number = AppContextValue.getCompositeDuration(SetupEditorContextValue.choiceComposite);
-    if (!compositeDuration || timeNavigatorFlag) {
-      return;
-    }
-    //console.log("playheadTime B", playheadTime, staStyleViewPos, endStyleViewPos, compositeDuration);
-    const posTime = AppContextValue.conversionStyleToTime(playheadViewPos, staStyleViewPos, endStyleViewPos, durationWidth);
-    AppContextValue.setCompositePlayheadTimePos(SetupEditorContextValue.choiceComposite, posTime);
-    SetupEditorContextValue.previewUpdateDOM();
+  //   const compositeDuration: number = AppContextValue.getCompositeDuration(SetupEditorContextValue.choiceComposite);
+  //   if (!compositeDuration || timeNavigatorFlag) {
+  //     return;
+  //   }
+  //   //console.log("playheadTime B", playheadTime, staStyleViewPos, endStyleViewPos, compositeDuration);
+  //   const posTime = AppContextValue.conversionStyleToTime(playheadViewPos, staStyleViewPos, endStyleViewPos, durationWidth);
+  //   AppContextValue.setCompositePlayheadTimePos(SetupEditorContextValue.choiceComposite, posTime);
+  //   SetupEditorContextValue.previewUpdateDOM();
 
-    console.log("scrollbarDB t-s", posTime, playheadViewPos);
-  }, [playheadViewPos]);
+  //   console.log("scrollbarDB t-s", posTime, playheadViewPos);
+  // }, [playheadViewPos]);
 
   // ************************************************
 
@@ -223,7 +350,12 @@ const TimelineComponent = () => {
   // const thencomposite = countEndRef3.current;
 
   const getPlayheadTime = (): number => {
-    const playheadTime = AppContextValue.conversionStyleToTime(playheadViewPos, staStyleViewPos, endStyleViewPos, durationWidth);
+    const playheadTime = AppContextValue.conversionStyleToTime(
+      timelimeRender.playheadViewPos,
+      timelimeRender.staViewTime,
+      timelimeRender.endViewTime,
+      timelimeRender.durationWidth
+    );
     const playheadTimeNumber = Number(playheadTime);
     return playheadTimeNumber;
   };
@@ -231,6 +363,7 @@ const TimelineComponent = () => {
   const pasteMediaObject = () => {
     const thencomposite = SetupEditorContextValue.choiceComposite;
     const compositeDuration: number = AppContextValue.getCompositeDuration(thencomposite);
+
     console.log("paste -in ", thencomposite, compositeDuration);
     if (!compositeDuration) {
       return;
@@ -276,18 +409,9 @@ const TimelineComponent = () => {
         <TimeNavigatorContext.Provider
           value={{
             timelineMainElement: timelineMainElement,
-            playheadViewPos: playheadViewPos,
-            playheadViewPosSetState: playheadViewPosSetState,
-            staStyleViewPos: staStyleViewPos,
-            staStyleViewPosSetState: staStyleViewPosSetState,
-            endStyleViewPos: endStyleViewPos,
-            endStyleViewPosSetState: endStyleViewPosSetState,
-            timeNavigatorFlag: timeNavigatorFlag,
-            timeNavigatorFlagSetState: timeNavigatorFlagSetState,
+            timelimeRender: timelimeRender,
+            timelimeRenderSetState: timelimeRenderSetState,
             getPlayheadTime: getPlayheadTime,
-
-            durationWidth: durationWidth,
-            durationWidthSetState: durationWidthSetState,
           }}
         >
           <TimeNavigatorHeader />

@@ -428,7 +428,7 @@ const AnimaterCSSproperty = (props: any) => {
         cssValue: SetupEditorContextValue.getKeyframeValue(OwnedID_Keyframe, TimeNavigatorContextValue.getPlayheadTime()),
       });
     }
-  }, [TimeNavigatorContextValue.playheadViewPos]);
+  }, [TimeNavigatorContextValue.timelimeRender]);
 
   useEffect(() => {
     animaterCSSpropertyValueUpdate({

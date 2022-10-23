@@ -259,7 +259,7 @@ const PreviewComponent = () => {
     }
     const playheadTime = AppContextValue.getCompositePlayheadTimePos(SetupEditorContextValue.choiceComposite);
     previewNavigatorSetState({ type: "overlayScrollY", scrollY: playheadTime });
-  }, [SetupEditorContextValue.trackingPreview, TimeNavigatorContextValue.playheadViewPos, SetupEditorContextValue.previewUpdate]);
+  }, [SetupEditorContextValue.trackingPreview, SetupEditorContextValue.previewUpdate]);
 
   const componentConvertPreviewOverlay = () => {
     const previewOverlayDictValue = Object.values(previewNavigator.previewOverlayDict);

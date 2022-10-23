@@ -55,7 +55,12 @@ const componentConvertTimeAxisBlock = (staStyleViewPos: number, endStyleViewPos:
       const thenTimeAxisPos = i * sectionBlockView;
 
       if (staStyleViewPos <= thenTimeAxisPos && thenTimeAxisPos <= endStyleViewPos) {
-        const stylePos = AppContextValue.conversionTimeToStyle(thenTimeAxisPos, staStyleViewPos, endStyleViewPos, TimeNavigatorContextValue.durationWidth);
+        const stylePos = AppContextValue.conversionTimeToStyle(
+          thenTimeAxisPos,
+          staStyleViewPos,
+          endStyleViewPos,
+          TimeNavigatorContextValue.timelimeRender.durationWidth
+        );
 
         tempArray.push(new DownstreamTimeAxisBlockClass(thenTimeAxisPos, stylePos));
       }
@@ -74,11 +79,13 @@ const TimeAxisComponent = () => {
 
   return (
     <div className="timeNavigator-timeaxis">
-      {componentConvertTimeAxisBlock(TimeNavigatorContextValue.staStyleViewPos, TimeNavigatorContextValue.endStyleViewPos).map((output: any, index: number) => (
-        // <>{fruit}</> //SurfaceControlIndividualを追加するmap (list_surface_controlに入っている)
+      {componentConvertTimeAxisBlock(TimeNavigatorContextValue.timelimeRender.staViewTime, TimeNavigatorContextValue.timelimeRender.endViewTime).map(
+        (output: any, index: number) => (
+          // <>{fruit}</> //SurfaceControlIndividualを追加するmap (list_surface_controlに入っている)
 
-        <TimeAxisBlockComponent DownstreamTimeAxisBlock={output} key={index} />
-      ))}
+          <TimeAxisBlockComponent DownstreamTimeAxisBlock={output} key={index} />
+        )
+      )}
     </div>
   );
 };

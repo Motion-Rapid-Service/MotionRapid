@@ -11,12 +11,12 @@ const ScrollBarComponent = () => {
   const AppContextValue = useContext(AppContext);
   const TimeNavigatorContextValue = useContext(TimeNavigatorContext);
 
-  const [staRate, staRateSetState] = useState<number>(0); //これはスタイル数値
-  const [endRate, endRateSetState] = useState<number>(1);
-  const staRateRef = useRef(null); //  ref オブジェクト作成する
-  staRateRef.current = staRate; // countを.currentプロパティへ保持する
-  const endRateRef = useRef(null); //  ref オブジェクト作成する
-  endRateRef.current = endRate; // countを.currentプロパティへ保持する
+  // const [staRate, staRateSetState] = useState<number>(null); //これはスタイル数値
+  // const [endRate, endRateSetState] = useState<number>(null);
+  // const staRateRef = useRef(null); //  ref オブジェクト作成する
+  // staRateRef.current = staRate; // countを.currentプロパティへ保持する
+  // const endRateRef = useRef(null); //  ref オブジェクト作成する
+  // endRateRef.current = endRate; // countを.currentプロパティへ保持する
 
   const [mouseMode, mouseModeSetState] = useState<number>(0);
   const mouseModeRef = useRef(null); //  ref オブジェクト作成する
@@ -69,20 +69,23 @@ const ScrollBarComponent = () => {
   const mouseDown = (event: any) => {
     const thenMousePushPos = mousePostion(event);
     let stateUserHand = 0;
-    if (scrollBarEdgeJudge(thenMousePushPos, staRate)) {
+    if (scrollBarEdgeJudge(thenMousePushPos, TimeNavigatorContextValue.timelimeRender.staStyleRate)) {
       stateUserHand = 1;
-    } else if (scrollBarEdgeJudge(thenMousePushPos, endRate)) {
+    } else if (scrollBarEdgeJudge(thenMousePushPos, TimeNavigatorContextValue.timelimeRender.endStyleRate)) {
       stateUserHand = 2;
-    } else if (scrollBarAreaJudge(thenMousePushPos, staRate, endRate)) {
+    } else if (
+      scrollBarAreaJudge(thenMousePushPos, TimeNavigatorContextValue.timelimeRender.staStyleRate, TimeNavigatorContextValue.timelimeRender.endStyleRate)
+    ) {
       stateUserHand = 3;
     } else {
       return;
     }
 
-    TimeNavigatorContextValue.timeNavigatorFlagSetState(true);
+    // TimeNavigatorContextValue.timeNavigatorFlagSetState(true);
+    TimeNavigatorContextValue.timelimeRenderSetState({ type: "timeNavigatorFlag", timeNavigatorFlag: true });
     mouseModeSetState(stateUserHand);
-    mousePushRateStaSetState(staRateRef.current);
-    mousePushRateEndSetState(endRateRef.current);
+    mousePushRateStaSetState(TimeNavigatorContextValue.timelimeRender.staStyleRate);
+    mousePushRateEndSetState(TimeNavigatorContextValue.timelimeRender.endStyleRate);
     mousePushPosSetState(thenMousePushPos);
 
     //console.log("ScrollBarComponent", stateUserHand, thenMousePushPos, mousePushPos);
@@ -102,21 +105,21 @@ const ScrollBarComponent = () => {
 
     switch (mouseModeRef.current) {
       case 1:
-        staRateSetState(sStyle);
+        TimeNavigatorContextValue.timelimeRenderSetState({ type: "timeNavigatorScroll", staStyleRate: sStyle, endStyleRate: null });
         break;
       case 2:
-        endRateSetState(eStyle);
+        TimeNavigatorContextValue.timelimeRenderSetState({ type: "timeNavigatorScroll", staStyleRate: null, endStyleRate: eStyle });
         break;
       case 3:
-        staRateSetState(sStyle);
-        endRateSetState(eStyle);
+        TimeNavigatorContextValue.timelimeRenderSetState({ type: "timeNavigatorScroll", staStyleRate: sStyle, endStyleRate: eStyle });
         break;
     }
   };
 
   const MouseUp = () => {
     mouseModeSetState(0);
-    TimeNavigatorContextValue.timeNavigatorFlagSetState(false);
+    // TimeNavigatorContextValue.timeNavigatorFlagSetState(false);
+    TimeNavigatorContextValue.timelimeRenderSetState({ type: "timeNavigatorFlag", timeNavigatorFlag: false });
   };
 
   useEffect(() => {
@@ -128,26 +131,38 @@ const ScrollBarComponent = () => {
     };
   }, []);
 
-  useEffect(() => {
-    const compositeDuration: number = AppContextValue.getCompositeDuration(SetupEditorContextValue.choiceComposite);
-    if (!compositeDuration) {
-      return;
-    }
-    console.log("scrollbarB", compositeDuration * staRate, compositeDuration * endRate);
+  // useEffect(() => {
+  //   const compositeDuration: number = AppContextValue.getCompositeDuration(SetupEditorContextValue.choiceComposite);
+  //   if (!compositeDuration || !TimeNavigatorContextValue.staStyleViewPos || !TimeNavigatorContextValue.endStyleViewPos) {
+  //     return;
+  //   }
 
-    TimeNavigatorContextValue.staStyleViewPosSetState(compositeDuration * staRate);
-    TimeNavigatorContextValue.endStyleViewPosSetState(compositeDuration * endRate);
+  //   console.log("staRateSetStateB", compositeDuration, TimeNavigatorContextValue.staStyleViewPos, TimeNavigatorContextValue.endStyleViewPos);
 
-    //console.log("staRate endRate");
-  }, [staRate, endRate]);
+  //   staRateSetState(Math.max(TimeNavigatorContextValue.staStyleViewPos / compositeDuration, 0));
+  //   endRateSetState(Math.min(TimeNavigatorContextValue.endStyleViewPos / compositeDuration, 1));
+  // }, [SetupEditorContextValue.choiceComposite, TimeNavigatorContextValue.staStyleViewPos, TimeNavigatorContextValue.endStyleViewPos]);
+
+  // useEffect(() => {
+  //   const compositeDuration: number = AppContextValue.getCompositeDuration(SetupEditorContextValue.choiceComposite);
+  //   if (!compositeDuration) {
+  //     return;
+  //   }
+  //   console.log("scrollbarB", compositeDuration * staRate, compositeDuration * endRate);
+
+  //   TimeNavigatorContextValue.staStyleViewPosSetState(compositeDuration * staRate);
+  //   TimeNavigatorContextValue.endStyleViewPosSetState(compositeDuration * endRate);
+
+  //   //console.log("staRate endRate");
+  // }, [staRate, endRate]);
 
   const styleLeft = () => {
-    return staRate * 100;
+    return TimeNavigatorContextValue.timelimeRender.staStyleRate * 100;
   };
 
   const styleWidth = () => {
-    const e = endRate * 100;
-    const s = staRate * 100;
+    const e = TimeNavigatorContextValue.timelimeRender.endStyleRate * 100;
+    const s = TimeNavigatorContextValue.timelimeRender.staStyleRate * 100;
     const es = e - s;
     //console.log(es, e, s);
     return es;

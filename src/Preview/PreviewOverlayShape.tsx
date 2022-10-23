@@ -113,7 +113,7 @@ const PreviewOverlayShapeComponent = (props: any) => {
         OwnedID_Keyframe,
         OwnedID_Keyframe.length > 0,
         TimeNavigatorContextValue.getPlayheadTime,
-        TimeNavigatorContextValue.playheadViewPos
+        TimeNavigatorContextValue.timelimeRender.playheadViewPos
       );
       if (OwnedID_Keyframe.length > 0) {
         // AppContextValue.getOwnedID_CSSPropertySpeciesHasKeyframe()
@@ -225,7 +225,13 @@ const PreviewOverlayShapeComponent = (props: any) => {
         const leftDifference = mouseXY[0] - userrHandPreview.mousePushPos[0];
         const topDifference = mouseXY[1] - userrHandPreview.mousePushPos[1];
 
-        console.log("previewMoveA", leftDifference, topDifference, TimeNavigatorContextValue.getPlayheadTime, TimeNavigatorContextValue.playheadViewPos);
+        console.log(
+          "previewMoveA",
+          leftDifference,
+          topDifference,
+          TimeNavigatorContextValue.getPlayheadTime,
+          TimeNavigatorContextValue.timelimeRender.playheadViewPos
+        );
 
         props.previewNavigatorSetState({
           type: "mouseMove",

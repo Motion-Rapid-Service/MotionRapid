@@ -28,9 +28,9 @@ export const KeyFrameComponent = (props: any) => {
   const [keyframeStylePos, KeyframePosSetState] = useState<number>(
     AppContextValue.conversionTimeToStyle(
       AppContextValue.getKeyframeTime(keyframeUUID),
-      TimeNavigatorContextValue.staStyleViewPos,
-      TimeNavigatorContextValue.endStyleViewPos,
-      TimeNavigatorContextValue.durationWidth
+      TimeNavigatorContextValue.timelimeRender.staViewTime,
+      TimeNavigatorContextValue.timelimeRender.endViewTime,
+      TimeNavigatorContextValue.timelimeRender.durationWidth
     )
   );
 
@@ -89,15 +89,15 @@ export const KeyFrameComponent = (props: any) => {
     }
 
     const compositeDuration: number = AppContextValue.getCompositeDuration(SetupEditorContextValue.choiceComposite);
-    if (!compositeDuration || TimeNavigatorContextValue.timeNavigatorFlag) {
+    if (!compositeDuration || TimeNavigatorContextValue.timelimeRender.timeNavigatorFlag) {
       return;
     }
 
     const tempKeyframeTime = AppContextValue.conversionStyleToTime(
       keyframeStylePos,
-      TimeNavigatorContextValue.staStyleViewPos,
-      TimeNavigatorContextValue.endStyleViewPos,
-      TimeNavigatorContextValue.durationWidth
+      TimeNavigatorContextValue.timelimeRender.staViewTime,
+      TimeNavigatorContextValue.timelimeRender.endViewTime,
+      TimeNavigatorContextValue.timelimeRender.durationWidth
     );
 
     const temp: MiddleDataOperationType.OperationKeyframeTimeType = {
@@ -118,9 +118,9 @@ export const KeyFrameComponent = (props: any) => {
     const KeyframeTime = AppContextValue.getKeyframeTime(keyframeUUID);
     const tempKeyframeStylePos = AppContextValue.conversionTimeToStyle(
       KeyframeTime,
-      TimeNavigatorContextValue.staStyleViewPos,
-      TimeNavigatorContextValue.endStyleViewPos,
-      TimeNavigatorContextValue.durationWidth
+      TimeNavigatorContextValue.timelimeRender.staViewTime,
+      TimeNavigatorContextValue.timelimeRender.endViewTime,
+      TimeNavigatorContextValue.timelimeRender.durationWidth
     );
 
     KeyframePosSetState(tempKeyframeStylePos);

@@ -456,8 +456,8 @@ export default class MiddleDataOperation {
       return null;
     }
     const viewPos: Array<number> = [
-      this.DataCentral.OwnedClass_Composite[compositeID].staStyleViewPos,
-      this.DataCentral.OwnedClass_Composite[compositeID].endStyleViewPos,
+      Number(this.DataCentral.OwnedClass_Composite[compositeID].staStyleViewPos),
+      Number(this.DataCentral.OwnedClass_Composite[compositeID].endStyleViewPos),
     ];
     return viewPos;
   };
@@ -466,7 +466,7 @@ export default class MiddleDataOperation {
     if (!hasKeyFound(compositeID, this.DataCentral.OwnedClass_Composite)) {
       return;
     }
-    const viewPos: number = this.DataCentral.OwnedClass_Composite[compositeID].playheadTimePos;
+    const viewPos: number = Number(this.DataCentral.OwnedClass_Composite[compositeID].playheadTimePos);
     // console.log("getCompositePlayheadTimePos", viewPos);
     return viewPos;
   };

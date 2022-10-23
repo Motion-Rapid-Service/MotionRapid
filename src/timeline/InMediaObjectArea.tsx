@@ -232,15 +232,15 @@ export const MediaObjectScrollComponent = () => {
 
     const styleStaTime = AppContextValue.conversionTimeToStyle(
       mediaObjectTime[0],
-      TimeNavigatorContextValue.staStyleViewPos,
-      TimeNavigatorContextValue.endStyleViewPos,
-      TimeNavigatorContextValue.durationWidth
+      TimeNavigatorContextValue.timelimeRender.staViewTime,
+      TimeNavigatorContextValue.timelimeRender.endViewTime,
+      TimeNavigatorContextValue.timelimeRender.durationWidth
     );
     const styleEndTime = AppContextValue.conversionTimeToStyle(
       mediaObjectTime[1],
-      TimeNavigatorContextValue.staStyleViewPos,
-      TimeNavigatorContextValue.endStyleViewPos,
-      TimeNavigatorContextValue.durationWidth
+      TimeNavigatorContextValue.timelimeRender.staViewTime,
+      TimeNavigatorContextValue.timelimeRender.endViewTime,
+      TimeNavigatorContextValue.timelimeRender.durationWidth
     );
 
     if (isFinite(styleStaTime) && isFinite(styleEndTime)) {
@@ -273,7 +273,7 @@ export const MediaObjectScrollComponent = () => {
       window.removeEventListener("mousemove", timeLineMouseMoveAction);
       window.removeEventListener("mouseup", MouseRelease);
     };
-  }, [mediaObjectUUID, SetupEditorContextValue.previewUpdate]);
+  }, [mediaObjectUUID, SetupEditorContextValue.previewUpdate, SetupEditorContextValue.choiceComposite]);
 
   useEffect(() => {
     mediaObjectUpdate();

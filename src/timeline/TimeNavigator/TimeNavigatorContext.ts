@@ -1,22 +1,13 @@
 import * as React from "react";
 const { createContext } = React;
-
+import * as timelimeRender from "./../timelimeRender";
 type TimeNavigatorContextValue = {
-  playheadViewPos: number;
-  playheadViewPosSetState: Function;
   timelineMainElement: any;
 
-  staStyleViewPos: number;
-  staStyleViewPosSetState: Function;
-  endStyleViewPos: number;
-  endStyleViewPosSetState: Function;
-  timeNavigatorFlag: boolean;
-  timeNavigatorFlagSetState: Function;
+  timelimeRender: timelimeRender.TypeTimelimeRender;
+  timelimeRenderSetState: Function;
 
   getPlayheadTime: Function;
-
-  durationWidth: number;
-  durationWidthSetState: Function;
 };
 
 export const TimeNavigatorContext = createContext<TimeNavigatorContextValue>({} as TimeNavigatorContextValue);
