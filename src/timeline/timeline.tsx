@@ -193,76 +193,6 @@ const TimelineComponent = () => {
     durationWidth: null,
   });
 
-  // useEffect(() => {
-  //   console.log("durationWidth", durationWidth);
-  // }, [durationWidth]);
-
-  //ここから 描画域のState設定
-
-  // useEffect(() => {
-  //   const compositeStyleViewPos: Array<number> = AppContextValue.getCompositeStyleViewPos(SetupEditorContextValue.choiceComposite);
-  //   const compositeDuration: number = AppContextValue.getCompositeDuration(SetupEditorContextValue.choiceComposite);
-  //   if (!compositeDuration || !compositeStyleViewPos) {
-  //     return;
-  //   }
-  //   console.log("compositeStyleViewPos", compositeStyleViewPos);
-  //   staStyleViewPosSetState(compositeStyleViewPos[0]);
-  //   endStyleViewPosSetState(compositeStyleViewPos[1]);
-
-  //   const posTime = AppContextValue.getCompositePlayheadTimePos(SetupEditorContextValue.choiceComposite);
-  //   const posStyle = AppContextValue.conversionTimeToStyle(posTime, staStyleViewPos, endStyleViewPos, durationWidth);
-  //   playheadViewPosSetState(posStyle);
-
-  //   return () => {
-  //     const compositeDuration: number = AppContextValue.getCompositeDuration(SetupEditorContextValue.choiceComposite);
-  //     if (!compositeDuration || !staStyleViewPos || !endStyleViewPos) {
-  //       return;
-  //     }
-  //     //console.log("playheadTime B", playheadTime, staStyleViewPos, endStyleViewPos, compositeDuration);
-  //     const posTime = AppContextValue.conversionStyleToTime(playheadViewPos, staStyleViewPos, endStyleViewPos, durationWidth);
-
-  //     AppContextValue.setCompositeStyleViewPos(SetupEditorContextValue.choiceComposite, [staStyleViewPos, endStyleViewPos]);
-  //     AppContextValue.setCompositePlayheadTimePos(SetupEditorContextValue.choiceComposite, posTime);
-  //   };
-  // }, [SetupEditorContextValue.choiceComposite]);
-
-  // useEffect(() => {
-  //   console.log("scrollbarC", staStyleViewPos, endStyleViewPos);
-  //   const compositeDuration: number = AppContextValue.getCompositeDuration(SetupEditorContextValue.choiceComposite);
-  //   if (!compositeDuration) {
-  //     return;
-  //   }
-
-  //   console.log("compositeDuration pass");
-
-  //   AppContextValue.setCompositeStyleViewPos(SetupEditorContextValue.choiceComposite, [staStyleViewPos, endStyleViewPos]);
-  //   const playheadPosTime = AppContextValue.getCompositePlayheadTimePos(SetupEditorContextValue.choiceComposite);
-  //   const playheadPosStyle = AppContextValue.conversionTimeToStyle(playheadPosTime, staStyleViewPos, endStyleViewPos, durationWidth);
-  //   playheadViewPosSetState(playheadPosStyle);
-  //   console.log("scrollbarDA t-s", playheadPosTime, playheadPosStyle);
-
-  //   timelineUpdateDOM();
-  // }, [staStyleViewPos, endStyleViewPos, durationWidth]);
-
-  //ここから プレイヘッド数値の設定
-
-  // useEffect(() => {
-  //   //uiのplayhedが変化したときにjsonデータに差し込む
-
-  //   const compositeDuration: number = AppContextValue.getCompositeDuration(SetupEditorContextValue.choiceComposite);
-  //   if (!compositeDuration || timeNavigatorFlag) {
-  //     return;
-  //   }
-  //   //console.log("playheadTime B", playheadTime, staStyleViewPos, endStyleViewPos, compositeDuration);
-  //   const posTime = AppContextValue.conversionStyleToTime(playheadViewPos, staStyleViewPos, endStyleViewPos, durationWidth);
-  //   AppContextValue.setCompositePlayheadTimePos(SetupEditorContextValue.choiceComposite, posTime);
-  //   SetupEditorContextValue.previewUpdateDOM();
-
-  //   console.log("scrollbarDB t-s", posTime, playheadViewPos);
-  // }, [playheadViewPos]);
-
-  // ************************************************
-
   useEffect(() => {
     timelimeRenderSetState({ type: "compositeMove" });
     SetupEditorContextValue.previewUpdateDOM();
@@ -454,6 +384,8 @@ const TimelineComponent = () => {
 
                       <MediaObjectAreaComponent DownstreamMiddleDataMediaObject={output} indexMediaObejct={index} key={index} />
                     ))}
+
+                    <div style={{ width: "100%", height: "100px" }}></div>
                   </>
                 </TimelineAreaDivContext.Provider>
               </div>

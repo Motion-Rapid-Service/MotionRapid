@@ -150,10 +150,10 @@ const SetupCompletion = () => {
   };
   const getTimelineLayoutState = () => {
     if (!timelineLayoutState.expandFlag) {
-      return 0;
+      return "40px";
     }
 
-    return timelineLayoutState.layoutSize + "px";
+    return Math.max(timelineLayoutState.layoutSize, 40) + "px";
   };
 
   const mouseDoubleClickCompositeEditor = (event: any) => {
