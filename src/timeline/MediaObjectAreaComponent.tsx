@@ -49,13 +49,13 @@ export const MediaObjectAreaComponent = (props: any) => {
       return;
     }
 
-    const staTime = AppContextValue.conversionStyleToTime(
+    const staTime: number = AppContextValue.conversionStyleToTime(
       staStylePos,
       TimeNavigatorContextValue.staStyleViewPos,
       TimeNavigatorContextValue.endStyleViewPos,
       TimeNavigatorContextValue.durationWidth
     );
-    const endTime = AppContextValue.conversionStyleToTime(
+    const endTime: number = AppContextValue.conversionStyleToTime(
       endStylePos,
       TimeNavigatorContextValue.staStyleViewPos,
       TimeNavigatorContextValue.endStyleViewPos,

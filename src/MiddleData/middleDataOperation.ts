@@ -280,10 +280,10 @@ export default class MiddleDataOperation {
       return;
     }
     if (hasKeyFound("sta", sendData)) {
-      this.DataCentral.OwnedClass_MediaObject[mediaObjectID].MediaObject_StartTime = sendData["sta"];
+      this.DataCentral.OwnedClass_MediaObject[mediaObjectID].MediaObject_StartTime = Number(sendData["sta"]);
     }
     if (hasKeyFound("end", sendData)) {
-      this.DataCentral.OwnedClass_MediaObject[mediaObjectID].MediaObject_EndTime = sendData["end"];
+      this.DataCentral.OwnedClass_MediaObject[mediaObjectID].MediaObject_EndTime = Number(sendData["end"]);
     }
   };
   operationKeyframeTime = (sendData: MiddleDataOperationType.OperationKeyframeTimeType) => {
@@ -375,8 +375,8 @@ export default class MiddleDataOperation {
 
   getMediaObjectTime = (mediaObjectID: string) => {
     return [
-      this.DataCentral.OwnedClass_MediaObject[mediaObjectID].MediaObject_StartTime,
-      this.DataCentral.OwnedClass_MediaObject[mediaObjectID].MediaObject_EndTime,
+      Number(this.DataCentral.OwnedClass_MediaObject[mediaObjectID].MediaObject_StartTime),
+      Number(this.DataCentral.OwnedClass_MediaObject[mediaObjectID].MediaObject_EndTime),
     ];
   };
 
