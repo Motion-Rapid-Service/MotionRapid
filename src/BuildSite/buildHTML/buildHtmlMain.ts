@@ -7,6 +7,8 @@ import * as buildQue from "../buildQue";
 
 import * as middleDataClass from "./../../MiddleData/middleDataClass";
 
+import UUID from "uuidjs";
+
 let rootHtmlID: string;
 let rootStyleID: string;
 let rootScriptID: string;
@@ -30,7 +32,9 @@ const htmlBuildMain = (jsonDataCentral: any, compositeID: string, send_composite
 
   const thenComposite: middleDataClass.Composite = OwnedClass_Composite[compositeID];
   let htmlText;
-  let compositePreviewTime: number;
+  let compositePreviewTime: number; //previewの時に各コンポジション内でプレイヘッド基準で出力を決めるときに使う変数(各コンポジション基準)
+  let compositeOutputModeTime = 0; //現在処理してるコンポジションの開始地点(全体基準)
+
   if (compositeTimeFlag) {
     htmlText = String(require("./../buildFormat/htmlFormatPreview.txt")["default"]);
     compositePreviewTime = thenComposite.playheadTimePos;
@@ -87,7 +91,8 @@ const htmlBuildMain = (jsonDataCentral: any, compositeID: string, send_composite
     rootHtmlID,
     rootStyleID,
     compositePreviewTime,
-    compositeTimeFlag
+    compositeTimeFlag,
+    compositeOutputModeTime
   );
 
   const outputHtml = recursiveHtml(rootHtmlID);
@@ -213,7 +218,8 @@ export const parseComposite = (
   getJsonDataCentral: Function,
   parentID: string,
   compositeID: string,
-  compositePreviewTime: number
+  compositePreviewTime: number,
+  compositeOutputModeTime: number
 ) => {
   console.log(getJsonDataCentral);
   const OwnedClass_Composite: { [name: string]: middleDataClass.Composite } = getJsonDataCentral().OwnedClass_Composite;
@@ -227,7 +233,7 @@ export const parseComposite = (
   for (let i = 0; i < OwnedID_MediaObject.length; i++) {
     const thenMediaObjectID = OwnedID_MediaObject[i];
     console.log("解析(c) : ", thenMediaObjectID);
-    parseMediaObject(getJsonDataCentral, parentID, compositeID, thenMediaObjectID, compositePreviewTime);
+    parseMediaObject(getJsonDataCentral, parentID, compositeID, thenMediaObjectID, compositePreviewTime, compositeOutputModeTime);
   }
   return;
 };
@@ -238,7 +244,8 @@ const parseMediaObject = (
   parentID: string,
   compositeID: string,
   mediaObjectID: string,
-  compositePreviewTime: number
+  compositePreviewTime: number,
+  compositeOutputModeTime: number
 ) => {
   const jsonDataCentral: middleDataClass.DataCentral = getJsonDataCentral();
   const OwnedClass_Composite: { [name: string]: middleDataClass.Composite } = jsonDataCentral.OwnedClass_Composite;
@@ -262,6 +269,28 @@ const parseMediaObject = (
   const newZindexID = buildQue.pushCSSElementQue(new buildQue.cssElementDefault(mediaObjectID, "#"), rootStyleID);
   const cssZindexText = "z-index :" + zIndex + ";";
   buildQue.pushCSSElementQue(new buildQue.cssElementSubstance(cssZindexText), newZindexID);
+
+  const startTime = thenMediaObject.MediaObject_StartTime + compositeOutputModeTime;
+  const endTime = thenMediaObject.MediaObject_EndTime + compositeOutputModeTime;
+
+  if (compositeTimeFlag) {
+    if (!(startTime <= compositePreviewTime + compositeOutputModeTime && compositePreviewTime + compositeOutputModeTime < endTime)) {
+      console.log("範囲外", startTime, compositePreviewTime, endTime);
+      buildQue.pushCSSElementQue(new buildQue.cssElementSubstance("display : none;"), newZindexID);
+    }
+  } else {
+    const windowScrollMediaObject = String(require("./../buildFormat/windowScrollMediaObject.txt")["default"]);
+
+    const replaceData = {
+      "%MEDIAOBJECTSTARTTIME%": String(startTime) + ";",
+      "%MEDIAOBJECTENDTIME%": String(endTime) + ";",
+      "%MEDIAOBJECTID%": "'" + thenMediaObject.MediaObject_ID + "'" + ";",
+      "%SCROLLFUNCTIONNAME%": "f" + textReplace(String(UUID.generate()), { "-": "" }),
+      "\n": "",
+    };
+
+    buildQue.pushJavaScriptElementQue(new buildQue.javascriptElementSourceCodeClass(windowScrollMediaObject, replaceData), rootScriptID);
+  }
 
   console.log("解析(m) ; ", thenSourceSpecies, buildSourceSpecies.sourceSpeciesList);
 
@@ -287,8 +316,11 @@ const parseMediaObject = (
       console.log("解析 : 破棄", thenSourceSpeciesCompositeClass.compositeID, OwnedClass_Composite);
       return;
     }
-    const newCompositePreviewTime = compositePreviewTime - thenMediaObject.MediaObject_StartTime;
+
     // メディアオブジェクトの時間判定機能を一度削除するため(フィールドバックのため)
+
+    const newCompositePreviewTime = compositePreviewTime - thenMediaObject.MediaObject_StartTime;
+    const newCompositeOutputModeTime = compositeOutputModeTime + thenMediaObject.MediaObject_StartTime;
 
     // const newCompositePreviewTime = compositePreviewTime;
     buildSourceSpecies.sourceSpeciesFunctionComposite(
@@ -298,7 +330,8 @@ const parseMediaObject = (
       rootHtmlID,
       rootStyleID,
       newCompositePreviewTime,
-      compositeTimeFlag
+      compositeTimeFlag,
+      newCompositeOutputModeTime
     );
   }
   if (thenSourceSpecies === buildSourceSpecies.sourceSpeciesList[3]) {
@@ -314,7 +347,7 @@ const parseMediaObject = (
   if (thenSourceSpecies === buildSourceSpecies.sourceSpeciesList[4]) {
     buildSourceSpecies.sourceSpeciesFunctionShape();
   }
-  CSSBuildMain(getJsonDataCentral(), rootStyleID, rootScriptID, compositeID, mediaObjectID, compositeTimeFlag, compositePreviewTime);
+  CSSBuildMain(getJsonDataCentral(), rootStyleID, rootScriptID, compositeID, mediaObjectID, compositeTimeFlag, compositePreviewTime, compositeOutputModeTime);
 
   return;
 };

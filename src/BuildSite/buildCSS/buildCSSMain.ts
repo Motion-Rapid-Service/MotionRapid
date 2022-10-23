@@ -29,7 +29,8 @@ const CSSBuildMain = (
   compositeID: string,
   mediaObjectID: string,
   compositeTimeFlag: boolean,
-  compositePreviewTime: number
+  compositePreviewTime: number,
+  compositeOutputModeTime: number
 ) => {
   //   const htmlText = String(require("./../buildFormat/htmlFormat.html")["default"]);
 
@@ -38,7 +39,7 @@ const CSSBuildMain = (
   const OwnedClass_AnimatorGroup: { [name: string]: middleDataClass.AnimatorGroup } = jsonDataCentral.OwnedClass_AnimatorGroup;
   const OwnedClass_Animator: { [name: string]: middleDataClass.Animator } = jsonDataCentral.OwnedClass_Animator;
   const OwnedClass_Keyframe: { [name: string]: middleDataClass.Keyframe } = jsonDataCentral.OwnedClass_Keyframe;
-  const OwnedClass_CSSProperty: { [name: string]: middleDataClass.CSSProperty } = jsonDataCentral["OwnedClass_CSSProperty"];
+  const OwnedClass_CSSProperty: { [name: string]: middleDataClass.CSSProperty } = jsonDataCentral.OwnedClass_CSSProperty;
 
   const thenCompositeClass = OwnedClass_Composite[compositeID];
   const Composite_Duration = thenCompositeClass.Composite_Duration;
@@ -136,26 +137,6 @@ const CSSBuildMain = (
 
         const tempTimeValue = generateCSSproperty(thenAnimatorClass, OwnedClass_Keyframe, OwnedClass_CSSProperty);
 
-        // let tempTimeValue: { [name: number]: string | number } = {};
-        // if (OwnedID_Keyframe.length === 0) {
-        //   const OwnedID_cssPropertyValue = thenAnimatorClass.OwnedID_cssPropertyValue;
-        //   const thenCSSPropertyClass: middleDataClass.CSSProperty = OwnedClass_CSSProperty[OwnedID_cssPropertyValue];
-        //   tempTimeValue[0] = thenCSSPropertyClass.CSSProperty_Value;
-        // } else {
-        //   for (let ki = 0; ki < OwnedID_Keyframe.length; ki++) {
-        //     //キーフレーム
-        //     const thenkeyframeID = OwnedID_Keyframe[ki];
-        //     const thenkeyframeClass: middleDataClass.Keyframe = OwnedClass_Keyframe[thenkeyframeID];
-        //     const Keyframe_AbsoluteTime = thenkeyframeClass.Keyframe_AbsoluteTime;
-        //     console.log("最深部", compositeID, mediaObjectID, thenAnimatorGroupID, thenAnimatorID, thenkeyframeID);
-        //     console.log(OwnedID_AnimatorGroup.length, OwnedID_Animator.length, OwnedID_Keyframe.length);
-
-        //     let thenCSSPropertyID: string = thenkeyframeClass.OwnedID_cssPropertyValue;
-        //     let thenCSSPropertyClass: middleDataClass.CSSProperty = OwnedClass_CSSProperty[thenCSSPropertyID];
-
-        //     tempTimeValue[Keyframe_AbsoluteTime] = thenCSSPropertyClass.CSSProperty_Value;
-        //   }
-        // }
         console.log("tempTimeValue", tempTimeValue);
         const tempSortTimeValue = sortNumber(Object.keys(tempTimeValue), false);
         console.log("tempSortTimeValue", tempSortTimeValue);
@@ -180,7 +161,7 @@ const CSSBuildMain = (
           for (let kki = 0; kki < tempSortTimeValue.length; kki++) {
             const thenTime: number = Number(tempSortTimeValue[kki]);
 
-            pointTime += thenTime;
+            pointTime += thenTime + compositeOutputModeTime;
             pointValue += tempTimeValue[thenTime];
             if (kki !== tempSortTimeValue.length - 1) {
               pointTime += ",";

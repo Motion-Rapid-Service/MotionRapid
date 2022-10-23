@@ -1,0 +1,17 @@
+function %SCROLLFUNCTIONNAME%() {
+  let MEDIAOBJECTSTARTTIME = %MEDIAOBJECTSTARTTIME%
+  let MEDIAOBJECTENDTIME = %MEDIAOBJECTENDTIME%
+  let MEDIAOBJECTID = %MEDIAOBJECTID%
+  let scroll_y = Number(window.scrollY);
+  if (!(MEDIAOBJECTSTARTTIME <= scroll_y && scroll_y < MEDIAOBJECTENDTIME)){
+    document.getElementById(MEDIAOBJECTID).style.display ="none";
+  }
+  else{
+    document.getElementById(MEDIAOBJECTID).style.display ="block";
+  }
+}
+
+window.addEventListener("scroll", function (event) {
+  %SCROLLFUNCTIONNAME%();
+});
+%SCROLLFUNCTIONNAME%();

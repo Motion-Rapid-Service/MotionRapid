@@ -154,7 +154,7 @@ const toolBarComponent = (props: any) => {
 
   const toolBarCreateMediaObjectComposite = (funcdata: { [name: string]: any }) => {
     SetupUndoContextValue.pushEditHistory();
-    const addClass = new buildSourceSpecies.SourceSpeciesCompositeClass("");
+    const addClass = new buildSourceSpecies.SourceSpeciesCompositeClass(null);
     const t_MediaObjectID = AppContextValue.createMediaObject(addClass);
     AppContextValue.linkMediaObject(funcdata["choiceComposite"], t_MediaObjectID);
 

@@ -54,7 +54,8 @@ export const sourceSpeciesFunctionComposite = (
   rootHtmlID: string,
   cssDownParentID: string,
   compositePreviewTime: number,
-  compositeTimeFlag: boolean
+  compositeTimeFlag: boolean,
+  compositeOutputModeTime: number
 ) => {
   const dataCentral: middleDataClass.DataCentral = jsonDataCentral();
   const thenCompositeClass = dataCentral.OwnedClass_Composite[targetCompositeID];
@@ -80,7 +81,7 @@ export const sourceSpeciesFunctionComposite = (
 
     const htmlAttributeComposite: { [name: string]: string } = { id: targetCompositeID };
     const newHtmlIDComposite = buildQue.pushHtmlElementQue(new buildQue.htmlElementBlockClass("div", htmlAttributeComposite), newHtmlIDPreviewFixed);
-    buildHtmlMain.parseComposite(jsonDataCentral, newHtmlIDComposite, targetCompositeID, compositePreviewTime); //ほかのコンポジットを呼び出す。向こうの関数でビルドキューに登録するので戻り値がない
+    buildHtmlMain.parseComposite(jsonDataCentral, newHtmlIDComposite, targetCompositeID, compositePreviewTime, compositeOutputModeTime); //ほかのコンポジットを呼び出す。向こうの関数でビルドキューに登録するので戻り値がない
 
     const targetCompositeIDAllCSS = buildQue.pushCSSElementQue(new buildQue.cssElementDefault(targetCompositeID + " > *", "#"), cssDownParentID);
 
@@ -92,7 +93,7 @@ export const sourceSpeciesFunctionComposite = (
 
   const htmlAttribute: { [name: string]: string } = { id: targetCompositeID };
   const newHtmlID = buildQue.pushHtmlElementQue(new buildQue.htmlElementBlockClass("div", htmlAttribute), downParentID);
-  buildHtmlMain.parseComposite(jsonDataCentral, newHtmlID, targetCompositeID, compositePreviewTime); //ほかのコンポジットを呼び出す。向こうの関数でビルドキューに登録するので戻り値がない
+  buildHtmlMain.parseComposite(jsonDataCentral, newHtmlID, targetCompositeID, compositePreviewTime, compositeOutputModeTime); //ほかのコンポジットを呼び出す。向こうの関数でビルドキューに登録するので戻り値がない
 
   console.log("thenCompositeClass.Composite_LocationMode", thenCompositeClass.Composite_LocationMode, middleDataClass.Composite_LocationMode[3]);
 
