@@ -127,6 +127,7 @@ export const MediaObjectAreaComponent = (props: any) => {
 
   useEffect(() => {
     mediaObjectRenderSetState({ type: "update" });
+    SetupEditorContextValue.previewUpdateDOM();
   }, [TimeNavigatorContextValue.timelimeRender]);
 
   // useEffect(() => {

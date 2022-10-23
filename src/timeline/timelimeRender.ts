@@ -50,4 +50,13 @@ export type TypeMediaObjectRenderActionAnimatorOpen = {
   animatorOpen: boolean;
 };
 
-export type TypeAnimaterKeyframeRender = {};
+export type TypeAnimaterKeyframeRender = { stylePos: number };
+
+export type TypeAnimaterKeyframeRenderActionUpdate = {
+  type: string;
+};
+
+export type TypeAnimaterKeyframeRenderActionTimeMove = {
+  type: string;
+  stylePos: number;
+};

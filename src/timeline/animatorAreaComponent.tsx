@@ -15,6 +15,8 @@ import * as UserHand from "./../UserHand";
 
 import { TimeNavigatorContext } from "./TimeNavigator/TimeNavigatorContext";
 import { SetupPracticeContext, TypePracticeHistory, layoutGlowClass } from "./../SetupEditor/SetupPracticeContext";
+import * as timelimeRender from "./timelimeRender";
+
 export const KeyFrameComponent = (props: any) => {
   const keyframeUUID = props.DownstreamMiddleDataKeyframe["Keyframe_ID"];
   const Animator_propertySpecies = props.DownstreamMiddleDataKeyframe["Animator_propertySpecies"];
@@ -25,15 +27,6 @@ export const KeyFrameComponent = (props: any) => {
 
   const SetupPracticeContextValue = useContext(SetupPracticeContext);
 
-  const [keyframeStylePos, KeyframePosSetState] = useState<number>(
-    AppContextValue.conversionTimeToStyle(
-      AppContextValue.getKeyframeTime(keyframeUUID),
-      TimeNavigatorContextValue.timelimeRender.staViewTime,
-      TimeNavigatorContextValue.timelimeRender.endViewTime,
-      TimeNavigatorContextValue.timelimeRender.durationWidth
-    )
-  );
-
   const MediaObjectContextValue = useContext(MediaObjectContext);
   const mediaObjectAreaElement = MediaObjectContextValue.mediaObjectAreaElement as any;
   const LayerDurationContextValue = useContext(LayerDurationContext);
@@ -43,6 +36,86 @@ export const KeyFrameComponent = (props: any) => {
   const SetupUndoContextValue = useContext(SetupUndoContext);
 
   const TimelineAreaDivContextValue = useContext(TimelineAreaDivContext);
+
+  // const [keyframeStylePos, KeyframePosSetState] = useState<number>(
+  //   AppContextValue.conversionTimeToStyle(
+  //     AppContextValue.getKeyframeTime(keyframeUUID),
+  //     TimeNavigatorContextValue.timelimeRender.staViewTime,
+  //     TimeNavigatorContextValue.timelimeRender.endViewTime,
+  //     TimeNavigatorContextValue.timelimeRender.durationWidth
+  //   )
+  // );
+
+  const setKeyframeRender = (
+    state: timelimeRender.TypeAnimaterKeyframeRender,
+    action: timelimeRender.TypeAnimaterKeyframeRenderActionUpdate | timelimeRender.TypeAnimaterKeyframeRenderActionTimeMove
+  ): timelimeRender.TypeAnimaterKeyframeRender => {
+    const compositeDuration: number = AppContextValue.getCompositeDuration(SetupEditorContextValue.choiceComposite);
+
+    switch (action.type) {
+      case "update":
+        {
+          const thenAction = action as timelimeRender.TypeAnimaterKeyframeRenderActionUpdate;
+          if (!compositeDuration) {
+            break;
+          }
+          const KeyframeTime = AppContextValue.getKeyframeTime(keyframeUUID);
+          const tempKeyframeStylePos = AppContextValue.conversionTimeToStyle(
+            KeyframeTime,
+            TimeNavigatorContextValue.timelimeRender.staViewTime,
+            TimeNavigatorContextValue.timelimeRender.endViewTime,
+            TimeNavigatorContextValue.timelimeRender.durationWidth
+          );
+
+          if (!tempKeyframeStylePos || !isFinite(tempKeyframeStylePos)) {
+            break;
+          }
+          return {
+            stylePos: tempKeyframeStylePos,
+          };
+        }
+        break;
+
+      case "keyframeMove": {
+        const thenAction = action as timelimeRender.TypeAnimaterKeyframeRenderActionTimeMove;
+
+        if (!thenAction.stylePos || !isFinite(thenAction.stylePos)) {
+          break;
+        }
+
+        if (!compositeDuration || TimeNavigatorContextValue.timelimeRender.timeNavigatorFlag) {
+          break;
+        }
+
+        const tempKeyframeTime = AppContextValue.conversionStyleToTime(
+          thenAction.stylePos,
+          TimeNavigatorContextValue.timelimeRender.staViewTime,
+          TimeNavigatorContextValue.timelimeRender.endViewTime,
+          TimeNavigatorContextValue.timelimeRender.durationWidth
+        );
+
+        const temp: MiddleDataOperationType.OperationKeyframeTimeType = {
+          KeyframeID: keyframeUUID,
+          time: tempKeyframeTime,
+        };
+
+        AppContextValue.operationKeyframeTime(temp);
+
+        return {
+          stylePos: thenAction.stylePos,
+        };
+      }
+
+      default:
+        break;
+    }
+
+    return {
+      stylePos: state.stylePos,
+    };
+  };
+
+  const [keyframeRender, keyframeRenderSetState] = useReducer(setKeyframeRender, { stylePos: null });
 
   const keyframeMouseMoveAction = (event: any) => {
     if (!UserHand.hasUserHandKeyframe(keyframeUUID)) {
@@ -55,7 +128,8 @@ export const KeyFrameComponent = (props: any) => {
       case 1:
         const mouseX = timelineMousePosition.mediaObjectMousePosition(event, LayerDurationContextValue.timelineAreaLayerDurationElement)[0];
         const mouseMoveX = mouseX - userHandKeyframe.mousePushPos;
-        KeyframePosSetState(mouseMoveX + userHandKeyframe.mouseDownKeyframeStyle);
+        // KeyframePosSetState(mouseMoveX + userHandKeyframe.mouseDownKeyframeStyle);
+        keyframeRenderSetState({ type: "keyframeMove", stylePos: mouseMoveX + userHandKeyframe.mouseDownKeyframeStyle });
         break;
       case 2:
         break;
@@ -79,56 +153,18 @@ export const KeyFrameComponent = (props: any) => {
     UserHand.alldeleteUserHandKeyframe();
 
     // UserHandKeyframeList[keyframeUUID] = new UserHandKeyframeOperation(mousePushPos, keyframeStylePos);
-    UserHand.insertUserHandKeyframe(keyframeUUID, 1, mousePushPos, keyframeStylePos);
+    UserHand.insertUserHandKeyframe(keyframeUUID, 1, mousePushPos, keyframeRender.stylePos);
   };
 
   useEffect(() => {
-    if (!keyframeStylePos || !isFinite(keyframeStylePos)) {
-      return;
-    }
-
-    const compositeDuration: number = AppContextValue.getCompositeDuration(SetupEditorContextValue.choiceComposite);
-    if (!compositeDuration || TimeNavigatorContextValue.timelimeRender.timeNavigatorFlag) {
-      return;
-    }
-
-    const tempKeyframeTime = AppContextValue.conversionStyleToTime(
-      keyframeStylePos,
-      TimeNavigatorContextValue.timelimeRender.staViewTime,
-      TimeNavigatorContextValue.timelimeRender.endViewTime,
-      TimeNavigatorContextValue.timelimeRender.durationWidth
-    );
-
-    const temp: MiddleDataOperationType.OperationKeyframeTimeType = {
-      KeyframeID: keyframeUUID,
-      time: tempKeyframeTime,
-    };
-
-    console.log("keyframeStylePosP-A", keyframeStylePos, tempKeyframeTime);
-
-    AppContextValue.operationKeyframeTime(temp);
-  }, [keyframeStylePos]);
-
-  const keyframeUpdate = () => {
-    const compositeDuration: number = AppContextValue.getCompositeDuration(SetupEditorContextValue.choiceComposite);
-    if (!compositeDuration) {
-      return;
-    }
-    const KeyframeTime = AppContextValue.getKeyframeTime(keyframeUUID);
-    const tempKeyframeStylePos = AppContextValue.conversionTimeToStyle(
-      KeyframeTime,
-      TimeNavigatorContextValue.timelimeRender.staViewTime,
-      TimeNavigatorContextValue.timelimeRender.endViewTime,
-      TimeNavigatorContextValue.timelimeRender.durationWidth
-    );
-
-    KeyframePosSetState(tempKeyframeStylePos);
-    console.log("keyframeStylePosP-B", KeyframeTime, tempKeyframeStylePos);
-    return;
-  };
+    SetupEditorContextValue.previewUpdateDOM();
+  }, [keyframeRender]);
 
   useEffect(() => {
-    keyframeUpdate();
+    keyframeRenderSetState({ type: "update" });
+  }, [SetupEditorContextValue.previewUpdate, MediaObjectContextValue.mediaObjectRender]);
+
+  useEffect(() => {
     window.addEventListener("mousemove", keyframeMouseMoveAction);
     window.addEventListener("mouseup", MouseRelease);
 
@@ -137,11 +173,7 @@ export const KeyFrameComponent = (props: any) => {
       window.removeEventListener("mousemove", keyframeMouseMoveAction);
       window.removeEventListener("mouseup", MouseRelease);
     };
-  }, [keyframeUUID, AppContextValue.update]);
-
-  useEffect(() => {
-    keyframeUpdate();
-  }, [SetupEditorContextValue.previewUpdate]);
+  }, [keyframeUUID]);
 
   const mouseDoubleClick = (event: any) => {
     const clientX = event.clientX;
@@ -164,8 +196,8 @@ export const KeyFrameComponent = (props: any) => {
   // if (animatorOpen) {
   return (
     <div className="keyframe-area" onMouseDown={MouseDown}>
-      <div className="keyframe-entity" draggable="false" onDoubleClick={mouseDoubleClick} style={{ left: keyframeStylePos }}></div>
-      <div style={{ left: keyframeStylePos - 6, position: "absolute", width: "100%", height: "100%", pointerEvents: "none", userSelect: "none" }}>
+      <div className="keyframe-entity" draggable="false" onDoubleClick={mouseDoubleClick} style={{ left: keyframeRender.stylePos }}></div>
+      <div style={{ left: keyframeRender.stylePos - 6, position: "absolute", width: "100%", height: "100%", pointerEvents: "none", userSelect: "none" }}>
         {SetupPracticeContextValue.LayerGlow(SetupPracticeContextValue.getLayoutGlow().keyframe)}
       </div>
     </div>

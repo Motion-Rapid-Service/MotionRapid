@@ -227,18 +227,10 @@ export const MediaObjectScrollComponent = () => {
     }
     mediaObjectColorSetState(thenSourceSpeciesClass.mediaObejctSelectColor);
     UserHand.insertUserHandMediaObject(mediaObjectUUID, 4, null, null, null);
-
-    // TimelineAreaDivContextValue.deleteUserHandMediaObjectList(mediaObjectUUID);
+    const mouseX = timeLineMousePosition.mediaObjectMousePosition(event, LayerDurationContextValue.timelineAreaLayerDurationElement)[0];
+    const userHandMediaObject = UserHand.getUserHandMediaObject(mediaObjectUUID);
+    const mouseMoveX = mouseX - userHandMediaObject.mousePushPos;
   };
-
-  // const mediaObjectUpdate = () => {
-  //   const compositeDuration: number = AppContextValue.getCompositeDuration(SetupEditorContextValue.choiceComposite);
-  //   if (!compositeDuration) {
-  //     return;
-  //   }
-
-  //   console.log("mediaObjectUpdate", styleStaTime, styleEndTime, mediaObjectTime);
-  // };
 
   useEffect(() => {
     // const mediaObjectSourceSpecies = AppContextValue.getMediaObjectSourceSpecies(mediaObjectUUID);

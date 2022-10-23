@@ -193,10 +193,6 @@ const TimelineComponent = () => {
     durationWidth: null,
   });
 
-  useEffect(() => {
-    console.log("timelimeRenderuseEffect", timelimeRender);
-  }, [timelimeRender]);
-
   // useEffect(() => {
   //   console.log("durationWidth", durationWidth);
   // }, [durationWidth]);
@@ -269,6 +265,7 @@ const TimelineComponent = () => {
 
   useEffect(() => {
     timelimeRenderSetState({ type: "compositeMove" });
+    SetupEditorContextValue.previewUpdateDOM();
   }, [SetupEditorContextValue.choiceComposite]);
 
   const [mediaObejctDivHeight, mediaObejctDivHeightSetState] = useState<{

@@ -292,6 +292,7 @@ const App = () => {
 
           operationMediaObjectSourceSpeciesClass: middleDataOperation.operationMediaObjectSourceSpeciesClass,
 
+          copyComposite: middleDataOperation.copyComposite,
           copyMediaObject: middleDataOperation.copyMediaObject,
 
           update: update,

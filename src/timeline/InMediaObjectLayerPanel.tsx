@@ -46,19 +46,18 @@ const SwitchTimelineAreaLayerPanelComponent = (props: any) => {
   const TimelineAreaDivContextValue = useContext(TimelineAreaDivContext);
   const LayerPanelContextValue = useContext(LayerPanelContext);
   const animatorOpen = MediaObjectContextValue.mediaObjectRender.animatorOpen as boolean;
+  const SetupEditorContextValue = useContext(SetupEditorContext);
 
   useEffect(() => {
     const positon = timelineMousePosition.mediaObjectTimelinePostion(
       TimelineAreaDivContextValue.timelineScrollElement,
       LayerPanelContextValue.timelineAreaLayerPanelElement
     );
-
     const size = timelineMousePosition.elementSize(LayerPanelContextValue.timelineAreaLayerPanelElement);
-
     const yPosHeight = [positon[1], positon[1] + size[1]];
 
     TimelineAreaDivContextValue.mediaObejctDivHeightSetStateValue(MediaObjectContextValue.mediaObejctIndex, yPosHeight);
-  }, [AppContextValue.update, MediaObjectContextValue.mediaObjectUUID, animatorOpen]);
+  }, [SetupEditorContextValue.previewUpdate, MediaObjectContextValue.mediaObjectUUID, animatorOpen]);
 
   if (animatorOpen) {
     return (
@@ -107,7 +106,7 @@ export const TimelineAreaLayerPanelComponent = (props: any) => {
     delete UserHandLayerPanelList[MediaObjectContextValue.mediaObjectUUID];
 
     TimelineAreaDivContextValue.focusMediaObjectSpaceSetState(-1);
-    AppContextValue.updateDOM();
+    SetupEditorContextValue.previewUpdateDOM();
   };
   const mouseMove = (event: any) => {
     if (!(MediaObjectContextValue.mediaObjectUUID in UserHandLayerPanelList)) {
@@ -239,11 +238,13 @@ export const LayerPanelAnimaterComponent = (props: any) => {
   const MediaObjectContextValue = useContext(MediaObjectContext);
   const SetupConfigContextValue = useContext(SetupConfigContext);
 
+  const SetupEditorContextValue = useContext(SetupEditorContext);
+
   useEffect(() => {
     if (SetupConfigContextValue.configMode !== SetupConfigContextValue.configModeList[0]) {
       delete UserHandLayerPanelList[MediaObjectContextValue.mediaObjectUUID];
       TimelineAreaDivContextValue.focusMediaObjectSpaceSetState(-1);
-      AppContextValue.updateDOM();
+      SetupEditorContextValue.previewUpdateDOM();
     }
   }, [SetupConfigContextValue.configMode]);
 
@@ -253,7 +254,7 @@ export const LayerPanelAnimaterComponent = (props: any) => {
 
   //   delete UserHandLayerPanelList[MediaObjectContextValue.mediaObjectUUID];
   //   TimelineAreaDivContextValue.focusMediaObjectSpaceSetState(-1);
-  //   AppContextValue.updateDOM();
+  //   SetupEditorContextValue.previewUpdateDOM();
   // };
   return (
     <LayerPanelAnimaterContext.Provider
@@ -292,7 +293,7 @@ const AnimaterInsertKeyframeButton = (props: any) => {
 
     AppContextValue.operationKeyframeTime(temp);
 
-    AppContextValue.updateDOM();
+    SetupEditorContextValue.previewUpdateDOM();
   };
   return (
     <div className="layer_panel-animator-entity-insert_keyframe_button" onMouseDown={mouseDown}>
@@ -305,9 +306,10 @@ const AnimaterLeftKeyframeMoveButton = (props: any) => {
   const AppContextValue = useContext(AppContext);
   const SetupUndoContextValue = useContext(SetupUndoContext);
 
+  const SetupEditorContextValue = useContext(SetupEditorContext);
   const mouseDown = () => {
     // SetupUndoContextValue.pushEditHistory();
-    AppContextValue.updateDOM();
+    SetupEditorContextValue.previewUpdateDOM();
   };
   return <div className="layer_panel-animator-entity-insert_keyframe_button" onMouseDown={mouseDown}></div>;
 };
@@ -316,9 +318,10 @@ const AnimaterRightKeyframeMoveButton = (props: any) => {
   const AppContextValue = useContext(AppContext);
   const SetupUndoContextValue = useContext(SetupUndoContext);
 
+  const SetupEditorContextValue = useContext(SetupEditorContext);
   const mouseDown = () => {
     // SetupUndoContextValue.pushEditHistory();
-    AppContextValue.updateDOM();
+    SetupEditorContextValue.previewUpdateDOM();
   };
   return <div className="layer_panel-animator-entity-insert_keyframe_button" onMouseDown={mouseDown}></div>;
 };

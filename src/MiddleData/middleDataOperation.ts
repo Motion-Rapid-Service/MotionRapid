@@ -113,6 +113,18 @@ export default class MiddleDataOperation {
     return newID;
   };
 
+  copyComposite = (compositeID: string) => {
+    const oldCompositeClass = this.DataCentral.OwnedClass_Composite[compositeID];
+    const newCompositeClass: middleDataClass.Composite = JSON.parse(JSON.stringify(oldCompositeClass, null, "\t"));
+    const newCompositeID = "md_Composite_" + getUUID();
+    newCompositeClass.Composite_ID = newCompositeID;
+    this.DataCentral.OwnedClass_Composite[newCompositeID] = newCompositeClass;
+    for (let i = 0; i < newCompositeClass.OwnedID_MediaObject.length; i++) {
+      const thenMediaObjectID = newCompositeClass.OwnedID_MediaObject[i];
+      this.copyMediaObject(thenMediaObjectID, newCompositeID);
+    }
+  };
+
   copyMediaObject = (mediaObjectID: string, AfterCompositeID: string) => {
     const oldMediaObjectClass = this.DataCentral.OwnedClass_MediaObject[mediaObjectID];
     const newMediaObjectClass: middleDataClass.MediaObject = JSON.parse(JSON.stringify(oldMediaObjectClass, null, "\t"));
@@ -122,6 +134,8 @@ export default class MiddleDataOperation {
     this.DataCentral.OwnedClass_MediaObject[newIDmediaObjectID] = newMediaObjectClass;
 
     console.log(newIDmediaObjectID);
+
+    this.linkMediaObject(AfterCompositeID, newIDmediaObjectID);
 
     for (let an = 0; an < newMediaObjectClass.OwnedID_AnimatorGroup.length; an++) {
       const oldAnimatorGroupClass = this.DataCentral.OwnedClass_AnimatorGroup[newMediaObjectClass.OwnedID_AnimatorGroup[an]];
@@ -175,8 +189,6 @@ export default class MiddleDataOperation {
         }
       }
     }
-
-    this.linkMediaObject(AfterCompositeID, newIDmediaObjectID);
   };
 
   setDataCentralMediaTable = (mediaID: string, mediaURL: string) => {
