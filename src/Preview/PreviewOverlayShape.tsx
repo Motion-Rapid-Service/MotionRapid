@@ -35,8 +35,6 @@ const PreviewOverlayShapeComponent = (props: any) => {
 
   const [opacityStyle, opacityStyleSetState] = useState<number>(0);
 
-  const newKeyframe = () => {};
-
   const newAnimatorGroup = (newAnimatorGroupSpecies: string) => {
     const animatorGroupID = AppContextValue.createAnimatorGroup(newAnimatorGroupSpecies);
     AppContextValue.linkAnimatorGroup(mediaObjectID, animatorGroupID);
@@ -70,8 +68,8 @@ const PreviewOverlayShapeComponent = (props: any) => {
         const animatorMarginTop = AppContextValue.searchSpecificAnimatorPropertySpecies(marginID, "top")[0];
         return { x: animatorMarginLeft, y: animatorMarginTop };
 
-      case middleDataClass.Composite_LocationMode[1]: //座標設定(左上)
-      case middleDataClass.Composite_LocationMode[3]:
+      case middleDataClass.Composite_LocationMode[1]: {
+        //座標設定(左上)
         let leftID: string;
         let topID: string;
 
@@ -89,8 +87,28 @@ const PreviewOverlayShapeComponent = (props: any) => {
         const animatorPosLeft = AppContextValue.searchSpecificAnimatorPropertySpecies(leftID, "left")[0];
         const animatorPosTop = AppContextValue.searchSpecificAnimatorPropertySpecies(topID, "top")[0];
         return { x: animatorPosLeft, y: animatorPosTop };
+      }
+
       case middleDataClass.Composite_LocationMode[2]:
         return;
+      case middleDataClass.Composite_LocationMode[3]: {
+        return;
+        // let leftID: string;
+        // let topID: string;
+        // if (!HasLeftAnimatorGroupID) {
+        //   leftID = newAnimatorGroup("left");
+        // } else {
+        //   leftID = leftAnimatorGroupID[0];
+        // }
+        // if (!HasTopAnimatorGroupID) {
+        //   topID = newAnimatorGroup("top");
+        // } else {
+        //   topID = topAnimatorGroupID[0];
+        // }
+        // const animatorPosLeft = String(Number(AppContextValue.searchSpecificAnimatorPropertySpecies(leftID, "left")[0]) - previewNavigator.scrollX);
+        // const animatorPosTop = String(Number(AppContextValue.searchSpecificAnimatorPropertySpecies(topID, "top")[0]) - previewNavigator.scrollY);
+        // return { x: animatorPosLeft, y: animatorPosTop };
+      }
     }
   };
 

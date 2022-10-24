@@ -370,6 +370,7 @@ const AnimaterCSSproperty = (props: any) => {
           CSSPropertyValue: action.cssValue,
         };
         AppContextValue.operationCSSPropertyValue(unitSendData);
+
         return action.cssValue;
 
       case false:
@@ -417,6 +418,13 @@ const AnimaterCSSproperty = (props: any) => {
 
   const [animaterCSSpropertyValue, animaterCSSpropertyValueUpdate] = useReducer(setCSSpropertyValue, CSSPropertyValue);
   const [animaterCSSpropertyUnit, animaterCSSpropertyUnitUpdate] = useReducer(setCSSpropertyUnit, CSSPropertyUnit);
+
+  useEffect(() => {
+    animaterCSSpropertyValueUpdate({
+      actionType: "previewUpdate",
+      cssValue: null,
+    });
+  }, [SetupEditorContextValue.previewUpdate]);
 
   useEffect(() => {
     SetupEditorContextValue.previewUpdateDOM();
