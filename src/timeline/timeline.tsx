@@ -126,7 +126,7 @@ const TimelineComponent = () => {
           const staViewTime = compositeDuration * staRate0;
           const endViewTime = compositeDuration * endRate1;
 
-          if (endViewTime - staViewTime < 10) {
+          if (endViewTime - staViewTime < 10 || endRate1 - staRate0 < 0.01) {
             break;
           }
 

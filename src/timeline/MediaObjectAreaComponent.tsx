@@ -156,37 +156,6 @@ export const MediaObjectAreaComponent = (props: any) => {
     TimeNavigatorContextValue.timelimeRender.durationWidth,
   ]);
 
-  // useEffect(() => {
-  // if (!mediaObjectRender.staStylePos || !mediaObjectRender.endStylePos || TimeNavigatorContextValue.timelimeRender.timeNavigatorFlag) {
-  //   return;
-  // }
-  // const compositeDuration: number = AppContextValue.getCompositeDuration(SetupEditorContextValue.choiceComposite);
-  // if (!compositeDuration) {
-  //   return;
-  // }
-  // const staTime: number = AppContextValue.conversionStyleToTime(
-  //   mediaObjectRender.staStylePos,
-  //   TimeNavigatorContextValue.timelimeRender.staViewTime,
-  //   TimeNavigatorContextValue.timelimeRender.endViewTime,
-  //   TimeNavigatorContextValue.timelimeRender.durationWidth
-  // );
-  // const endTime: number = AppContextValue.conversionStyleToTime(
-  //   mediaObjectRender.endStylePos,
-  //   TimeNavigatorContextValue.timelimeRender.staViewTime,
-  //   TimeNavigatorContextValue.timelimeRender.endViewTime,
-  //   TimeNavigatorContextValue.timelimeRender.durationWidth
-  // );
-  // }, [mediaObjectRender]);
-
-  // useEffect(() => {
-  //   AppContextValue.rewriteMediaObejctAnimatorOpen(MediaObject_ID, animatorOpen);
-  //   TimelineAreaDivContextValue.animationOpenUpdateDOM();
-  // }, [animatorOpen]);
-  // useEffect(() => {
-  //   const openTemp = AppContextValue.getMediaObejctAnimatorOpen(MediaObject_ID);
-  //   animatorOpenSetState(openTemp);
-  // }, [MediaObject_ID]);
-
   return (
     <>
       <div className="media_object-area" ref={mediaObjectAreaElement}>

@@ -88,8 +88,10 @@ export const KeyFrameComponent = (props: any) => {
           break;
         }
 
+        const stylePos = Math.max(thenAction.stylePos, 0);
+
         const tempKeyframeTime = AppContextValue.conversionStyleToTime(
-          thenAction.stylePos,
+          stylePos,
           TimeNavigatorContextValue.timelimeRender.staViewTime,
           TimeNavigatorContextValue.timelimeRender.endViewTime,
           TimeNavigatorContextValue.timelimeRender.durationWidth
@@ -103,7 +105,7 @@ export const KeyFrameComponent = (props: any) => {
         AppContextValue.operationKeyframeTime(temp);
 
         return {
-          stylePos: thenAction.stylePos,
+          stylePos: stylePos,
           time: tempKeyframeTime,
         };
       }

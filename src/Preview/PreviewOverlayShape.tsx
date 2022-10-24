@@ -109,13 +109,6 @@ const PreviewOverlayShapeComponent = (props: any) => {
       console.log("idDict2", animatorID);
 
       const OwnedID_Keyframe: Array<string> = AppContextValue.getOwnedID_Keyframe(animatorID);
-      console.log(
-        "checkAnimatorGroup F",
-        OwnedID_Keyframe,
-        OwnedID_Keyframe.length > 0,
-        TimeNavigatorContextValue.getPlayheadTime,
-        TimeNavigatorContextValue.timelimeRender.playheadViewPos
-      );
       if (OwnedID_Keyframe.length > 0) {
         // AppContextValue.getOwnedID_CSSPropertySpeciesHasKeyframe()
         const nowTime = AppContextValue.getCompositePlayheadTimePos(SetupEditorContextValue.choiceComposite);
@@ -206,33 +199,16 @@ const PreviewOverlayShapeComponent = (props: any) => {
 
   const mouseMove = (event: any) => {
     const mouseXY = timelineMousePosition.mediaObjectMousePosition(event, props.previeOverlayShapeElement);
-    // if (checkShapeArea(mouseXY) && UserHand.getUserHandPreviewShapeIDArray().length === 0) {
-    //   opacityStyleSetState(0.1);
-    // } else {
-    //   opacityStyleSetState(0);
-    // }
-
     if (!UserHand.hasUserHandPreviewShape(previewOverlayID)) {
-      // opacityStyleSetState(0);
       return;
     }
-
     const userrHandPreview = UserHand.getUserHandPreviewShape(previewOverlayID);
-    // console.log("userhand - ban", previewOverlayID, userHandKeyframe.mouseDownFlag);
     switch (userrHandPreview.mouseDownFlag) {
       case 1:
         opacityStyleSetState(0.1);
 
         const leftDifference = mouseXY[0] - userrHandPreview.mousePushPos[0];
         const topDifference = mouseXY[1] - userrHandPreview.mousePushPos[1];
-
-        console.log(
-          "previewMoveA",
-          leftDifference,
-          topDifference,
-          TimeNavigatorContextValue.getPlayheadTime,
-          TimeNavigatorContextValue.timelimeRender.playheadViewPos
-        );
 
         props.previewNavigatorSetState({
           type: "mouseMove",
@@ -290,7 +266,7 @@ const PreviewOverlayShapeComponent = (props: any) => {
       window.removeEventListener("mousemove", mouseMove);
       window.removeEventListener("mouseup", mouseUp);
     };
-  }, [props.DownstreamShapePreviewOverlay.previewOverlayID, SetupEditorContextValue.previewUpdate, SetupEditorContextValue.choiceComposite]);
+  }, [props.DownstreamShapePreviewOverlay.previewOverlayID, SetupEditorContextValue.previewUpdate, TimeNavigatorContextValue.timelimeRender]);
 
   return (
     <div
